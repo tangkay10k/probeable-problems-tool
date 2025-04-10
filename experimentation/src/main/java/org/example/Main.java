@@ -19,7 +19,7 @@ public class Main {
         // Start model conversation with the system prompt.
         conversationHistory.add(ResponseInputItem.ofEasyInputMessage(EasyInputMessage.builder()
             .role(EasyInputMessage.Role.SYSTEM)
-            .content(Prompts.getSystemPrompt())
+            .content(Prompts.thoughtProcessVerifier())
             .build()));
 
         ResponseCreateParams createParams = ResponseCreateParams.builder()
@@ -31,24 +31,32 @@ public class Main {
             .flatMap(item -> item.message().stream())
             .toList();
 
-        initialMessages.stream()
-            .flatMap(message -> message.content().stream())
-            .flatMap(content -> content.outputText().stream())
-            .forEach(outputText -> System.out.println(outputText.text()));
+//        initialMessages.stream()
+//            .flatMap(message -> message.content().stream())
+//            .flatMap(content -> content.outputText().stream())
+//            .forEach(outputText -> System.out.println(outputText.text()));
 
-        System.out.println("\n-----------------------------------\n");
+//        System.out.println("\n-----------------------------------\n");
 
-        Scanner myObj = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         String input;
+        String justification;
 
         while (true) {
-            System.out.println("Enter a probe: (Press Q to exit)");
-            input = myObj.nextLine();
+            System.out.println("Enter a probe spacing inputs via a comma: (Press Q to exit)");
+            input = scanner.nextLine();
             if (input.equalsIgnoreCase("Q")) break;
+
+            System.out.println("Describe what you are trying to find out about the function with this probe: ");
+            justification = scanner.nextLine();
+
+            String full = "twoSum(" + input + "), What the user is thinking: " + justification;
+
+            System.out.println("[DEV] " + full);
 
             ResponseInputItem userMessage = ResponseInputItem.ofEasyInputMessage(EasyInputMessage.builder()
                 .role(EasyInputMessage.Role.USER)
-                .content(input)
+                .content(full)
                 .build());
             conversationHistory.add(userMessage);
 
@@ -77,6 +85,6 @@ public class Main {
 
             System.out.println("\n-----------------------------------\n");
         }
-        myObj.close();
+        scanner.close();
     }
 }
