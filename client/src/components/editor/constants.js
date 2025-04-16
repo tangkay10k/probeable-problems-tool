@@ -1,5 +1,5 @@
 export const LANGUAGE_VERSIONS = {
-    // Specific languages supported by Piston API
+    // Default languages for PISTON API, gets updated dynamically at runtime.
     java: "15.0.2",
     c: "10.2.0",
     javascript: "18.15.0",
