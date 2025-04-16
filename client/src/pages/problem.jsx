@@ -5,7 +5,6 @@ export function Problem() {
     return (
         <Container>
             <CodeEditor/>
-            <></>
         </Container>
 
     )
