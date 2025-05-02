@@ -1,10 +1,6 @@
 package akl.p4p.uoa.data;
 
 public final class Prompts {
-
-    private Prompts() {
-    }
-
     public static String thoughtProcessVerifier() {
         return "You are an assistant designed to help users deduce the correct behavior of a hidden function without " +
                 "revealing any details about its actual implementation. " +

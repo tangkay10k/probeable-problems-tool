@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ai.chat.messages.Message;
 
 import akl.p4p.uoa.data.Input;
+import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.Prompts;
 import jakarta.servlet.http.HttpSession;
 
@@ -42,21 +43,9 @@ class AiController {
       session.setAttribute(SESSION_KEY, history);
     }
 
-
     history.add(new UserMessage(request.getInput()));
 
-
-    String jsonSchema = """
-        {
-          "type": "object",
-          "properties": {
-            "is_valid":   { "type": "boolean" },
-            "explanation":{ "type": "string"  }
-          },
-          "required": ["is_valid", "explanation"],
-          "additionalProperties": false
-        }
-        """;
+    String jsonSchema = JsonSchemaDefinition.getSchema();
 
     OpenAiChatOptions options = OpenAiChatOptions.builder()
         .model(ChatModel.GPT_4_O_MINI)
@@ -64,17 +53,15 @@ class AiController {
             new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
         .build();
 
-
     String assistantReply = chatClient
         .prompt()
         .options(options)
-        .messages(history) 
+        .messages(history)
         .call()
         .content();
 
-
     history.add(new AssistantMessage(assistantReply));
 
-    return assistantReply; 
+    return assistantReply;
   }
 }
