@@ -1,12 +1,14 @@
 package akl.p4p.uoa.data;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@Builder     
 @NoArgsConstructor
-public class Input{
+@AllArgsConstructor
+public class Input {
     private String input;
 }
