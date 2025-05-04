@@ -3,8 +3,17 @@ import {useState} from "react";
 import {executeCode} from "../../routes/code-route.js";
 import {Loading} from "./Loading.jsx";
 
-export function Output({editorRef, language}) {
-    const [output, setOutput] = useState("Run your code to see results.")
+export function Output({
+                           editorRef,
+                           language,
+                           minHeight= "20em",
+                           heading = 'Output:',
+                           initialText='Run your code to see results.',
+                            buttonColour = 'success',
+                            buttonText = 'Submit'
+
+}) {
+    const [output, setOutput] = useState(initialText)
     const [isLoading, setIsLoading] = useState(false)
     const [stdErr, setStdErr] = useState(null)
 
@@ -26,22 +35,23 @@ export function Output({editorRef, language}) {
     }
 
     return (
-        <Container fluid className="bg-secondary p-2 rounded m-0">
-            <Alert.Heading className="mb-0">Output:</Alert.Heading>
-            <hr className="mt-1 mb-2"/>
-            <Alert style={{height: "20vh"}} variant={stdErr ? "danger" : "secondary"}>
+        <Container fluid className="bg-secondary p-2 rounded mb-2 mt-0" >
+            <h5><b>{heading}</b></h5>
+            <hr className="mt-0 mb-1"/>
+            <Alert className="mb-1" style={{minHeight: minHeight}} variant={stdErr ? "danger" : "secondary"}>
                 {isLoading ? <Loading/> : output}
             </Alert>
             <div className='d-flex justify-content-end'>
                 <Button
                     size='sm'
-                    className="mb-1 me-2"
-                    variant='success'
+                    className="m-0"
+                    variant={buttonColour}
                     disabled={isLoading}
                     onClick={() => {
                         submitCode()
                     }}
-                >Submit
+                >
+                    {buttonText}
                 </Button>
             </div>
         </Container>

@@ -5,65 +5,63 @@ import {Col, Container, Row} from "react-bootstrap";
 import {CODE_SNIPPETS, LANGUAGE_VERSIONS} from "./constants.js";
 import {Output} from "./Output.jsx";
 import {getRuntimes} from "../../routes/code-route.js";
+import {trigger} from "./resize-event.jsx";
 
-export function CodeEditor() {
-    const monaco = useMonaco()
-    const editorRef = useRef(null)
-    const [value, setValue] = useState(CODE_SNIPPETS['java'])
-    const [language, setLanguage] = useState('java')
+export function CodeEditor({ editorRef, setLanguage, language, src, setSource, height='50em'}) {
 
-    useEffect(() => {
-        async function fetchRuntimes() {
-            try {
-                const array = await getRuntimes()
-                for (const key in array) {
-                    if (LANGUAGE_VERSIONS.hasOwnProperty(array[key].language)) {
-                        LANGUAGE_VERSIONS[key] = array[key].version
-                    }
-                }
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        fetchRuntimes()
-    }, [])
-
-    const onSelect = (language) => {
-        setLanguage(language)
-        setValue(CODE_SNIPPETS[language])
-    }
-    
     function handleMount(editor) {
-        editorRef.current = editor
+        if (editorRef && !editorRef.current) {
+            editorRef.current = editor
+        }
         editor.focus()
     }
 
+    const onSelect = (language) => {
+        setLanguage(language)
+        setSource(CODE_SNIPPETS[language])
+    }
+
+    /* Add code editor configuration options here */
+    const options = {
+        minimap: { enabled: false }
+    }
+
     return (
-        <Container fluid className="bg-dark p-3 rounded w-100">
-            <Row className="mb-0">
-                <Col className="d-flex align-items-start">
-                    <LanguageSelector
-                        language={language}
-                        onSelect={onSelect}
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col md={6} className='p-1'>
-                    <Editor
-                        height={"65vh"}
-                        theme="vs-dark"
-                        language={language}
-                        value={value}
-                        onChange={(value) => setValue(value)}
-                        onMount={handleMount}
-                    />
-                </Col>
-                <Col className='p-1' md={6}>
-                    <Output language={language} editorRef={editorRef}/>
-                </Col>
-            </Row>
+        <Container className="bg-dark p-2 rounded mb-2">
+            <Col className="d-flex align-items-start">
+                <LanguageSelector
+                    language={language}
+                    onSelect={onSelect}
+                />
+            </Col>
+            <Editor
+                height={height}
+                theme="vs-dark"
+                language={language}
+                value={src}
+                onChange={(value) => setSource(value)}
+                onMount={handleMount}
+                options={options}
+            />
         </Container>
+    )
+}
+
+export function EditorWrapper() {
+    const [side, setSide] = useState(false)
+    const onClickHandler = () => {
+        setSide(!side)
+        trigger()
+    }
+
+    return (
+        <div >
+            <button onClick={onClickHandler}>TOGGLE</button>
+            {side && <div></div>}
+
+            <div>
+                <CodeEditor />
+            </div>
+        </div>
     )
 }
