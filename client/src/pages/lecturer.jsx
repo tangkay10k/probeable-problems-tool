@@ -22,7 +22,8 @@ export default function Lecturer() {
         title: "TwoSum",
         description: "Change this later",
         modelAnswer: solution,
-        defaultProbe: probes
+        defaultProbe: probes,
+        problemLanguage: language
       }
       console.log("problem: ", problem)
       const data = await submitProblem(problem)

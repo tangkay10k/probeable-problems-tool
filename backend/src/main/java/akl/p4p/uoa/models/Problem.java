@@ -19,4 +19,6 @@ public class Problem {
 
     private String defaultProbe;
 
+    private String problemLanguage;
+
 }
