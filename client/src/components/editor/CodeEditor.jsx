@@ -7,9 +7,7 @@ import {Output} from "./Output.jsx";
 import {getRuntimes} from "../../routes/code-route.js";
 import {trigger} from "./resize-event.jsx";
 
-export function CodeEditor({ editorRef, onSelect, language, value, setValue }) {
-
-
+export function CodeEditor({ editorRef, setLanguage, language, src, setSource, height='50em'}) {
 
     function handleMount(editor) {
         if (editorRef && !editorRef.current) {
@@ -18,13 +16,18 @@ export function CodeEditor({ editorRef, onSelect, language, value, setValue }) {
         editor.focus()
     }
 
+    const onSelect = (language) => {
+        setLanguage(language)
+        setSource(CODE_SNIPPETS[language])
+    }
+
     /* Add code editor configuration options here */
     const options = {
         minimap: { enabled: false }
     }
 
     return (
-        <Container className="bg-dark p-2 rounded m-1">
+        <Container className="bg-dark p-2 rounded mb-2">
             <Col className="d-flex align-items-start">
                 <LanguageSelector
                     language={language}
@@ -32,11 +35,11 @@ export function CodeEditor({ editorRef, onSelect, language, value, setValue }) {
                 />
             </Col>
             <Editor
-                height={"50em"}
+                height={height}
                 theme="vs-dark"
                 language={language}
-                value={value}
-                onChange={(value) => setValue(value)}
+                value={src}
+                onChange={(value) => setSource(value)}
                 onMount={handleMount}
                 options={options}
             />

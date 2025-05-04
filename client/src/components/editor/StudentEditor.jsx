@@ -5,22 +5,18 @@ import {useRef, useState} from "react";
 import {CODE_SNIPPETS} from "./constants.js";
 
 
-export default function StudentEditor() {
+export default function StudentEditor({height}) {
     const [value, setValue] = useState(CODE_SNIPPETS['java'])
     const [language, setLanguage] = useState('java')
     const editorRef = useRef(null)
 
-    const onSelect = (language) => {
-        setLanguage(language)
-        setValue(CODE_SNIPPETS[language])
-    }
-
     return (
-        <Container fluid className="d-flex flex-row">
+        <Container fluid className="d-flex flex-row gap-1">
             <CodeEditor
+                height={height}
                 editorRef={editorRef}
                 language={language}
-                onSelect={onSelect}
+                setLanguage={setLanguage}
                 value={value}
                 setValue={setValue}
             />
