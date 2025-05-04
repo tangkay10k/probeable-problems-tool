@@ -26,22 +26,23 @@ export function Output({editorRef, language}) {
     }
 
     return (
-        <Container fluid className="bg-secondary p-2 rounded m-0">
+        <Container fluid className="bg-secondary p-2 rounded m-1">
             <Alert.Heading className="mb-0">Output:</Alert.Heading>
-            <hr className="mt-1 mb-2"/>
-            <Alert style={{height: "20vh"}} variant={stdErr ? "danger" : "secondary"}>
+            <hr className="mt-1 mb-1"/>
+            <Alert className="mb-1" style={{minHeight: "20em"}} variant={stdErr ? "danger" : "secondary"}>
                 {isLoading ? <Loading/> : output}
             </Alert>
-            <div className='d-flex justify-content-end'>
+            <div className='d-flex justify-content-end '>
                 <Button
                     size='sm'
-                    className="mb-1 me-2"
+                    className="m-0"
                     variant='success'
                     disabled={isLoading}
                     onClick={() => {
                         submitCode()
                     }}
-                >Submit
+                >
+                    Submit
                 </Button>
             </div>
         </Container>
