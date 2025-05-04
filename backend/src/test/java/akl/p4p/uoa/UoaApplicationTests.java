@@ -1,4 +1,4 @@
-package akl.p4p.uoa;
+package test.java.akl.p4p.uoa;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
