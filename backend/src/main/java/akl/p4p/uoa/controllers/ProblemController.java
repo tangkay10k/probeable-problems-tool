@@ -1,0 +1,47 @@
+package akl.p4p.uoa.controllers;
+
+import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.services.ProblemService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/problems")
+public class ProblemController {
+
+    private final ProblemService problemService;
+    public ProblemController(ProblemService problemService) {
+        this.problemService = problemService;
+    }
+
+    @GetMapping
+    public ResponseEntity<Problem> findProblemByTitle(@RequestBody String title) {
+
+        // TO DO: add authentication logic.
+
+        Problem problem = problemService.getMatchingProblemByTitle(title);
+        return ResponseEntity.ok(problem);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Problem>> getAllProblems() {
+
+        // TO DO: add authentication logic.
+
+        return ResponseEntity.ok(problemService.getAllProblems());
+    }
+
+    @PostMapping
+    public ResponseEntity<Problem> createNewProblem(@RequestBody Problem problem) {
+
+        // TO DO: add authentication logic.
+
+        Problem savedProblem = problemService.createProblem(problem);
+        return ResponseEntity.ok(savedProblem);
+    }
+
+
+
+}
