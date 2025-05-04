@@ -3,6 +3,8 @@ import {useRef, useState} from "react";
 import {CODE_SNIPPETS} from "../components/editor/constants.js";
 import {Container} from "react-bootstrap";
 import {Output} from "../components/editor/Output.jsx";
+import Button from "react-bootstrap/button"
+import {submitProblem} from "../routes/problem-route.js"
 
 
 export default function Lecturer() {
@@ -13,6 +15,20 @@ export default function Lecturer() {
     const solutionEditorRef = useRef(null)
     const testSuiteEditorRef = useRef(null)
     const probeEditorRef = useRef(null)
+
+    const handleSubmit = async () => {
+      console.log("press")
+      const problem = {
+        title: "TwoSum",
+        description: "Change this later",
+        modelAnswer: solution,
+        defaultProbe: probes
+      }
+      console.log("problem: ", problem)
+      const data = await submitProblem(problem)
+      // TO DO: improve UI later.
+      console.log(data)
+    }
 
     return (
         <Container className='bg-light rounded p-2'>
@@ -71,6 +87,9 @@ export default function Lecturer() {
                     buttonColour='primary'
                     buttonText='Check!'
                 />
+          <div className="d-flex justify-content-end">
+            <Button variant="success" onClick={handleSubmit}>Submit Question!</Button>
+          </div>
         </Container>
 
 )
