@@ -12,6 +12,7 @@ import java.util.List;
 public class ProblemController {
 
     private final ProblemService problemService;
+
     public ProblemController(ProblemService problemService) {
         this.problemService = problemService;
     }
@@ -41,7 +42,5 @@ public class ProblemController {
         Problem savedProblem = problemService.createProblem(problem);
         return ResponseEntity.ok(savedProblem);
     }
-
-
 
 }

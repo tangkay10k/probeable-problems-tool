@@ -1,4 +1,4 @@
-package akl.p4p.uoa.controllers.repositories;
+package akl.p4p.uoa.repositories;
 
 import akl.p4p.uoa.models.Problem;
 import org.springframework.data.mongodb.repository.MongoRepository;
