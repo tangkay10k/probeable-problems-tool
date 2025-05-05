@@ -27,11 +27,12 @@ public class ProblemController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Problem>> getAllProblems() {
+    public ResponseEntity<List<Problem>> getAllProblems(
+            @RequestParam(required = false, defaultValue = "false") boolean isStudent) {
 
         // TO DO: add authentication logic.
 
-        return ResponseEntity.ok(problemService.getAllProblems());
+        return ResponseEntity.ok(problemService.getAllProblems(isStudent));
     }
 
     @PostMapping
