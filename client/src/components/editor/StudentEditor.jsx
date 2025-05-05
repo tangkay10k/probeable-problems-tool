@@ -3,11 +3,10 @@ import { Col, Container } from 'react-bootstrap'
 import { Output } from './Output.jsx'
 import { useRef, useState } from 'react'
 import { CODE_SNIPPETS } from './constants.js'
+import { Oracle } from './Oracle.jsx'
 
 export default function StudentEditor({ problem, height }) {
-  const [value, setValue] = useState(
-    problem ? problem.defaultProbe : CODE_SNIPPETS['java']
-  )
+  const [value, setValue] = useState('')
   const [language, setLanguage] = useState('java')
   const editorRef = useRef(null)
 
@@ -21,7 +20,10 @@ export default function StudentEditor({ problem, height }) {
         src={value}
         setSource={setValue}
       />
-      <Output language={language} editorRef={editorRef} />
+      <Container className="d-flex flex-column">
+        <Oracle language={language} intialProbe={problem.defaultProbe} />
+        <Output language={language} editorRef={editorRef} />
+      </Container>
     </Container>
   )
 }
