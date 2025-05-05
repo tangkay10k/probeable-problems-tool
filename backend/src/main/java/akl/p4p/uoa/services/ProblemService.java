@@ -21,8 +21,14 @@ public class ProblemService {
         this.problemRepository = problemRepository;
     }
 
-    public List<Problem> getAllProblems() {
-        return problemRepository.findAll();
+    public List<Problem> getAllProblems(boolean isStudent) {
+        List<Problem> problems = problemRepository.findAll();
+        if (isStudent) {
+            for (Problem p : problems) {
+                p.setModelAnswer(null);
+            }
+        }
+        return problems;
     }
 
     public Problem createProblem(Problem problem) {
