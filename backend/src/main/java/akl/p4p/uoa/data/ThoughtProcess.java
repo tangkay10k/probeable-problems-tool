@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Input {
+public class ThoughtProcess {
+    private String problemId;
     private String input;
 }

@@ -12,26 +12,33 @@ import org.springframework.ai.openai.api.OpenAiApi.ChatModel;
 import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ai.chat.messages.Message;
 
-import akl.p4p.uoa.data.Input;
+import akl.p4p.uoa.data.ThoughtProcess;
+import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.Prompts;
+import akl.p4p.uoa.services.ProblemService;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("/api/ai")
 class AiController {
   private static final String SESSION_KEY = "twoSumHistory";
 
   private final ChatClient chatClient;
 
-  public AiController(ChatClient.Builder chatClientBuilder) {
+  private final ProblemService problemService;
+
+  public AiController(ChatClient.Builder chatClientBuilder, ProblemService problemService) {
     this.chatClient = chatClientBuilder.build();
+    this.problemService = problemService;
   }
 
-  @PostMapping("/ai")
-  public String generation(@RequestBody Input request, HttpSession session) {
+  @PostMapping()
+  public String generation(@RequestBody ThoughtProcess thought, HttpSession session) {
     @SuppressWarnings("unchecked")
     List<Message> history = (List<Message>) session
         .getAttribute(SESSION_KEY);
@@ -39,11 +46,18 @@ class AiController {
     if (history == null) {
       history = new ArrayList<>();
 
-      history.add(new SystemMessage(Prompts.thoughtProcessVerifier()));
+      // Format system prompt:
+      String sysPrompt = Prompts.thoughtProcessVerifier();
+      String problemId = thought.getProblemId();
+      Problem problem = problemService.getProblemById(problemId);
+
+      String prompt = sysPrompt.replace("//VAR_MODEL_ANSWER", problem.getModelAnswer());
+
+      history.add(new SystemMessage(prompt));
       session.setAttribute(SESSION_KEY, history);
     }
 
-    history.add(new UserMessage(request.getInput()));
+    history.add(new UserMessage(thought.getInput()));
 
     String jsonSchema = JsonSchemaDefinition.getProbeSchema();
 
