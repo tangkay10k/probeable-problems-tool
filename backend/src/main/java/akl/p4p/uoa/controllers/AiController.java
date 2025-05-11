@@ -45,7 +45,7 @@ class AiController {
 
     history.add(new UserMessage(request.getInput()));
 
-    String jsonSchema = JsonSchemaDefinition.getSchema();
+    String jsonSchema = JsonSchemaDefinition.getProbeSchema();
 
     OpenAiChatOptions options = OpenAiChatOptions.builder()
         .model(ChatModel.GPT_4_O_MINI)
