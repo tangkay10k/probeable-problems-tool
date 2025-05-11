@@ -9,6 +9,7 @@ import java.net.http.HttpResponse;
 import org.springframework.stereotype.Service;
 
 import akl.p4p.uoa.data.JsonSchemaDefinition;
+import akl.p4p.uoa.utils.CodeUtils;
 
 @Service
 public class ExecutionService {
@@ -19,22 +20,13 @@ public class ExecutionService {
             throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
-        // 1) escape backslashes first
-        String escaped = code.replace("\\", "\\\\")
-                // 2) escape any quotes
-                .replace("\"", "\\\"")
-                // 3) turn real newlines into the literal \n sequence
-                .replace("\r\n", "\\n")
-                .replace("\n", "\\n");
+        String sourceCode = CodeUtils.formatSourceCodeToSafeString(code);
 
-        // now wrap it in quotes and plug into your template
         String json = String.format(
                 JsonSchemaDefinition.getExecutionPayload(),
                 "\"" + language + "\"",
                 "\"" + languageVersion + "\"",
-                "\"" + escaped + "\"");
-
-        System.out.println(json);
+                "\"" + sourceCode + "\"");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(PISTON_API_URL))
@@ -47,7 +39,7 @@ public class ExecutionService {
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
             return response.body();
         } else {
-            throw new IOException("Execution failed with status " + response.statusCode());
+            throw new IOException("PISTON Execution failed with status " + response.statusCode());
         }
     }
 

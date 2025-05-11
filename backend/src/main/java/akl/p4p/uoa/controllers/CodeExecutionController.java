@@ -30,7 +30,8 @@ public class CodeExecutionController {
 
         String executionResult = null;
         switch (req.getProgramLanguage()) {
-            case JAVA -> executionResult = JavaCodeExecutor.executeJavaProbe(req.getInput(), problem.getModelAnswer());
+            case JAVA -> executionResult = JavaCodeExecutor.executeJavaProbe(req.getLanguageVersion(), req.getInput(),
+                    problem.getModelAnswer());
             case C -> System.out.print("TO DO");
         }
 

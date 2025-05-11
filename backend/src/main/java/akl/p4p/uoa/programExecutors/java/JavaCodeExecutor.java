@@ -12,11 +12,10 @@ public class JavaCodeExecutor {
 
     private final static String PROBE_FILE_PATH = "java/probe.txt";
 
-    // TODO: Update these to be dynamically generated at runtime.
     private final static String JAVA = "java";
-    private final static String JAVA_VERSION = "15.0.2";
 
-    public static String executeJavaProbe(String probes, String modelSolution) throws IOException {
+    public static String executeJavaProbe(String langaugeVersion, String probes, String modelSolution)
+            throws IOException {
 
         try (InputStream stream = JavaCodeExecutor.class
                 .getClassLoader()
@@ -29,7 +28,7 @@ public class JavaCodeExecutor {
             String codeToExecute = content.replace("//VAR_INPUT_PROBES", probes)
                     .replace("//VAR_MODEL_SOLUTION", modelSolution);
 
-            return ExecutionService.executeInSandbox(JAVA, JAVA_VERSION, codeToExecute);
+            return ExecutionService.executeInSandbox(JAVA, langaugeVersion, codeToExecute);
         } catch (InterruptedException e) {
             System.out.println("[EXEUCTION FAILURE] Something when wrong: " + e);
         }
