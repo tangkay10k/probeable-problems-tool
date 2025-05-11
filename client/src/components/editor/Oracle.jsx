@@ -15,6 +15,7 @@ export function Oracle({ intialProbe, language }) {
   const [output, setOutput] = useState('')
   const [AIOutput, setAIOutput] = useState('')
   const [isThoughtValid, setIsThoughtValid] = useState(null)
+  const [isThoughtVague, setIsThoughtVague] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const { id } = useParams()
 
@@ -44,6 +45,7 @@ export function Oracle({ intialProbe, language }) {
     if (aiData.explanation) {
       setAIOutput(aiData.explanation)
       setIsThoughtValid(aiData.is_valid)
+      setIsThoughtVague(aiData.is_vague);
     }
     setIsLoading(false)
   }
@@ -81,7 +83,7 @@ export function Oracle({ intialProbe, language }) {
       </div>
       <p className="text-light mt-1 mb-0 pb-0">Output:</p>
       {isLoading && <Loading />}
-      <Form.Control as="textarea" rows={5} readOnly value={output} />
+      <Form.Control as="textarea" rows={5} readOnly value={isThoughtVague || !isThoughtValid ? "" : output} />
       <p className="text-light mt-1 mb-0 pb-0">Comments:</p>
       <Form.Control
         as="textarea"
@@ -89,9 +91,9 @@ export function Oracle({ intialProbe, language }) {
         readOnly
         value={AIOutput}
         style={{
-          backgroundColor: isThoughtValid ? '#d4edda' : '#f8d7da',
-          borderColor: isThoughtValid ? '#28a745' : '#dc3545',
-          color: isThoughtValid ? '#155724' : '#721c24',
+          backgroundColor: !isThoughtVague && isThoughtValid ? '#d4edda' : '#f8d7da',
+          borderColor: !isThoughtVague && isThoughtValid ? '#28a745' : '#dc3545',
+          color: !isThoughtVague && isThoughtValid ? '#155724' : '#721c24',
         }}
       />
     </Container>
