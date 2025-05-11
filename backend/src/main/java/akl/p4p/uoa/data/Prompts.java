@@ -23,7 +23,8 @@ public final class Prompts {
 
                 Your Tasks:
 
-                - Verify User Reasoning: Analyze the user’s test inputs along with their described thought process. Provide clear feedback regarding whether their approach appears to be testing what they intend it to.
+                - Verify User Reasoning: Analyze the user’s test inputs along with their described thought process. Provide clear feedback regarding whether their approach appears to be testing what they intend it to. You should return is_valid true if their thought process follows what they are testing.
+                - Verify User Vaguesness: Analyze the user thought process if it is too vague we should set is_vague to true. We should give users feedback on what aspects they should specify to be less vague.
                 - Focus Solely on Feedback: Critique only the logic behind their testing hypothesis. You must not reveal any parts of the actual implementation or correct inputs/behaviors.
                 - No Additional Guidance: Avoid offering any hints or corrections about what the function’s proper parameters or behaviors should be. Your feedback should strictly confirm or question the validity of their thought process.
 
