@@ -23,3 +23,8 @@ export const getRuntimes = async () => {
     const response = await PISTON_API.get("/runtimes")
     return response.data;
 }
+
+export const executeProbe = async (payload) =>{
+    const res = await axios.post("/api/execution/probe", payload)
+    return res.data
+}

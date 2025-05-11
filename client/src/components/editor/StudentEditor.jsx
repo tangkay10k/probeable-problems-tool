@@ -1,5 +1,5 @@
 import { CodeEditor } from './CodeEditor.jsx'
-import { Col, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { Output } from './Output.jsx'
 import { useRef, useState } from 'react'
 import { CODE_SNIPPETS } from './constants.js'

@@ -2,12 +2,31 @@ import { Button, Container } from 'react-bootstrap'
 import { CodeEditor } from './CodeEditor'
 import Form from 'react-bootstrap/Form'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { executeProbe } from '../../routes/code-route'
+import { LANGUAGE_VERSIONS, PISTON_TO_BACKEND } from './constants'
+import { Loading } from './Loading'
 
 export function Oracle({ intialProbe, language }) {
   const [probe, setProbe] = useState(intialProbe)
+  const [output, setOutput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const { id } = useParams()
 
-  const sendProbe = () => {
-    console.log('TO DO: SEND')
+  const sendProbe = async () => {
+    const payload = {
+      problemId: id,
+      programLanguage: PISTON_TO_BACKEND[language], // Convert to backend acceptable enum
+      languageVersion: LANGUAGE_VERSIONS[language],
+      input: probe,
+    }
+    setIsLoading(true)
+    const data = await executeProbe(payload)
+
+    if (data.run.output) {
+      setOutput(data.run.output)
+    }
+    setIsLoading(false)
   }
 
   return (
@@ -31,10 +50,17 @@ export function Oracle({ intialProbe, language }) {
           as="textarea"
           placeholder="E.g. I'm testing if this function takes in 3 parameters"
         />
-        <Button onClick={sendProbe}>Probe!</Button>
+        <Button
+          variant={isLoading ? 'secondary' : 'primary'}
+          onClick={sendProbe}
+          disabled={isLoading}
+        >
+          Probe!
+        </Button>
       </div>
       <p className="text-light mt-1 mb-0 pb-0">Output:</p>
-      <Form.Control as="textarea" disabled />
+      {isLoading && <Loading />}
+      <Form.Control as="textarea" disabled value={output} />
       <p className="text-light mt-1 mb-0 pb-0">Comments:</p>
       <Form.Control as="textarea" disabled />
     </Container>
