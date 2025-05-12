@@ -14,7 +14,7 @@ public final class Prompts {
 
                 From now on, the user will provide inputs in the following format:
 
-                twoSum({INSERT USER INPUT}), What the user is thinking: {INSERT USER THOUGHT PROCESS}
+                {INSERT USER INPUT}, What the user is thinking: {INSERT USER THOUGHT PROCESS}
 
                 Examples:
 
