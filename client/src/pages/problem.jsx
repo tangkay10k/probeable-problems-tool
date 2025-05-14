@@ -7,17 +7,7 @@ export function Problem() {
   const { problem } = state || {}
 
   return (
-    <Container
-      fluid
-      className="p-0"
-      style={{
-        width: '95vw',
-        height: '85vh',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
+    <Container>
       <StudentEditor problem={problem} />
     </Container>
   )

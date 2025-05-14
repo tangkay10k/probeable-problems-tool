@@ -19,7 +19,7 @@ export default function QuestionHistoryList({ questionHistory }) {
       style={{
         overflowY: 'auto',
         height: '100%',
-        width: 'clamp(150px, 14vw, 250px)',
+        width: 'clamp(150px, 14vw, 180px)',
         maxWidth: '250px',
         minWidth: '150px',
         backgroundColor: '#f9f9f9',
