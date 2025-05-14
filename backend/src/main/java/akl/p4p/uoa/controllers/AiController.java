@@ -26,8 +26,6 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/ai")
 class AiController {
-  private static final String SESSION_KEY = "twoSumHistory";
-
   private final ChatClient chatClient;
 
   private final ProblemService problemService;
@@ -39,22 +37,23 @@ class AiController {
 
   @PostMapping()
   public String generation(@RequestBody ThoughtProcess thought, HttpSession session) {
+    String problemId = thought.getProblemId();
+    
     @SuppressWarnings("unchecked")
     List<Message> history = (List<Message>) session
-        .getAttribute(SESSION_KEY);
+        .getAttribute(problemId);
 
     if (history == null) {
       history = new ArrayList<>();
 
       // Format system prompt:
       String sysPrompt = Prompts.thoughtProcessVerifier();
-      String problemId = thought.getProblemId();
       Problem problem = problemService.getProblemById(problemId);
 
       String prompt = sysPrompt.replace("//VAR_MODEL_ANSWER", problem.getModelAnswer());
 
       history.add(new SystemMessage(prompt));
-      session.setAttribute(SESSION_KEY, history);
+      session.setAttribute(problemId, history);
     }
 
     history.add(new UserMessage(thought.getInput()));

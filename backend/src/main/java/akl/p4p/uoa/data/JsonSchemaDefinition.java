@@ -9,11 +9,9 @@ public class JsonSchemaDefinition {
       {
         "type": "object",
         "properties": {
-          "is_vague":   { "type": "boolean" },
-          "is_valid":   { "type": "boolean" },
           "explanation":{ "type": "string"  }
         },
-        "required": ["is_valid", "explanation", "is_vague"],
+        "required": ["explanation"],
         "additionalProperties": false
       }
       """;

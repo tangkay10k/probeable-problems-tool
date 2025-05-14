@@ -2,7 +2,6 @@ public class Execution {
     public static void main(String[] args) {
 
         //VAR_INPUT_PROBES
-        System.out.println("Function should return: " + countBetween(values, n, a, b));
     }
 
     //VAR_MODEL_SOLUTION
