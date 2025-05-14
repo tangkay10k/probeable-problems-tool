@@ -6,10 +6,9 @@ import { useParams } from 'react-router-dom'
 import { executeProbe } from '../../routes/code-route'
 import { LANGUAGE_VERSIONS, PISTON_TO_BACKEND } from './constants'
 import { Loading } from './Loading'
-import { submitThoughtProcess } from '../../routes/ai-route'
-import { formatThoughtProcess } from '../../utils/thought-process'
+import { submitThoughtProcess, checkQuestionDuplication } from '../../routes/ai-route'
 
-export function Oracle({ intialProbe, language }) {
+export function Oracle({ intialProbe, language, questionHistory, setQuestionHistory }) {
   const [probe, setProbe] = useState(intialProbe)
   const [userThoughts, setUserThoughts] = useState('')
   const [output, setOutput] = useState('')
@@ -21,17 +20,34 @@ export function Oracle({ intialProbe, language }) {
   const sendProbe = async () => {
     const thoughts = {
       problemId: id,
-      input: formatThoughtProcess(probe, userThoughts),
+      input: userThoughts
+    }
+
+    const duplicateDataRequest = {
+      questionsAsked: questionHistory.map((item) => item.probe),
+      probe: userThoughts
     }
 
     setIsLoadingProbe(true)
 
     const aiData = await submitThoughtProcess(thoughts)
-    console.log('RES FROM GPT:', aiData)
 
-    if (aiData.explanation) {
-      setAIOutput(aiData.explanation)
+    const duplicateData = await checkQuestionDuplication(duplicateDataRequest);
+
+    if (duplicateData.isDuplicateQuestion) {
+      if (duplicateData.suggestion) {
+        setAIOutput(duplicateData.suggestion)
+      }
+    } else {
+      setQuestionHistory((prevQuestions) => [
+        ...prevQuestions,
+        { probe: userThoughts, response: aiData.explanation }
+      ]);
+      if (aiData.explanation) {
+        setAIOutput(aiData.explanation)
+      }
     }
+
 
     setIsLoadingProbe(false)
   }

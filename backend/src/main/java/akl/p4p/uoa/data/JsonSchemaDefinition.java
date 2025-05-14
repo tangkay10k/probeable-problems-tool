@@ -16,6 +16,18 @@ public class JsonSchemaDefinition {
       }
       """;
 
+  private static final String DUPLICATE_QUESTION_SCHEMA = """
+      {
+        "type": "object",
+        "properties": {
+          "suggestion":{ "type": "string"  },
+          "isDuplicateQuestion":{ "type": "boolean"  }
+        },
+        "required": ["suggestion","isDuplicateQuestion"],
+        "additionalProperties": false
+      }
+      """;
+
   private static final String EXECUTION_PAYLOAD = """
         {
           "language": %s,
@@ -30,6 +42,10 @@ public class JsonSchemaDefinition {
 
   public static String getProbeSchema() {
     return PROBE_SCHEMA;
+  }
+
+  public static String getDuplicateQuestionSchema() {
+    return DUPLICATE_QUESTION_SCHEMA;
   }
 
   public static String getExecutionPayload() {

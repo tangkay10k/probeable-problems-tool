@@ -27,4 +27,20 @@ public final class Prompts {
                 """;
     }
 
+    public static String duplicateQuestionVerifier() {
+        return """
+                You are an AI assistant that checks if a given question has been asked before.
+                You are provided with a list of previous questions and a new question.
+                - If the question has been asked before (exact or similar), respond with:
+                  - "isDuplicateQuestion": true
+                  - "suggestion": Explain they have already asked this question before and tell them to try asking different type of questions.
+                - If the question is new, respond with:
+                  - "isDuplicateQuestion": false
+                  - "suggestion": Provide a suggestion to rephrase or ask a related question.
+
+                Previous Questions: %s
+                New Question: %s
+                """;
+    }
+
 }

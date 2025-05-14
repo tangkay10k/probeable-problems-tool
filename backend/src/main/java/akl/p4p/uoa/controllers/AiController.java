@@ -20,6 +20,7 @@ import akl.p4p.uoa.data.ThoughtProcess;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.Prompts;
+import akl.p4p.uoa.data.QuestionRequest;
 import akl.p4p.uoa.services.ProblemService;
 import jakarta.servlet.http.HttpSession;
 
@@ -38,7 +39,7 @@ class AiController {
   @PostMapping()
   public String generation(@RequestBody ThoughtProcess thought, HttpSession session) {
     String problemId = thought.getProblemId();
-    
+
     @SuppressWarnings("unchecked")
     List<Message> history = (List<Message>) session
         .getAttribute(problemId);
@@ -74,6 +75,28 @@ class AiController {
         .content();
 
     history.add(new AssistantMessage(assistantReply));
+
+    return assistantReply;
+  }
+
+  @PostMapping("/duplicate")
+  public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
+    String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
+
+    OpenAiChatOptions options = OpenAiChatOptions.builder()
+        .model(ChatModel.GPT_4_O_MINI)
+        .responseFormat(
+            new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
+        .build();
+
+    String prompt = Prompts.duplicateQuestionVerifier().formatted(String.join(", ", request.getQuestionsAsked()),
+        request.getProbe());
+
+    String assistantReply = chatClient
+        .prompt(prompt)
+        .options(options)
+        .call()
+        .content();
 
     return assistantReply;
   }

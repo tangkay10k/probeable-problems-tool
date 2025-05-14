@@ -8,11 +8,7 @@ import QuestionHistoryList from './QuestionHistoryList.jsx'
 export default function StudentEditor({ problem }) {
   const [value, setValue] = useState('')
   const [language, setLanguage] = useState('java')
-  const [questionHistory, setQuestionHistory] = useState([
-    { probe: 'Can a and b be inclusive or exclusive?', response: 'Both inclusive and exclusive cases can be considered based on the context.' },
-    { probe: 'What is polymorphism?', response: 'Polymorphism allows objects of different classes to be treated as instances of the same class through inheritance.' },
-    { probe: 'Can a and b be inclusive or exclusive?', response: 'Both inclusive and exclusive cases can be considered based on the context.' },
-  ])
+  const [questionHistory, setQuestionHistory] = useState([]) //{probe:"", response: ""}
 
   const editorRef = useRef(null)
 
@@ -46,7 +42,7 @@ export default function StudentEditor({ problem }) {
           borderRight: '1px solid #ccc',
         }}
       >
-        <Oracle language={language} intialProbe={problem?.defaultProbe} />
+        <Oracle language={language} intialProbe={problem?.defaultProbe} questionHistory={questionHistory} setQuestionHistory={setQuestionHistory}/>
         <Output language={language} editorRef={editorRef} />
       </Container>
       <Container
