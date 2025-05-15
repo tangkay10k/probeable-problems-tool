@@ -2,6 +2,7 @@ package akl.p4p.uoa.controllers;
 
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.ProblemService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +44,4 @@ public class ProblemController {
         Problem savedProblem = problemService.createProblem(problem);
         return ResponseEntity.ok(savedProblem);
     }
-
 }

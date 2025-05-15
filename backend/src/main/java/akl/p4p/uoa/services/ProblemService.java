@@ -1,12 +1,13 @@
 package akl.p4p.uoa.services;
 
-import java.util.List;
-import java.util.Optional;
-
-import akl.p4p.uoa.repositories.ProblemRepository;
 import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.repositories.ProblemRepository;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProblemService {
@@ -37,9 +38,7 @@ public class ProblemService {
 
     public Problem getProblemById(String problemId) {
         Optional<Problem> probOptional = problemRepository.findById(problemId);
-        if (probOptional.isEmpty())
-            return null;
+        if (probOptional.isEmpty()) return null;
         return probOptional.get();
     }
-
 }

@@ -1,6 +1,7 @@
 package akl.p4p.uoa.models;
 
 import lombok.Data;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,8 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("problems")
 public class Problem {
 
-    @Id
-    private String id;
+    @Id private String id;
 
     private String title; // This is what an instructor will remember the problem by.
 
@@ -20,5 +20,4 @@ public class Problem {
     private String defaultProbe;
 
     private String problemLanguage;
-
 }
