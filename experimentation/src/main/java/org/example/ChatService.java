@@ -1,0 +1,182 @@
+package org.example;
+
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.openai.api.ResponseFormat;
+import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@Service
+public class ChatService {
+    private static final String SESSION_KEY = "experimental";
+    private final ChatClient chatClient;
+
+    private boolean isDev = false;
+
+    public ChatService(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
+    }
+
+    private String getProblemModelSolution(int questionNumber) throws IOException {
+        // Switch case determining which question to read from which .txt file.
+        InputStream is =
+                switch (questionNumber) {
+                    case 1 -> getInputStream("Question1.txt");
+                    case 2 -> getInputStream("Question2.txt");
+                    case 3 -> getInputStream("Question3.txt");
+                    default -> null;
+                };
+        return readFromInputStream(is);
+    }
+
+    private String getProblemConstraints(int questionNumber) throws IOException {
+        // Switch case determining which question to read from which .txt file.
+        InputStream is =
+                switch (questionNumber) {
+                    case 1 -> getInputStream("Constraints1.txt");
+                    case 2 -> getInputStream("Constraints2.txt");
+                    case 3 -> getInputStream("Constraints3.txt");
+                    default -> null;
+                };
+        return readFromInputStream(is);
+    }
+
+    private String readFromInputStream(InputStream is) throws IOException {
+
+        assert is != null;
+
+        StringBuilder sb = new StringBuilder();
+        InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
+        BufferedReader reader = new BufferedReader(streamReader);
+        for (String line; (line = reader.readLine()) != null; ) {
+            sb.append(line).append(System.lineSeparator());
+        }
+        return sb.toString();
+    }
+
+    private static InputStream getInputStream(String fileName) {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        return classloader.getResourceAsStream(fileName);
+    }
+
+    public void run() throws IOException {
+        List<Message> history = new ArrayList<>();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Developer mode? (y/n)");
+        String devMode = scanner.nextLine();
+        if (devMode.equalsIgnoreCase("y")) {
+            isDev = true;
+        }
+
+        System.out.println(
+                "Please select a probeable problem: \n"
+                        + "1: Implement a function to count the number of integers between a and b in an array of length n\n"
+                        + "2: Implement a function to search an array of length n for the smallest even value \n"
+                        + "3: Implement a function to find the first vowel in a string \n");
+
+        String userSelect = scanner.nextLine();
+        int questionNumber = Integer.parseInt(userSelect);
+        String problemModelSolution = getProblemModelSolution(questionNumber);
+        String constraints = getProblemConstraints(questionNumber);
+
+        // Format system prompt:
+        String basePrompt = PromptTesting.getPromptQuestion3();
+        String sysPrompt =
+                basePrompt
+                        .replace("//VAR_MODEL_ANSWER", problemModelSolution)
+                        .replace("//VAR_CONSTRAINTS", constraints);
+
+        switch (questionNumber) {
+            case 1 ->
+                    System.out.println(
+                            """
+							Please implement a function to count the number of integers between a and b in an array of length n.
+
+							 The function signature is: int CountBetween(int *values, int n, int a, int b);""");
+            case 2 ->
+                    System.out.println(
+                            """
+							Please implement a function to search an array of length n for the smallest even value.
+
+							The function signature is: void SmallestEven(int values[], int length);""");
+            case 3 ->
+                    System.out.println(
+                            """
+							Please implement a function to find the first vowel in a string.
+
+							The function signature is: char FirstVowel(char *s);""");
+            default -> System.out.println("Invalid selection. Please try again.");
+        }
+
+        history.add(new SystemMessage(sysPrompt));
+
+        System.out.println("\n\nEnter your question:");
+        String userInput = scanner.nextLine();
+
+        history.add(new UserMessage(userInput));
+
+        String jsonSchema = PromptTesting.getSchema();
+
+        OpenAiChatOptions options =
+                OpenAiChatOptions.builder()
+                        .model(OpenAiApi.ChatModel.O1)
+                        .temperature(1D)
+                        .responseFormat(
+                                new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
+                        .build();
+
+        String assistantReply =
+                chatClient.prompt().options(options).messages(history).call().content();
+
+        history.add(new AssistantMessage(assistantReply));
+
+        Pattern p = Pattern.compile("\"message\"\\s*:\\s*\"((?:\\\\\"|[^\"])*)\"");
+
+        printGPTRes(assistantReply, p);
+
+        System.out.println("Enter your next question (or 'exit' to quit):");
+        while (true) {
+            userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("exit")) {
+                System.exit(0);
+            }
+
+            history.add(new UserMessage(userInput));
+
+            assistantReply =
+                    chatClient.prompt().options(options).messages(history).call().content();
+
+            history.add(new AssistantMessage(assistantReply));
+
+            printGPTRes(assistantReply, p);
+        }
+    }
+
+    private void printGPTRes(String assistantReply, Pattern p) {
+        if (isDev) {
+            System.out.println("[DEV]" + assistantReply);
+        } else {
+            Matcher matcher = p.matcher(assistantReply);
+            if (matcher.find()) {
+                String clientMsg =
+                        matcher.group(1).replace("\\\"", "\""); // un-escape any \" back to "
+                System.out.println("Client: " + clientMsg);
+            } else {
+                System.out.println("No message field found.");
+            }
+        }
+    }
+}
