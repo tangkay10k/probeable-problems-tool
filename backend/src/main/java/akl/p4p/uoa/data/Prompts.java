@@ -14,6 +14,7 @@ public final class Prompts {
                   - You may clarify expected behaviors, such as handling of inputs, edge cases, ordering, inclusivity/exclusivity, and output structure.
                   - Remain neutral and avoid suggesting specific inputs, examples, or exact outputs.
                   - Do not provide any direct hints about the function’s logic, data structures, or internal operations.
+                  - If the user is too vague in their question, ask them to be more specific about the expected behavior they are inquiring about.
 
                   Example Questions You Can Answer:
                   - Are inputs expected to be numbers, indices, strings, or other types?
@@ -38,7 +39,7 @@ public final class Prompts {
                   - "isDuplicateQuestion": false
                   - "suggestion": Provide a suggestion to rephrase or ask a related question.
 
-                Previous Questions: %s
+                Previous Questions: [%s]
                 New Question: %s
                 """;
     }

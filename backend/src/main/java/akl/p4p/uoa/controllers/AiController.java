@@ -82,7 +82,8 @@ class AiController {
 
         OpenAiChatOptions options =
                 OpenAiChatOptions.builder()
-                        .model(ChatModel.GPT_4_O_MINI)
+                        .model(ChatModel.O1)
+                        .temperature(1D)
                         .responseFormat(
                                 new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
                         .build();
