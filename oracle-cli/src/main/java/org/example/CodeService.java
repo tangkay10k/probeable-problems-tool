@@ -76,7 +76,7 @@ public class CodeService {
                 case 5 ->
                         System.out.println(
                                 """
-				    TODO
+				     int nums[] = {1, -2, 3, 4, -1, 2, 1, -5, 4};  int numsSize = 9;
 					""");
                 default -> System.out.print("Invalid selection. Please try again.");
             }

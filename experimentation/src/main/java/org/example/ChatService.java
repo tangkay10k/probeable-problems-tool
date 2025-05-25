@@ -47,7 +47,7 @@ public class ChatService {
         StringBuilder sb = new StringBuilder();
         InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(streamReader);
-        for (String line; (line = reader.readLine()) != null; ) {
+        for (String line; (line = reader.readLine()) != null;) {
             sb.append(line).append(System.lineSeparator());
         }
         return sb.toString();
@@ -71,13 +71,14 @@ public class ChatService {
         System.out.println(
                 """
 
-		Please select a probeable problem:
+                        Please select a probeable problem:
 
-		1: Implement a function to count the number of integers between a and b in an array of length
-		2: Implement a function to search an array of length n for the smallest even value
-		3: Implement a function to find the first vowel in a string
-		4. Implement a function to find a word in a string
-		""");
+                        1: Implement a function to count the number of integers between a and b in an array of length
+                        2: Implement a function to search an array of length n for the smallest even value
+                        3: Implement a function to find the first vowel in a string
+                        4. Implement a function to find a word in a string
+                        5. Implement a function to find the largest sum in a array
+                        """);
 
         String questionNumber = scanner.nextLine().trim();
         String problemModelSolution = getProblemModelSolution(questionNumber);
@@ -85,37 +86,42 @@ public class ChatService {
 
         // Format system prompt:
         String basePrompt = PromptTesting.getPromptQuestion4();
-        String sysPrompt =
-                basePrompt
-                        .replace("//VAR_MODEL_ANSWER", problemModelSolution)
-                        .replace("//VAR_CONSTRAINTS", constraints);
+        String sysPrompt = basePrompt
+                .replace("//VAR_MODEL_ANSWER", problemModelSolution)
+                .replace("//VAR_CONSTRAINTS", constraints);
 
         int num = Integer.parseInt(questionNumber);
         switch (num) {
             case 1 ->
-                    System.out.println(
-                            """
-							Please implement a function to count the number of integers between a and b in an array of length n.
+                System.out.println(
+                        """
+                                Please implement a function to count the number of integers between a and b in an array of length n.
 
-							 The function signature is: int CountBetween(int *values, int n, int a, int b);""");
+                                 The function signature is: int CountBetween(int *values, int n, int a, int b);""");
             case 2 ->
-                    System.out.println(
-                            """
-							Please implement a function to search an array of length n for the smallest even value.
+                System.out.println(
+                        """
+                                Please implement a function to search an array of length n for the smallest even value.
 
-							The function signature is: void SmallestEven(int values[], int length);""");
+                                The function signature is: void SmallestEven(int values[], int length);""");
             case 3 ->
-                    System.out.println(
-                            """
-							Please implement a function to find the first vowel in a string.
+                System.out.println(
+                        """
+                                Please implement a function to find the first vowel in a string.
 
-							The function signature is: char FirstVowel(char *s);""");
+                                The function signature is: char FirstVowel(char *s);""");
             case 4 ->
-                    System.out.println(
-                            """
-							Please implement a function to find a word in a string.
+                System.out.println(
+                        """
+                                Please implement a function to find a word in a string.
 
-							The function signature is int findWord(char *text, char *word);""");
+                                The function signature is int findWord(char *text, char *word);""");
+            case 5 ->
+                System.out.println(
+                        """
+                                Implement a function to find the largest sum in a array
+
+                                The function signature is int howGoodCanItGet(int* nums, int numsSize);""");
 
             default -> System.out.println("Invalid selection. Please try again.");
         }
@@ -129,16 +135,14 @@ public class ChatService {
 
         String jsonSchema = PromptTesting.getSchema();
 
-        OpenAiChatOptions options =
-                OpenAiChatOptions.builder()
-                        .model(OpenAiApi.ChatModel.O1)
-                        .temperature(1D)
-                        .responseFormat(
-                                new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
-                        .build();
+        OpenAiChatOptions options = OpenAiChatOptions.builder()
+                .model(OpenAiApi.ChatModel.O1)
+                .temperature(1D)
+                .responseFormat(
+                        new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
+                .build();
 
-        String assistantReply =
-                chatClient.prompt().options(options).messages(history).call().content();
+        String assistantReply = chatClient.prompt().options(options).messages(history).call().content();
 
         history.add(new AssistantMessage(assistantReply));
 
@@ -155,8 +159,7 @@ public class ChatService {
 
             history.add(new UserMessage(userInput));
 
-            assistantReply =
-                    chatClient.prompt().options(options).messages(history).call().content();
+            assistantReply = chatClient.prompt().options(options).messages(history).call().content();
 
             history.add(new AssistantMessage(assistantReply));
 
@@ -170,8 +173,7 @@ public class ChatService {
         } else {
             Matcher matcher = p.matcher(assistantReply);
             if (matcher.find()) {
-                String clientMsg =
-                        matcher.group(1).replace("\\\"", "\""); // un-escape any \" back to "
+                String clientMsg = matcher.group(1).replace("\\\"", "\""); // un-escape any \" back to "
                 System.out.println("Client: " + clientMsg);
             } else {
                 System.out.println("No message field found.");
