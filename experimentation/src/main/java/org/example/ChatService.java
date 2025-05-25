@@ -29,27 +29,14 @@ public class ChatService {
         this.chatClient = chatClientBuilder.build();
     }
 
-    private String getProblemModelSolution(int questionNumber) throws IOException {
-        // Switch case determining which question to read from which .txt file.
-        InputStream is =
-                switch (questionNumber) {
-                    case 1 -> getInputStream("Question1.txt");
-                    case 2 -> getInputStream("Question2.txt");
-                    case 3 -> getInputStream("Question3.txt");
-                    default -> null;
-                };
+    private String getProblemModelSolution(String questionNumber) throws IOException {
+        InputStream is = getInputStream("Question" + questionNumber + ".txt");
         return readFromInputStream(is);
     }
 
-    private String getProblemConstraints(int questionNumber) throws IOException {
+    private String getProblemConstraints(String questionNumber) throws IOException {
         // Switch case determining which question to read from which .txt file.
-        InputStream is =
-                switch (questionNumber) {
-                    case 1 -> getInputStream("Constraints1.txt");
-                    case 2 -> getInputStream("Constraints2.txt");
-                    case 3 -> getInputStream("Constraints3.txt");
-                    default -> null;
-                };
+        InputStream is = getInputStream("Constraints" + questionNumber + ".txt");
         return readFromInputStream(is);
     }
 
@@ -82,24 +69,29 @@ public class ChatService {
         }
 
         System.out.println(
-                "Please select a probeable problem: \n"
-                        + "1: Implement a function to count the number of integers between a and b in an array of length n\n"
-                        + "2: Implement a function to search an array of length n for the smallest even value \n"
-                        + "3: Implement a function to find the first vowel in a string \n");
+                """
 
-        String userSelect = scanner.nextLine();
-        int questionNumber = Integer.parseInt(userSelect);
+		Please select a probeable problem:
+
+		1: Implement a function to count the number of integers between a and b in an array of length
+		2: Implement a function to search an array of length n for the smallest even value
+		3: Implement a function to find the first vowel in a string
+		4. Implement a function to find a word in a string
+		""");
+
+        String questionNumber = scanner.nextLine().trim();
         String problemModelSolution = getProblemModelSolution(questionNumber);
         String constraints = getProblemConstraints(questionNumber);
 
         // Format system prompt:
-        String basePrompt = PromptTesting.getPromptQuestion3();
+        String basePrompt = PromptTesting.getPromptQuestion4();
         String sysPrompt =
                 basePrompt
                         .replace("//VAR_MODEL_ANSWER", problemModelSolution)
                         .replace("//VAR_CONSTRAINTS", constraints);
 
-        switch (questionNumber) {
+        int num = Integer.parseInt(questionNumber);
+        switch (num) {
             case 1 ->
                     System.out.println(
                             """
@@ -118,6 +110,13 @@ public class ChatService {
 							Please implement a function to find the first vowel in a string.
 
 							The function signature is: char FirstVowel(char *s);""");
+            case 4 ->
+                    System.out.println(
+                            """
+							Please implement a function to find a word in a string.
+
+							The function signature is int findWord(char *text, char *word);""");
+
             default -> System.out.println("Invalid selection. Please try again.");
         }
 
