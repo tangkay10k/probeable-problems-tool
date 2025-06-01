@@ -85,7 +85,7 @@ public class ChatService {
         String constraints = getProblemConstraints(questionNumber);
 
         // Format system prompt:
-        String basePrompt = PromptTesting.getPromptQuestion4();
+        String basePrompt = PromptTesting.getPromptQuestion5();
         String sysPrompt = basePrompt
                 .replace("//VAR_MODEL_ANSWER", problemModelSolution)
                 .replace("//VAR_CONSTRAINTS", constraints);

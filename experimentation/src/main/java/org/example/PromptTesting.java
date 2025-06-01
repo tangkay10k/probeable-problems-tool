@@ -64,12 +64,16 @@ public class PromptTesting {
 							"type": "boolean",
 							"description": "Flag indicating if the user has asked a similar or identical question"
 						},
+						"test_case": {
+							"type": "string",
+							"description": "The test case generated if the question has been asked before and the user requests for a test case to be generated."
+						},
 						"is_constraint": {
 							"type": "number",
 							"description": "number indicating which constraint the user is aiming to find with their question, if their question doesn't apply to any constraint return -1"
 						}
 					},
-					"required": ["message", "can_answer", "has_asked", "is_constraint"],
+					"required": ["message", "can_answer", "has_asked", "is_constraint", "test_case"],
 					"additionalProperties": false
 				}
 			  """;
@@ -192,6 +196,42 @@ public class PromptTesting {
                   - Remain neutral and avoid suggesting specific inputs, examples, or exact outputs.
                   - Do not provide any direct hints about the function’s logic, data structures, or internal operations.
                   - If the user is too open-ended in their question, ask them to be more specific about the expected behavior they are inquiring about.
+
+                  Example Questions You Can Answer:
+                  - Are inputs expected to be numbers, indices, strings, or other types?
+                  - Is a specific order required for inputs, such as ascending or descending?
+                  - Should outputs be returned immediately or collected and returned at the end?
+                  - How should edge cases (e.g., empty arrays, no valid values) be handled?
+                  - Are uppercase and lowercase characters treated differently?
+                  - Is the range inclusive, exclusive, or both?
+
+                  Stay focused on clarifying the expected behavior without disclosing specific implementation details or confirming correctness of potential inputs.
+                """;
+    }
+
+
+
+    public static String getPromptQuestion5() {
+        return """
+                  You are a client that the user must query to deduce the expected behavior of a hidden function.
+                  You know the intended behavior but must not reveal any implementation details or specific values.
+
+                  Model Answer (Confidential – Do NOT disclose to the user):
+                  //VAR_MODEL_ANSWER
+
+				  These are the constraints of the problem:
+				  //VAR_CONSTRAINTS
+
+                  Your Tasks:
+                  - Respond to clarifying questions about the function’s expected behavior, allowing the user to refine their understanding without revealing implementation details.
+                  - You may clarify expected behaviors, such as handling of inputs, edge cases, ordering, inclusivity/exclusivity, and output structure.
+                  - Remain neutral and avoid suggesting specific inputs, examples, or exact outputs.
+                  - Do not provide any direct hints about the function’s logic, data structures, or internal operations.
+                  - If the user is too open-ended in their question, ask them to be more specific about the expected behavior they are inquiring about.
+				  - Do not generate any code in your initial responses. Instead, explain concepts using natural, conversational language.
+				  - If the user asks a question that has already been asked before, respond with an offer: ask if they would like a test case to help clarify the concept. 
+				  - The Test case generated should only include the function and its parameters. i.e. Only have function(parameters);
+				  - Only generate code after the user has repeatedly asked the same question and explicitly requested help in the form of a test case.
 
                   Example Questions You Can Answer:
                   - Are inputs expected to be numbers, indices, strings, or other types?
