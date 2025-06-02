@@ -1,4 +1,4 @@
 1.You may start and stop anywhere, but the segment must be contiguous.
-2. You must choose atleast one value.
+2. You must choose at least one value.
 3. Return the maximum total sum of any such segment.
 4. If all values are negative, you still must take one — pick the largest one.
