@@ -45,6 +45,14 @@
     </dependencyManagement>
 
     <dependencies>
+
+        <!--Shared resources (.txt files)-->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>shared-resources</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- Web & Config -->
         <dependency>
             <groupId>me.paulschwarz</groupId>
@@ -84,5 +92,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

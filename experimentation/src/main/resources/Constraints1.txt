@@ -1,2 +1,0 @@
-1. The function should count between a and b exclusively.
-2. The order of a and b does not matter.

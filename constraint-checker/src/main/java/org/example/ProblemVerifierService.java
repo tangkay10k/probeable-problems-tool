@@ -40,6 +40,9 @@ public class ProblemVerifierService {
 	private String getProblemConstraints(String questionNumber) throws IOException {
 		// Switch case determining which question to read from which .txt file.
 		InputStream is = getInputStream("Constraints" + questionNumber + ".txt");
+		if (is == null) {
+			throw new RuntimeException("Could not load resource: " + "Constraints" + questionNumber + ".txt");
+		}
 		return readFromInputStream(is);
 	}
 
