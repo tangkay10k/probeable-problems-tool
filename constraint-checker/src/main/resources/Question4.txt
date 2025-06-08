@@ -1,0 +1,23 @@
+int findWord(char *haystack, char *needle) {
+    int h = strlen(haystack);
+    int n = strlen(needle);
+
+    // Edge case: empty needle
+    if (n == 0) {
+        return 0;
+    }
+
+    // Only need to iterate while there's room for needle in haystack
+    for (int i = 0; i <= h - n; i++) {
+        int j = 0;
+        // Check substring starting at i
+        while (j < n && haystack[i + j] == needle[j]) {
+            j++;
+        }
+        // If we reached the end of needle, we found a match
+        if (j == n) {
+            return i;
+        }
+    }
+    return -1;
+}

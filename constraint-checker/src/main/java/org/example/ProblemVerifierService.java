@@ -22,13 +22,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ChatService {
+public class ProblemVerifierService {
 	private static final String SESSION_KEY = "experimental";
 	private final ChatClient chatClient;
 
 	private boolean isDev = false;
 
-	public ChatService(ChatClient.Builder chatClientBuilder) {
+	public ProblemVerifierService(ChatClient.Builder chatClientBuilder) {
 		this.chatClient = chatClientBuilder.build();
 	}
 
@@ -73,14 +73,7 @@ public class ChatService {
 
 		System.out.println(
 			"""
-
-				Please select a probeable problem:
-
-				1: Implement a function to count the number of integers between a and b in an array of length
-				2: Implement a function to search an array of length n for the smallest even value
-				3: Implement a function to find the first vowel in a string
-				4. Implement a function to find a word in a string
-				5. Implement a function to find the largest sum in a array
+				Please select a problem number (1-5):
 				""");
 
 		String questionNumber = scanner.nextLine().trim();
@@ -88,45 +81,14 @@ public class ChatService {
 		String constraints = getProblemConstraints(questionNumber);
 
 		// Format system prompt:
-		String basePrompt = PromptTesting.getPromptQuestion7();
+		String basePrompt = PromptTesting.getSystemPrompt();
 		String sysPrompt = basePrompt
 			.replace("//VAR_MODEL_ANSWER", problemModelSolution)
 			.replace("//VAR_CONSTRAINTS", constraints);
 
-		int num = Integer.parseInt(questionNumber);
-		switch (num) {
-			case 1 -> System.out.println(
-				"""
-					Please implement a function to count the number of integers between a and b in an array of length n.
-
-					 The function signature is: int CountBetween(int *values, int n, int a, int b);""");
-			case 2 -> System.out.println(
-				"""
-					Please implement a function to search an array of length n for the smallest even value.
-
-					The function signature is: void SmallestEven(int values[], int length);""");
-			case 3 -> System.out.println(
-				"""
-					Please implement a function to find the first vowel in a string.
-
-					The function signature is: char FirstVowel(char *s);""");
-			case 4 -> System.out.println(
-				"""
-					Please implement a function to find a word in a string.
-
-					The function signature is int findWord(char *text, char *word);""");
-			case 5 -> System.out.println(
-				"""
-					Implement a function to find the largest sum in a array
-
-					The function signature is int howGoodCanItGet(int* nums, int numsSize);""");
-
-			default -> System.out.println("Invalid selection. Please try again.");
-		}
-
 		history.add(new SystemMessage(sysPrompt));
 
-		System.out.println("\n\nEnter your question:");
+		System.out.println("\n\nEnter your problem description:");
 		String userInput = scanner.nextLine();
 
 		history.add(new UserMessage(userInput));
