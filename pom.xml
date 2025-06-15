@@ -13,5 +13,6 @@
         <module>constraint-checker</module>
         <module>experimentation</module>
         <module>oracle-cli</module>
+        <module>fault-injection</module>
     </modules>
 </project>
