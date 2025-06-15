@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <assert.h>
+
+// Declaration of the function to test
+int CountBetween(int *values, int n, int a, int b);
+
+// ------------------ Implementation of the function (From GPT)
+
+
+
+// ------------------ End
+
+void test_empty_array() {
+    int values[] = {};
+    assert(CountBetween(values, 0, 0, 10) == 0);
+}
+
+void test_no_values_between() {
+    int values[] = {1, 2, 5, 6};
+    // a = 2, b = 5; only values strictly between are >2 and <5 --> none
+    assert(CountBetween(values, 4, 2, 5) == 0);
+}
+
+void test_values_between() {
+    int values[] = {1, 2, 3, 4, 5, 6};
+    // a = 2, b = 5; values 3 and 4 satisfy
+    assert(CountBetween(values, 6, 2, 5) == 2);
+}
+
+void test_reversed_bounds() {
+    int values[] = {1, 2, 3, 4, 5, 6};
+    // a = 5, b = 2; same as above but reversed
+    assert(CountBetween(values, 6, 5, 2) == 2);
+}
+
+void test_negative_values() {
+    int values[] = {-10, -5, -3, 0, 3};
+    // a = -5, b = 0; values -3 only
+    assert(CountBetween(values, 5, -5, 0) == 1);
+}
+
+void test_equal_bounds() {
+    int values[] = {1, 2, 3};
+    // a == b: no values strictly between
+    assert(CountBetween(values, 3, 2, 2) == 0);
+}
+
+void test_all_between() {
+    int values[] = {3, 4, 5};
+    // a = 2, b = 6; all values 3,4,5
+    assert(CountBetween(values, 3, 2, 6) == 3);
+}
+
+void test_duplicates() {
+    int values[] = {3, 3, 3, 4, 5, 5};
+    // a = 2, b = 6; duplicates count separately
+    assert(CountBetween(values, 6, 2, 6) == 6);
+}
+
+int main() {
+    test_empty_array();
+    test_no_values_between();
+    test_values_between();
+    test_reversed_bounds();
+    test_negative_values();
+    test_equal_bounds();
+    test_all_between();
+    test_duplicates();
+
+    printf("All tests passed!\n");
+    return 0;
+}

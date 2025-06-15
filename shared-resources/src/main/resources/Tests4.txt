@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
+
+// ------------------ Implementation of the function (From GPT)
+
+
+// ------------------ End
+
+typedef char* cstr;
+
+// Test: empty word always matches at 0
+void test_empty_word() {
+    assert(findWord("hello", "") == 0);
+}
+
+// Test: empty text
+void test_empty_text() {
+    assert(findWord("", "word") == -1);
+}
+
+// Test: word at beginning
+void test_word_at_start() {
+    assert(findWord("foobar", "foo") == 0);
+}
+
+// Test: word in middle
+void test_word_in_middle() {
+    assert(findWord("hello world", "lo wo") == 3);
+}
+
+// Test: word at end
+void test_word_at_end() {
+    assert(findWord("say hello", "hello") == 4);
+}
+
+// Test: word not found
+void test_not_found() {
+    assert(findWord("abcdef", "gh") == -1);
+}
+
+// Test: overlapping patterns
+void test_overlapping() {
+    assert(findWord("aaaaa", "aaa") == 0);
+}
+
+// Test: word longer than text
+void test_longer_word() {
+    assert(findWord("hi", "hello") == -1);
+}
+
+// Test: case sensitivity
+void test_case_sensitivity() {
+    assert(findWord("Hello", "hello") == -1);
+}
+
+int main() {
+    test_empty_word();
+    test_empty_text();
+    test_word_at_start();
+    test_word_in_middle();
+    test_word_at_end();
+    test_not_found();
+    test_overlapping();
+    test_longer_word();
+    test_case_sensitivity();
+
+    printf("All tests passed!\n");
+    return 0;
+}
