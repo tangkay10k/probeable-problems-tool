@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
+
+// ------------------ Implementation of the function (From GPT)
+
+
+// ------------------ End
+
+// Test: no vowels at all
+void test_no_vowels() {
+    assert(FirstVowel("bcdfg") == '-');
+}
+
+// Test: only lowercase vowels
+void test_lowercase_vowels() {
+    assert(FirstVowel("hello") == 'e');  // 'e' is first in order aeiou
+}
+
+// Test: only uppercase vowels
+void test_uppercase_vowels() {
+    assert(FirstVowel("GRInd") == 'i');
+}
+
+// Test: first vowel is not 'a'
+void test_first_vowel_not_a() {
+    assert(FirstVowel("zebra") == 'a');
+}
+
+// Test: mixed vowels
+void test_mixed_vowels() {
+    assert(FirstVowel("united") == 'e');
+}
+
+// Test: early vowel, late in order
+void test_early_vowel_late_order() {
+    assert(FirstVowel("open") == 'e');
+}
+
+// Test: multiple occurrences of same vowel
+void test_multiple_same_vowel() {
+    assert(FirstVowel("banana") == 'a');  // only 'a'
+}
+
+// Test: empty string
+void test_empty_string() {
+    assert(FirstVowel("") == '-');
+}
+
+// Main to run tests
+int main() {
+    test_no_vowels();
+    test_lowercase_vowels();
+    test_uppercase_vowels();
+    test_first_vowel_not_a();
+    test_mixed_vowels();
+    test_early_vowel_late_order();
+    test_multiple_same_vowel();
+    test_empty_string();
+
+    printf("All tests passed!\n");
+    return 0;
+}
