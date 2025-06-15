@@ -1,5 +1,0 @@
-1. If the array contains no even numbers, the function should print "No evens" and return.
-2. The function should print the indices of the smallest even number in the array.
-3. If there are duplicate smallest even numbers, the function should print all their indices.
-4. The function should print the indices in reverse order.
-
