@@ -9,9 +9,9 @@ import java.io.IOException;
 @SpringBootApplication
 public class Main implements CommandLineRunner {
 
-	private final ProblemVerifierService problemVerifierService;
+	private final FaultInjectionService problemVerifierService;
 
-	public Main(ProblemVerifierService chatService) {
+	public Main(FaultInjectionService chatService) {
 		this.problemVerifierService = chatService;
 	}
 

@@ -32,7 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ProblemVerifierService {
+public class FaultInjectionService {
 	private final String PISTON_API_URL = "https://emkc.org/api/v2/piston/execute";
 
 	private static final String EXECUTION_PAYLOAD = """
@@ -59,7 +59,7 @@ public class ProblemVerifierService {
 
 	private boolean isDev = false;
 
-	public ProblemVerifierService(ChatClient.Builder chatClientBuilder) {
+	public FaultInjectionService(ChatClient.Builder chatClientBuilder) {
 		this.chatClient = chatClientBuilder.build();
 	}
 
