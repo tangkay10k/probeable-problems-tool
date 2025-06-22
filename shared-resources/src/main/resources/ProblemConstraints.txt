@@ -1,0 +1,14 @@
+1. When the input C-string contains at least one letter ‘a’ or ‘A’, the function shall return the character 'a'.
+2. If the input contains no ‘a’/‘A’ but does contain at least one ‘e’ or ‘E’, the returned value shall be 'e'.
+3. If the input contains no ‘a’/‘A’ or ‘e’/‘E’ but does contain at least one ‘i’ or ‘I’, the returned value shall be 'i'.
+4. If the input contains no ‘a’/‘A’, ‘e’/‘E’, or ‘i’/‘I’ but does contain at least one ‘o’ or ‘O’, the returned value shall be 'o'.
+5. If the input contains none of the above vowels but does contain at least one ‘u’ or ‘U’, the returned value shall be 'u'.
+6. If the input contains more than one of the vowels a/e/i/o/u in any order or position, the function shall return the lowercase vowel that appears earliest in the fixed precedence order a → e → i → o → u, regardless of its position in the string.
+7. The function treats uppercase and lowercase vowels equivalently when searching, but always returns the lowercase form of the vowel found.
+8. When the input string contains no vowels (a, e, i, o, or u in either case), the function shall return the character '-'.
+9. An empty string ("") shall be treated as containing no vowels and therefore produce the return value '-'.
+10. The input string shall remain unaltered after the function call (read-only behaviour).
+11. The function’s time complexity shall be linear in the length of the input string multiplied by a constant factor not exceeding five passes over the string (i.e., worst-case O(5·n)).
+12. The function shall not perform dynamic memory allocation and shall use only stack-allocated, fixed-size buffers.
+13. Repeated calls with the same input shall yield identical outputs (deterministic behaviour).
+14. Passing a NULL pointer is outside the specified domain; behaviour in that case is undefined and need not be handled.
