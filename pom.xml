@@ -11,8 +11,10 @@
     <modules>
         <module>shared-resources</module>
         <module>constraint-checker</module>
-        <module>experimentation</module>
         <module>oracle-cli</module>
+        <module>natural-language-oracle</module>
         <module>fault-injection</module>
+        <module>question-generation</module>
+        <module>test-runner</module>
     </modules>
 </project>

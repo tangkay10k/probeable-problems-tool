@@ -45,7 +45,7 @@ public class CodeService {
 	public void run() throws IOException, InterruptedException {
 
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter the question number (1-5): ");
+		System.out.println("Enter the question number (1-6): ");
 		String questionNumber = scanner.nextLine();
 		int questionNum = Integer.parseInt(questionNumber);
 
@@ -71,6 +71,10 @@ public class CodeService {
 				case 5 -> System.out.println(
 					"""
 						 int nums[] = {1, -2, 3, 4, -1, 2, 1, -5, 4};  int numsSize = 9;
+						""");
+				case 6 -> System.out.print(
+					"""
+						int n = 10;
 						""");
 				default -> System.out.print("Invalid selection. Please try again.");
 			}
@@ -127,7 +131,6 @@ public class CodeService {
 	}
 
 	private String getSourceCode(String questionNumber) throws IOException {
-		// Switch case determining which question to read from which .txt file.
 		InputStream is = getInputStream("Source" + questionNumber + ".txt");
 		return readFromInputStream(is);
 	}

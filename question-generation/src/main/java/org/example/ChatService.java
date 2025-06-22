@@ -146,6 +146,7 @@ public class ChatService {
 			}
 			saveResponseToFile(response, outputFileName);
 		}
+		System.exit(0);
 	}
 
 	private void saveResponseToFile(String response, String fileName) {

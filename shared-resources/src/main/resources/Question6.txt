@@ -1,0 +1,13 @@
+void SpecialDividers(int n) {
+    for (int i = 1; i <= n; i++) {
+        if (i % 2 == 0 && i % 7 == 0) {
+            printf("CheeseCake\n");
+        } else if (i % 2 == 0) {
+            printf("Cheese\n");
+        } else if (i % 7 == 0) {
+            printf("NoCheese\n");
+        } else {
+            printf("%d\n", i);
+        }
+    }
+}

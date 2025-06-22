@@ -81,6 +81,7 @@ public class ChatService {
 				3: Implement a function to find the first vowel in a string
 				4. Implement a function to find a word in a string
 				5. Implement a function to find the largest sum in a array
+				6. Implement a function that returns a sequence of strings representing the first n positive integers with context-dependent substitutions.
 				""");
 
 		String questionNumber = scanner.nextLine().trim();
@@ -120,6 +121,11 @@ public class ChatService {
 					Implement a function to find the largest sum in a array
 
 					The function signature is int howGoodCanItGet(int* nums, int numsSize);""");
+			case 6 -> System.out.println(
+				"""
+					Implement a function that enumerates up to a given number, replacing values with specific terms whenever predefined divisibility rules apply.\s
+
+					The function signature is: void SpecialDividers(int n);""");
 
 			default -> System.out.println("Invalid selection. Please try again.");
 		}

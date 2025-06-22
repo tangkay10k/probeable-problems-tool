@@ -1,14 +1,26 @@
-1. When the input C-string contains at least one letter ‘a’ or ‘A’, the function shall return the character 'a'.
-2. If the input contains no ‘a’/‘A’ but does contain at least one ‘e’ or ‘E’, the returned value shall be 'e'.
-3. If the input contains no ‘a’/‘A’ or ‘e’/‘E’ but does contain at least one ‘i’ or ‘I’, the returned value shall be 'i'.
-4. If the input contains no ‘a’/‘A’, ‘e’/‘E’, or ‘i’/‘I’ but does contain at least one ‘o’ or ‘O’, the returned value shall be 'o'.
-5. If the input contains none of the above vowels but does contain at least one ‘u’ or ‘U’, the returned value shall be 'u'.
-6. If the input contains more than one of the vowels a/e/i/o/u in any order or position, the function shall return the lowercase vowel that appears earliest in the fixed precedence order a → e → i → o → u, regardless of its position in the string.
-7. The function treats uppercase and lowercase vowels equivalently when searching, but always returns the lowercase form of the vowel found.
-8. When the input string contains no vowels (a, e, i, o, or u in either case), the function shall return the character '-'.
-9. An empty string ("") shall be treated as containing no vowels and therefore produce the return value '-'.
-10. The input string shall remain unaltered after the function call (read-only behaviour).
-11. The function’s time complexity shall be linear in the length of the input string multiplied by a constant factor not exceeding five passes over the string (i.e., worst-case O(5·n)).
-12. The function shall not perform dynamic memory allocation and shall use only stack-allocated, fixed-size buffers.
-13. Repeated calls with the same input shall yield identical outputs (deterministic behaviour).
-14. Passing a NULL pointer is outside the specified domain; behaviour in that case is undefined and need not be handled.
+1. When called with n = 1, the function must print exactly one line containing "1" followed by a newline.
+2. For any positive integer n, the function must iterate from 1 up to and including n, producing exactly n newline-terminated lines of output.
+3. For any value i in that range that is divisible by 2 and 7 (i.e., divisible by 14), the function must print the string "CheeseCake" in place of the number.
+4. For any value i that is divisible by 2 but not by 7, the function must print the string "Cheese" in place of the number.
+5. For any value i that is divisible by 7 but not by 2, the function must print the string "NoCheese" in place of the number.
+6. For any value i that is divisible by neither 2 nor 7, the function must print the decimal representation of i.
+7. Each printed token (whether a word or a number) must be immediately followed by a single newline character and no additional whitespace.
+8. Example (n = 15): the output must be exactly:
+   1\
+2→"Cheese"\
+3\
+4→"Cheese"\
+5\
+6→"Cheese"\
+7→"NoCheese"\
+8→"Cheese"\
+9\
+10→"Cheese"\
+11\
+12→"Cheese"\
+13\
+14→"CheeseCake"\
+15\
+ (15 total lines, with the substitutions shown).
+9. If n = 0, the function must produce no output and must not crash or throw an error.
+10. If n is negative, the function must likewise produce no output and must not crash or throw an error.

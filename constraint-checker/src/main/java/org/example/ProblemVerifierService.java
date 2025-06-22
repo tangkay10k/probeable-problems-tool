@@ -76,7 +76,7 @@ public class ProblemVerifierService {
 
 		System.out.println(
 			"""
-				Please select a problem number (1-5):
+				Please select a problem number (1-6):
 				""");
 
 		String questionNumber = scanner.nextLine().trim();
