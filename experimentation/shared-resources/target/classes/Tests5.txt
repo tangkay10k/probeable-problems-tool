@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <assert.h>
+#include <limits.h>
+
+// ------------------ Implementation of the function (From GPT)
+
+
+// ------------------ End
+
+// Test: single positive element
+void test_single_positive() {
+    int nums[] = {5};
+    assert(howGoodCanItGet(nums, 1) == 5);
+}
+
+// Test: single negative element
+void test_single_negative() {
+    int nums[] = {-7};
+    assert(howGoodCanItGet(nums, 1) == -7);
+}
+
+// Test: all positive numbers
+void test_all_positive() {
+    int nums[] = {1, 2, 3, 4};
+    assert(howGoodCanItGet(nums, 4) == 10);
+}
+
+// Test: all negative numbers
+void test_all_negative() {
+    int nums[] = {-2, -3, -1, -4};
+    assert(howGoodCanItGet(nums, 4) == -1);
+}
+
+// Test: mixed numbers
+void test_mixed_values() {
+    int nums[] = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    assert(howGoodCanItGet(nums, 9) == 6);  // 4 + (-1) + 2 + 1 = 6
+}
+
+// Test: max subarray at the beginning
+void test_max_at_start() {
+    int nums[] = {5, 4, -1, -2, -3};
+    assert(howGoodCanItGet(nums, 5) == 9);
+}
+
+// Test: max subarray at the end
+void test_max_at_end() {
+    int nums[] = {-3, -2, 1, 2, 3};
+    assert(howGoodCanItGet(nums, 5) == 6);
+}
+
+// Test: max in the middle
+void test_max_in_middle() {
+    int nums[] = {-5, 1, 2, 3, -1, -2};
+    assert(howGoodCanItGet(nums, 6) == 6);
+}
+
+int main() {
+    test_single_positive();
+    test_single_negative();
+    test_all_positive();
+    test_all_negative();
+    test_mixed_values();
+    test_max_at_start();
+    test_max_at_end();
+    test_max_in_middle();
+
+    printf("All tests passed!\n");
+    return 0;
+}

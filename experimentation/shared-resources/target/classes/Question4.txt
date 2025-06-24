@@ -1,0 +1,23 @@
+int findWord(char *text, char *word) {
+    int h = strlen(text);
+    int n = strlen(word);
+
+    // Edge case: empty word
+    if (n == 0) {
+        return 0;
+    }
+
+    // Only need to iterate while there's room for word in text
+    for (int i = 0; i <= h - n; i++) {
+        int j = 0;
+        // Check substring starting at i
+        while (j < n && text[i + j] == word[j]) {
+            j++;
+        }
+        // If we reached the end of word, we found a match
+        if (j == n) {
+            return i;
+        }
+    }
+    return -1;
+}

@@ -1,0 +1,26 @@
+1. When invoked with a positive integer n, the function must emit exactly n newline-terminated lines to standard output.
+2. For any index i (1 ≤ i ≤ n) that is divisible by both 3 and 5, the corresponding output line must be the exact string "CheeseCake" (case-sensitive) followed by a single newline character.
+3. For any index i divisible by 3 but not by 5, the corresponding output line must be the exact string "Cheese" followed by a newline.
+4. For any index i divisible by 5 but not by 3, the corresponding output line must be the exact string "NoCheese" followed by a newline.
+5. For any index i that is divisible by neither 3 nor 5, the function must output the decimal representation of i with no leading zeros followed by a newline.
+6. The order of output lines must strictly follow ascending values of i from 1 up to n without omission or reordering.
+7. Calling the function with n = 1 must produce exactly one line: "1\
+".
+8. Calling the function with n = 15 must produce the sequence:
+ 1) 1\
+ 2) 2\
+ 3) Cheese\
+ 4) 4\
+ 5) NoCheese\
+ 6) Cheese\
+ 7) 7\
+ 8) 8\
+ 9) Cheese\
+ 10) NoCheese\
+ 11) 11\
+ 12) Cheese\
+ 13) 13\
+ 14) 14\
+ 15) CheeseCake\
+ (exact spelling and newlines as shown).
+9. If n is 0 or a negative integer, the function must produce no output and return immediately.
