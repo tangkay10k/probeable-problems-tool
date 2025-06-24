@@ -45,54 +45,16 @@ public class CodeService {
 	public void run() throws IOException, InterruptedException {
 
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter the question number (1-6): ");
+		System.out.println("Enter the test suite to execute (1-6): ");
 		String questionNumber = scanner.nextLine();
-		int questionNum = Integer.parseInt(questionNumber);
+		executeCode(questionNumber);
 
-		while (true) {
-			System.out.print("Please enter inputs in the following format:      ");
-			switch (questionNum) {
-				case 1 -> System.out.print(
-					"""
-						int values[] = {0, 1, 2, 3, 5, 6}; int n = 5; int a = 0; int b = 5;
-						""");
-				case 2 -> System.out.print(
-					"""
-						int values[] = {-1, 4, 4, 4, 2}; int n = 5;
-						""");
-				case 3 -> System.out.println(
-					"""
-						char s[] = "uoie";
-						""");
-				case 4 -> System.out.print(
-					"""
-						char text[] = "supercarhitest"; char word[] = "hi";
-						""");
-				case 5 -> System.out.println(
-					"""
-						 int nums[] = {1, -2, 3, 4, -1, 2, 1, -5, 4};  int numsSize = 9;
-						""");
-				case 6 -> System.out.print(
-					"""
-						int n = 10;
-						""");
-				default -> System.out.print("Invalid selection. Please try again.");
-			}
-			String input = scanner.nextLine();
-
-			if (input.equals("exit")) {
-				System.out.println("Exiting...");
-				System.exit(0);
-			}
-			executeCode(input, questionNumber);
-		}
 	}
 
-	private void executeCode(String fnInputs, String questionNumber)
+	private void executeCode(String questionNumber)
 		throws IOException, InterruptedException {
 
-		String src = getSourceCode(questionNumber);
-		src = src.replace("//VAR_INPUTS", fnInputs);
+		String src = getTestSuite(questionNumber);
 
 		String escapedSrc = escapeForJson(src);
 
@@ -135,6 +97,11 @@ public class CodeService {
 		return readFromInputStream(is);
 	}
 
+	private String getTestSuite(String questionNumber) throws IOException {
+		InputStream is = getInputStream("Tests" + questionNumber + ".txt");
+		return readFromInputStream(is);
+	}
+
 	private String readFromInputStream(InputStream is) throws IOException {
 
 		assert is != null;
@@ -153,3 +120,4 @@ public class CodeService {
 		return classloader.getResourceAsStream(fileName);
 	}
 }
+

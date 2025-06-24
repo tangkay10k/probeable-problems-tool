@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>oracle-cli</artifactId>
+    <artifactId>natural-language-oracle</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>uoa</name>
     <description>Part Four Project</description>
@@ -50,6 +50,7 @@
 
     <dependencies>
 
+        <!--Shared resources (.txt files)-->
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>shared-resources</artifactId>
@@ -69,10 +70,9 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
         </dependency>
 
         <dependency>
@@ -96,7 +96,6 @@
             <artifactId>spring-ai-openai</artifactId>
         </dependency>
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -128,6 +127,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <includeSystemScope>true</includeSystemScope>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

@@ -1,0 +1,205 @@
+/*
+ * Test suite for the function:
+ *     void SpecialDividers(int n);
+ *
+ * The tests verify every functional constraint listed in the
+ * problem statement.  They capture stdout, compare it against an
+ * independently-generated expected string, and abort on the first
+ * mismatch.  If all tests pass, the program prints
+ *     All tests passed.
+ * and returns EXIT_SUCCESS.
+ *
+ * Build example (together with implementation file impl.c):
+ *     gcc -std=c99 -Wall -Wextra -o tests impl.c tests.c
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+  #include <io.h>
+  #define dup  _dup
+  #define dup2 _dup2
+#else
+  #include <unistd.h>
+#endif
+
+/* Declaration of the function under test (implemented elsewhere). */
+void SpecialDividers(int n);
+
+#include <stdio.h>
+
+// ------------------ Implementation of the function (From GPT)
+
+
+// ------------------ End
+
+/* ------------------------------------------------------------------ */
+/* Helpers for building the expected output                           */
+/* ------------------------------------------------------------------ */
+
+/* Return a freshly-allocated C-string holding the expected output for
+ * a given n.  Caller must free().                                     */
+static char *build_expected(int n)
+{
+    if (n <= 0) {
+        /* For n == 0 or negative: no output at all. */
+        char *out = malloc(1);
+        if (!out) { perror("malloc"); exit(EXIT_FAILURE); }
+        out[0] = '\0';
+        return out;
+    }
+
+    /* Worst-case line is "CheeseCake\n" (11 chars).  Allocate generously. */
+    size_t cap = (size_t)n * 16 + 1;
+    char *out = malloc(cap);
+    if (!out) { perror("malloc"); exit(EXIT_FAILURE); }
+
+    size_t len = 0;
+    for (int i = 1; i <= n; ++i) {
+        const char *tok = NULL;
+        char numbuf[32];
+
+        if (i % 14 == 0) {
+            tok = "CheeseCake";
+        } else if (i % 2 == 0) {
+            tok = "Cheese";
+        } else if (i % 7 == 0) {
+            tok = "NoCheese";
+        } else {
+            snprintf(numbuf, sizeof(numbuf), "%d", i);
+            tok = numbuf;
+        }
+
+        size_t toklen = strlen(tok);
+        /* Ensure capacity for token + '\n' + '\0'. */
+        if (len + toklen + 2 > cap) {
+            cap *= 2;
+            out = realloc(out, cap);
+            if (!out) { perror("realloc"); exit(EXIT_FAILURE); }
+        }
+
+        memcpy(out + len, tok, toklen);
+        len += toklen;
+        out[len++] = '\n';
+    }
+    out[len] = '\0';
+    return out;
+}
+
+/* ------------------------------------------------------------------ */
+/* Helpers for capturing stdout                                       */
+/* ------------------------------------------------------------------ */
+
+/* Capture the output of SpecialDividers(n) and return it as a freshly
+ * allocated string.  Caller must free().                              */
+static char *capture_output(int n)
+{
+    /* Flush any pending stdout. */
+    fflush(stdout);
+
+    /* Duplicate the current stdout file descriptor so we can restore it. */
+    int saved_fd = dup(fileno(stdout));
+    if (saved_fd == -1) { perror("dup"); exit(EXIT_FAILURE); }
+
+    /* Open a temporary file to grab the output. */
+    FILE *tmp = tmpfile();
+    if (!tmp) { perror("tmpfile"); exit(EXIT_FAILURE); }
+
+    /* Redirect stdout to the temporary file. */
+    if (dup2(fileno(tmp), fileno(stdout)) == -1) { perror("dup2"); exit(EXIT_FAILURE); }
+
+    /* Call the function under test. */
+    SpecialDividers(n);
+
+    /* Flush to make sure everything is written. */
+    fflush(stdout);
+
+    /* Determine the size of what was written. */
+    fseek(tmp, 0, SEEK_END);
+    long sz = ftell(tmp);
+    if (sz < 0) { perror("ftell"); exit(EXIT_FAILURE); }
+    rewind(tmp);
+
+    /* Read the data into a buffer. */
+    char *buf = malloc((size_t)sz + 1);
+    if (!buf) { perror("malloc"); exit(EXIT_FAILURE); }
+    if (fread(buf, 1, (size_t)sz, tmp) != (size_t)sz) {
+        perror("fread"); exit(EXIT_FAILURE);
+    }
+    buf[sz] = '\0';
+
+    /* Restore original stdout. */
+    fflush(stdout);
+    if (dup2(saved_fd, fileno(stdout)) == -1) { perror("dup2 restore"); exit(EXIT_FAILURE); }
+    close(saved_fd);
+    fclose(tmp);
+
+    return buf;
+}
+
+/* ------------------------------------------------------------------ */
+/* Assertion helper                                                   */
+/* ------------------------------------------------------------------ */
+
+static void assert_output_equals(int n)
+{
+    char *expected = build_expected(n);
+    char *actual   = capture_output(n);
+
+    if (strcmp(expected, actual) != 0) {
+        fprintf(stderr,
+                "\nTest failed for n = %d\n"
+                "Expected output:\n"
+                "----------------\n%s"
+                "----------------\n"
+                "Actual output:\n"
+                "----------------\n%s"
+                "----------------\n",
+                n, expected, actual);
+        free(expected);
+        free(actual);
+        exit(EXIT_FAILURE);
+    }
+
+    free(expected);
+    free(actual);
+}
+
+/* ------------------------------------------------------------------ */
+/* Individual test cases                                              */
+/* ------------------------------------------------------------------ */
+
+static void run_unit_tests(void)
+{
+    /* Explicit edge-case tests. */
+    assert_output_equals( 1);   /* Constraint 1                          */
+    assert_output_equals( 0);   /* Constraint 9                          */
+    assert_output_equals(-5);   /* Constraint 10                         */
+    assert_output_equals( 2);   /* First multiple of 2 (but not 7)       */
+    assert_output_equals( 7);   /* First multiple of 7 (but not 2)       */
+    assert_output_equals(14);   /* First multiple of both 2 and 7        */
+    assert_output_equals(15);   /* Example given in the spec             */
+
+    /* Exhaustive check for a reasonable range to exercise combinations. */
+    for (int n = 0; n <= 50; ++n) {
+        assert_output_equals(n);
+    }
+
+    /* A couple of larger randomish values for good measure. */
+    assert_output_equals(97);
+    assert_output_equals(128);
+}
+
+/* ------------------------------------------------------------------ */
+/* Main                                                               */
+/* ------------------------------------------------------------------ */
+
+int main(void)
+{
+    run_unit_tests();
+    printf("All tests passed.\n");
+    return EXIT_SUCCESS;
+}

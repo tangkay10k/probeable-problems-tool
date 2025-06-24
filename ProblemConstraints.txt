@@ -1,0 +1,42 @@
+1. When n = 1 the function shall write exactly the line "1\
+" to STDOUT and return.
+2. For each integer i in the inclusive range 1 … n, if i % 14 == 0 the function shall write exactly "CheeseCake\
+" (case-sensitive, no extra spaces).
+3. For each i where i % 2 == 0 and i % 7 != 0 the function shall write exactly "Cheese\
+".
+4. For each i where i % 7 == 0 and i % 2 != 0 the function shall write exactly "NoCheese\
+".
+5. For each i not covered by rules 2-4 the function shall write the base-10 representation of i with no leading zeros, immediately followed by a single '\
+'.
+6. Lines shall be written in strictly ascending order of i, producing exactly n lines of output when n > 0.
+7. Example: n = 15 shall produce the 15-line sequence "1\
+Cheese\
+3\
+Cheese\
+5\
+Cheese\
+NoCheese\
+Cheese\
+9\
+Cheese\
+11\
+Cheese\
+13\
+CheeseCake\
+15\
+" (no trailing blank line beyond the final '\
+').
+8. Example: n = 7 shall produce "1\
+Cheese\
+3\
+Cheese\
+5\
+Cheese\
+NoCheese\
+".
+9. If n ≤ 0 the function shall write nothing to STDOUT and return without error.
+10. The function shall perform no dynamic memory allocation and use O(1) auxiliary space beyond loop variables.
+11. The running time shall be O(n): the number of modulus operations and output operations grows linearly with n.
+12. The implementation shall not invoke undefined behaviour for any 32-bit signed integer n (−2,147,483,648 ≤ n ≤ 2,147,483,647); in particular, all arithmetic shall stay within the range of int.
+13. The function shall not write any characters other than those described in rules 2-5; no leading/trailing spaces, no extra blank lines, and no carriage returns ("\\r").
+14. Non-integer arguments are outside the function’s contract; providing such values results in compile-time type errors and requires no runtime handling.

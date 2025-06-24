@@ -22,13 +22,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ProblemVerifierService {
+public class ChatService {
 	private static final String SESSION_KEY = "experimental";
 	private final ChatClient chatClient;
 
 	private boolean isDev = false;
 
-	public ProblemVerifierService(ChatClient.Builder chatClientBuilder) {
+	public ChatService(ChatClient.Builder chatClientBuilder) {
 		this.chatClient = chatClientBuilder.build();
 	}
 
@@ -40,9 +40,6 @@ public class ProblemVerifierService {
 	private String getProblemConstraints(String questionNumber) throws IOException {
 		// Switch case determining which question to read from which .txt file.
 		InputStream is = getInputStream("Constraints" + questionNumber + ".txt");
-		if (is == null) {
-			throw new RuntimeException("Could not load resource: " + "Constraints" + questionNumber + ".txt");
-		}
 		return readFromInputStream(is);
 	}
 
@@ -76,7 +73,15 @@ public class ProblemVerifierService {
 
 		System.out.println(
 			"""
-				Please select a problem number (1-6):
+
+				Please select a probeable problem:
+
+				1: Implement a function to count the number of integers between a and b in an array of length
+				2: Implement a function to search an array of length n for the smallest even value
+				3: Implement a function to find the first vowel in a string
+				4. Implement a function to find a word in a string
+				5. Implement a function to find the largest sum in a array
+				6. Implement a function that returns a sequence of strings representing the first n positive integers with context-dependent substitutions.
 				""");
 
 		String questionNumber = scanner.nextLine().trim();
@@ -84,14 +89,50 @@ public class ProblemVerifierService {
 		String constraints = getProblemConstraints(questionNumber);
 
 		// Format system prompt:
-		String basePrompt = PromptTesting.getSystemPrompt();
+		String basePrompt = PromptTesting.getPromptQuestion7();
 		String sysPrompt = basePrompt
 			.replace("//VAR_MODEL_ANSWER", problemModelSolution)
 			.replace("//VAR_CONSTRAINTS", constraints);
 
+		int num = Integer.parseInt(questionNumber);
+		switch (num) {
+			case 1 -> System.out.println(
+				"""
+					Please implement a function to count the number of integers between a and b in an array of length n.
+
+					 The function signature is: int CountBetween(int *values, int n, int a, int b);""");
+			case 2 -> System.out.println(
+				"""
+					Please implement a function to search an array of length n for the smallest even value.
+
+					The function signature is: void SmallestEven(int values[], int length);""");
+			case 3 -> System.out.println(
+				"""
+					Please implement a function to find the first vowel in a string.
+
+					The function signature is: char FirstVowel(char *s);""");
+			case 4 -> System.out.println(
+				"""
+					Please implement a function to find a word in a string.
+
+					The function signature is int findWord(char *text, char *word);""");
+			case 5 -> System.out.println(
+				"""
+					Implement a function to find the largest sum in a array
+
+					The function signature is int howGoodCanItGet(int* nums, int numsSize);""");
+			case 6 -> System.out.println(
+				"""
+					Implement a function that enumerates up to a given number, replacing values with specific terms whenever predefined divisibility rules apply.\s
+
+					The function signature is: void SpecialDividers(int n);""");
+
+			default -> System.out.println("Invalid selection. Please try again.");
+		}
+
 		history.add(new SystemMessage(sysPrompt));
 
-		System.out.println("\n\nEnter your problem description:");
+		System.out.println("\n\nEnter your question:");
 		String userInput = scanner.nextLine();
 
 		history.add(new UserMessage(userInput));

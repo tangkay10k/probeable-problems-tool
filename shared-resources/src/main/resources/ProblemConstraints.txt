@@ -1,0 +1,26 @@
+1. When called with n = 1, the function must print exactly one line containing "1" followed by a newline.
+2. For any positive integer n, the function must iterate from 1 up to and including n, producing exactly n newline-terminated lines of output.
+3. For any value i in that range that is divisible by 2 and 7 (i.e., divisible by 14), the function must print the string "CheeseCake" in place of the number.
+4. For any value i that is divisible by 2 but not by 7, the function must print the string "Cheese" in place of the number.
+5. For any value i that is divisible by 7 but not by 2, the function must print the string "NoCheese" in place of the number.
+6. For any value i that is divisible by neither 2 nor 7, the function must print the decimal representation of i.
+7. Each printed token (whether a word or a number) must be immediately followed by a single newline character and no additional whitespace.
+8. Example (n = 15): the output must be exactly:
+   1\
+2→"Cheese"\
+3\
+4→"Cheese"\
+5\
+6→"Cheese"\
+7→"NoCheese"\
+8→"Cheese"\
+9\
+10→"Cheese"\
+11\
+12→"Cheese"\
+13\
+14→"CheeseCake"\
+15\
+ (15 total lines, with the substitutions shown).
+9. If n = 0, the function must produce no output and must not crash or throw an error.
+10. If n is negative, the function must likewise produce no output and must not crash or throw an error.
