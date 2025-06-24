@@ -1,0 +1,21 @@
+.instructionWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-1);
+}
+
+.hr {
+    height: 0.2rem;
+    border-radius: 1rem;
+    background-color: var(--black);
+
+    border: none;
+}
+
+.instructionContainer {
+    background-color: var(--white);
+    padding: var(--padding-1);
+    
+    border: 0.1rem solid var(--dark-grey);
+    border-radius: var(--border-radius-1);
+}
