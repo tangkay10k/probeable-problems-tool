@@ -1,7 +1,7 @@
-import { Editor } from '@monaco-editor/react'
-import LanguageSelector from './language-selector.jsx'
-import { CODE_SNIPPETS } from './data/constants.js'
-import styles from './text-editor.module.css'
+import { Editor } from "@monaco-editor/react";
+import LanguageSelector from "./language-selector.jsx";
+import { CODE_SNIPPETS } from "./data/constants.js";
+import styles from "./text-editor.module.css";
 
 export function TextEditor({
   editorRef,
@@ -12,30 +12,30 @@ export function TextEditor({
   showLanguageSelect = true,
   lineNumbers = true,
   height = 200,
-  fontSize = 15,
+  fontSize = 13,
 }) {
   function handleMount(editor) {
     if (editorRef && !editorRef.current) {
-      editorRef.current = editor
+      editorRef.current = editor;
     }
-    editor.focus()
+    editor.focus();
   }
 
   const onSelect = (language) => {
-    setLanguage(language)
-    console.log(`Selected language: ${language}`)
-    setSource(CODE_SNIPPETS[language])
-  }
+    setLanguage(language);
+    console.log(`Selected language: ${language}`);
+    setSource(CODE_SNIPPETS[language]);
+  };
 
   /* Add code editor configuration options here */
   const options = {
     minimap: { enabled: false },
     fontSize: fontSize,
     lineNumbers: lineNumbers,
-    wordWrap: 'on',
+    wordWrap: "on",
     fontLigatures: true,
-    fontFamily: 'JetBrains Mono, monospace',
-  }
+    fontFamily: "JetBrains Mono, monospace",
+  };
 
   return (
     <div>
@@ -54,5 +54,5 @@ export function TextEditor({
       />
       <div className={styles.textEditorFooter} />
     </div>
-  )
+  );
 }
