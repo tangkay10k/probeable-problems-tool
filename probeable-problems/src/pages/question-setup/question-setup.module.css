@@ -1,0 +1,48 @@
+.pageContainer {
+    display: flex;
+    padding: 2rem;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--light-grey);
+
+    gap: var(--padding-2)
+}
+
+.innerContainer,
+.outerContainer {
+    border-radius: var(--padding-1);
+    padding: var(--padding-2);
+
+    width: 100%;
+    height: 100%;
+}
+
+.outerContainer {
+    border-radius: var(--border-radius-1);
+    background-color: var(--dark-grey);
+    align-items: space-between;
+}
+
+.innerContainer {
+    background-color: var(--grey);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    overflow-y: scroll;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+
+    width: 100%;
+    gap: 1rem;
+}
+
+.buttonContainer button {
+  width: 10rem;
+}
