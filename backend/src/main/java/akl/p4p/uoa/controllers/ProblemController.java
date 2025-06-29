@@ -18,16 +18,7 @@ public class ProblemController {
         this.problemService = problemService;
     }
 
-    @GetMapping
-    public ResponseEntity<Problem> findProblemByTitle(@RequestBody String title) {
-
-        // TO DO: add authentication logic.
-
-        Problem problem = problemService.getMatchingProblemByTitle(title);
-        return ResponseEntity.ok(problem);
-    }
-
-    @GetMapping("/all")
+    @GetMapping("all")
     public ResponseEntity<List<Problem>> getAllProblems(
             @RequestParam(required = false, defaultValue = "false") boolean isStudent) {
 
@@ -44,4 +35,9 @@ public class ProblemController {
         Problem savedProblem = problemService.createProblem(problem);
         return ResponseEntity.ok(savedProblem);
     }
+
+	@PatchMapping
+	public ResponseEntity<Problem> updateExistingProblem(@RequestBody Problem problem) {
+		return ResponseEntity.ok(problemService.updateProblem(problem));
+	}
 }

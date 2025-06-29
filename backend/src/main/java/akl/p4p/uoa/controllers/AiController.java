@@ -3,8 +3,8 @@ package akl.p4p.uoa.controllers;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.Prompts;
 import akl.p4p.uoa.data.QuestionRequest;
-import akl.p4p.uoa.data.ThoughtProcess;
 import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
 
 import jakarta.servlet.http.HttpSession;
@@ -15,8 +15,11 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.ai.openai.api.OpenAiApi.ChatModel;
 import org.springframework.ai.openai.api.ResponseFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,59 +27,73 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/ai")
 class AiController {
     private final ChatClient chatClient;
 
-    private final ProblemService problemService;
+	@Autowired
+	AIService aiService;
+
+	@Autowired
+	ProblemService problemService;
 
     public AiController(ChatClient.Builder chatClientBuilder, ProblemService problemService) {
         this.chatClient = chatClientBuilder.build();
         this.problemService = problemService;
     }
 
-    @PostMapping()
-    public String generation(@RequestBody ThoughtProcess thought, HttpSession session) {
-        String problemId = thought.getProblemId();
+	/**
+	 * Endpoint to generate constraints for a given question. Note that this endpoint does not persist the
+	 * constraints generated in any database, but is sent back to the client for review / iteration.
+	 * */
+    @PostMapping("constraints")
+    public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
+        String modelAnswer = problem.getModelAnswer();
 
-        @SuppressWarnings("unchecked")
-        List<Message> history = (List<Message>) session.getAttribute(problemId);
+		String basePrompt = Prompts.getConstraintsGenerationPrompt();
+		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer);
+		String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
 
-        if (history == null) {
-            history = new ArrayList<>();
-
-            // Format system prompt:
-            String sysPrompt = Prompts.thoughtProcessVerifier();
-            Problem problem = problemService.getProblemById(problemId);
-
-            String prompt = sysPrompt.replace("//VAR_MODEL_ANSWER", problem.getModelAnswer());
-
-            history.add(new SystemMessage(prompt));
-            session.setAttribute(problemId, history);
-        }
-
-        history.add(new UserMessage(thought.getInput()));
-
-        String jsonSchema = JsonSchemaDefinition.getProbeSchema();
-
-        OpenAiChatOptions options =
-                OpenAiChatOptions.builder()
-                        .model(ChatModel.GPT_4_O_MINI)
-                        .responseFormat(
-                                new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
-                        .build();
-
-        String assistantReply =
-                chatClient.prompt().options(options).messages(history).call().content();
-
-        history.add(new AssistantMessage(assistantReply));
-
-        return assistantReply;
+		problem.setConstraints(constraints);
+		return ResponseEntity.ok(problem);
     }
 
-    @PostMapping("/duplicate")
+	/**
+	 * Endpoint to generate a test suite for a given question. Note that this endpoint does not persist the
+	 * test suite generated in any database, but is sent back to the client for review / iteration.
+	 * */
+	@PostMapping("test-suite")
+	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem) {
+		String modelAnswer = problem.getModelAnswer();
+		String constraints = problem.getConstraints();
+
+		String basePrompt = Prompts.getTestSuiteGenerationPrompt();
+		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer)
+			.replace("//VAR_CONSTRAINTS", constraints);
+
+		String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, null);
+		problem.setTestSuite(testSuite);
+		return ResponseEntity.ok(problem);
+	}
+
+	@PostMapping("problem-statement")
+	public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
+		String modelAnswer = problem.getModelAnswer();
+		String constraints = problem.getConstraints();
+
+		String basePrompt = Prompts.getProblemStatementSystemPrompt();
+		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer)
+			.replace("//VAR_CONSTRAINTS", constraints);
+
+		String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
+		problem.setProblemStatement(problemStatement);
+		return ResponseEntity.ok(problem);
+	}
+    @PostMapping("duplicate")
     public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
         String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
 

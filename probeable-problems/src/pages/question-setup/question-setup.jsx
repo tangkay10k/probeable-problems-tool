@@ -3,20 +3,44 @@ import Instruction from "@/components/instruction/instruction";
 import {
   CONSTRAINTS_INSTRUCTION,
   MODEL_SOLUTION_INSTRUCTION,
+  PROBLEM_STATEMENT_INSTRUCTION,
   TEST_CASES_INSTRUCTION,
 } from "./data/instructions";
-import { CODE_SNIPPETS } from "@/components/text-editor/data/constants.js";
 import styles from "./question-setup.module.css";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Button from "../../components/button/button";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
+import {
+  generateConstraints,
+  generateProblemStatement,
+  generateTestSuite,
+} from "@/routes/ai-route.js";
+import { QUESTION_TYPES } from "@/pages/question-setup/data/question-types.js";
+import { executeCodePistonDirect } from "@/routes/code-route.js";
+import { createProblem, updateProblem } from "@/routes/problem-route.js";
 
 export default function QuestionSetup() {
-  const [language, setLanguage] = useState("C");
-  const [src, setSource] = useState(CODE_SNIPPETS["C"]);
-  const editorRef = useRef(null);
+  const [language, setLanguage] = useState("c");
+
+  const setModelSolution = (modelSolution) => {
+    setProblem({ ...problem, modelAnswer: modelSolution });
+  };
+
+  const setTestSuite = (testSuite) => {
+    setProblem({ ...problem, testSuite: testSuite });
+  };
+
+  const [problem, setProblem] = useState({
+    problemStatement: "",
+    modelAnswer: "",
+    constraints: "",
+    testSuite: "",
+    programLanguage: null,
+    problemType: null,
+    defaultProbe: null,
+  });
 
   return (
     <div className={styles.pageContainer}>
@@ -25,38 +49,24 @@ export default function QuestionSetup() {
           <ModelSolution
             language={language}
             setLanguage={setLanguage}
-            editorRef={editorRef}
-            src={src}
-            setSource={setSource}
+            setSource={setModelSolution}
             instruction={MODEL_SOLUTION_INSTRUCTION}
+            problem={problem}
+            setProblem={setProblem}
           />
-          <Constraints />
+          <Constraints problem={problem} setProblem={setProblem} />
         </div>
       </div>
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
-          <TextEditor
-            editorRef={editorRef}
+          <TestSuite
+            problem={problem}
+            setProblem={setProblem}
             language={language}
             setLanguage={setLanguage}
-            src={src}
-            setSource={setSource}
+            setTestSuite={setTestSuite}
           />
-          <Terminal />
-          <div className={styles.buttonContainer}>
-            <Button>Save</Button>
-            <Button>Execute Test Suite</Button>
-          </div>
-
-          <Instruction
-            heading="2. Test Suite Generation"
-            instruction={TEST_CASES_INSTRUCTION}
-          />
-          <TextArea rows={2} />
-          <div className={styles.buttonContainer}>
-            <Button>Save</Button>
-            <Button>Generate Problem Statement</Button>
-          </div>
+          <ProblemStatement problem={problem} setProblem={setProblem} />
         </div>
       </div>
     </div>
@@ -66,41 +76,214 @@ export default function QuestionSetup() {
 function ModelSolution({
   language,
   setLanguage,
-  editorRef,
-  src,
   setSource,
   instruction,
+  setProblem,
+  problem,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleQuestionTypeSelect = (problemType) => {
+    setProblem({ ...problem, problemType: problemType });
+  };
+  const handleConstraintsGeneration = () => {
+    setIsLoading(true);
+    generateConstraints(problem)
+      .then((updatedProblem) => {
+        setProblem(updatedProblem);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  const saveQuestion = () => {
+    setIsLoading(true);
+    createProblem(problem)
+      .then((persisted) => {
+        setProblem(persisted);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
   return (
     <>
       <Instruction heading="Question Creator" instruction={instruction} />
-      <Dropdown label="Question Type:" options={["Single Function", "OOP"]} />
+      <Dropdown
+        label="Question Type:"
+        options={QUESTION_TYPES}
+        onSelect={handleQuestionTypeSelect}
+      />
       <TextEditor
-        editorRef={editorRef}
         language={language}
         setLanguage={setLanguage}
-        src={src}
+        src={problem.modelAnswer}
         setSource={setSource}
       />
       <div className={styles.buttonContainer}>
-        <Button>Save</Button>
-        <Button>Generate Constraints</Button>
+        <Button onClick={saveQuestion} disabled={isLoading}>
+          Save
+        </Button>
+        <Button onClick={handleConstraintsGeneration} disabled={isLoading}>
+          Generate Constraints
+        </Button>
       </div>
     </>
   );
 }
 
-function Constraints() {
+function Constraints({ problem, setProblem }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleChange = (e) => {
+    setProblem({
+      ...problem,
+      constraints: e.target.value,
+    });
+  };
+
+  const saveQuestion = () => {
+    console.log(problem);
+    setIsLoading(true);
+    updateProblem(problem)
+      .then((persisted) => {
+        setProblem(persisted);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleTestSuiteGeneration = () => {
+    setIsLoading(true);
+    generateTestSuite(problem)
+      .then((updatedProblem) => {
+        setProblem(updatedProblem);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
   return (
     <>
       <Instruction
         heading={"1. Constraint Generation"}
         instruction={CONSTRAINTS_INSTRUCTION}
       />
-      <TextArea rows={10} />
+      <TextArea
+        rows={10}
+        value={problem.constraints || ""}
+        onChange={handleChange}
+      />
       <div className={styles.buttonContainer}>
-        <Button>Save</Button>
-        <Button>Generate Tests</Button>
+        <Button onClick={saveQuestion} disabled={isLoading}>
+          Save
+        </Button>
+        <Button onClick={handleTestSuiteGeneration} disabled={isLoading}>
+          Generate Tests
+        </Button>
+      </div>
+    </>
+  );
+}
+
+function TestSuite({
+  language,
+  setLanguage,
+  problem,
+  setProblem,
+  setTestSuite,
+}) {
+  const [executionOutput, setExecutionOutput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const handleTestSuiteExecution = () => {
+    const testSuiteWithModelSolution = problem.testSuite.replace(
+      "//VAR_IMPLEMENTATION",
+      problem.modelAnswer,
+    );
+    setIsLoading(true);
+
+    executeCodePistonDirect(language, testSuiteWithModelSolution)
+      .then((execution) => {
+        setExecutionOutput(execution.run.output);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  const saveQuestion = () => {
+    setIsLoading(true);
+    updateProblem(problem)
+      .then((persisted) => {
+        setProblem(persisted);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  return (
+    <>
+      <TextEditor
+        language={language}
+        setLanguage={setLanguage}
+        src={problem.testSuite}
+        setSource={setTestSuite}
+      />
+      <Instruction
+        heading="2. Test Suite Generation"
+        instruction={TEST_CASES_INSTRUCTION}
+      />
+      <Terminal output={executionOutput} />
+      <div className={styles.buttonContainer}>
+        <Button onClick={saveQuestion} disabled={isLoading}>
+          Save
+        </Button>
+        <Button onClick={handleTestSuiteExecution} disabled={isLoading}>
+          Execute Test Suite
+        </Button>
+      </div>
+    </>
+  );
+}
+
+function ProblemStatement({ problem, setProblem }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleProblemStatementGeneration = () => {
+    setIsLoading(true);
+    generateProblemStatement(problem)
+      .then((updatedProblem) => {
+        setProblem(updatedProblem);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  const saveQuestion = () => {
+    setIsLoading(true);
+    updateProblem(problem)
+      .then((persisted) => {
+        setProblem(persisted);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  return (
+    <>
+      <Instruction
+        heading={"3. Problem Statement Creation"}
+        instruction={PROBLEM_STATEMENT_INSTRUCTION}
+      />
+      <TextArea
+        rows={2}
+        disabled={isLoading}
+        value={problem.problemStatement}
+      />
+      <div className={styles.buttonContainer}>
+        <Button onClick={saveQuestion} disabled={isLoading}>
+          Save
+        </Button>
+        <Button onClick={handleProblemStatementGeneration} disabled={isLoading}>
+          Generate Problem Statement
+        </Button>
       </div>
     </>
   );
