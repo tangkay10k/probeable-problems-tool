@@ -62,7 +62,23 @@ class AiController {
 		return ResponseEntity.ok(problem);
     }
 
+	/**
+	 * Endpoint to generate a test suite for a given question. Note that this endpoint does not persist the
+	 * test suite generated in any database, but is sent back to the client for review / iteration.
+	 * */
+	@PostMapping("/test-suite")
+	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem) {
+		String modelAnswer = problem.getModelAnswer();
+		String constraints = problem.getConstraints();
 
+		String basePrompt = Prompts.getTestSuiteGenerationPrompt();
+		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer)
+			.replace("//VAR_CONSTRAINTS", constraints);
+
+		String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, null);
+		problem.setTestSuite(testSuite);
+		return ResponseEntity.ok(problem);
+	}
 
     @PostMapping("/duplicate")
     public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {

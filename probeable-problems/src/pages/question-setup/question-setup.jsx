@@ -7,15 +7,15 @@ import {
 } from "./data/instructions";
 import styles from "./question-setup.module.css";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/button/button";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
-import { generateConstraints } from "@/routes/ai-route.js";
+import { generateConstraints, generateTestSuite } from "@/routes/ai-route.js";
 import { QUESTION_TYPES } from "@/pages/question-setup/data/question-types.js";
 
 export default function QuestionSetup() {
-  const [language, setLanguage] = useState("C");
+  const [language, setLanguage] = useState("c");
 
   const setModelSolution = (modelSolution) => {
     setProblem({ ...problem, modelAnswer: modelSolution });
@@ -47,22 +47,17 @@ export default function QuestionSetup() {
             problem={problem}
             setProblem={setProblem}
           />
-          <Constraints problem={problem} />
+          <Constraints problem={problem} setProblem={setProblem} />
         </div>
       </div>
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
-          <TextEditor
+          <TestSuite
+            testSuite={problem.testSuite}
             language={language}
             setLanguage={setLanguage}
-            src={problem.testSuite}
-            setSource={setTestSuite}
+            setTestSuite={setTestSuite}
           />
-          <Terminal />
-          <div className={styles.buttonContainer}>
-            <Button>Save</Button>
-            <Button>Execute Test Suite</Button>
-          </div>
 
           <Instruction
             heading="2. Test Suite Generation"
@@ -126,14 +121,22 @@ function ModelSolution({
 }
 
 function Constraints({ problem, setProblem }) {
-  const [constraints, setConstraints] = useState(problem.constraints || "");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const handleChange = (e) => {
+    setProblem({
+      ...problem,
+      constraints: e.target.value,
+    });
+  };
 
-  useEffect(() => {
-    setConstraints(problem.constraints);
-  }, [problem]);
-
-  const handleSave = () => {
-    setProblem({ ...problem, constraints });
+  const handleTestSuiteGeneration = () => {
+    setIsGenerating(true);
+    generateTestSuite(problem)
+      .then((updatedProblem) => {
+        setProblem(updatedProblem);
+      })
+      .catch(console.error)
+      .finally(() => setIsGenerating(false));
   };
 
   return (
@@ -144,12 +147,34 @@ function Constraints({ problem, setProblem }) {
       />
       <TextArea
         rows={10}
-        value={constraints}
-        onChange={(e) => setConstraints(e.target.value)}
+        value={problem.constraints || ""}
+        onChange={handleChange}
       />
       <div className={styles.buttonContainer}>
-        <Button onClick={handleSave}>Save</Button>
-        <Button>Generate Tests</Button>
+        <Button>Save</Button>
+        <Button onClick={handleTestSuiteGeneration} disabled={isGenerating}>
+          Generate Tests
+        </Button>
+      </div>
+    </>
+  );
+}
+
+function TestSuite({ language, setLanguage, testSuite, setTestSuite }) {
+  useEffect(() => {}, [testSuite]);
+
+  return (
+    <>
+      <TextEditor
+        language={language}
+        setLanguage={setLanguage}
+        src={testSuite}
+        setSource={setTestSuite}
+      />
+      <Terminal />
+      <div className={styles.buttonContainer}>
+        <Button>Save</Button>
+        <Button>Execute Test Suite</Button>
       </div>
     </>
   );

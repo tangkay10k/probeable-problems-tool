@@ -40,6 +40,27 @@ public final class Prompts {
 			""";
 	}
 
+	public static String getTestSuiteGenerationPrompt() {
+		return """
+			You are a test engineer tasked with producing a thorough test suite for a single function implementation.
+			
+			The reference implementation will be injected in this placeholder:
+			//VAR_IMPLEMENTATION
+			
+			The functional constraints are:
+			//VAR_CONSTRAINTS
+			
+			When generating the test suite, include exactly after import statements:
+			
+			/* Function under test will be injected in this placeholder */
+			//VAR_IMPLEMENTATION
+			
+			Include all necessary headers and helper code, then provide a complete set of tests covering each constraint.
+			Respond _only_ with the complete test-suite source code (including comments) as plain text—no JSON, no Markdown fences, and no extra prose. This response should be a single string containing exactly the source you’d save into your .c file.
+			""";
+	}
+
+
 
     public static String duplicateQuestionVerifier() {
         return """
