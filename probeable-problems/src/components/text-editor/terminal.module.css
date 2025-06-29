@@ -3,5 +3,11 @@
     height: 5rem;
 
     border-radius: var(--border-radius-2);
-    background-color: var(--dark-grey);
+    background-color: var(--hover-light-grey);
+
+    padding: 0.8rem;
+    color: var(--white);
+    font-size: 0.8rem;
+
+    overflow-y: scroll;
 }

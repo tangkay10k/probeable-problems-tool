@@ -50,7 +50,7 @@ class AiController {
 	 * Endpoint to generate constraints for a given question. Note that this endpoint does not persist the
 	 * constraints generated in any database, but is sent back to the client for review / iteration.
 	 * */
-    @PostMapping("/constraints")
+    @PostMapping("constraints")
     public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
         String modelAnswer = problem.getModelAnswer();
 
@@ -66,7 +66,7 @@ class AiController {
 	 * Endpoint to generate a test suite for a given question. Note that this endpoint does not persist the
 	 * test suite generated in any database, but is sent back to the client for review / iteration.
 	 * */
-	@PostMapping("/test-suite")
+	@PostMapping("test-suite")
 	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem) {
 		String modelAnswer = problem.getModelAnswer();
 		String constraints = problem.getConstraints();
@@ -80,7 +80,20 @@ class AiController {
 		return ResponseEntity.ok(problem);
 	}
 
-    @PostMapping("/duplicate")
+	@PostMapping("problem-statement")
+	public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
+		String modelAnswer = problem.getModelAnswer();
+		String constraints = problem.getConstraints();
+
+		String basePrompt = Prompts.getProblemStatementSystemPrompt();
+		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer)
+			.replace("//VAR_CONSTRAINTS", constraints);
+
+		String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
+		problem.setProblemStatement(problemStatement);
+		return ResponseEntity.ok(problem);
+	}
+    @PostMapping("duplicate")
     public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
         String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
 

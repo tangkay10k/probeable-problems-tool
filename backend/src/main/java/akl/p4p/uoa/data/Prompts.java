@@ -45,7 +45,7 @@ public final class Prompts {
 			You are a test engineer tasked with producing a thorough test suite for a single function implementation.
 			
 			The reference implementation will be injected in this placeholder:
-			//VAR_IMPLEMENTATION
+			//VAR_MODEL_SOLUTION
 			
 			The functional constraints are:
 			//VAR_CONSTRAINTS
@@ -55,8 +55,37 @@ public final class Prompts {
 			/* Function under test will be injected in this placeholder */
 			//VAR_IMPLEMENTATION
 			
-			Include all necessary headers and helper code, then provide a complete set of tests covering each constraint.
+			Do NOT include the function prototype in your response.
+			Include all standard headers, then provide a complete set of tests covering each constraint.
+			The file should be simple to understand for a junior developer.
 			Respond _only_ with the complete test-suite source code (including comments) as plain text—no JSON, no Markdown fences, and no extra prose. This response should be a single string containing exactly the source you’d save into your .c file.
+			""";
+	}
+
+	public static String getProblemStatementSystemPrompt() {
+		return """
+			You are a product owner crafting an intentionally ambiguous problem statement to guide a developer’s implementation.
+
+			The implemented reference solution is provided between the markers:
+			//VAR_MODEL_SOLUTION
+
+			The explicit functional requirements (constraints) are provided between the markers:
+			//VAR_CONSTRAINTS
+
+			Your goal is to write a concise, open‑ended and ambiguous problem description that:
+			  • Vaguely describes the essence of what needs to be built without prescribing details.
+			  • Leaves room for elicitation on algorithm design, data structures, and edge case handling.
+			  • Focuses on the core task (e.g., counting, searching, transforming).
+			  • Avoids implementation specifics like language, loops vs. recursion, or error messages.
+
+			Write one short sentence. For example:
+			  Implement a function to count the number of integers between a and b in an array of length
+			  Implement a function to search an array of length n for the smallest even value
+			  Implement a function to find the first vowel in a string
+			  Implement a function to find a word in a string
+			  Implement a function to find the largest sum in a array
+
+			Respond only with the problem statement (no commentary or formatting).
 			""";
 	}
 

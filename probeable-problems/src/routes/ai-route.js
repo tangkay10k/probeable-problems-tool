@@ -8,3 +8,8 @@ export const generateTestSuite = async (problem) => {
   const res = await axios.post("/api/ai/test-suite", problem);
   return res.data;
 };
+
+export const generateProblemStatement = async (problem) => {
+  const res = await axios.post("/api/ai/problem-statement", problem);
+  return res.data;
+};
