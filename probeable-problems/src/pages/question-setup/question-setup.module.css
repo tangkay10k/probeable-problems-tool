@@ -1,13 +1,24 @@
 .pageContainer {
     display: flex;
-    padding: 2rem;
+    padding: var(--padding-3);
+    padding-top: var(--padding-2);
 
     width: 100%;
     height: 100%;
 
-    background-color: var(--light-grey);
+    background-color: var(--black);
 
-    gap: var(--padding-2)
+    gap: var(--padding-2);
+
+    overflow-y: scroll;
+}
+
+.pageContainer h1 {
+    font-size: 1.2rem;
+}
+
+.pageContainer p {
+    font-size: 0.8rem;
 }
 
 .innerContainer,
@@ -17,12 +28,13 @@
 
     width: 100%;
     height: 100%;
+
+    overflow-y: scroll;
 }
 
 .outerContainer {
     border-radius: var(--border-radius-1);
     background-color: var(--dark-grey);
-    align-items: space-between;
 }
 
 .innerContainer {
@@ -30,9 +42,12 @@
     
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
-    overflow-y: scroll;
+    gap: 0.5rem;
+
+    height: 100%;
+    width: 100%;
+
 }
 
 .buttonContainer {
@@ -41,8 +56,4 @@
 
     width: 100%;
     gap: 1rem;
-}
-
-.buttonContainer button {
-  width: 10rem;
 }

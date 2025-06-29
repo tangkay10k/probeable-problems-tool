@@ -1,0 +1,24 @@
+.navbar {
+    width: 100%;
+    color: var(--white);
+
+    padding:  var(--padding-2) var(--padding-3) 0 var(--padding-3);
+
+}
+
+.navbar section {
+    display: flex;
+
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.navbar section:hover {
+    cursor: pointer;
+    color: var(--white-hover);
+}
+
+.navbar img {
+    width: 3rem;
+}
