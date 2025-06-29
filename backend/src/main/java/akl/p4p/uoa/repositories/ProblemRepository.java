@@ -9,5 +9,4 @@ public interface ProblemRepository extends MongoRepository<Problem, String> {
 
     List<Problem> findAll();
 
-    Problem findFirstByTitleIgnoreCase(String title);
 }

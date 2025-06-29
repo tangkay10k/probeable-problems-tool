@@ -1,5 +1,7 @@
 package akl.p4p.uoa.models;
 
+import akl.p4p.uoa.data.ProblemType;
+import akl.p4p.uoa.data.ProgramLanguage;
 import lombok.Data;
 
 import org.springframework.data.annotation.Id;
@@ -11,13 +13,18 @@ public class Problem {
 
     @Id private String id;
 
-    private String title; // This is what an instructor will remember the problem by.
-
-    private String description; // Contains the ambiguous problem statement given to students.
+	// Ambiguous problem to start the question given to students.
+    private String problemStatement;
 
     private String modelAnswer;
 
-    private String defaultProbe;
+	private String constraints;
 
-    private String problemLanguage;
+	private String testSuite;
+
+    private ProgramLanguage programLanguage;
+
+	private ProblemType problemType;
+
+	private String defaultProbe;
 }
