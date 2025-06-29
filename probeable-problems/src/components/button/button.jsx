@@ -1,5 +1,5 @@
-import styles from './button.module.css'
-import { SpinnerCircular } from 'spinners-react'
+import styles from "./button.module.css";
+import { SpinnerCircular } from "spinners-react";
 
 export default function Button({ onClick, children, disabled = false }) {
   return (
@@ -15,5 +15,5 @@ export default function Button({ onClick, children, disabled = false }) {
         />
       )}
     </button>
-  )
+  );
 }

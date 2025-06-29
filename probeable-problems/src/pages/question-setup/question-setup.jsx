@@ -5,7 +5,6 @@ import {
   MODEL_SOLUTION_INSTRUCTION,
   TEST_CASES_INSTRUCTION,
 } from "./data/instructions";
-import { CODE_SNIPPETS } from "@/components/text-editor/data/constants.js";
 import styles from "./question-setup.module.css";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import { useState, useRef, useEffect } from "react";
@@ -13,15 +12,18 @@ import Button from "../../components/button/button";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
 import { generateConstraints } from "@/routes/ai-route.js";
+import { QUESTION_TYPES } from "@/pages/question-setup/data/question-types.js";
 
 export default function QuestionSetup() {
   const [language, setLanguage] = useState("C");
-  const [modelSolution, setModelSolutionSource] = useState("");
-  const editorRef = useRef(null);
 
-  useEffect(() => {
+  const setModelSolution = (modelSolution) => {
     setProblem({ ...problem, modelAnswer: modelSolution });
-  }, [modelSolution]);
+  };
+
+  const setTestSuite = (testSuite) => {
+    setProblem({ ...problem, testSuite: testSuite });
+  };
 
   const [problem, setProblem] = useState({
     problemStatement: "",
@@ -40,8 +42,7 @@ export default function QuestionSetup() {
           <ModelSolution
             language={language}
             setLanguage={setLanguage}
-            editorRef={editorRef}
-            setSource={setModelSolutionSource}
+            setSource={setModelSolution}
             instruction={MODEL_SOLUTION_INSTRUCTION}
             problem={problem}
             setProblem={setProblem}
@@ -52,11 +53,10 @@ export default function QuestionSetup() {
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
           <TextEditor
-            editorRef={editorRef}
             language={language}
             setLanguage={setLanguage}
-            src={modelSolution}
-            setSource={setModelSolutionSource}
+            src={problem.testSuite}
+            setSource={setTestSuite}
           />
           <Terminal />
           <div className={styles.buttonContainer}>
@@ -82,27 +82,34 @@ export default function QuestionSetup() {
 function ModelSolution({
   language,
   setLanguage,
-  editorRef,
   setSource,
   instruction,
   setProblem,
   problem,
 }) {
+  const [isGenerating, setIsGenerating] = useState(false);
+  const handleQuestionTypeSelect = (problemType) => {
+    setProblem({ ...problem, problemType: problemType });
+  };
   const handleConstraintsGeneration = () => {
+    setIsGenerating(true);
     generateConstraints(problem)
       .then((updatedProblem) => {
         setProblem(updatedProblem);
-        console.log("PROBLEM UPDATED: ", updatedProblem);
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setIsGenerating(false));
   };
 
   return (
     <>
       <Instruction heading="Question Creator" instruction={instruction} />
-      <Dropdown label="Question Type:" options={["Single Function", "OOP"]} />
+      <Dropdown
+        label="Question Type:"
+        options={QUESTION_TYPES}
+        onSelect={handleQuestionTypeSelect}
+      />
       <TextEditor
-        editorRef={editorRef}
         language={language}
         setLanguage={setLanguage}
         src={problem.modelAnswer}
@@ -110,7 +117,7 @@ function ModelSolution({
       />
       <div className={styles.buttonContainer}>
         <Button>Save</Button>
-        <Button onClick={handleConstraintsGeneration}>
+        <Button onClick={handleConstraintsGeneration} disabled={isGenerating}>
           Generate Constraints
         </Button>
       </div>

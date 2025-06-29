@@ -4,7 +4,6 @@ import { CODE_SNIPPETS } from "./data/constants.js";
 import styles from "./text-editor.module.css";
 
 export function TextEditor({
-  editorRef,
   setLanguage,
   language,
   src,
@@ -14,16 +13,8 @@ export function TextEditor({
   height = 200,
   fontSize = 13,
 }) {
-  function handleMount(editor) {
-    if (editorRef && !editorRef.current) {
-      editorRef.current = editor;
-    }
-    editor.focus();
-  }
-
   const onSelect = (language) => {
     setLanguage(language);
-    console.log(`Selected language: ${language}`);
     setSource(CODE_SNIPPETS[language]);
   };
 
@@ -49,7 +40,6 @@ export function TextEditor({
         language={language}
         value={src}
         onChange={(value) => setSource(value)}
-        onMount={handleMount}
         options={options}
       />
       <div className={styles.textEditorFooter} />
