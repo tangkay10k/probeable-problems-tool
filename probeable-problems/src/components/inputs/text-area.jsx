@@ -12,7 +12,7 @@ export default function TextArea({
   return (
     <textarea
       className={styles.textArea}
-      style={{ resize: resizable ? "both" : "none" }}
+      style={{ resize: resizable ? "vertical" : "none" }}
       placeholder={placeholder}
       rows={rows}
       disabled={disabled}

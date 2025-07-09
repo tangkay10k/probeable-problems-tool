@@ -38,7 +38,9 @@
 .textAreaContainer textarea {
     border: 0.1rem solid var(--red) !important;
     border-radius: var(--padding-2);
-    padding: var(--padding-2)
+    padding: var(--padding-2);
+
+    font-family: 'Poppins', sans-serif;
 }
 
 .textAreaContainer textarea:focus {

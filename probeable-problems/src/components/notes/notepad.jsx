@@ -13,6 +13,7 @@ export default function NotePad({ initialNotes = "" }) {
       <div className={styles.textAreaContainer}>
         <TextArea
           rows={0}
+          resizable={false}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder={

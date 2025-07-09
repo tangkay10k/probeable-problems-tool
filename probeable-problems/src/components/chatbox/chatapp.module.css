@@ -4,7 +4,7 @@
 
     gap: 1rem;
 
-    height: 70%; /*When you change this, you need to change .oracle*/
+    height: 65%; /*When you change this, you need to change .oracleWrapper*/
 }
 
 .chatApp {

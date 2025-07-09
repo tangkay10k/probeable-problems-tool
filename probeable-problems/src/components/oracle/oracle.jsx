@@ -14,14 +14,24 @@ export default function Oracle() {
       </div>
       <div className={styles.oracle}>
         <div className={styles.editorContainer}>
-          {/*<TextEditor showLanguageSelect={false} height={60} />*/}
+          <div className={styles.editorWrapper}>
+            <TextEditor
+              // TODO: Derive language for problem from backend
+              showLanguageSelect={false}
+              lineNumbers={false}
+              isResizable={false}
+              fixedHeight={50}
+              fontSize={12}
+            />
+          </div>
+
           <Button>Run</Button>
         </div>
         <TextArea
           placeholder={"Output: "}
           disabled={true}
-          rows={2}
           resizable={false}
+          rows={3}
         ></TextArea>
       </div>
     </div>

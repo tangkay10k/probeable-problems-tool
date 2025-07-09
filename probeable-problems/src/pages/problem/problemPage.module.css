@@ -10,6 +10,7 @@
 
     padding: var(--padding-3);
     padding-top: 0;
+    padding-bottom: var(--padding-2);
 }
 
 .containerWrapper {
@@ -23,7 +24,7 @@
 .innerContainer {
     background-color: var(--dark-dark-grey);
 
-    width: 100%;
+    width: 50%;
     height: 100%;
 
     padding: var(--padding-2);

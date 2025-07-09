@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./language-selector.jsx";
 import { CODE_SNIPPETS } from "./data/constants.js";
@@ -10,36 +11,74 @@ export function TextEditor({
   setSource,
   showLanguageSelect = true,
   lineNumbers = true,
-  height = 200, // Height in px
   fontSize = 13,
+  isResizable = false, // new prop to control resizable behavior
+  fixedHeight = 200, // height to use when not resizable
 }) {
-  const onSelect = (language) => {
-    setLanguage(language);
-    setSource(CODE_SNIPPETS[language]);
+  // Track editor height in state
+  const [editorHeight, setEditorHeight] = useState(fixedHeight);
+  const containerRef = useRef();
+
+  const onSelect = (lang) => {
+    setLanguage(lang);
+    setSource(CODE_SNIPPETS[lang]);
   };
 
-  /* Add code editor configuration options here */
+  // Config options
   const options = {
+    automaticLayout: true,
     minimap: { enabled: false },
-    fontSize: fontSize,
-    lineNumbers: lineNumbers,
+    fontSize,
+    lineNumbers,
     wordWrap: "on",
     fontLigatures: true,
     fontFamily: "JetBrains Mono, monospace",
+    scrollBeyondLastLine: false,
   };
 
+  // When editor mounts, conditionally hook content-size changes
+  function handleEditorDidMount(editor, monaco) {
+    if (isResizable) {
+      // Only auto-resize if isResizable is true
+      const lineHeight = editor.getOption(
+        monaco.editor.EditorOption.lineHeight,
+      );
+
+      editor.onDidContentSizeChange((e) => {
+        const newHeight = e.contentHeight + lineHeight;
+        setEditorHeight(newHeight);
+        editor.layout();
+      });
+    } else {
+      // For fixed height, just ensure initial layout
+      editor.layout();
+    }
+  }
+
   return (
-    <div>
+    <div
+      ref={containerRef}
+      style={{
+        width: "100%",
+        height: isResizable ? editorHeight : fixedHeight,
+        // Add resize handle styling when resizable
+        resize: isResizable ? "vertical" : "none",
+        overflow: "hidden",
+        minHeight: isResizable ? "100px" : fixedHeight,
+      }}
+    >
       {showLanguageSelect && (
         <LanguageSelector language={language} onLanguageSelect={onSelect} />
       )}
       <Editor
         className={styles.textEditor}
-        height={`${height}px`}
+        width="100%"
+        height={isResizable ? editorHeight : fixedHeight}
         theme="vs-dark"
         language={language}
         value={src}
         onChange={(value) => setSource(value)}
+        onMount={handleEditorDidMount}
         options={options}
       />
       {showLanguageSelect && <div className={styles.textEditorFooter} />}

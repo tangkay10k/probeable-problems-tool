@@ -1,9 +1,7 @@
 .oracleWrapper {
-    height: 30%; /*When you change this, you need to change .chatWrapper*/
+    height: 35%;
     background-color: var(--grey);
     border-radius: var(--border-radius-5) var(--border-radius-5) var(--border-radius-3) var(--border-radius-3);
-
-    position: relative;
 }
 
 .oracle {
@@ -14,15 +12,14 @@
 
     justify-content: space-between;
 
-    height: auto;
-    overflow: hidden;
-
-    gap: 1rem;
+    gap: var(--padding-1);
 }
 
 .oracle textarea {
     background-color: var(--oracle-grey);
     border-radius: var(--border-radius-2);
+
+    height: 100%;
 }
 
 .oracle textarea::placeholder {
@@ -62,14 +59,17 @@
 
 .editorContainer {
     display: flex;
-    gap: 1rem;
+    gap: var(--padding-1);
 
-    height: 2.5rem;
+    height: auto;
+    width: 100%;
 }
 
 .editorContainer button {
     width: 5rem;
-    border-radius: var(--border-radius-2);
+    height: auto;
+
+    border-radius: var(--border-radius-3);
 
     font-family: 'Poppins', sans-serif;
 
@@ -81,6 +81,16 @@
 
 .editorContainer button:hover {
     background-color: var(--hover-green);
+}
+
+.editorWrapper {
+    width: 100%;
+
+    border-radius: var(--border-radius-3);
+    overflow: hidden;
+
+    padding: var(--padding-1);
+    background-color: var(--black);
 }
 
 
