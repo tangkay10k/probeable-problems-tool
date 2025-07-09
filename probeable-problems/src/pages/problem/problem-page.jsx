@@ -4,6 +4,7 @@ import Accordion from "@/components/accordian/accordion.jsx";
 import { STAGE_ONE } from "@/pages/problem/data/instructions.js";
 import NotePad from "@/components/notes/notepad.jsx";
 import ChatApp from "@/components/chatbox/chatapp.jsx";
+import Oracle from "@/components/oracle/oracle.jsx";
 
 export default function ProblemPage() {
   return (
@@ -16,6 +17,7 @@ export default function ProblemPage() {
 
         <div className={styles.innerContainer}>
           <ChatApp />
+          <Oracle />
         </div>
       </div>
 

@@ -10,7 +10,7 @@ export function TextEditor({
   setSource,
   showLanguageSelect = true,
   lineNumbers = true,
-  height = 200,
+  height = 200, // Height in px
   fontSize = 13,
 }) {
   const onSelect = (language) => {
@@ -42,7 +42,7 @@ export function TextEditor({
         onChange={(value) => setSource(value)}
         options={options}
       />
-      <div className={styles.textEditorFooter} />
+      {showLanguageSelect && <div className={styles.textEditorFooter} />}
     </div>
   );
 }

@@ -1,0 +1,81 @@
+.oracleWrapper {
+    height: 30%; /*When you change this, you need to change .chatWrapper*/
+    background-color: var(--grey);
+    border-radius: var(--border-radius-5) var(--border-radius-5) var(--border-radius-3) var(--border-radius-3);
+
+    position: relative;
+}
+
+.oracle {
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    height: 100%;
+    overflow: hidden;
+}
+
+.oracle textarea {
+    background-color: var(--dark-grey);
+    flex: 0 0 auto;
+}
+
+.oracle textarea::placeholder {
+    color: white;
+}
+
+.header {
+    padding: var(--padding-2);
+    background-color: var(--white);
+
+    border-radius: var(--border-radius-5);
+    box-shadow: 0 0 0.6rem black;
+
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    position: absolute;
+    left: var(--padding-3);
+
+    display: flex;
+    justify-content: center;
+
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--grey);
+    border-radius: 50%;
+}
+
+.icon img {
+    object-fit: cover;
+}
+
+.editorContainer {
+
+    display: flex;
+    gap: 1rem;
+}
+
+.editorContainer button {
+    width: 5rem;
+}
+
+.oracleWrapper {
+    border: 2px dashed red;
+}
+.oracle {
+    border: 2px dashed blue;
+}
+.oracleWrapper textarea {
+    border: 2px solid green;
+}
+
+
+
