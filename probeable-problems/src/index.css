@@ -13,6 +13,8 @@
     --grey: #D9D9D9;
     --white: #FFFFFF;
 
+    --red: #FF7070;
+
     --white-hover: #e0e0e0;
 
     --dark-blue: #4AA7FF;
@@ -36,8 +38,15 @@
     --border-radius-1: 0.5rem;
     --border-radius-2: 1rem;
     --border-radius-3: 1.5rem;
+    --border-radius-4: 2rem;
+    --border-radius-5: 3rem;
 
-
+    /* Duration of the collapse/expand animation */
+    --acc-duration: 0.6s;
+    /* Duration of the corner-radius transition */
+    --acc-transition-duration: 0.5s;
+    /* Standard border-radius for accordion panels */
+    --acc-radius: 1rem;
 }
 
 * {

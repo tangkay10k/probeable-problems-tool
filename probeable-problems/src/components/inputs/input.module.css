@@ -1,11 +1,15 @@
 .textArea {
-    border: none;
-    border-radius: var(--border-radius-1);
+    flex: 1 1 auto;
+    min-height: 0;
+    box-sizing: border-box;
+
+    height: 100%;
 
     width: 100%;
     padding: var(--padding-1);
-
-    overflow-y: scroll;
+    border: none;
+    border-radius: var(--border-radius-1);
+    overflow-y: auto;
 }
 
 .textArea:focus {

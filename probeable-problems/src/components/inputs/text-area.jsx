@@ -5,10 +5,12 @@ export default function TextArea({
   onChange,
   disabled = false,
   rows = 10,
+  placeholder = "Default Placeholder",
 }) {
   return (
     <textarea
       className={styles.textArea}
+      placeholder={placeholder}
       rows={rows}
       disabled={disabled}
       value={value}
