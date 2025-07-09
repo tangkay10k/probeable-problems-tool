@@ -3,6 +3,7 @@ import Button from "@/components/button/button.jsx";
 import Accordion from "@/components/accordian/accordion.jsx";
 import { STAGE_ONE } from "@/pages/problem/data/instructions.js";
 import NotePad from "@/components/notes/notepad.jsx";
+import ChatApp from "@/components/chatbox/chatapp.jsx";
 
 export default function ProblemPage() {
   return (
@@ -11,10 +12,11 @@ export default function ProblemPage() {
         <div className={styles.innerContainer}>
           <Accordion items={STAGE_ONE} initialTabOpen={0} />
           <NotePad />
-          <div className={styles.notesContainer}></div>
         </div>
 
-        <div className={styles.innerContainer}></div>
+        <div className={styles.innerContainer}>
+          <ChatApp />
+        </div>
       </div>
 
       <div className={styles.btnContainer}>

@@ -16,7 +16,7 @@ export default function NotePad({ initialNotes = "" }) {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder={
-            "Write your notes from" + " interacting with the client here!"
+            "Write your notes from interacting with the client here!"
           }
         />
       </div>

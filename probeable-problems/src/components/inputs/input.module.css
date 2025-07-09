@@ -16,3 +16,23 @@
     outline: none;
     box-shadow: 0.1rem 0.1rem 0.5rem var(--hover-blue);
 }
+
+.input {
+    height: 100%;
+    width: 100%;
+
+    padding: var(--padding-2);
+    border-radius: var(--border-radius-3);
+    overflow-y: auto;
+
+    background-color: var(--white);
+
+    border: 1px solid var(--grey);
+    color: black;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+.input:focus {
+    outline: none;
+}

@@ -14,6 +14,7 @@
     --white: #FFFFFF;
 
     --red: #FF7070;
+    --online-green: #00FF2B;
 
     --white-hover: #e0e0e0;
 
@@ -47,6 +48,9 @@
     --acc-transition-duration: 0.5s;
     /* Standard border-radius for accordion panels */
     --acc-radius: 1rem;
+
+    --layer-1: 1;
+    --layer-2: 2;
 }
 
 * {
