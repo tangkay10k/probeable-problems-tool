@@ -10,11 +10,15 @@
     --black: #1E1E1E;
     --dark-grey: #5B5B5B;
     --dark-dark-grey: #3A3A3A;
+    --oracle-grey: #C0C0C0;
     --grey: #D9D9D9;
     --white: #FFFFFF;
 
     --red: #FF7070;
     --online-green: #00FF2B;
+
+    --hover-green: #0edc31;
+    --button-green: #00D624;
 
     --white-hover: #e0e0e0;
 

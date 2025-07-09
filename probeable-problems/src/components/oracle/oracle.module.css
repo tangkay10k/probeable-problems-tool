@@ -7,24 +7,27 @@
 }
 
 .oracle {
-    padding: 1rem;
+    padding: var(--padding-2);
 
     display: flex;
     flex-direction: column;
 
     justify-content: space-between;
 
-    height: 100%;
+    height: auto;
     overflow: hidden;
+
+    gap: 1rem;
 }
 
 .oracle textarea {
-    background-color: var(--dark-grey);
-    flex: 0 0 auto;
+    background-color: var(--oracle-grey);
+    border-radius: var(--border-radius-2);
 }
 
 .oracle textarea::placeholder {
-    color: white;
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark-grey);
 }
 
 .header {
@@ -58,24 +61,26 @@
 }
 
 .editorContainer {
-
     display: flex;
     gap: 1rem;
+
+    height: 2.5rem;
 }
 
 .editorContainer button {
     width: 5rem;
+    border-radius: var(--border-radius-2);
+
+    font-family: 'Poppins', sans-serif;
+
+    background-color: var(--button-green);
+    border: none;
+
+    box-shadow: 0 0 0.3rem rgba(0,0,0,0.3);
 }
 
-.oracleWrapper {
-    border: 2px dashed red;
+.editorContainer button:hover {
+    background-color: var(--hover-green);
 }
-.oracle {
-    border: 2px dashed blue;
-}
-.oracleWrapper textarea {
-    border: 2px solid green;
-}
-
 
 
