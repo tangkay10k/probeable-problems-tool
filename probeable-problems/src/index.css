@@ -26,9 +26,12 @@
     --dropdown-grey: #A8A8A8;
     --hover-light-grey: #a0a0a0;
 
+    --padding-025: 0.25rem;
     --padding-1: 0.5rem;
     --padding-2: 1rem;
     --padding-3: 2rem;
+    --padding-4: 3rem;
+    --padding-5: 4rem;
 
     --border-radius-1: 0.5rem;
     --border-radius-2: 1rem;

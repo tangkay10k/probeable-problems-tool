@@ -20,6 +20,8 @@ import {
 import { QUESTION_TYPES } from "@/pages/question-setup/data/question-types.js";
 import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { createProblem, updateProblem } from "@/routes/problem-route.js";
+import useWithLoading from "@/hooks/useWithLoading.js";
+import { toast } from "react-toastify";
 
 export default function QuestionSetup() {
   const [language, setLanguage] = useState("c");
@@ -81,28 +83,30 @@ function ModelSolution({
   setProblem,
   problem,
 }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, withLoading] = useWithLoading();
   const handleQuestionTypeSelect = (problemType) => {
     setProblem({ ...problem, problemType: problemType });
   };
   const handleConstraintsGeneration = () => {
-    setIsLoading(true);
-    generateConstraints(problem)
-      .then((updatedProblem) => {
+    withLoading(
+      () => generateConstraints(problem),
+      (updatedProblem) => {
         setProblem(updatedProblem);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+        toast.success("Constraints generated! please review them carefully 😊");
+      },
+      (err) => toast.error(err),
+    );
   };
 
   const saveQuestion = () => {
-    setIsLoading(true);
-    createProblem(problem)
-      .then((persisted) => {
+    withLoading(
+      () => createProblem(problem),
+      (persisted) => {
         setProblem(persisted);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+        toast.success("Model solution saved to database!");
+      },
+      (err) => toast.error(err),
+    );
   };
 
   return (
@@ -132,7 +136,7 @@ function ModelSolution({
 }
 
 function Constraints({ problem, setProblem }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, withLoading] = useWithLoading();
   const handleChange = (e) => {
     setProblem({
       ...problem,
@@ -141,24 +145,27 @@ function Constraints({ problem, setProblem }) {
   };
 
   const saveQuestion = () => {
-    console.log(problem);
-    setIsLoading(true);
-    updateProblem(problem)
-      .then((persisted) => {
+    withLoading(
+      () => updateProblem(problem),
+      (persisted) => {
         setProblem(persisted);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+        toast.success("Problem has been updated in database!");
+      },
+      (err) => toast.error(err),
+    );
   };
 
   const handleTestSuiteGeneration = () => {
-    setIsLoading(true);
-    generateTestSuite(problem)
-      .then((updatedProblem) => {
+    withLoading(
+      () => generateTestSuite(problem),
+      (updatedProblem) => {
         setProblem(updatedProblem);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+        toast.success(
+          "Test suite has been generated! please review them carefully 😊",
+        );
+      },
+      (err) => toast.error(err),
+    );
   };
 
   return (
@@ -192,30 +199,28 @@ function TestSuite({
   setTestSuite,
 }) {
   const [executionOutput, setExecutionOutput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, withLoading] = useWithLoading();
   const handleTestSuiteExecution = () => {
     const testSuiteWithModelSolution = problem.testSuite.replace(
       "//VAR_IMPLEMENTATION",
       problem.modelAnswer,
     );
-    setIsLoading(true);
-
-    executeCodePistonDirect(language, testSuiteWithModelSolution)
-      .then((execution) => {
-        setExecutionOutput(execution.run.output);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+    withLoading(
+      () => executeCodePistonDirect(language, testSuiteWithModelSolution),
+      (execution) => setExecutionOutput(execution.run.output),
+      (err) => toast.error(err),
+    );
   };
 
   const saveQuestion = () => {
-    setIsLoading(true);
-    updateProblem(problem)
-      .then((persisted) => {
+    withLoading(
+      () => updateProblem(problem),
+      (persisted) => {
         setProblem(persisted);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+        toast.success("Problem has been updated in database!");
+      },
+      (err) => toast.error(err),
+    );
   };
 
   return (
@@ -244,26 +249,25 @@ function TestSuite({
 }
 
 function ProblemStatement({ problem, setProblem }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, withLoading] = useWithLoading();
 
   const handleProblemStatementGeneration = () => {
-    setIsLoading(true);
-    generateProblemStatement(problem)
-      .then((updatedProblem) => {
-        setProblem(updatedProblem);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+    withLoading(
+      () => generateProblemStatement(problem),
+      (updatedProblem) => setProblem(updatedProblem),
+      (err) => toast.error(err),
+    );
   };
 
   const saveQuestion = () => {
-    setIsLoading(true);
-    updateProblem(problem)
-      .then((persisted) => {
+    withLoading(
+      () => updateProblem(problem),
+      (persisted) => {
         setProblem(persisted);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+        toast.success("Problem has been updated in database!");
+      },
+      (err) => toast.error(err),
+    );
   };
 
   return (
