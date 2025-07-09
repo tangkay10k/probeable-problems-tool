@@ -35,7 +35,7 @@ export default function ChatApp() {
       <div className={styles.inputContainer}>
         <Input
           onEnter={handleSend}
-          placeholder={"Ask the client!"}
+          placeholder={"Ask the client a question!"}
           onChange={(e) => setUserMessage(e.target.value)}
           value={userMessage}
         />
