@@ -72,4 +72,9 @@ public class ProblemAttemptService {
 		}
 	}
 
+	public ChatHistory chatWithClientWithSessionHistory(String chatSessionId, String userMessage) {
+		return aiService.chatWithClient(chatSessionId, null, userMessage,
+			JsonSchemaDefinition.getClientProbeSchema());
+	}
+
 }

@@ -32,8 +32,6 @@ export default function ProblemStageOne() {
     );
   }, []);
 
-  console.log(problemAttempt);
-
   if (isLoading) {
     return <div className={styles.problemPageContainer}>Loading...</div>;
   }
@@ -47,7 +45,10 @@ export default function ProblemStageOne() {
         </div>
 
         <div className={styles.innerContainer}>
-          <ChatApp messageList={problemAttempt?.messageList} />
+          <ChatApp
+            sessionId={problemAttempt?.chatHistoryId}
+            messageList={problemAttempt?.messageList}
+          />
           <Oracle />
         </div>
       </div>

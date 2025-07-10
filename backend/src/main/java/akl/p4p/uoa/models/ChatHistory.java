@@ -14,8 +14,6 @@ public class ChatHistory {
 	@Id
 	private String sessionId;
 
-	private String problemAttemptId;
-
 	private List<ChatMessage> messages;
 
 }

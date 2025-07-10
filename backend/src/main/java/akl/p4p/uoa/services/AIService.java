@@ -75,7 +75,7 @@ public class AIService {
 	 * @return the assistant’s reply
 	 */
 	public ChatHistory chatWithClient(String sessionId,
-									  String systemPrompt,
+									  @Nullable String systemPrompt,
 									  @Nullable String userMessage,
 									  @Nullable String responseSchema) {
 

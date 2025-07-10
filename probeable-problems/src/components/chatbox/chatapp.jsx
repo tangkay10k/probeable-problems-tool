@@ -2,16 +2,54 @@ import styles from "./chatapp.module.css";
 import { IoChatbubbleEllipsesOutline as ChatIcon } from "react-icons/io5";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
 import Input from "@/components/inputs/text-input.jsx";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/chatbox/chat-utils.js";
+import useWithLoading from "@/hooks/useWithLoading.js";
+import { submitUserMessage } from "@/routes/problem-attempt-route.js";
 
-export default function ChatApp({ messageList = [] }) {
-  const [chatHistory, setChatHistory] = useState(messageList);
+export default function ChatApp({ sessionId = "1", messageList = [] }) {
+  const [chatHistory, setChatHistory] = useState({
+    sessionId: sessionId,
+    messages: messageList,
+  });
+
   const [userMessage, setUserMessage] = useState("");
+  const [isLoading, withLoading] = useWithLoading();
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
+  }, [chatHistory]);
 
   const handleSend = () => {
-    console.log("TODO");
+    if (userMessage.length === 0) {
+      return;
+    }
+
+    // Render first on FE
+    const message = userMessage;
+    setChatHistory({
+      ...chatHistory,
+      messages: [
+        ...chatHistory.messages,
+        {
+          role: "user",
+          content: message,
+          timestamp: new Date().toISOString(),
+        },
+      ],
+    });
+    setUserMessage("");
+
+    withLoading(
+      () => submitUserMessage(sessionId, message),
+      (newHistory) => setChatHistory(newHistory),
+      console.error,
+    );
   };
 
   return (
@@ -33,9 +71,9 @@ export default function ChatApp({ messageList = [] }) {
           </div>
         </div>
 
-        <div className={styles.chatBody}>
+        <div ref={containerRef} className={styles.chatBody}>
           {/*Always skip system message*/}
-          {messageList.slice(1).map((message, idx) => (
+          {chatHistory.messages.slice(1).map((message, idx) => (
             <ChatBubble key={idx + message.timestamp} chatMessage={message} />
           ))}
         </div>
@@ -48,8 +86,8 @@ export default function ChatApp({ messageList = [] }) {
           onChange={(e) => setUserMessage(e.target.value)}
           value={userMessage}
         />
-        <Button onClick={handleSend}>
-          <PlaneIcon size={18} />
+        <Button onClick={handleSend} disabled={isLoading}>
+          {!isLoading && <PlaneIcon size={18} />}
         </Button>
       </div>
     </div>
@@ -71,6 +109,7 @@ function ChatBubble({ chatMessage }) {
       <div
         className={styles.chatMessage}
         style={{
+          justifySelf: chatMessage.role === "assistant" ? "start" : "end",
           background:
             chatMessage.role === "assistant"
               ? "linear-gradient(to right, #BB94FF, #CA43FF)"

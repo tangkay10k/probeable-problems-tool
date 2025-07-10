@@ -8,3 +8,15 @@ export const getLatestProblemAttemptForStudent = async (
   );
   return res.data;
 };
+
+export const submitUserMessage = async (sessionId, message) => {
+  const payload = {
+    sessionId: sessionId,
+    chatMessage: {
+      content: message,
+    },
+  };
+
+  const res = await axios.post(`/api/problemAttempt/chat`, payload);
+  return res.data;
+};
