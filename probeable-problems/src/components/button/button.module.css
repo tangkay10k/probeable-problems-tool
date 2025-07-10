@@ -13,6 +13,7 @@
     box-shadow: 0.1rem 0.1rem 0.3rem var(--black);
 
     width: 100%;
+    height: 100%;
 }
 
 .button:hover {
