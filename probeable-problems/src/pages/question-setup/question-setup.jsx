@@ -248,11 +248,11 @@ function TestSuite({
     );
 
     withLoading(
-      () => executeCodePistonDirect(language, testSuiteWithModelSolution),
+      () => executeCodePistonDirect(language, testSuiteFromFile),
       (execution) => {
         const output = execution.run.output;
         const lines = output.split(SPLIT_STRING);
-
+        console.log(lines)
         setExecutionOutput(output);
         setResults(lines);
       },
