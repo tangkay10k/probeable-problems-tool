@@ -1,0 +1,96 @@
+.oracleWrapper {
+    height: 35%;
+    background-color: var(--grey);
+    border-radius: var(--border-radius-5) var(--border-radius-5) var(--border-radius-3) var(--border-radius-3);
+}
+
+.oracle {
+    padding: var(--padding-2);
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    gap: var(--padding-1);
+}
+
+.oracle textarea {
+    background-color: var(--oracle-grey);
+    border-radius: var(--border-radius-2);
+
+    height: 100%;
+}
+
+.oracle textarea::placeholder {
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark-grey);
+}
+
+.header {
+    padding: var(--padding-2);
+    background-color: var(--white);
+
+    border-radius: var(--border-radius-5);
+    box-shadow: 0 0 0.6rem black;
+
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    position: absolute;
+    left: var(--padding-3);
+
+    display: flex;
+    justify-content: center;
+
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--grey);
+    border-radius: 50%;
+}
+
+.icon img {
+    object-fit: cover;
+}
+
+.editorContainer {
+    display: flex;
+    gap: var(--padding-1);
+
+    height: auto;
+    width: 100%;
+}
+
+.editorContainer button {
+    width: 5rem;
+    height: auto;
+
+    border-radius: var(--border-radius-3);
+
+    font-family: 'Poppins', sans-serif;
+
+    background-color: var(--button-green);
+    border: none;
+
+    box-shadow: 0 0 0.3rem rgba(0,0,0,0.3);
+}
+
+.editorContainer button:hover {
+    background-color: var(--hover-green);
+}
+
+.editorWrapper {
+    width: 100%;
+
+    border-radius: var(--border-radius-3);
+    overflow: hidden;
+
+    padding: var(--padding-1);
+    background-color: var(--black);
+}
+
+

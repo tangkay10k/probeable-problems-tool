@@ -18,7 +18,7 @@ public class ProblemController {
         this.problemService = problemService;
     }
 
-    @GetMapping("all")
+    @GetMapping
     public ResponseEntity<List<Problem>> getAllProblems(
             @RequestParam(required = false, defaultValue = "false") boolean isStudent) {
 
