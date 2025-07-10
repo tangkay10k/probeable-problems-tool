@@ -40,6 +40,11 @@ public final class Prompts {
 			""";
 	}
 
+
+	/**
+	 * Programming language specific prompt. TODO: Update with switch case that returns a different prompt based on
+	 * the language of the programming problem.
+	 * */
 	public static String getTestSuiteGenerationPrompt() {
 		return """
 			You are a test engineer tasked with producing a thorough test suite for a single function implementation.
@@ -89,6 +94,36 @@ public final class Prompts {
 			""";
 	}
 
+	/**
+	 * Programming language agnostic prompt.
+	 * */
+	public static String getClientInitialisationPrompt(String modelAnswer, String constraints) {
+		String basePrompt = """
+		 You are a client that the user must query to understand the expected behavior of a hidden function.
+		 Your role is to explain the Model Answer (confidential) to the student in plain terms, without revealing implementation details or specific values.
+
+		Model Answer (Confidential – Do NOT disclose to the student):
+		//VAR_MODEL_ANSWER
+
+		These are the constraints of the problem:
+		//VAR_CONSTRAINTS
+
+		Student’s Task:
+		- After hearing the client’s explanation of the Model Answer, produce a concise, bullet-point list of the constraints outlined above.
+		- Ensure each bullet is clear, direct, and covers exactly one requirement.
+		- Keep the list succinct and avoid revealing any implementation details or specific values.
+		- Return only the bullet-point list for client review.
+
+		Client’s Behavior:
+		- Respond neutrally to clarifying questions about expected behavior, inputs, edge cases, ordering, and output structure.
+		- Avoid providing examples, specific values, or hints about internal logic or data structures.
+		- If the student’s question is too vague, prompt them to specify which aspect they wish to clarify.
+		- Do not generate code unless the student explicitly requests a test case after repeated clarification requests.
+		- When a test case is requested, provide only a simple function call: function(parameters);
+		""";
+
+		return basePrompt.replace("//VAR_MODEL_ANSWER", modelAnswer).replace("//VAR_CONSTRAINTS", constraints);
+	}
 
 
     public static String duplicateQuestionVerifier() {

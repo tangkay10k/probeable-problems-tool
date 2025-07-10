@@ -1,9 +1,14 @@
 package akl.p4p.uoa.services;
 
+import akl.p4p.uoa.models.ChatHistory;
+import akl.p4p.uoa.data.ChatMessage;
+import akl.p4p.uoa.data.ChatMessageConverter;
 import com.mongodb.lang.Nullable;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.ai.openai.api.ResponseFormat;
@@ -11,14 +16,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AIService {
 
 	private final ChatClient chatClient;
 
-	public AIService(ChatClient.Builder chatClientBuilder) {
+	private final ChatHistoryService chatHistoryService;
+
+	public AIService(ChatClient.Builder chatClientBuilder, ChatHistoryService chatHistoryService) {
+
 		this.chatClient = chatClientBuilder.build();
+		this.chatHistoryService = chatHistoryService;
 	}
 
 	/**
@@ -56,6 +66,58 @@ public class AIService {
 		return responseFormat;
 	}
 
+	/**
+	 * Send a user message within a session, maintaining the chat history.
+	 * @param sessionId   a unique key for this conversation (e.g. user ID or UUID)
+	 * @param systemPrompt  only applied on session‐start; ignored for subsequent messages
+	 * @param userMessage   the new user message to send
+	 * @param responseSchema the response schema to follow, defaults to text if null
+	 * @return the assistant’s reply
+	 */
+	public ChatHistory chatWithClient(String sessionId,
+									  String systemPrompt,
+									  @Nullable String userMessage,
+									  @Nullable String responseSchema) {
+
+		ChatHistory sessionHistory = chatHistoryService.loadOrCreateHistory(sessionId);
+		List<ChatMessage> history = sessionHistory.getMessages();
+
+		if (history.isEmpty()) {
+			history.add(ChatMessageConverter.convertSystemPromptToChatMessage(systemPrompt));
+		}
+
+		if (userMessage != null) {
+			history.add(ChatMessageConverter.convertUserMessageToChatMessage(userMessage));
+		}
+
+		List<Message> sdkMessages = history.stream()
+			.map(chatMsg -> {
+				if ("user".equals(chatMsg.getRole())) {
+					return new UserMessage(chatMsg.getContent());
+				} else if ("assistant".equals(chatMsg.getRole())) {
+					return new AssistantMessage(chatMsg.getContent());
+				} else {
+					return new SystemMessage(chatMsg.getContent());
+				}
+			})
+			.collect(Collectors.toList());
+
+		OpenAiChatOptions options = OpenAiChatOptions.builder()
+			.model(OpenAiApi.ChatModel.O3)
+			.temperature(1.0D)
+			.responseFormat(getResponseType(responseSchema))
+			.build();
+
+		String assistantReply = chatClient.prompt()
+			.options(options)
+			.messages(sdkMessages)
+			.call()
+			.content();
+
+		history.add(ChatMessageConverter.convertLLMResponseToChatMessage(assistantReply));
+
+		return chatHistoryService.saveHistory(sessionHistory);
+	}
 
 
 }

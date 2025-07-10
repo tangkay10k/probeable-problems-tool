@@ -1,6 +1,8 @@
 package akl.p4p.uoa.controllers;
 
 import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.models.ProblemAttempt;
+import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
 
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ public class ProblemController {
     private final ProblemService problemService;
 
     public ProblemController(ProblemService problemService) {
-        this.problemService = problemService;
+		this.problemService = problemService;
     }
 
     @GetMapping
