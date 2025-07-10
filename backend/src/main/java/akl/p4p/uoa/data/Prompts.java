@@ -1,34 +1,33 @@
 package akl.p4p.uoa.data;
 
 public final class Prompts {
-	public static String getConstraintsGenerationPrompt() {
-		return
-			"""
+  public static String getConstraintsGenerationPrompt() {
+    return """
 			You are a requirements author. Produce a numbered list of clear, testable acceptance criteria for the provided solution.
 			The developer will reference the implementation provided below:
-			
+
 		   //VAR_MODEL_SOLUTION
-			   
+
 			Based on this reference solution, generate a numbered list of constraints and acceptance criteria.
 			Each requirement should describe exactly one observable rule, including:
 			   • Edge cases and boundary conditions
 			   • Handling of invalid or unexpected inputs
 			Format each requirement as standalone and testable, without prescribing implementation details.
-			
+
 			-- Few‑Shot Examples --
 			Here are example responses illustrating the desired format:
-			
+
 			Example 1:
 			1. The function should count between a and b exclusively.
 			2. The order of a and b does not matter.
 			3. The function should return an integer count of the number of elements that are strictly between a and b.
-			
+
 			Example 2:
 			1. If the array contains no even numbers, the function should print "No evens" and return.
 			2. The function should print the indices of the smallest even number in the array.
 			3. If there are duplicate smallest even numbers, the function should print all their indices.
 			4. The function should print the indices in reverse order.
-			
+
 			Example 3:
 			1. If the input string does not contain any vowels, the function should "-"
 			2. If the input string is empty, the function should return "-"
@@ -38,37 +37,36 @@ public final class Prompts {
 			6. The output should be lowercase vowels.
 			7. y does not count as a vowel.
 			""";
-	}
+  }
 
-
-	/**
-	 * Programming language specific prompt. TODO: Update with switch case that returns a different prompt based on
-	 * the language of the programming problem.
-	 * */
-	public static String getTestSuiteGenerationPrompt() {
-		return """
+  /**
+   * Programming language specific prompt. TODO: Update with switch case that returns a different
+   * prompt based on the language of the programming problem.
+   */
+  public static String getTestSuiteGenerationPrompt() {
+    return """
 			You are a test engineer tasked with producing a thorough test suite for a single function implementation.
-			
+
 			The reference implementation will be injected in this placeholder:
 			//VAR_MODEL_SOLUTION
-			
+
 			The functional constraints are:
 			//VAR_CONSTRAINTS
-			
+
 			When generating the test suite, include exactly after import statements:
-			
+
 			/* Function under test will be injected in this placeholder */
 			//VAR_IMPLEMENTATION
-			
+
 			Do NOT include the function prototype in your response.
 			Include all standard headers, then provide a complete set of tests covering each constraint.
 			The file should be simple to understand for a junior developer.
 			Respond _only_ with the complete test-suite source code (including comments) as plain text—no JSON, no Markdown fences, and no extra prose. This response should be a single string containing exactly the source you’d save into your .c file.
 			""";
-	}
+  }
 
-	public static String getProblemStatementSystemPrompt() {
-		return """
+  public static String getProblemStatementSystemPrompt() {
+    return """
 			You are a product owner crafting an intentionally ambiguous problem statement to guide a developer’s implementation.
 
 			The implemented reference solution is provided between the markers:
@@ -92,13 +90,12 @@ public final class Prompts {
 
 			Respond only with the problem statement (no commentary or formatting).
 			""";
-	}
+  }
 
-	/**
-	 * Programming language agnostic prompt.
-	 * */
-	public static String getClientInitialisationPrompt(String modelAnswer, String constraints) {
-		String basePrompt = """
+  /** Programming language agnostic prompt. */
+  public static String getClientInitialisationPrompt(String modelAnswer, String constraints) {
+    String basePrompt =
+        """
 		 You are a client that the user must query to understand the expected behavior of a hidden function.
 		 Your role is to explain the Model Answer (confidential) to the student in plain terms, without revealing implementation details or specific values.
 
@@ -122,12 +119,13 @@ public final class Prompts {
 		- When a test case is requested, provide only a simple function call: function(parameters);
 		""";
 
-		return basePrompt.replace("//VAR_MODEL_ANSWER", modelAnswer).replace("//VAR_CONSTRAINTS", constraints);
-	}
+    return basePrompt
+        .replace("//VAR_MODEL_ANSWER", modelAnswer)
+        .replace("//VAR_CONSTRAINTS", constraints);
+  }
 
-
-    public static String duplicateQuestionVerifier() {
-        return """
+  public static String duplicateQuestionVerifier() {
+    return """
                 You are an AI assistant that checks if a given question has been asked before.
                 You are provided with a list of previous questions and a new question.
                 - If the question has been asked before (exact or similar), respond with:
@@ -140,5 +138,5 @@ public final class Prompts {
                 Previous Questions: [%s]
                 New Question: %s
                 """;
-    }
+  }
 }

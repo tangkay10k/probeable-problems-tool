@@ -1,12 +1,11 @@
 package akl.p4p.uoa.data;
 
-import lombok.Data;
-
 import java.time.Instant;
+import lombok.Data;
 
 @Data
 public class ChatMessage {
-	private String role;
-	private String content;
-	private Instant timestamp;
+  private String role;
+  private String content;
+  private Instant timestamp;
 }

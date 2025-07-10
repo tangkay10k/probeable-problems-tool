@@ -6,29 +6,31 @@ import akl.p4p.uoa.models.ProblemAttempt;
 import akl.p4p.uoa.services.ProblemAttemptService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/problemAttempt")
 public class ProblemAttemptController {
-	private final ProblemAttemptService problemAttemptService;
+  private final ProblemAttemptService problemAttemptService;
 
-	ProblemAttemptController(ProblemAttemptService problemAttemptService) {
-		this.problemAttemptService = problemAttemptService;
-	}
+  ProblemAttemptController(ProblemAttemptService problemAttemptService) {
+    this.problemAttemptService = problemAttemptService;
+  }
 
-	@GetMapping
-	public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(@RequestParam String problemId,
-															  @RequestParam String studentEmail) {
+  @GetMapping
+  public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(
+      @RequestParam String problemId, @RequestParam String studentEmail) {
 
-		ProblemAttempt attempt = problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
-		return ResponseEntity.ok(attempt);
-	}
+    ProblemAttempt attempt =
+        problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
+    return ResponseEntity.ok(attempt);
+  }
 
-	@PostMapping("chat")
-	public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) {
+  @PostMapping("chat")
+  public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) {
 
-		ChatHistory attempt = problemAttemptService.chatWithClientWithSessionHistory(message.getSessionId(),
-			message.getChatMessage().getContent());
-		return ResponseEntity.ok(attempt);
-	}
-
+    ChatHistory attempt =
+        problemAttemptService.chatWithClientWithSessionHistory(
+            message.getSessionId(), message.getChatMessage().getContent());
+    return ResponseEntity.ok(attempt);
+  }
 }
