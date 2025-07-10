@@ -193,16 +193,120 @@ function TestSuite({
 }) {
   const [executionOutput, setExecutionOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const handleTestSuiteExecution = () => {
-    const testSuiteWithModelSolution = problem.testSuite.replace(
-      "//VAR_IMPLEMENTATION",
-      problem.modelAnswer,
+  
+  const tests = [
+    { code: 'int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 2, 4);', expectedReturn: 1, expectedStdOut: 's' },
+    // { code: 'int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 4, 2);', expectedReturn: 1, expectedStdOut: '' },
+    // { code: 'int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 3, 3);', expectedReturn: 0, expectedStdOut: '' },
+    // { code: 'int arr[] = {2, 2, 4, 4};\nint result = CountBetween(arr, 4, 2, 4);', expectedReturn: 0, expectedStdOut: '' },
+    // { code: 'int arr[] = {1, 2, 3};\nint result = CountBetween(arr, 0, 0, 10);', expectedReturn: 0, expectedStdOut: '' },
+    // { code: 'int result = CountBetween(NULL, 0, 0, 10);', expectedReturn: 0, expectedStdOut: '' },
+    // { code: 'int arr[] = {1, 2, 3};\nint result = CountBetween(arr, -3, 0, 10);', expectedReturn: 0, expectedStdOut: '' },
+    // { code: 'int arr[] = {INT_MIN, -1, 0, 1, INT_MAX};\nint result = CountBetween(arr, 5, INT_MIN, INT_MAX);', expectedReturn: 3, expectedStdOut: '' },
+    // { code: 'int arr[] = {50};\nint result = CountBetween(arr, 1, 0, 100);', expectedReturn: 1, expectedStdOut: '' },
+  ];
+
+  const parseTestOutput = (output) => {
+    const lines = output.split('\n');
+    console.log(lines)
+    const results = [];
+    let currentTest = null;
+    let currentStdout = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      
+      if (line.startsWith('=== TEST ') && line.includes('START ===')) {
+          console.log("BOB")
+        const testNum = parseInt(line.match(/TEST (\d+)/)[1]);
+        currentTest = { testNum, stdout: [], returnValue: null };
+        currentStdout = [];
+      } else if (line.startsWith('=== TEST ') && line.includes('END ===')) {
+        console.log("James")
+        if (currentTest) {
+          console.log("James")
+          // Process stdout to extract return value and user output
+          const stdoutText = currentStdout.join('\n');
+          
+          // Extract actual return value
+          const returnMatch = stdoutText.match(/ACTUAL_RETURN:(-?\d+)/);
+          if (returnMatch) {
+            currentTest.returnValue = parseInt(returnMatch[1]);
+          }
+          
+          // Remove control lines from stdout to get user output
+          const currentStdOut = stdoutText
+            .replace(/ACTUAL_RETURN:-?\d+\n?/g, '')
+            .replace(/TEST_RESULT:(PASS|FAIL)\n?/g, '')
+            .trim();
+
+          currentTest.stdout=currentStdOut;
+
+          console.log(currentStdOut)
+
+          results.push(currentTest);
+          currentTest = null;
+        }
+      } else if (currentTest && line !== '') {
+        console.log("Jim")
+        currentStdout.push(line);
+      }
+    }
+    
+    return results;
+  };
+
+  const handleTestSuiteExecution = async () => {
+    const response = await fetch('/test.txt');
+    let testSuiteFromFile = await response.text();
+
+    testSuiteFromFile = testSuiteFromFile.replace(
+      '//VAR_IMPLEMENTATION',
+      problem.modelAnswer
     );
+
+    testSuiteFromFile = testSuiteFromFile.replace(
+      '//VAR_NUM_TESTS',
+      tests.length.toString()
+    );
+
+    // Generate tests that properly check return values and capture stdout
+    const generatedTests = tests.map((test, i) => `
+    void test_${i + 1}() {
+        // Execute the test code
+        ${test.code}
+        
+        // Print the actual return value for parsing
+        printf("ACTUAL_RETURN:%d\\n", result);
+    }
+    `).join('\n');
+
+    testSuiteFromFile = testSuiteFromFile.replace(
+      '//VAR_TESTS',
+      generatedTests
+    );
+
+    const switchTests = tests.map((_, i) => `
+        case ${i}: test_${i + 1}(); break;
+    `).join('\n');
+
+    testSuiteFromFile = testSuiteFromFile.replace(
+      '//VAR_SWITCH_TESTS',
+      switchTests
+    );
+
     setIsLoading(true);
 
-    executeCodePistonDirect(language, testSuiteWithModelSolution)
+    executeCodePistonDirect(language, testSuiteFromFile)
       .then((execution) => {
-        setExecutionOutput(execution.run.output);
+        console.log(execution);
+        const output = execution.run.output;
+        setExecutionOutput(output);
+        
+        const actualResults = parseTestOutput(output);
+
+        console.log(actualResults)
+        
       })
       .catch(console.error)
       .finally(() => setIsLoading(false));
