@@ -8,7 +8,8 @@ import {
 } from "./data/instructions";
 import styles from "./question-setup.module.css";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
-import { useState } from "react";
+import { CodeAndOutput } from "@/components/text-editor/code-and-output";
+import { useState, useEffect } from "react";
 import Button from "../../components/button/button";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
@@ -151,15 +152,20 @@ function Constraints({ problem, setProblem }) {
         setProblem(persisted);
         toast.success("Problem has been updated in database!");
       },
-        (err) => toast.error(err),
-      );
+      (err) => toast.error(err),
+    );
   };
 
   const handleTestSuiteGeneration = () => {
     withLoading(
       () => generateTestSuite(problem),
       (updatedProblem) => {
+        const newTestSuite = JSON.parse(updatedProblem.testSuite);
+
+        updatedProblem.testSuite = newTestSuite.tests
+
         setProblem(updatedProblem);
+
         toast.success(
           "Test suite has been generated! please review them carefully 😊",
         );
@@ -199,32 +205,21 @@ function TestSuite({
   setTestSuite,
 }) {
   const SPLIT_STRING = "$_@_BBJ_SPL1T_@_$"
-  const [executionOutput, setExecutionOutput] = useState("");
   const [isLoading, withLoading] = useWithLoading();
   const [results, setResults] = useState([])
-
-  const tests = [
-    { code: 'int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 2, 4);\nprintf("%d", result);', expectedStdOut: '1' },
-    { code: 'int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 4, 2);\nprintf("%d", result);', expectedStdOut: '1' },
-    { code: 'int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 3, 3);\nprintf("%d", result);', expectedStdOut: '0' },
-    { code: 'int arr[] = {2, 2, 4, 4};\nint result = CountBetween(arr, 4, 2, 4);\nprintf("%d", result);', expectedStdOut: '0' },
-    { code: 'int arr[] = {1, 2, 3};\nint result = CountBetween(arr, 0, 0, 10);\nprintf("%d", result);', expectedStdOut: '0' },
-    { code: 'int arr[] = {1, 2, 3};\nint result = CountBetween(arr, -3, 0, 10);\nprintf("%d", result);', expectedStdOut: '0' },
-    { code: 'int arr[] = {INT_MIN, -1, 0, 1, INT_MAX};\nint result = CountBetween(arr, 5, INT_MIN, INT_MAX);\nprintf("%d", result);', expectedStdOut: '3' },
-    { code: 'int arr[] = {50};\nint result = CountBetween(arr, 1, 0, 100);\nprintf("%d", result);', expectedStdOut: '1' },
-  ];
-
+  const [terminalOutput, setTerminalOutput] = useState("");
+  
 
   const handleTestSuiteExecution = async () => {
     const response = await fetch('/test.txt');
 
-    const generatedTests = tests.map((test, i) => `
+    const generatedTests = problem?.testSuite?.map((test, i) => `
     void test_${i + 1}() {
         ${test.code}
     }
     `).join('\n');
 
-    const switchTests = tests.map((_, i) => `
+    const switchTests = problem?.testSuite?.map((_, i) => `
         case ${i}: test_${i + 1}(); break;
     `).join('\n');
 
@@ -238,7 +233,7 @@ function TestSuite({
       SPLIT_STRING
     ).replace(
       '//VAR_NUM_TESTS',
-      tests.length.toString()
+      problem?.testSuite?.length.toString()
     ).replace(
       '//VAR_TESTS',
       generatedTests
@@ -247,18 +242,30 @@ function TestSuite({
       switchTests
     );
 
+    console.log(testSuiteFromFile)
+
     withLoading(
       () => executeCodePistonDirect(language, testSuiteFromFile),
-      (execution) => {
-        const output = execution.run.output;
-        const lines = output.split(SPLIT_STRING);
-        console.log(lines)
-        setExecutionOutput(output);
-        setResults(lines);
-      },
+      (execution) => updateResults(execution),
       (err) => toast.error(err),
     );
   };
+
+  const updateResults = (execution) => {
+    const output = execution.run.output;
+    const lines = output.split(SPLIT_STRING);
+
+    let passedCount = 0;
+
+    const updatedResults = lines.map((line, i) => {
+      const expected = problem?.testSuite[i]?.expectedStdOut ?? '';
+      if (line === expected) passedCount += 1;
+      return { actual: line, expected };
+    });
+
+    setResults(updatedResults);
+    setTerminalOutput(`${passedCount}/${problem?.testSuite?.length} tests passed`);
+  }
 
   const saveQuestion = () => {
     withLoading(
@@ -273,17 +280,12 @@ function TestSuite({
 
   return (
     <>
-      <TextEditor
-        language={language}
-        setLanguage={setLanguage}
-        src={problem.testSuite}
-        setSource={setTestSuite}
-      />
+      <CodeAndOutput tests={problem?.testSuite} setTests={setTestSuite} language={language} setLanguage={setLanguage} results={results} />
       <Instruction
         heading="2. Test Suite Generation"
         instruction={TEST_CASES_INSTRUCTION}
       />
-      <Terminal output={executionOutput} />
+      <Terminal output={terminalOutput} />
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>
           Save

@@ -5,8 +5,7 @@ import lombok.Getter;
 @Getter
 public class JsonSchemaDefinition {
 
-    private static final String PROBE_SCHEMA =
-            """
+  private static final String PROBE_SCHEMA = """
       {
         "type": "object",
         "properties": {
@@ -17,8 +16,7 @@ public class JsonSchemaDefinition {
       }
       """;
 
-    private static final String DUPLICATE_QUESTION_SCHEMA =
-            """
+  private static final String DUPLICATE_QUESTION_SCHEMA = """
       {
         "type": "object",
         "properties": {
@@ -30,8 +28,29 @@ public class JsonSchemaDefinition {
       }
       """;
 
-    private static final String EXECUTION_PAYLOAD =
-            """
+  private static final String TEST_CASE_SCHEMA = """
+      {
+        "type": "object",
+        "properties": {
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": { "type": "string" },
+                "expectedStdOut": { "type": "string" }
+              },
+              "required": ["code", "expectedStdOut"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["tests"],
+        "additionalProperties": false
+      }
+      """;
+
+  private static final String EXECUTION_PAYLOAD = """
         {
           "language": %s,
           "version": %s,
@@ -43,15 +62,19 @@ public class JsonSchemaDefinition {
         }
       """;
 
-    public static String getProbeSchema() {
-        return PROBE_SCHEMA;
-    }
+  public static String getProbeSchema() {
+    return PROBE_SCHEMA;
+  }
 
-    public static String getDuplicateQuestionSchema() {
-        return DUPLICATE_QUESTION_SCHEMA;
-    }
+  public static String getDuplicateQuestionSchema() {
+    return DUPLICATE_QUESTION_SCHEMA;
+  }
 
-    public static String getExecutionPayload() {
-        return EXECUTION_PAYLOAD;
-    }
+  public static String getTestCaseSchema() {
+    return TEST_CASE_SCHEMA;
+  }
+
+  public static String getExecutionPayload() {
+    return EXECUTION_PAYLOAD;
+  }
 }

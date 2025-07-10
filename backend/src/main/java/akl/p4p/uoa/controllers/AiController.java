@@ -3,19 +3,13 @@ package akl.p4p.uoa.controllers;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.Prompts;
 import akl.p4p.uoa.data.QuestionRequest;
+import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.messages.AssistantMessage;
-import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.SystemMessage;
-import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.ai.openai.api.OpenAiApi.ChatModel;
 import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/ai")
 class AiController {
-    private final ChatClient chatClient;
+	private final ChatClient chatClient;
 
 	@Autowired
 	AIService aiService;
@@ -41,18 +34,20 @@ class AiController {
 	@Autowired
 	ProblemService problemService;
 
-    public AiController(ChatClient.Builder chatClientBuilder, ProblemService problemService) {
-        this.chatClient = chatClientBuilder.build();
-        this.problemService = problemService;
-    }
+	public AiController(ChatClient.Builder chatClientBuilder, ProblemService problemService) {
+		this.chatClient = chatClientBuilder.build();
+		this.problemService = problemService;
+	}
 
 	/**
-	 * Endpoint to generate constraints for a given question. Note that this endpoint does not persist the
-	 * constraints generated in any database, but is sent back to the client for review / iteration.
-	 * */
-    @PostMapping("constraints")
-    public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
-        String modelAnswer = problem.getModelAnswer();
+	 * Endpoint to generate constraints for a given question. Note that this
+	 * endpoint does not persist the
+	 * constraints generated in any database, but is sent back to the client for
+	 * review / iteration.
+	 */
+	@PostMapping("constraints")
+	public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
+		String modelAnswer = problem.getModelAnswer();
 
 		String basePrompt = Prompts.getConstraintsGenerationPrompt();
 		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer);
@@ -60,23 +55,32 @@ class AiController {
 
 		problem.setConstraints(constraints);
 		return ResponseEntity.ok(problem);
-    }
+	}
 
 	/**
-	 * Endpoint to generate a test suite for a given question. Note that this endpoint does not persist the
-	 * test suite generated in any database, but is sent back to the client for review / iteration.
-	 * */
+	 * Endpoint to generate a test suite for a given question. Note that this
+	 * endpoint does not persist the
+	 * test suite generated in any database, but is sent back to the client for
+	 * review / iteration.
+	 * @throws JsonProcessingException 
+	 * @throws JsonMappingException 
+	 */
 	@PostMapping("test-suite")
-	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem) {
+	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem) throws JsonMappingException, JsonProcessingException {
 		String modelAnswer = problem.getModelAnswer();
 		String constraints = problem.getConstraints();
 
 		String basePrompt = Prompts.getTestSuiteGenerationPrompt();
 		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer)
-			.replace("//VAR_CONSTRAINTS", constraints);
+				.replace("//VAR_CONSTRAINTS", constraints);
 
-		String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, null);
-		problem.setTestSuite(testSuite);
+		String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+		System.out.println(testSuite);
+		
+		// ObjectMapper objectMapper = new ObjectMapper();
+		// TestResponse testResponse =  objectMapper.readValue(testSuite, TestResponse.class);
+
+		// problem.setTestSuite(testResponse.getTests());
 		return ResponseEntity.ok(problem);
 	}
 
@@ -87,31 +91,30 @@ class AiController {
 
 		String basePrompt = Prompts.getProblemStatementSystemPrompt();
 		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer)
-			.replace("//VAR_CONSTRAINTS", constraints);
+				.replace("//VAR_CONSTRAINTS", constraints);
 
 		String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
 		problem.setProblemStatement(problemStatement);
 		return ResponseEntity.ok(problem);
 	}
-    @PostMapping("duplicate")
-    public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
-        String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
 
-        OpenAiChatOptions options =
-                OpenAiChatOptions.builder()
-                        .model(ChatModel.O1)
-                        .temperature(1D)
-                        .responseFormat(
-                                new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
-                        .build();
+	@PostMapping("duplicate")
+	public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
+		String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
 
-        String prompt =
-                Prompts.duplicateQuestionVerifier()
-                        .formatted(
-                                String.join(", ", request.getQuestionsAsked()), request.getProbe());
+		OpenAiChatOptions options = OpenAiChatOptions.builder()
+				.model(ChatModel.O1)
+				.temperature(1D)
+				.responseFormat(
+						new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
+				.build();
 
-        String assistantReply = chatClient.prompt(prompt).options(options).call().content();
+		String prompt = Prompts.duplicateQuestionVerifier()
+				.formatted(
+						String.join(", ", request.getQuestionsAsked()), request.getProbe());
 
-        return assistantReply;
-    }
+		String assistantReply = chatClient.prompt(prompt).options(options).call().content();
+
+		return assistantReply;
+	}
 }

@@ -40,8 +40,6 @@ public class AIService {
 			.build();
 		String assistantReply = chatClient.prompt().options(options).messages(history).call().content();
 
-		//TODO: correctly deserialize json format when not text.
-
 		return assistantReply;
 	}
 

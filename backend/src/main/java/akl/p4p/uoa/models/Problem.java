@@ -2,7 +2,10 @@ package akl.p4p.uoa.models;
 
 import akl.p4p.uoa.data.ProblemType;
 import akl.p4p.uoa.data.ProgramLanguage;
+import akl.p4p.uoa.data.Test;
 import lombok.Data;
+
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
