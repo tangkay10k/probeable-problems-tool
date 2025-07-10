@@ -5,6 +5,7 @@ import akl.p4p.uoa.data.Prompts;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.models.ProblemAttempt;
+import akl.p4p.uoa.repositories.ChatHistoryRepository;
 import akl.p4p.uoa.repositories.ProblemAttemptRepository;
 import akl.p4p.uoa.repositories.ProblemRepository;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,16 @@ public class ProblemAttemptService {
 
 	private final ProblemAttemptRepository problemAttemptRepository;
 
+	private final ChatHistoryRepository chatHistoryRepository;
 
-	ProblemAttemptService(ProblemAttemptRepository problemAttemptRepository, ProblemRepository problemRepository,
+
+	ProblemAttemptService(ProblemAttemptRepository problemAttemptRepository,
+						  ProblemRepository problemRepository,
+						  ChatHistoryRepository chatHistoryRepository,
 						  AIService aiService) {
 		this.problemAttemptRepository = problemAttemptRepository;
 		this.problemRepository = problemRepository;
+		this.chatHistoryRepository = chatHistoryRepository;
 		this.aiService = aiService;
 	}
 
@@ -50,10 +56,19 @@ public class ProblemAttemptService {
 
 			attempt.setChatHistoryId(chatHistory.getSessionId());
 			attempt.setMessageList(chatHistory.getMessages());
+			problemAttemptRepository.save(attempt);
 
-			return problemAttemptRepository.save(attempt);
-		} else {
-			return attempts.get(0);
+			// Return attempt that contains transient field (messages)
+			return attempt;
+		} else { // For now: Always return latest problem attempt.
+			ProblemAttempt latest = attempts.get(0);
+			String chatHistoryId = latest.getChatHistoryId();
+			ChatHistory history = chatHistoryRepository.findById(chatHistoryId)
+				.orElseThrow(
+					() -> new RuntimeException("Chat with id: " + chatHistoryId + " could not be found."));
+
+			latest.setMessageList(history.getMessages());
+			return latest;
 		}
 	}
 

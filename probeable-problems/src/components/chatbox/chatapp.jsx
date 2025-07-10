@@ -4,8 +4,10 @@ import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
 import Input from "@/components/inputs/text-input.jsx";
 import { useState } from "react";
 import Button from "@/components/button/button.jsx";
+import { convertIsoStringToLocalTime } from "@/components/chatbox/chat-utils.js";
 
-export default function ChatApp() {
+export default function ChatApp({ messageList = [] }) {
+  const [chatHistory, setChatHistory] = useState(messageList);
   const [userMessage, setUserMessage] = useState("");
 
   const handleSend = () => {
@@ -30,6 +32,13 @@ export default function ChatApp() {
             <img src={"/client.svg"} alt={"Client"} />
           </div>
         </div>
+
+        <div className={styles.chatBody}>
+          {/*Always skip system message*/}
+          {messageList.slice(1).map((message, idx) => (
+            <ChatBubble key={idx + message.timestamp} chatMessage={message} />
+          ))}
+        </div>
       </div>
 
       <div className={styles.inputContainer}>
@@ -43,6 +52,45 @@ export default function ChatApp() {
           <PlaneIcon size={18} />
         </Button>
       </div>
+    </div>
+  );
+}
+
+function ChatBubble({ chatMessage }) {
+  let msg;
+  const time = convertIsoStringToLocalTime(chatMessage.timestamp);
+  if (chatMessage.role === "assistant") {
+    const responseSchema = JSON.parse(chatMessage.content);
+    msg = responseSchema.message;
+  } else {
+    msg = chatMessage.content;
+  }
+
+  return (
+    <div className={styles.bubbleContainer}>
+      <div
+        className={styles.chatMessage}
+        style={{
+          background:
+            chatMessage.role === "assistant"
+              ? "linear-gradient(to right, #BB94FF, #CA43FF)"
+              : "white",
+        }}
+      >
+        {msg}
+      </div>
+      <p
+        className={styles.chatTimestamp}
+        style={{
+          padding:
+            chatMessage.role === "assistant"
+              ? "0.25rem 0 0 0.5rem"
+              : "0.25rem 0.5rem 0 0",
+          justifySelf: chatMessage.role === "assistant" ? "start" : "end",
+        }}
+      >
+        Sent at: {time}
+      </p>
     </div>
   );
 }
