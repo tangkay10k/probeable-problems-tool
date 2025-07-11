@@ -1,4 +1,5 @@
 package akl.p4p.uoa.data;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Test {
-    String code;
-    String expectedStdOut;
+  String code;
+  String expectedStdOut;
 }

@@ -1,8 +1,8 @@
 package akl.p4p.uoa.data;
 
 public final class Prompts {
-	public static String getConstraintsGenerationPrompt() {
-		return """
+  public static String getConstraintsGenerationPrompt() {
+    return """
 				You are a requirements author. Produce a numbered list of clear, testable acceptance criteria for the provided solution.
 				The developer will reference the implementation provided below:
 
@@ -37,10 +37,10 @@ public final class Prompts {
 				6. The output should be lowercase vowels.
 				7. y does not count as a vowel.
 				""";
-	}
+  }
 
-	public static String getTestSuiteGenerationPrompt() {
-		return """
+  public static String getTestSuiteGenerationPrompt() {
+    return """
 				You are a test engineer responsible for generating a structured test suite for a single function implementation.
 
 				The function implementation is:
@@ -74,10 +74,10 @@ public final class Prompts {
 				  ...
 				]
 				""";
-	}
+  }
 
-	public static String getProblemStatementSystemPrompt() {
-		return """
+  public static String getProblemStatementSystemPrompt() {
+    return """
 				You are a product owner crafting an intentionally ambiguous problem statement to guide a developer’s implementation.
 
 				The implemented reference solution is provided between the markers:
@@ -101,11 +101,12 @@ public final class Prompts {
 
 				Respond only with the problem statement (no commentary or formatting).
 				""";
-	}
+  }
 
-	/** Programming language agnostic prompt. */
-	public static String getClientInitialisationPrompt(String modelAnswer, String constraints) {
-		String basePrompt = """
+  /** Programming language agnostic prompt. */
+  public static String getClientInitialisationPrompt(String modelAnswer, String constraints) {
+    String basePrompt =
+        """
 				 You are a client that the user must query to understand the expected behavior of a hidden function.
 				 Your role is to explain the Model Answer (confidential) to the student in plain terms, without revealing implementation details or specific values.
 
@@ -129,13 +130,13 @@ public final class Prompts {
 				- When a test case is requested, provide only a simple function call: function(parameters);
 				""";
 
-		return basePrompt
-				.replace("//VAR_MODEL_ANSWER", modelAnswer)
-				.replace("//VAR_CONSTRAINTS", constraints);
-	}
+    return basePrompt
+        .replace("//VAR_MODEL_ANSWER", modelAnswer)
+        .replace("//VAR_CONSTRAINTS", constraints);
+  }
 
-	public static String duplicateQuestionVerifier() {
-		return """
+  public static String duplicateQuestionVerifier() {
+    return """
 				You are an AI assistant that checks if a given question has been asked before.
 				You are provided with a list of previous questions and a new question.
 				- If the question has been asked before (exact or similar), respond with:
@@ -148,5 +149,5 @@ public final class Prompts {
 				Previous Questions: [%s]
 				New Question: %s
 				""";
-	}
+  }
 }

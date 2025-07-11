@@ -3,10 +3,8 @@ package akl.p4p.uoa.models;
 import akl.p4p.uoa.data.ProblemType;
 import akl.p4p.uoa.data.ProgramLanguage;
 import akl.p4p.uoa.data.Test;
-import lombok.Data;
-
 import java.util.List;
-
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,7 +21,7 @@ public class Problem {
 
   private String constraints;
 
-	private List<Test> testSuite;
+  private List<Test> testSuite;
 
   private ProgramLanguage programLanguage;
 
