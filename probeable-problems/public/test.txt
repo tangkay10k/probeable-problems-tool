@@ -20,7 +20,10 @@ int main(void) {
             //VAR_SWITCH_TESTS
             default: break;
         }
-        if(i!=NUM_TESTS-1) printf("//VAR_SPLIT");
+        if(i!=NUM_TESTS-1){
+            printf("//VAR_SPLIT");
+            fflush(stdout);
+        } 
         
     }
 

@@ -23,7 +23,7 @@ public class Problem {
 
 	private String constraints;
 
-	private String testSuite;
+	private List<Test> testSuite;
 
     private ProgramLanguage programLanguage;
 

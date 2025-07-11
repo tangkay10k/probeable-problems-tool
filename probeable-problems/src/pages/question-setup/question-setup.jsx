@@ -39,7 +39,7 @@ export default function QuestionSetup() {
     problemStatement: "",
     modelAnswer: "",
     constraints: "",
-    testSuite: "",
+    testSuite: null,
     programLanguage: null,
     problemType: null,
     defaultProbe: null,
@@ -160,10 +160,6 @@ function Constraints({ problem, setProblem }) {
     withLoading(
       () => generateTestSuite(problem),
       (updatedProblem) => {
-        const newTestSuite = JSON.parse(updatedProblem.testSuite);
-
-        updatedProblem.testSuite = newTestSuite.tests
-
         setProblem(updatedProblem);
 
         toast.success(
@@ -242,8 +238,6 @@ function TestSuite({
       switchTests
     );
 
-    console.log(testSuiteFromFile)
-
     withLoading(
       () => executeCodePistonDirect(language, testSuiteFromFile),
       (execution) => updateResults(execution),
@@ -253,6 +247,7 @@ function TestSuite({
 
   const updateResults = (execution) => {
     const output = execution.run.output;
+    console.log(execution)
     const lines = output.split(SPLIT_STRING);
 
     let passedCount = 0;

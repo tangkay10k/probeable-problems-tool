@@ -62,11 +62,15 @@ class AiController {
 	 * endpoint does not persist the
 	 * test suite generated in any database, but is sent back to the client for
 	 * review / iteration.
-	 * @throws JsonProcessingException 
-	 * @throws JsonMappingException 
+	 * 
+	 * @throws JsonProcessingException
+	 * @throws JsonMappingException
 	 */
 	@PostMapping("test-suite")
-	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
+			throws JsonMappingException, JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+
 		String modelAnswer = problem.getModelAnswer();
 		String constraints = problem.getConstraints();
 
@@ -75,12 +79,10 @@ class AiController {
 				.replace("//VAR_CONSTRAINTS", constraints);
 
 		String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
-		System.out.println(testSuite);
-		
-		// ObjectMapper objectMapper = new ObjectMapper();
-		// TestResponse testResponse =  objectMapper.readValue(testSuite, TestResponse.class);
 
-		// problem.setTestSuite(testResponse.getTests());
+		TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
+
+		problem.setTestSuite(testResponse.getTests());
 		return ResponseEntity.ok(problem);
 	}
 
