@@ -25,22 +25,25 @@ import useWithLoading from "@/hooks/useWithLoading.js";
 import { toast } from "react-toastify";
 
 export default function QuestionSetup() {
-  const [language, setLanguage] = useState("c");
-
   const setModelSolution = (modelSolution) => {
     setProblem({ ...problem, modelAnswer: modelSolution });
   };
 
   const setTestSuite = (testSuite) => {
-    setProblem({ ...problem, testSuite: testSuite });
+    setProblem({ ...problem, testSuite });
   };
+
+  const setLanguage = (programLanguage) => {
+    setProblem({ ...problem, programLanguage });
+  };
+
 
   const [problem, setProblem] = useState({
     problemStatement: "",
     modelAnswer: "",
     constraints: "",
     testSuite: [],
-    programLanguage: null,
+    programLanguage: "c",
     problemType: null,
     defaultProbe: null,
   });
@@ -50,7 +53,7 @@ export default function QuestionSetup() {
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
           <ModelSolution
-            language={language}
+            language={problem.programLanguage}
             setLanguage={setLanguage}
             setSource={setModelSolution}
             instruction={MODEL_SOLUTION_INSTRUCTION}
@@ -65,7 +68,7 @@ export default function QuestionSetup() {
           <TestSuite
             problem={problem}
             setProblem={setProblem}
-            language={language}
+            language={problem.programLanguage}
             setLanguage={setLanguage}
             setTestSuite={setTestSuite}
           />
