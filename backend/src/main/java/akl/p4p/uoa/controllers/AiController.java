@@ -82,7 +82,7 @@ class AiController {
 
 		TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
-		problem.setTestSuite(testResponse.getTests());
+		problem.getTestSuite().addAll(testResponse.getTests());
 		return ResponseEntity.ok(problem);
 	}
 

@@ -39,7 +39,7 @@ export default function QuestionSetup() {
     problemStatement: "",
     modelAnswer: "",
     constraints: "",
-    testSuite: null,
+    testSuite: [],
     programLanguage: null,
     problemType: null,
     defaultProbe: null,
@@ -275,7 +275,7 @@ function TestSuite({
 
   return (
     <>
-      <CodeAndOutput tests={problem?.testSuite} setTests={setTestSuite} language={language} setLanguage={setLanguage} results={results} />
+      <CodeAndOutput tests={problem?.testSuite} setTests={setTestSuite} language={language} setLanguage={setLanguage} results={results} setResults={setResults}/>
       <Instruction
         heading="2. Test Suite Generation"
         instruction={TEST_CASES_INSTRUCTION}

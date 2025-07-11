@@ -14,7 +14,8 @@
     --grey: #D9D9D9;
     --white: #FFFFFF;
 
-    --red: #FF7070;
+    --red: #FF0000;
+    --hover-red: #FF2020;
     --online-green: #00FF2B;
 
     --hover-green: #0edc31;
@@ -62,11 +63,15 @@
     padding: 0;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
     width: 100vw;
     height: 100%;
 

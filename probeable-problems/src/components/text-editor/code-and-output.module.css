@@ -48,3 +48,16 @@
 .resultLabel {
     font-weight: bold;
 }
+
+
+
+.addButtonContainer {
+    margin: 0.5rem;
+}
+
+
+.testHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
