@@ -1,7 +1,6 @@
 package akl.p4p.uoa.data;
 
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionRequest {
-    List<String> questionsAsked;
-    String probe;
+  List<String> questionsAsked;
+  String probe;
 }

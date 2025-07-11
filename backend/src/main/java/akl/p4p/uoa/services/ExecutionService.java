@@ -12,34 +12,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExecutionService {
 
-    private static final String PISTON_API_URL = "https://emkc.org/api/v2/piston/execute";
+  private static final String PISTON_API_URL = "https://emkc.org/api/v2/piston/execute";
 
-    public static String executeInSandbox(String language, String languageVersion, String code)
-            throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
+  public static String executeInSandbox(String language, String languageVersion, String code)
+      throws IOException, InterruptedException {
+    HttpClient client = HttpClient.newHttpClient();
 
-        String sourceCode = CodeUtils.formatSourceCodeToSafeString(code);
+    String sourceCode = CodeUtils.formatSourceCodeToSafeString(code);
 
-        String json =
-                String.format(
-                        JsonSchemaDefinition.getExecutionPayload(),
-                        "\"" + language + "\"",
-                        "\"" + languageVersion + "\"",
-                        "\"" + sourceCode + "\"");
+    String json =
+        String.format(
+            JsonSchemaDefinition.getExecutionPayload(),
+            "\"" + language + "\"",
+            "\"" + languageVersion + "\"",
+            "\"" + sourceCode + "\"");
 
-        HttpRequest request =
-                HttpRequest.newBuilder()
-                        .uri(URI.create(PISTON_API_URL))
-                        .header("Content-Type", "application/json")
-                        .POST(HttpRequest.BodyPublishers.ofString(json))
-                        .build();
+    HttpRequest request =
+        HttpRequest.newBuilder()
+            .uri(URI.create(PISTON_API_URL))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(json))
+            .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (response.statusCode() >= 200 && response.statusCode() < 300) {
-            return response.body();
-        } else {
-            throw new IOException("PISTON Execution failed with status " + response.statusCode());
-        }
+    if (response.statusCode() >= 200 && response.statusCode() < 300) {
+      return response.body();
+    } else {
+      throw new IOException("PISTON Execution failed with status " + response.statusCode());
     }
+  }
 }

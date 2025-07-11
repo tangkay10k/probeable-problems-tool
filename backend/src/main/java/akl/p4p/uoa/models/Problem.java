@@ -14,20 +14,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("problems")
 public class Problem {
 
-    @Id private String id;
+  @Id private String id;
 
-	// Ambiguous problem to start the question given to students.
-    private String problemStatement;
+  // Ambiguous problem to start the question given to students.
+  private String problemStatement;
 
-    private String modelAnswer;
+  private String modelAnswer;
 
-	private String constraints;
+  private String constraints;
 
 	private List<Test> testSuite;
 
-    private ProgramLanguage programLanguage;
+  private ProgramLanguage programLanguage;
 
-	private ProblemType problemType;
+  private ProblemType problemType;
 
-	private String defaultProbe;
+  private String defaultProbe;
 }

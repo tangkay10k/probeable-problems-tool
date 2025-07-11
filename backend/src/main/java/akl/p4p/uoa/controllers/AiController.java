@@ -7,7 +7,6 @@ import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
-
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi.ChatModel;
@@ -26,32 +25,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/api/ai")
 class AiController {
-	private final ChatClient chatClient;
+  private final ChatClient chatClient;
 
-	@Autowired
-	AIService aiService;
+  @Autowired AIService aiService;
 
-	@Autowired
-	ProblemService problemService;
+  @Autowired ProblemService problemService;
 
-	public AiController(ChatClient.Builder chatClientBuilder, ProblemService problemService) {
-		this.chatClient = chatClientBuilder.build();
-		this.problemService = problemService;
-	}
+  public AiController(ChatClient.Builder chatClientBuilder, ProblemService problemService) {
+    this.chatClient = chatClientBuilder.build();
+    this.problemService = problemService;
+  }
 
-	/**
-	 * Endpoint to generate constraints for a given question. Note that this
-	 * endpoint does not persist the
-	 * constraints generated in any database, but is sent back to the client for
-	 * review / iteration.
-	 */
-	@PostMapping("constraints")
-	public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
-		String modelAnswer = problem.getModelAnswer();
+  /**
+   * Endpoint to generate constraints for a given question. Note that this endpoint does not persist
+   * the constraints generated in any database, but is sent back to the client for review /
+   * iteration.
+   */
+  @PostMapping("constraints")
+  public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
+    String modelAnswer = problem.getModelAnswer();
 
-		String basePrompt = Prompts.getConstraintsGenerationPrompt();
-		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer);
-		String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
+    String basePrompt = Prompts.getConstraintsGenerationPrompt();
+    String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer);
+    String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
 
 		problem.setConstraints(constraints);
 		return ResponseEntity.ok(problem);
@@ -86,37 +82,39 @@ class AiController {
 		return ResponseEntity.ok(problem);
 	}
 
-	@PostMapping("problem-statement")
-	public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
-		String modelAnswer = problem.getModelAnswer();
-		String constraints = problem.getConstraints();
+  @PostMapping("problem-statement")
+  public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
+    String modelAnswer = problem.getModelAnswer();
+    String constraints = problem.getConstraints();
 
-		String basePrompt = Prompts.getProblemStatementSystemPrompt();
-		String sysPrompt = basePrompt.replace("//VAR_MODEL_SOLUTION", modelAnswer)
-				.replace("//VAR_CONSTRAINTS", constraints);
+    String basePrompt = Prompts.getProblemStatementSystemPrompt();
+    String sysPrompt =
+        basePrompt
+            .replace("//VAR_MODEL_SOLUTION", modelAnswer)
+            .replace("//VAR_CONSTRAINTS", constraints);
 
-		String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
-		problem.setProblemStatement(problemStatement);
-		return ResponseEntity.ok(problem);
-	}
+    String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
+    problem.setProblemStatement(problemStatement);
+    return ResponseEntity.ok(problem);
+  }
 
-	@PostMapping("duplicate")
-	public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
-		String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
+  @PostMapping("duplicate")
+  public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
+    String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
 
-		OpenAiChatOptions options = OpenAiChatOptions.builder()
-				.model(ChatModel.O1)
-				.temperature(1D)
-				.responseFormat(
-						new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
-				.build();
+    OpenAiChatOptions options =
+        OpenAiChatOptions.builder()
+            .model(ChatModel.O1)
+            .temperature(1D)
+            .responseFormat(new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
+            .build();
 
-		String prompt = Prompts.duplicateQuestionVerifier()
-				.formatted(
-						String.join(", ", request.getQuestionsAsked()), request.getProbe());
+    String prompt =
+        Prompts.duplicateQuestionVerifier()
+            .formatted(String.join(", ", request.getQuestionsAsked()), request.getProbe());
 
-		String assistantReply = chatClient.prompt(prompt).options(options).call().content();
+    String assistantReply = chatClient.prompt(prompt).options(options).call().content();
 
-		return assistantReply;
-	}
+    return assistantReply;
+  }
 }
