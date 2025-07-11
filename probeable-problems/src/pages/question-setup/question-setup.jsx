@@ -205,11 +205,31 @@ function TestSuite({
   const [isLoading, withLoading] = useWithLoading();
   const [results, setResults] = useState([])
   const [terminalOutput, setTerminalOutput] = useState("");
-  
+
 
   const handleTestSuiteExecution = async () => {
-    const response = await fetch('/test.txt');
+    let testSuiteFromFile
+    switch (language) {
+      case 'c':
+        testSuiteFromFile = await inputCVariables();
+        break;
+      case 'java':
+        //TODO
+        break;
+      default:
+        //TODO
+        break;
+    }
 
+    withLoading(
+      () => executeCodePistonDirect(language, testSuiteFromFile),
+      (execution) => updateResults(execution),
+      (err) => toast.error(err),
+    );
+  };
+
+  const inputCVariables = async () => {
+    const response = await fetch('/test.txt');
     const generatedTests = problem?.testSuite?.map((test, i) => `
     void test_${i + 1}() {
         ${test.code}
@@ -238,13 +258,8 @@ function TestSuite({
       '//VAR_SWITCH_TESTS',
       switchTests
     );
-
-    withLoading(
-      () => executeCodePistonDirect(language, testSuiteFromFile),
-      (execution) => updateResults(execution),
-      (err) => toast.error(err),
-    );
-  };
+    return testSuiteFromFile;
+  }
 
   const updateResults = (execution) => {
     const output = execution.run.output;
@@ -276,7 +291,7 @@ function TestSuite({
 
   return (
     <>
-      <CodeAndOutput tests={problem?.testSuite} setTests={setTestSuite} language={language} setLanguage={setLanguage} results={results} setResults={setResults}/>
+      <CodeAndOutput tests={problem?.testSuite} setTests={setTestSuite} language={language} setLanguage={setLanguage} results={results} setResults={setResults} />
       <Instruction
         heading="2. Test Suite Generation"
         instruction={TEST_CASES_INSTRUCTION}
