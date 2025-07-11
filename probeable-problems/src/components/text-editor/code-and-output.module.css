@@ -7,18 +7,18 @@
     margin: 0.5rem;
     padding: 0.5rem;
     border-radius: 0.3rem;
-    background-color: #f5f5f5;
+    background-color: var(--light-white);
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
 }
 
 .pass {
-    background-color: #d4f4dd;
+    background-color: var(--pass-green);
 }
 
 .fail {
-    background-color: #fbdcdc;
+    background-color: var(--fail-red);
 }
 
 .outputLabel {

@@ -12,7 +12,11 @@
     --dark-dark-grey: #3A3A3A;
     --oracle-grey: #C0C0C0;
     --grey: #D9D9D9;
+    --light-white: #f5f5f5;
     --white: #FFFFFF;
+
+    --pass-green: #d4f4dd;
+    --fail-red: #fbdcdc;
 
     --red: #FF0000;
     --hover-red: #FF2020;
