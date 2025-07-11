@@ -3,7 +3,6 @@ package akl.p4p.uoa.models;
 import akl.p4p.uoa.data.ProblemType;
 import akl.p4p.uoa.data.ProgramLanguage;
 import lombok.Data;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,20 +10,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("problems")
 public class Problem {
 
-    @Id private String id;
+  @Id private String id;
 
-	// Ambiguous problem to start the question given to students.
-    private String problemStatement;
+  // Ambiguous problem to start the question given to students.
+  private String problemStatement;
 
-    private String modelAnswer;
+  private String modelAnswer;
 
-	private String constraints;
+  private String constraints;
 
-	private String testSuite;
+  private String testSuite;
 
-    private ProgramLanguage programLanguage;
+  private ProgramLanguage programLanguage;
 
-	private ProblemType problemType;
+  private ProblemType problemType;
 
-	private String defaultProbe;
+  private String defaultProbe;
 }
