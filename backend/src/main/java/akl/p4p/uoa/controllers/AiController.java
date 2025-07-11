@@ -26,11 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 class AiController {
   private final ChatClient chatClient;
 
-  @Autowired
-  AIService aiService;
+  @Autowired AIService aiService;
 
-  @Autowired
-  ProblemService problemService;
+  @Autowired ProblemService problemService;
 
   public AiController(ChatClient.Builder chatClientBuilder, ProblemService problemService) {
     this.chatClient = chatClientBuilder.build();
@@ -38,10 +36,8 @@ class AiController {
   }
 
   /**
-   * Endpoint to generate constraints for a given question. Note that this
-   * endpoint does not persist
-   * the constraints generated in any database, but is sent back to the client for
-   * review /
+   * Endpoint to generate constraints for a given question. Note that this endpoint does not persist
+   * the constraints generated in any database, but is sent back to the client for review /
    * iteration.
    */
   @PostMapping("constraints")
@@ -57,10 +53,8 @@ class AiController {
   }
 
   /**
-   * Endpoint to generate a test suite for a given question. Note that this
-   * endpoint does not
-   * persist the test suite generated in any database, but is sent back to the
-   * client for review /
+   * Endpoint to generate a test suite for a given question. Note that this endpoint does not
+   * persist the test suite generated in any database, but is sent back to the client for review /
    * iteration.
    *
    * @throws JsonProcessingException
@@ -74,17 +68,20 @@ class AiController {
     String modelAnswer = problem.getModelAnswer();
     String constraints = problem.getConstraints();
 
-    String basePrompt = switch (problem.getProgramLanguage()) {
-      case C -> Prompts.getTestSuiteGenerationPromptForC();
-      case JAVA -> Prompts.getTestSuiteGenerationPromptForJava();
-      default -> "";
-    };
+    String basePrompt =
+        switch (problem.getProgramLanguage()) {
+          case C -> Prompts.getTestSuiteGenerationPromptForC();
+          case JAVA -> Prompts.getTestSuiteGenerationPromptForJava();
+          default -> "";
+        };
 
-    String sysPrompt = basePrompt
-        .replace("//VAR_MODEL_SOLUTION", modelAnswer)
-        .replace("//VAR_CONSTRAINTS", constraints);
+    String sysPrompt =
+        basePrompt
+            .replace("//VAR_MODEL_SOLUTION", modelAnswer)
+            .replace("//VAR_CONSTRAINTS", constraints);
 
-    String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+    String testSuite =
+        aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
 
     TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
@@ -98,9 +95,10 @@ class AiController {
     String constraints = problem.getConstraints();
 
     String basePrompt = Prompts.getProblemStatementSystemPrompt();
-    String sysPrompt = basePrompt
-        .replace("//VAR_MODEL_SOLUTION", modelAnswer)
-        .replace("//VAR_CONSTRAINTS", constraints);
+    String sysPrompt =
+        basePrompt
+            .replace("//VAR_MODEL_SOLUTION", modelAnswer)
+            .replace("//VAR_CONSTRAINTS", constraints);
 
     String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
     problem.setProblemStatement(problemStatement);
@@ -111,14 +109,16 @@ class AiController {
   public String checkDuplicateQuestion(@RequestBody QuestionRequest request) {
     String jsonSchema = JsonSchemaDefinition.getDuplicateQuestionSchema();
 
-    OpenAiChatOptions options = OpenAiChatOptions.builder()
-        .model(ChatModel.O1)
-        .temperature(1D)
-        .responseFormat(new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
-        .build();
+    OpenAiChatOptions options =
+        OpenAiChatOptions.builder()
+            .model(ChatModel.O1)
+            .temperature(1D)
+            .responseFormat(new ResponseFormat(ResponseFormat.Type.JSON_SCHEMA, jsonSchema))
+            .build();
 
-    String prompt = Prompts.duplicateQuestionVerifier()
-        .formatted(String.join(", ", request.getQuestionsAsked()), request.getProbe());
+    String prompt =
+        Prompts.duplicateQuestionVerifier()
+            .formatted(String.join(", ", request.getQuestionsAsked()), request.getProbe());
 
     String assistantReply = chatClient.prompt(prompt).options(options).call().content();
 
