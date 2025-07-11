@@ -76,10 +76,8 @@ export function CodeAndOutput({ tests, setTests, language, setLanguage, results,
 
                     {results?.[index] && (
                         <div className={styles.resultBlock}>
-                            <div>
-                                <span className={styles.resultLabel}>Actual:</span>{' '}
-                                <code>{results[index].actual}</code>
-                            </div>
+                            <span className={styles.resultLabel}>Actual:</span>{' '}
+                            <code>{results[index].actual}</code>
                         </div>
                     )}
                 </div>
