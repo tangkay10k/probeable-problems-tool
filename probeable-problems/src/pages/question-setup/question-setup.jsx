@@ -7,8 +7,9 @@ import {
   TEST_CASES_INSTRUCTION,
 } from "./data/instructions";
 import styles from "./question-setup.module.css";
-import { TextEditor } from "@/components/text-editor/text-editor.jsx";
-import { useState } from "react";
+import { TestCaseEditor } from "@/components/text-editor/text-editor-test-fetch.jsx";
+import { CodeAndOutput } from "@/components/text-editor/code-and-output";
+import { useState, useEffect } from "react";
 import Button from "../../components/button/button";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
@@ -17,44 +18,62 @@ import {
   generateProblemStatement,
   generateTestSuite,
 } from "@/routes/ai-route.js";
+import {
+  getTestTemplate,
+} from "@/routes/test-template-route.js";
 import { QUESTION_TYPES } from "@/pages/question-setup/data/question-types.js";
 import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { createProblem, updateProblem } from "@/routes/problem-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { toast } from "react-toastify";
+import { createTestSuiteFromFile } from "./test-setup-utils";
 
 export default function QuestionSetup() {
-  const [language, setLanguage] = useState("c");
+  const [_, withLoading] = useWithLoading();
+  const setLanguage = (programLanguage) => {
+    setProblem(prev => ({ ...prev, programLanguage }));
+  };
 
-  const setModelSolution = (modelSolution) => {
-    setProblem({ ...problem, modelAnswer: modelSolution });
+  const setModelSolution = (modelAnswer) => {
+    setProblem(prev => ({ ...prev, modelAnswer }));
   };
 
   const setTestSuite = (testSuite) => {
-    setProblem({ ...problem, testSuite: testSuite });
+    setProblem(prev => ({ ...prev, testSuite }));
   };
 
   const [problem, setProblem] = useState({
     problemStatement: "",
     modelAnswer: "",
     constraints: "",
-    testSuite: "",
-    programLanguage: null,
+    testSuite: [],
+    programLanguage: "c",
     problemType: null,
     defaultProbe: null,
   });
+
+  const [testTemplate, setTestTemplate] = useState("");
+
+  useEffect(() => {
+    withLoading(
+      () => getTestTemplate(problem.programLanguage),
+      (template) => setTestTemplate(template),
+      (err) => console.log(`No template for ${problem.programLanguage}`, err)
+    );
+  }, []);
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.outerContainer}>
         <div className={styles.innerContainer}>
           <ModelSolution
-            language={language}
+            language={problem.programLanguage}
             setLanguage={setLanguage}
             setSource={setModelSolution}
             instruction={MODEL_SOLUTION_INSTRUCTION}
             problem={problem}
             setProblem={setProblem}
+            setTestTemplate={setTestTemplate}
           />
           <Constraints problem={problem} setProblem={setProblem} />
         </div>
@@ -64,9 +83,11 @@ export default function QuestionSetup() {
           <TestSuite
             problem={problem}
             setProblem={setProblem}
-            language={language}
+            language={problem.programLanguage}
             setLanguage={setLanguage}
             setTestSuite={setTestSuite}
+            testTemplate={testTemplate}
+            setTestTemplate={setTestTemplate}
           />
           <ProblemStatement problem={problem} setProblem={setProblem} />
         </div>
@@ -82,6 +103,7 @@ function ModelSolution({
   instruction,
   setProblem,
   problem,
+  setTestTemplate,
 }) {
   const [isLoading, withLoading] = useWithLoading();
   const handleQuestionTypeSelect = (problemType) => {
@@ -117,11 +139,12 @@ function ModelSolution({
         options={QUESTION_TYPES}
         onSelect={handleQuestionTypeSelect}
       />
-      <TextEditor
+      <TestCaseEditor
         language={language}
         setLanguage={setLanguage}
         src={problem.modelAnswer}
         setSource={setSource}
+        setTestTemplate={setTestTemplate}
       />
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>
@@ -160,6 +183,7 @@ function Constraints({ problem, setProblem }) {
       () => generateTestSuite(problem),
       (updatedProblem) => {
         setProblem(updatedProblem);
+
         toast.success(
           "Test suite has been generated! please review them carefully 😊",
         );
@@ -197,20 +221,42 @@ function TestSuite({
   problem,
   setProblem,
   setTestSuite,
+  testTemplate,
+  setTestTemplate
 }) {
-  const [executionOutput, setExecutionOutput] = useState("");
+  //Unique Variable To Split Print Statements In The Output
+  const SPLIT_STRING = "$_@_BBJ_SPL1T_@_$"
   const [isLoading, withLoading] = useWithLoading();
+  const [results, setResults] = useState([])
+  const [terminalOutput, setTerminalOutput] = useState("");
+
+
   const handleTestSuiteExecution = () => {
-    const testSuiteWithModelSolution = problem.testSuite.replace(
-      "//VAR_IMPLEMENTATION",
-      problem.modelAnswer,
-    );
+    const testSuiteFromFile = createTestSuiteFromFile(problem, testTemplate, SPLIT_STRING, language);
+
     withLoading(
-      () => executeCodePistonDirect(language, testSuiteWithModelSolution),
-      (execution) => setExecutionOutput(execution.run.output),
+      () => executeCodePistonDirect(language, testSuiteFromFile),
+      (execution) => updateResults(execution),
       (err) => toast.error(err),
     );
   };
+
+  const updateResults = (execution) => {
+    const output = execution.run.output;
+
+    const lines = output.split(SPLIT_STRING);
+
+    let passedCount = 0;
+
+    const updatedResults = lines.map((line, i) => {
+      const expected = problem?.testSuite[i]?.expectedStdOut ?? '';
+      if (line === expected) passedCount += 1;
+      return { actual: line, expected };
+    });
+
+    setResults(updatedResults);
+    setTerminalOutput(`${passedCount}/${problem?.testSuite?.length} tests passed`);
+  }
 
   const saveQuestion = () => {
     withLoading(
@@ -225,17 +271,12 @@ function TestSuite({
 
   return (
     <>
-      <TextEditor
-        language={language}
-        setLanguage={setLanguage}
-        src={problem.testSuite}
-        setSource={setTestSuite}
-      />
+      <CodeAndOutput tests={problem?.testSuite} setTests={setTestSuite} language={language} setLanguage={setLanguage} results={results} setResults={setResults} setTestTemplate={setTestTemplate} />
       <Instruction
         heading="2. Test Suite Generation"
         instruction={TEST_CASES_INSTRUCTION}
       />
-      <Terminal output={executionOutput} />
+      <Terminal output={terminalOutput} />
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>
           Save
