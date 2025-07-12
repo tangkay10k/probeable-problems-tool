@@ -3,6 +3,9 @@ import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./language-selector.jsx";
 import { CODE_SNIPPETS } from "./data/constants.js";
 import styles from "./text-editor.module.css";
+import {
+  getTestTemplate,
+} from "@/routes/test-template-route.js";
 
 export function TextEditor({
   setLanguage,
@@ -14,12 +17,22 @@ export function TextEditor({
   fontSize = 13,
   isResizable = false, // new prop to control resizable behavior
   fixedHeight = 200, // height to use when not resizable
+  setTestTemplate
 }) {
   // Track editor height in state
   const [editorHeight, setEditorHeight] = useState(fixedHeight);
   const containerRef = useRef();
 
-  const onSelect = (lang) => {
+  const onSelect = async (lang) => {
+    if (setTestTemplate) {
+      try{
+      const template = await getTestTemplate(lang)
+      setTestTemplate(template);
+      }catch(e){
+        console.log(`No Template exists for ${lang}`)
+      }
+    }
+
     setLanguage(lang);
     setSource(CODE_SNIPPETS[lang]);
   };

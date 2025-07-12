@@ -3,7 +3,7 @@ import TextArea from "@/components/inputs/text-area.jsx";
 import styles from './code-and-output.module.css'
 import Button from "@/components/button/button.jsx";
 import DeleteButton from "@/components/button/delete-button";
-export function CodeAndOutput({ tests, setTests, language, setLanguage, results, setResults }) {
+export function CodeAndOutput({ tests, setTests, language, setLanguage, results, setResults, setTestTemplate }) {
     const updateCodeAtIndex = (index, newCode) => {
         const updatedTests = [...tests];
 
@@ -64,6 +64,7 @@ export function CodeAndOutput({ tests, setTests, language, setLanguage, results,
                         src={test.code}
                         setSource={(newCode) => updateCodeAtIndex(index, newCode)}
                         fixedHeight={100}
+                        setTestTemplate={setTestTemplate}
                     />
 
                     <label className={styles.outputLabel}>Expected Output</label>
