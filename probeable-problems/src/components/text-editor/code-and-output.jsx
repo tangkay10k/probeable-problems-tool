@@ -1,4 +1,4 @@
-import { TextEditorTestFetch } from "@/components/text-editor/text-editor-test-fetch.jsx";
+import { TestCaseEditor } from "@/components/text-editor/text-editor-test-fetch.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import styles from './code-and-output.module.css'
 import Button from "@/components/button/button.jsx";
@@ -58,7 +58,7 @@ export function CodeAndOutput({ tests, setTests, language, setLanguage, results,
                         <div className={styles.testLabel}>{`Test ${index + 1}`}</div>
                         <DeleteButton onClick={() => deleteTest(index)}>X</DeleteButton>
                     </div>
-                    <TextEditorTestFetch
+                    <TestCaseEditor
                         language={language}
                         setLanguage={setLanguage}
                         src={test.code}

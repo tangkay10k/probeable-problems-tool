@@ -7,7 +7,7 @@ import {
   TEST_CASES_INSTRUCTION,
 } from "./data/instructions";
 import styles from "./question-setup.module.css";
-import { TextEditorTestFetch } from "@/components/text-editor/text-editor-test-fetch.jsx";
+import { TestCaseEditor } from "@/components/text-editor/text-editor-test-fetch.jsx";
 import { CodeAndOutput } from "@/components/text-editor/code-and-output";
 import { useState, useEffect } from "react";
 import Button from "../../components/button/button";
@@ -55,8 +55,11 @@ export default function QuestionSetup() {
 
   useEffect(() => {
     async function fetchTemplate() {
-      const template = await getTestTemplate(problem.programLanguage);
-      setTestTemplate(template);
+      withLoading(
+        () => getTestTemplate(problem.programLanguage),
+        (template) => setTestTemplate(template),
+        (err) => console.log(`No template for ${problem.programLanguage}`, err)
+      );
     }
     fetchTemplate();
   }, []);
@@ -138,7 +141,7 @@ function ModelSolution({
         options={QUESTION_TYPES}
         onSelect={handleQuestionTypeSelect}
       />
-      <TextEditorTestFetch
+      <TestCaseEditor
         language={language}
         setLanguage={setLanguage}
         src={problem.modelAnswer}

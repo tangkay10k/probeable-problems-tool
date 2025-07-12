@@ -4,7 +4,7 @@ import {
     getTestTemplate,
 } from "@/routes/test-template-route.js";
 
-export function TextEditorTestFetch({
+export function TestCaseEditor({
     setLanguage,
     language,
     src,
