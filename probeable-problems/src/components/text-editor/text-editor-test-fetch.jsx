@@ -12,8 +12,8 @@ export function TextEditorTestFetch({
     showLanguageSelect = true,
     lineNumbers = true,
     fontSize = 13,
-    isResizable = false, // new prop to control resizable behavior
-    fixedHeight = 200, // height to use when not resizable
+    isResizable = false, 
+    fixedHeight = 200, 
     setTestTemplate
 }) {
     const [_, withLoading] = useWithLoading();
