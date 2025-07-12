@@ -1,4 +1,4 @@
-export const inputCVariables = async (problem, testTemplate, splitString) => {
+export const inputCVariables = (problem, testTemplate, splitString) => {
     const generatedTests = problem?.testSuite?.map((test, i) => `
     void test_${i + 1}() {
         ${test.code}

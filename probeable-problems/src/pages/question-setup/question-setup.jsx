@@ -233,11 +233,11 @@ function TestSuite({
   const [terminalOutput, setTerminalOutput] = useState("");
 
 
-  const handleTestSuiteExecution = async () => {
+  const handleTestSuiteExecution = () => {
     let testSuiteFromFile
     switch (language) {
       case 'c':
-        testSuiteFromFile = await inputCVariables(problem, testTemplate, SPLIT_STRING);
+        testSuiteFromFile = inputCVariables(problem, testTemplate, SPLIT_STRING);
         break;
       case 'java':
         //TODO
