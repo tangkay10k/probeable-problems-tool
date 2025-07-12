@@ -9,10 +9,9 @@ export function TestCaseEditor({
     language,
     src,
     setSource,
-    showLanguageSelect = true,
-    lineNumbers = true,
+    showLanguageSelect = false,
+    lineNumbers = false,
     fontSize = 13,
-    isResizable = false, 
     fixedHeight = 200, 
     setTestTemplate
 }) {
@@ -36,7 +35,6 @@ export function TestCaseEditor({
             showLanguageSelect={showLanguageSelect}
             lineNumbers={lineNumbers}
             fontSize={fontSize}
-            isResizable={isResizable}
             fixedHeight={fixedHeight}
         />
     )
