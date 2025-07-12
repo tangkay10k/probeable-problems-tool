@@ -19,7 +19,7 @@ export function TextEditorTestFetch({
     const [_, withLoading] = useWithLoading();
     const onSelect = (lang) => {
         withLoading(
-            async () => await getTestTemplate(lang),
+            () =>  getTestTemplate(lang),
             (template) => setTestTemplate(template),
             (err) => console.log(`No template for ${lang}`, err)
         );
