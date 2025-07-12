@@ -19,9 +19,10 @@ export default function ChatApp({ sessionId = "1", messageList = [] }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const element = containerRef.current;
-    if (element) {
-      element.scrollTop = element.scrollHeight;
+    const el = containerRef.current;
+    if (el && el.scrollHeight > el.clientHeight) {
+      // only scroll if content is taller than container
+      el.scrollTop = el.scrollHeight;
     }
   }, [chatHistory]);
 

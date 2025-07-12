@@ -93,11 +93,15 @@ public final class Prompts {
   }
 
   /** Programming language agnostic prompt. */
-  public static String getClientInitialisationPrompt(String modelAnswer, String constraints) {
+  public static String getClientInitialisationPrompt(
+      String problemStatement, String modelAnswer, String constraints) {
     String basePrompt =
         """
-		 You are a client that the user must query to understand the expected behavior of a hidden function.
+		 You are a client that a software developer must query to understand the expected behavior of a hidden function.
 		 Your role is to explain the Model Answer (confidential) to the student in plain terms, without revealing implementation details or specific values.
+
+		Problem Statement:
+		//VAR_PROBLEM_STATEMENT
 
 		Model Answer (Confidential – Do NOT disclose to the student):
 		//VAR_MODEL_ANSWER
@@ -117,26 +121,19 @@ public final class Prompts {
 		- If the student’s question is too vague, prompt them to specify which aspect they wish to clarify.
 		- Do not generate code unless the student explicitly requests a test case after repeated clarification requests.
 		- When a test case is requested, provide only a simple function call: function(parameters);
+
+		You should start the conversation by asking your developer the problem statement:
+
+		For example:
+		"Write me a function that returns a count of integers"
+		"Write me a function to find the first vowel"
+		"Write me a function that divides certain numbers"
+
 		""";
 
     return basePrompt
+        .replace("//VAR_PROBLEM_STATEMENT", problemStatement)
         .replace("//VAR_MODEL_ANSWER", modelAnswer)
         .replace("//VAR_CONSTRAINTS", constraints);
-  }
-
-  public static String duplicateQuestionVerifier() {
-    return """
-                You are an AI assistant that checks if a given question has been asked before.
-                You are provided with a list of previous questions and a new question.
-                - If the question has been asked before (exact or similar), respond with:
-                  - "isDuplicateQuestion": true
-                  - "suggestion": Explain they have already asked this question before and tell them to try asking different type of questions.
-                - If the question is new, respond with:
-                  - "isDuplicateQuestion": false
-                  - "suggestion": Provide a suggestion to rephrase or ask a related question.
-
-                Previous Questions: [%s]
-                New Question: %s
-                """;
   }
 }

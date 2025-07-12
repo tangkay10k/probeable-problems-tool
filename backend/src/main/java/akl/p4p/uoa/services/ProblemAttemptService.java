@@ -51,15 +51,7 @@ public class ProblemAttemptService {
       attempt.setStudentEmail(studentEmail);
       attempt.setCreatedDate(new Date());
 
-      // Set up client persona
-      String systemPrompt =
-          Prompts.getClientInitialisationPrompt(problem.getModelAnswer(), problem.getConstraints());
-      ChatHistory chatHistory =
-          aiService.chatWithClient(
-              UUID.randomUUID().toString(),
-              systemPrompt,
-              null,
-              JsonSchemaDefinition.getClientProbeSchema());
+      ChatHistory chatHistory = initialiseClientPersona(problem);
 
       attempt.setChatHistoryId(chatHistory.getSessionId());
       attempt.setMessageList(chatHistory.getMessages());
@@ -86,5 +78,17 @@ public class ProblemAttemptService {
   public ChatHistory chatWithClientWithSessionHistory(String chatSessionId, String userMessage) {
     return aiService.chatWithClient(
         chatSessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema());
+  }
+
+  private ChatHistory initialiseClientPersona(Problem problem) {
+    String systemPrompt =
+        Prompts.getClientInitialisationPrompt(
+            problem.getProblemStatement(), problem.getModelAnswer(), problem.getConstraints());
+
+    return aiService.chatWithClient(
+        UUID.randomUUID().toString(),
+        systemPrompt,
+        null,
+        JsonSchemaDefinition.getClientProbeSchema());
   }
 }
