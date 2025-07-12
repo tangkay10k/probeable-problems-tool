@@ -279,7 +279,7 @@ function TestSuite({
 
   const updateResults = (execution) => {
     const output = execution.run.output;
-    console.log(execution)
+
     const lines = output.split(SPLIT_STRING);
 
     let passedCount = 0;
