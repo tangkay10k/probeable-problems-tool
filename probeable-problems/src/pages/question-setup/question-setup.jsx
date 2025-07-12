@@ -26,6 +26,7 @@ import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { createProblem, updateProblem } from "@/routes/problem-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { toast } from "react-toastify";
+import { inputCVariables } from "./test-setup-utils";
 
 export default function QuestionSetup() {
   const setLanguage = (programLanguage) => {
@@ -52,10 +53,13 @@ export default function QuestionSetup() {
 
   const [testTemplate, setTestTemplate] = useState("");
 
-  useEffect(async () => {
-    const template = await getTestTemplate(problem.programLanguage)
-    setTestTemplate(template);
-  }, [])
+  useEffect(() => {
+    async function fetchTemplate() {
+      const template = await getTestTemplate(problem.programLanguage);
+      setTestTemplate(template);
+    }
+    fetchTemplate();
+  }, []);
 
   return (
     <div className={styles.pageContainer}>
@@ -230,7 +234,7 @@ function TestSuite({
     let testSuiteFromFile
     switch (language) {
       case 'c':
-        testSuiteFromFile = await inputCVariables();
+        testSuiteFromFile = await inputCVariables(problem, testTemplate, SPLIT_STRING);
         break;
       case 'java':
         //TODO
@@ -246,36 +250,6 @@ function TestSuite({
       (err) => toast.error(err),
     );
   };
-
-  const inputCVariables = async () => {
-    const generatedTests = problem?.testSuite?.map((test, i) => `
-    void test_${i + 1}() {
-        ${test.code}
-    }
-    `).join('\n');
-
-    const switchTests = problem?.testSuite?.map((_, i) => `
-        case ${i}: test_${i + 1}(); break;
-    `).join('\n');
-
-    const template = testTemplate.template.replace(
-      '//VAR_IMPLEMENTATION',
-      problem.modelAnswer
-    ).replace(
-      '//VAR_SPLIT',
-      SPLIT_STRING
-    ).replace(
-      '//VAR_NUM_TESTS',
-      problem?.testSuite?.length.toString()
-    ).replace(
-      '//VAR_TESTS',
-      generatedTests
-    ).replace(
-      '//VAR_SWITCH_TESTS',
-      switchTests
-    );
-    return template;
-  }
 
   const updateResults = (execution) => {
     const output = execution.run.output;
