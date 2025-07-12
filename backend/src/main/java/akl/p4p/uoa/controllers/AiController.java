@@ -7,7 +7,6 @@ import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.openai.OpenAiChatOptions;
@@ -55,7 +54,8 @@ class AiController {
    * Endpoint to generate a test suite for a given question. Note that this endpoint does not
    * persist the test suite generated in any database, but is sent back to the client for review /
    * iteration.
-   * @throws Exception 
+   *
+   * @throws Exception
    */
   @PostMapping("test-suite")
   public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)

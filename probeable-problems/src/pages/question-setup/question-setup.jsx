@@ -7,7 +7,7 @@ import {
   TEST_CASES_INSTRUCTION,
 } from "./data/instructions";
 import styles from "./question-setup.module.css";
-import { TextEditor } from "@/components/text-editor/text-editor.jsx";
+import { TextEditorTestFetch } from "@/components/text-editor/text-editor-test-fetch.jsx";
 import { CodeAndOutput } from "@/components/text-editor/code-and-output";
 import { useState, useEffect } from "react";
 import Button from "../../components/button/button";
@@ -138,7 +138,7 @@ function ModelSolution({
         options={QUESTION_TYPES}
         onSelect={handleQuestionTypeSelect}
       />
-      <TextEditor
+      <TextEditorTestFetch
         language={language}
         setLanguage={setLanguage}
         src={problem.modelAnswer}
