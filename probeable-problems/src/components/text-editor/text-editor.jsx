@@ -19,7 +19,7 @@ export function TextEditor({
   const [editorHeight, setEditorHeight] = useState(fixedHeight);
   const containerRef = useRef();
 
-  const onSelect = async (lang) => {
+  const onSelect = (lang) => {
     setLanguage(lang);
     setSource(CODE_SNIPPETS[lang]);
   };
