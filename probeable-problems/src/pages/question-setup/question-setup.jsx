@@ -26,9 +26,10 @@ import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { createProblem, updateProblem } from "@/routes/problem-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { toast } from "react-toastify";
-import { inputCVariables } from "./test-setup-utils";
+import { createTestSuiteFromFile } from "./test-setup-utils";
 
 export default function QuestionSetup() {
+  const [_, withLoading] = useWithLoading();
   const setLanguage = (programLanguage) => {
     setProblem(prev => ({ ...prev, programLanguage }));
   };
@@ -54,14 +55,11 @@ export default function QuestionSetup() {
   const [testTemplate, setTestTemplate] = useState("");
 
   useEffect(() => {
-    async function fetchTemplate() {
-      withLoading(
-        () => getTestTemplate(problem.programLanguage),
-        (template) => setTestTemplate(template),
-        (err) => console.log(`No template for ${problem.programLanguage}`, err)
-      );
-    }
-    fetchTemplate();
+    withLoading(
+      () => getTestTemplate(problem.programLanguage),
+      (template) => setTestTemplate(template),
+      (err) => console.log(`No template for ${problem.programLanguage}`, err)
+    );
   }, []);
 
   return (
@@ -234,18 +232,7 @@ function TestSuite({
 
 
   const handleTestSuiteExecution = () => {
-    let testSuiteFromFile
-    switch (language) {
-      case 'c':
-        testSuiteFromFile = inputCVariables(problem, testTemplate, SPLIT_STRING);
-        break;
-      case 'java':
-        //TODO
-        break;
-      default:
-        //TODO
-        break;
-    }
+    const testSuiteFromFile = createTestSuiteFromFile(problem, testTemplate, SPLIT_STRING, language);
 
     withLoading(
       () => executeCodePistonDirect(language, testSuiteFromFile),
