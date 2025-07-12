@@ -16,7 +16,7 @@ public class TestTemplateService {
 
   public TestTemplate getTestTemplate(ProgramLanguage programLanguage) {
     Optional<TestTemplate> optionalTestTemplate = testTemplateRepository.findById(programLanguage);
-    return optionalTestTemplate.isPresent() ? optionalTestTemplate.get() : null;
+    return optionalTestTemplate.orElse(null);
   }
 
   public TestTemplate createTestTemplate(TestTemplate testTemplate) {

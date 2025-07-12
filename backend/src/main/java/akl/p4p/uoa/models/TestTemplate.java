@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document("testTemplate")
+@Document("testTemplates")
 public class TestTemplate {
   @Id ProgramLanguage programLanguage;
   String template;

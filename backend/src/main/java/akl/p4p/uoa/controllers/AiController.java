@@ -7,8 +7,7 @@ import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.openai.OpenAiChatOptions;
@@ -56,13 +55,11 @@ class AiController {
    * Endpoint to generate a test suite for a given question. Note that this endpoint does not
    * persist the test suite generated in any database, but is sent back to the client for review /
    * iteration.
-   *
-   * @throws JsonProcessingException
-   * @throws JsonMappingException
+   * @throws Exception 
    */
   @PostMapping("test-suite")
   public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
-      throws JsonMappingException, JsonProcessingException {
+      throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
 
     String modelAnswer = problem.getModelAnswer();
@@ -72,7 +69,7 @@ class AiController {
         switch (problem.getProgramLanguage()) {
           case C -> Prompts.getTestSuiteGenerationPromptForC();
           case JAVA -> Prompts.getTestSuiteGenerationPromptForJava();
-          default -> "";
+          default -> throw new Exception("The programming language selected is not supported");
         };
 
     String sysPrompt =
