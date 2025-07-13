@@ -1,0 +1,63 @@
+.testContainer {
+    height: 300rem;
+    overflow-y: auto;
+}
+
+.editor {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    background-color: var(--light-white);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.pass {
+    background-color: var(--pass-green);
+}
+
+.fail {
+    background-color: var(--fail-red);
+}
+
+.outputLabel {
+    color: black;
+    font-size: 0.875rem;
+    margin-bottom: 0.2rem;
+    font-family: monospace;
+}
+
+.testLabel {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: black;
+    font-family: monospace;
+    margin-bottom: 0.5rem;
+}
+
+.resultBlock {
+    font-family: monospace;
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+    padding: 0.4rem;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 0.15rem;
+}
+
+.resultLabel {
+    font-weight: bold;
+}
+
+
+
+.addButtonContainer {
+    margin: 0.5rem;
+}
+
+
+.testHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

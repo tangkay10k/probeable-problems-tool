@@ -1,9 +1,23 @@
 package akl.p4p.uoa.controllers;
 
 import akl.p4p.uoa.data.Prompts;
+<<<<<<< HEAD
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
+=======
+import akl.p4p.uoa.data.QuestionRequest;
+import akl.p4p.uoa.data.TestResponse;
+import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.services.AIService;
+import akl.p4p.uoa.services.ProblemService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.api.OpenAiApi.ChatModel;
+import org.springframework.ai.openai.api.ResponseFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> main
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,20 +57,35 @@ class AiController {
    * Endpoint to generate a test suite for a given question. Note that this endpoint does not
    * persist the test suite generated in any database, but is sent back to the client for review /
    * iteration.
+   *
+   * @throws Exception
    */
   @PostMapping("test-suite")
-  public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem) {
+  public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
+      throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+
     String modelAnswer = problem.getModelAnswer();
     String constraints = problem.getConstraints();
 
-    String basePrompt = Prompts.getTestSuiteGenerationPrompt();
+    String basePrompt =
+        switch (problem.getProgramLanguage()) {
+          case C -> Prompts.getTestSuiteGenerationPromptForC();
+          case JAVA -> Prompts.getTestSuiteGenerationPromptForJava();
+          default -> throw new Exception("The programming language selected is not supported");
+        };
+
     String sysPrompt =
         basePrompt
             .replace("//VAR_MODEL_SOLUTION", modelAnswer)
             .replace("//VAR_CONSTRAINTS", constraints);
 
-    String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, null);
-    problem.setTestSuite(testSuite);
+    String testSuite =
+        aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+
+    TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
+
+    problem.getTestSuite().addAll(testResponse.getTests());
     return ResponseEntity.ok(problem);
   }
 
