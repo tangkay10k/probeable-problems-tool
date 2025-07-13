@@ -76,18 +76,24 @@ public class ProblemAttemptService {
     }
   }
 
-  public ChatHistory chatWithClientWithSessionHistory(String chatSessionId, String userMessage) {
+  public ChatHistory chatWithClientWithSessionHistory(String sessionId, String userMessage) {
     return aiService.chatWithClient(
-        chatSessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema());
+		sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema());
   }
 
   private ChatHistory initialiseClientPersona(Problem problem) {
     String systemPrompt =
-        ClientPrompts.getClientInitialisationPrompt(problem.getProgramLanguage(),
-            problem.getProblemStatement(), problem.getModelAnswer(), problem.getConstraints());
+        ClientPrompts.getClientInitialisationPrompt(
+			problem.getProgramLanguage(),
+            problem.getProblemStatement(),
+			problem.getModelAnswer(),
+			problem.getConstraints()
+		);
+
+	String newSessionId = UUID.randomUUID().toString();
 
     return aiService.chatWithClient(
-        UUID.randomUUID().toString(),
+		newSessionId,
         systemPrompt,
         null,
         JsonSchemaDefinition.getClientProbeSchema());

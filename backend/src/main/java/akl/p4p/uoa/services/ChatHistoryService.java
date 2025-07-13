@@ -14,18 +14,8 @@ public class ChatHistoryService {
     this.chatHistoryRepository = chatHistoryRepository;
   }
 
-  /** Loads an existing chat history or creates a new one if none exists yet. */
-  public ChatHistory loadOrCreateHistory(String sessionId) {
-    return chatHistoryRepository
-        .findById(sessionId)
-        .orElseGet(
-            () -> {
-              // no existing session → create & persist a new, empty history
-              ChatHistory fresh = new ChatHistory();
-              fresh.setSessionId(sessionId);
-              fresh.setMessages(new ArrayList<>());
-              return chatHistoryRepository.save(fresh);
-            });
+  public ChatHistory loadHistory(String sessionId) {
+    return chatHistoryRepository.findById(sessionId).orElse(null);
   }
 
   public ChatHistory saveHistory(ChatHistory history) {

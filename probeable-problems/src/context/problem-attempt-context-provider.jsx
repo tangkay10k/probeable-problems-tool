@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ProblemAttemptContext from "./problem-attempt-context.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,8 +11,13 @@ const ProblemAttemptProvider = ({ children }) => {
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, withLoading] = useWithLoading();
   const navigate = useNavigate();
+  const fetchedProblemIds = useRef(new Set());
 
   useEffect(() => {
+    // Stop react re-render to fetch same problemAttempt twice.
+    if (fetchedProblemIds.current.has(problemId)) return;
+    fetchedProblemIds.current.add(problemId);
+
     withLoading(
       () =>
         getLatestProblemAttemptForStudent(
@@ -31,7 +36,7 @@ const ProblemAttemptProvider = ({ children }) => {
         toast.error("Something went wrong fetching that problem...");
       },
     );
-  }, [problemId]);
+  }, []);
 
   return (
     <ProblemAttemptContext.Provider
