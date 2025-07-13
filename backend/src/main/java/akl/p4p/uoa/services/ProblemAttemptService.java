@@ -38,7 +38,8 @@ public class ProblemAttemptService {
   public ProblemAttempt retrieveLatestOrCreateProblemAttempt(
       String problemId, String studentEmail) {
     List<ProblemAttempt> attempts =
-        problemAttemptRepository.findAllByProblemIdAndStudentEmailOrderByCreatedDateDesc(problemId, studentEmail);
+        problemAttemptRepository.findAllByProblemIdAndStudentEmailOrderByCreatedDateDesc(
+            problemId, studentEmail);
 
     if (attempts.isEmpty()) {
       Problem problem =
@@ -48,7 +49,7 @@ public class ProblemAttemptService {
 
       var attempt = new ProblemAttempt();
       attempt.setProblemId(problem.getId());
-	  attempt.setProblemLanguage(problem.getProgramLanguage());
+      attempt.setProblemLanguage(problem.getProgramLanguage());
       attempt.setStudentEmail(studentEmail);
       attempt.setCreatedDate(new Date());
 
@@ -78,24 +79,20 @@ public class ProblemAttemptService {
 
   public ChatHistory chatWithClientWithSessionHistory(String sessionId, String userMessage) {
     return aiService.chatWithClient(
-		sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema());
+        sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema());
   }
 
   private ChatHistory initialiseClientPersona(Problem problem) {
     String systemPrompt =
         ClientPrompts.getClientInitialisationPrompt(
-			problem.getProgramLanguage(),
+            problem.getProgramLanguage(),
             problem.getProblemStatement(),
-			problem.getModelAnswer(),
-			problem.getConstraints()
-		);
+            problem.getModelAnswer(),
+            problem.getConstraints());
 
-	String newSessionId = UUID.randomUUID().toString();
+    String newSessionId = UUID.randomUUID().toString();
 
     return aiService.chatWithClient(
-		newSessionId,
-        systemPrompt,
-        null,
-        JsonSchemaDefinition.getClientProbeSchema());
+        newSessionId, systemPrompt, null, JsonSchemaDefinition.getClientProbeSchema());
   }
 }

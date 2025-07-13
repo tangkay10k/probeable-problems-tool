@@ -1,10 +1,9 @@
 package akl.p4p.uoa.models;
 
 import akl.p4p.uoa.data.ChatMessage;
+import akl.p4p.uoa.data.ProgramLanguage;
 import java.util.Date;
 import java.util.List;
-
-import akl.p4p.uoa.data.ProgramLanguage;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;

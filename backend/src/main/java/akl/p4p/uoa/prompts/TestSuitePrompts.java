@@ -1,26 +1,25 @@
 package akl.p4p.uoa.prompts;
 
-import akl.p4p.uoa.data.ProgramLanguage;
 import akl.p4p.uoa.models.Problem;
 
 public class TestSuitePrompts {
-	public static String getTestSuiteGenerationPrompt(Problem problem) throws Exception {
-		String specificInstructions;
-		String commonInstructions = getBaseTestSuitePrompt();
-		switch (problem.getProgramLanguage()) {
-			case C -> specificInstructions = getCSpecificTestSuiteInstructions();
-			case JAVA -> specificInstructions = getJavaSpecificTestSuiteInstructions();
-			default -> throw new Exception("The programming language selected is not supported");
-		};
-		return commonInstructions
-			.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions)
-			.replace(
-			"//VAR_MODEL_SOLUTION", problem.getModelAnswer())
-			.replace("//VAR_CONSTRAINTS", problem.getConstraints());
-	}
+  public static String getTestSuiteGenerationPrompt(Problem problem) throws Exception {
+    String specificInstructions;
+    String commonInstructions = getBaseTestSuitePrompt();
+    switch (problem.getProgramLanguage()) {
+      case C -> specificInstructions = getCSpecificTestSuiteInstructions();
+      case JAVA -> specificInstructions = getJavaSpecificTestSuiteInstructions();
+      default -> throw new Exception("The programming language selected is not supported");
+    }
+    ;
+    return commonInstructions
+        .replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions)
+        .replace("//VAR_MODEL_SOLUTION", problem.getModelAnswer())
+        .replace("//VAR_CONSTRAINTS", problem.getConstraints());
+  }
 
-	private static String getBaseTestSuitePrompt() {
-		return """
+  private static String getBaseTestSuitePrompt() {
+    return """
 		You are a test engineer responsible for generating a structured test suite for a single function implementation.
 
 		The function implementation is:
@@ -30,15 +29,15 @@ public class TestSuitePrompts {
 		//VAR_CONSTRAINTS
 
 		Generate a set of diverse and meaningful test cases to verify the function.
-		
+
 		Each test case must be represented as a JSON object with the following format:
-		
+
 		//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS
 		  """;
-	}
+  }
 
-	private static String getCSpecificTestSuiteInstructions() {
-		return """
+  private static String getCSpecificTestSuiteInstructions() {
+    return """
 			{
 			  "code": "C snippet that declares inputs and prints the result using printf, if the function is void dont print just call it",
 			  "expectedStdOut": "The exact expected output printed by the function"
@@ -60,10 +59,10 @@ public class TestSuitePrompts {
 			  ...
 			]
 			""";
-	}
+  }
 
-	private static String getJavaSpecificTestSuiteInstructions() {
-		return """
+  private static String getJavaSpecificTestSuiteInstructions() {
+    return """
 			{
 			  "code": "Java snippet that declares inputs and prints the result using System.out.print(), if the function is void dont print just call it",
 			  "expectedStdOut": "The exact expected output printed by the function"
@@ -85,10 +84,10 @@ public class TestSuitePrompts {
 			  ...
 			]
 			""";
-	}
+  }
 
-	public static String getProblemStatementSystemPrompt() {
-		return """
+  public static String getProblemStatementSystemPrompt() {
+    return """
 			You are a product owner crafting an intentionally ambiguous problem statement to guide a developer’s implementation.
 
 			The implemented reference solution is provided between the markers:
@@ -112,5 +111,5 @@ public class TestSuitePrompts {
 
 			Respond only with the problem statement (no commentary or formatting).
 			""";
-	}
+  }
 }

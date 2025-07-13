@@ -85,11 +85,11 @@ public class AIService {
 
     ChatHistory sessionHistory = chatHistoryService.loadHistory(sessionId);
 
-	if (sessionHistory == null) {
-		sessionHistory = new ChatHistory();
-		sessionHistory.setSessionId(sessionId);
-		sessionHistory.setMessages(new ArrayList<>());
-	}
+    if (sessionHistory == null) {
+      sessionHistory = new ChatHistory();
+      sessionHistory.setSessionId(sessionId);
+      sessionHistory.setMessages(new ArrayList<>());
+    }
 
     List<ChatMessage> history = sessionHistory.getMessages();
 

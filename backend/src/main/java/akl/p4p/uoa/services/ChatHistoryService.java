@@ -2,7 +2,6 @@ package akl.p4p.uoa.services;
 
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.repositories.ChatHistoryRepository;
-import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 @Service
