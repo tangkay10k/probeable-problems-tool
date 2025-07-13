@@ -36,8 +36,6 @@ public class JsonSchemaDefinition {
       }
        """;
 
-<<<<<<< HEAD
-=======
   private static final String DUPLICATE_QUESTION_SCHEMA =
       """
       {
@@ -74,7 +72,6 @@ public class JsonSchemaDefinition {
       }
       """;
 
->>>>>>> main
   private static final String EXECUTION_PAYLOAD =
       """
         {
@@ -92,17 +89,10 @@ public class JsonSchemaDefinition {
     return CLIENT_PROBE_SCHEMA;
   }
 
-<<<<<<< HEAD
-=======
-  public static String getDuplicateQuestionSchema() {
-    return DUPLICATE_QUESTION_SCHEMA;
-  }
-
   public static String getTestCaseSchema() {
     return TEST_CASE_SCHEMA;
   }
 
->>>>>>> main
   public static String getExecutionPayload() {
     return EXECUTION_PAYLOAD;
   }

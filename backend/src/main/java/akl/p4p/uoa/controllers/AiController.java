@@ -1,23 +1,12 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.Prompts;
-<<<<<<< HEAD
-import akl.p4p.uoa.models.Problem;
-import akl.p4p.uoa.services.AIService;
-import akl.p4p.uoa.services.ProblemService;
-=======
-import akl.p4p.uoa.data.QuestionRequest;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi.ChatModel;
-import org.springframework.ai.openai.api.ResponseFormat;
-import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> main
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,8 +1,8 @@
 package akl.p4p.uoa.data;
 
 public final class Prompts {
-	public static String getConstraintsGenerationPrompt() {
-		return """
+  public static String getConstraintsGenerationPrompt() {
+    return """
 			You are a requirements author. Produce a numbered list of clear, testable acceptance criteria for the provided solution.
 			The developer will reference the implementation provided below:
 
@@ -37,10 +37,10 @@ public final class Prompts {
 			6. The output should be lowercase vowels.
 			7. y does not count as a vowel.
 			""";
-	}
+  }
 
-	public static String getTestSuiteGenerationPromptForC() {
-		return """
+  public static String getTestSuiteGenerationPromptForC() {
+    return """
 			You are a test engineer responsible for generating a structured test suite for a single function implementation.
 
 			The function implementation is:
@@ -74,10 +74,10 @@ public final class Prompts {
 			  ...
 			]
 			""";
-	}
+  }
 
-	public static String getTestSuiteGenerationPromptForJava() {
-		return """
+  public static String getTestSuiteGenerationPromptForJava() {
+    return """
 			You are a test engineer responsible for generating a structured test suite for a single function implementation.
 
 			The function implementation is:
@@ -111,10 +111,10 @@ public final class Prompts {
 			  ...
 			]
 			""";
-	}
+  }
 
-	public static String getProblemStatementSystemPrompt() {
-		return """
+  public static String getProblemStatementSystemPrompt() {
+    return """
 			You are a product owner crafting an intentionally ambiguous problem statement to guide a developer’s implementation.
 
 			The implemented reference solution is provided between the markers:
@@ -138,53 +138,50 @@ public final class Prompts {
 
 			Respond only with the problem statement (no commentary or formatting).
 			""";
-	}
+  }
 
-	/**
-	 * Programming language agnostic prompt.
-	 */
-	public static String getClientInitialisationPrompt(
-		String problemStatement, String modelAnswer, String constraints) {
-		String basePrompt =
-			"""
-						 You are a client that a software developer must query to understand the expected behavior of a hidden function.
-						 Your role is to explain the Model Answer (confidential) to the student in plain terms, without revealing implementation details or specific values.
+  /** Programming language agnostic prompt. */
+  public static String getClientInitialisationPrompt(
+      String problemStatement, String modelAnswer, String constraints) {
+    String basePrompt =
+        """
+			 You are a client that a software developer must query to understand the expected behavior of a hidden function.
+			 Your role is to explain the Model Answer (confidential) to the student in plain terms, without revealing implementation details or specific values.
 
-						Problem Statement:
-						//VAR_PROBLEM_STATEMENT
+			Problem Statement:
+			//VAR_PROBLEM_STATEMENT
 
-						Model Answer (Confidential – Do NOT disclose to the student):
-						//VAR_MODEL_ANSWER
-	
+			Model Answer (Confidential – Do NOT disclose to the student):
+			//VAR_MODEL_ANSWER
 
-						These are the constraints of the problem:
-						//VAR_CONSTRAINTS
 
-						Student’s Task:
-						- After hearing the client’s explanation of the Model Answer, produce a concise, bullet-point list of the constraints outlined above.
-						- Ensure each bullet is clear, direct, and covers exactly one requirement.
-						- Keep the list succinct and avoid revealing any implementation details or specific values.
-						- Return only the bullet-point list for client review.
+			These are the constraints of the problem:
+			//VAR_CONSTRAINTS
 
-						Client’s Behavior:
-						- Respond neutrally to clarifying questions about expected behavior, inputs, edge cases, ordering, and output structure.
-						- Avoid providing examples, specific values, or hints about internal logic or data structures.
-						- If the student’s question is too vague, prompt them to specify which aspect they wish to clarify.
-						- Do not generate code unless the student explicitly requests a test case after repeated clarification requests.
-						- When a test case is requested, provide only a simple function call: function(parameters);
+			Student’s Task:
+			- After hearing the client’s explanation of the Model Answer, produce a concise, bullet-point list of the constraints outlined above.
+			- Ensure each bullet is clear, direct, and covers exactly one requirement.
+			- Keep the list succinct and avoid revealing any implementation details or specific values.
+			- Return only the bullet-point list for client review.
 
-						You should start the conversation by asking your developer the problem statement:
+			Client’s Behavior:
+			- Respond neutrally to clarifying questions about expected behavior, inputs, edge cases, ordering, and output structure.
+			- Avoid providing examples, specific values, or hints about internal logic or data structures.
+			- If the student’s question is too vague, prompt them to specify which aspect they wish to clarify.
+			- Do not generate code unless the student explicitly requests a test case after repeated clarification requests.
+			- When a test case is requested, provide only a simple function call: function(parameters);
 
-						For example:
-						"Write me a function that returns a count of integers"
-						"Write me a function to find the first vowel"
-						"Write me a function that divides certain numbers"
+			You should start the conversation by asking your developer the problem statement:
 
-						""";
+			For example:
+			"Write me a function that returns a count of integers"
+			"Write me a function to find the first vowel"
+			"Write me a function that divides certain numbers"
+		""";
 
-		return basePrompt
-			.replace("//VAR_PROBLEM_STATEMENT", problemStatement)
-			.replace("//VAR_MODEL_ANSWER", modelAnswer)
-			.replace("//VAR_CONSTRAINTS", constraints);
-	}
+    return basePrompt
+        .replace("//VAR_PROBLEM_STATEMENT", problemStatement)
+        .replace("//VAR_MODEL_ANSWER", modelAnswer)
+        .replace("//VAR_CONSTRAINTS", constraints);
+  }
 }
