@@ -36,7 +36,7 @@ const ProblemAttemptProvider = ({ children }) => {
         toast.error("Something went wrong fetching that problem...");
       },
     );
-  }, []);
+  }, [problemId, navigate]);
 
   return (
     <ProblemAttemptContext.Provider

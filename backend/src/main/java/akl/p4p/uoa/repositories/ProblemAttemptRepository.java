@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface ProblemAttemptRepository extends MongoRepository<ProblemAttempt, String> {
 
   // Returns list of problem attempts by a student with the latest first.
-  List<ProblemAttempt> findAllByStudentEmailOrderByCreatedDateDesc(String studentEmail);
+  List<ProblemAttempt> findAllByProblemIdAndStudentEmailOrderByCreatedDateDesc(String problemId, String studentEmail);
 }

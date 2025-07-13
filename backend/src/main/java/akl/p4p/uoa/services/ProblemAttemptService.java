@@ -38,7 +38,7 @@ public class ProblemAttemptService {
   public ProblemAttempt retrieveLatestOrCreateProblemAttempt(
       String problemId, String studentEmail) {
     List<ProblemAttempt> attempts =
-        problemAttemptRepository.findAllByStudentEmailOrderByCreatedDateDesc(studentEmail);
+        problemAttemptRepository.findAllByProblemIdAndStudentEmailOrderByCreatedDateDesc(problemId, studentEmail);
 
     if (attempts.isEmpty()) {
       Problem problem =
