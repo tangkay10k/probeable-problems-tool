@@ -1,10 +1,10 @@
 package akl.p4p.uoa.services;
 
 import akl.p4p.uoa.data.JsonSchemaDefinition;
-import akl.p4p.uoa.data.Prompts;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.models.ProblemAttempt;
+import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.repositories.ChatHistoryRepository;
 import akl.p4p.uoa.repositories.ProblemAttemptRepository;
 import akl.p4p.uoa.repositories.ProblemRepository;
@@ -48,6 +48,7 @@ public class ProblemAttemptService {
 
       var attempt = new ProblemAttempt();
       attempt.setProblemId(problem.getId());
+	  attempt.setProblemLanguage(problem.getProgramLanguage());
       attempt.setStudentEmail(studentEmail);
       attempt.setCreatedDate(new Date());
 
@@ -82,7 +83,7 @@ public class ProblemAttemptService {
 
   private ChatHistory initialiseClientPersona(Problem problem) {
     String systemPrompt =
-        Prompts.getClientInitialisationPrompt(
+        ClientPrompts.getClientInitialisationPrompt(problem.getProgramLanguage(),
             problem.getProblemStatement(), problem.getModelAnswer(), problem.getConstraints());
 
     return aiService.chatWithClient(

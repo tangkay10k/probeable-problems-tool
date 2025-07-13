@@ -8,6 +8,7 @@ import { getLatestProblemAttemptForStudent } from "@/routes/problem-attempt-rout
 const ProblemAttemptProvider = ({ children }) => {
   const { problemId } = useParams();
   const [problemAttempt, setProblemAttempt] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, withLoading] = useWithLoading();
   const navigate = useNavigate();
 
@@ -18,16 +19,29 @@ const ProblemAttemptProvider = ({ children }) => {
           problemId,
           "ktan185@aucklanduni.ac.nz", // TODO: Replace with authenticated email
         ),
-      (attempt) => setProblemAttempt(attempt),
+      (attempt) => {
+        setProblemAttempt(attempt);
+        setChatHistory({
+          sessionId: attempt.chatHistoryId,
+          messages: attempt.messageList,
+        });
+      },
       () => {
         navigate("/");
         toast.error("Something went wrong fetching that problem...");
       },
     );
-  }, []);
+  }, [problemId]);
 
   return (
-    <ProblemAttemptContext.Provider value={{ problemAttempt, isLoading }}>
+    <ProblemAttemptContext.Provider
+      value={{
+        problemAttempt,
+        chatHistory,
+        setChatHistory,
+        isLoading,
+      }}
+    >
       {children}
     </ProblemAttemptContext.Provider>
   );

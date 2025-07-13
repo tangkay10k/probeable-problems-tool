@@ -18,28 +18,27 @@ import {
   generateProblemStatement,
   generateTestSuite,
 } from "@/routes/ai-route.js";
-import {
-  getTestTemplate,
-} from "@/routes/test-template-route.js";
+import { getTestTemplate } from "@/routes/test-template-route.js";
 import { QUESTION_TYPES } from "@/pages/question-setup/data/question-types.js";
 import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { createProblem, updateProblem } from "@/routes/problem-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { toast } from "react-toastify";
 import { createTestSuiteFromFile } from "./test-setup-utils";
+import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 
 export default function QuestionSetup() {
   const [_, withLoading] = useWithLoading();
   const setLanguage = (programLanguage) => {
-    setProblem(prev => ({ ...prev, programLanguage }));
+    setProblem((prev) => ({ ...prev, programLanguage }));
   };
 
   const setModelSolution = (modelAnswer) => {
-    setProblem(prev => ({ ...prev, modelAnswer }));
+    setProblem((prev) => ({ ...prev, modelAnswer }));
   };
 
   const setTestSuite = (testSuite) => {
-    setProblem(prev => ({ ...prev, testSuite }));
+    setProblem((prev) => ({ ...prev, testSuite }));
   };
 
   const [problem, setProblem] = useState({
@@ -58,7 +57,7 @@ export default function QuestionSetup() {
     withLoading(
       () => getTestTemplate(problem.programLanguage),
       (template) => setTestTemplate(template),
-      (err) => console.log(`No template for ${problem.programLanguage}`, err)
+      (err) => console.log(`No template for ${problem.programLanguage}`, err),
     );
   }, []);
 
@@ -139,12 +138,11 @@ function ModelSolution({
         options={QUESTION_TYPES}
         onSelect={handleQuestionTypeSelect}
       />
-      <TestCaseEditor
+      <TextEditor
         language={language}
         setLanguage={setLanguage}
         src={problem.modelAnswer}
         setSource={setSource}
-        setTestTemplate={setTestTemplate}
       />
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>
@@ -222,17 +220,21 @@ function TestSuite({
   setProblem,
   setTestSuite,
   testTemplate,
-  setTestTemplate
+  setTestTemplate,
 }) {
   //Unique Variable To Split Print Statements In The Output
-  const SPLIT_STRING = "$_@_BBJ_SPL1T_@_$"
+  const SPLIT_STRING = "$_@_BBJ_SPL1T_@_$";
   const [isLoading, withLoading] = useWithLoading();
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState([]);
   const [terminalOutput, setTerminalOutput] = useState("");
 
-
   const handleTestSuiteExecution = () => {
-    const testSuiteFromFile = createTestSuiteFromFile(problem, testTemplate, SPLIT_STRING, language);
+    const testSuiteFromFile = createTestSuiteFromFile(
+      problem,
+      testTemplate,
+      SPLIT_STRING,
+      language,
+    );
 
     withLoading(
       () => executeCodePistonDirect(language, testSuiteFromFile),
@@ -249,14 +251,16 @@ function TestSuite({
     let passedCount = 0;
 
     const updatedResults = lines.map((line, i) => {
-      const expected = problem?.testSuite[i]?.expectedStdOut ?? '';
+      const expected = problem?.testSuite[i]?.expectedStdOut ?? "";
       if (line === expected) passedCount += 1;
       return { actual: line, expected };
     });
 
     setResults(updatedResults);
-    setTerminalOutput(`${passedCount}/${problem?.testSuite?.length} tests passed`);
-  }
+    setTerminalOutput(
+      `${passedCount}/${problem?.testSuite?.length} tests passed`,
+    );
+  };
 
   const saveQuestion = () => {
     withLoading(
@@ -271,7 +275,15 @@ function TestSuite({
 
   return (
     <>
-      <CodeAndOutput tests={problem?.testSuite} setTests={setTestSuite} language={language} setLanguage={setLanguage} results={results} setResults={setResults} setTestTemplate={setTestTemplate} />
+      <CodeAndOutput
+        tests={problem?.testSuite}
+        setTests={setTestSuite}
+        language={language}
+        setLanguage={setLanguage}
+        results={results}
+        setResults={setResults}
+        setTestTemplate={setTestTemplate}
+      />
       <Instruction
         heading="2. Test Suite Generation"
         instruction={TEST_CASES_INSTRUCTION}

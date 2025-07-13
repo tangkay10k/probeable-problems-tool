@@ -8,7 +8,7 @@ import Oracle from "@/components/oracle/oracle.jsx";
 import { useProblemContext } from "@/context/problem-attempt-context.js";
 
 export default function ProblemStageOneContent() {
-  const { problemAttempt, isLoading } = useProblemContext();
+  const { isLoading } = useProblemContext();
 
   if (isLoading) {
     return <div className={styles.problemPageContainer}>Loading...</div>;
@@ -23,10 +23,7 @@ export default function ProblemStageOneContent() {
         </div>
 
         <div className={styles.innerContainer}>
-          <ChatApp
-            sessionId={problemAttempt?.chatHistoryId}
-            messageList={problemAttempt?.messageList}
-          />
+          <ChatApp />
           <Oracle />
         </div>
       </div>
