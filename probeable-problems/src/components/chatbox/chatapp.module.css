@@ -13,7 +13,7 @@
     background-color: var(--grey);
     border-radius: var(--border-radius-5) var(--border-radius-5) var(--border-radius-3) var(--border-radius-3);
 
-    height: 26rem; /*When you change this, you need to change .oracleWrapper*/
+    height: var(--chat-box-height); /*When you change this, you need to change .oracleWrapper*/
 }
 
 
@@ -111,8 +111,7 @@
 }
 
 .chatBody {
-
-    max-height: 100%;
+    height: 100%;
     overflow-y: scroll;
 
     margin: var(--padding-2);
@@ -120,6 +119,8 @@
     border-radius: var(--border-radius-2);
 
     box-shadow: inset 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
+    scroll-behavior: smooth;
 }
 
 

@@ -83,7 +83,14 @@ public class AIService {
       @Nullable String userMessage,
       @Nullable String responseSchema) {
 
-    ChatHistory sessionHistory = chatHistoryService.loadOrCreateHistory(sessionId);
+    ChatHistory sessionHistory = chatHistoryService.loadHistory(sessionId);
+
+    if (sessionHistory == null) {
+      sessionHistory = new ChatHistory();
+      sessionHistory.setSessionId(sessionId);
+      sessionHistory.setMessages(new ArrayList<>());
+    }
+
     List<ChatMessage> history = sessionHistory.getMessages();
 
     if (history.isEmpty()) {
@@ -111,7 +118,7 @@ public class AIService {
     OpenAiChatOptions options =
         OpenAiChatOptions.builder()
             .model(OpenAiApi.ChatModel.O3)
-            .temperature(1.0D)
+            .temperature(1D)
             .responseFormat(getResponseType(responseSchema))
             .build();
 

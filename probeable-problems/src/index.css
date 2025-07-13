@@ -60,6 +60,8 @@
 
     --layer-1: 1;
     --layer-2: 2;
+
+    --chat-box-height: 45vh;
 }
 
 * {

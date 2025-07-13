@@ -1,6 +1,7 @@
 package akl.p4p.uoa.models;
 
 import akl.p4p.uoa.data.ChatMessage;
+import akl.p4p.uoa.data.ProgramLanguage;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;
@@ -19,6 +20,8 @@ public class ProblemAttempt {
   private Date createdDate;
 
   private String problemId;
+
+  private ProgramLanguage problemLanguage;
 
   private String chatHistoryId;
 

@@ -7,28 +7,24 @@ import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/chatbox/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { submitUserMessage } from "@/routes/problem-attempt-route.js";
+import { useProblemContext } from "@/context/problem-attempt-context.js";
 
-export default function ChatApp({ sessionId = "1", messageList = [] }) {
-  const [chatHistory, setChatHistory] = useState({
-    sessionId: sessionId,
-    messages: messageList,
-  });
-
+export default function ChatApp() {
+  const { chatHistory, setChatHistory } = useProblemContext();
   const [userMessage, setUserMessage] = useState("");
   const [isLoading, withLoading] = useWithLoading();
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const element = containerRef.current;
-    if (element) {
-      element.scrollTop = element.scrollHeight;
+    const el = containerRef.current;
+    if (el && el.scrollHeight > el.clientHeight) {
+      // only scroll if content is taller than container
+      el.scrollTop = el.scrollHeight;
     }
   }, [chatHistory]);
 
   const handleSend = () => {
-    if (userMessage.length === 0) {
-      return;
-    }
+    if (!userMessage) return;
 
     // Render first on FE
     const message = userMessage;
@@ -46,7 +42,7 @@ export default function ChatApp({ sessionId = "1", messageList = [] }) {
     setUserMessage("");
 
     withLoading(
-      () => submitUserMessage(sessionId, message),
+      () => submitUserMessage(chatHistory.sessionId, message),
       (newHistory) => setChatHistory(newHistory),
       console.error,
     );
@@ -73,7 +69,7 @@ export default function ChatApp({ sessionId = "1", messageList = [] }) {
 
         <div ref={containerRef} className={styles.chatBody}>
           {/*Always skip system message*/}
-          {chatHistory.messages.slice(1).map((message, idx) => (
+          {chatHistory.messages?.slice(1).map((message, idx) => (
             <ChatBubble key={idx + message.timestamp} chatMessage={message} />
           ))}
         </div>
