@@ -1,9 +1,9 @@
-import styles from './instruction.module.css'
+import styles from "./instruction.module.css";
 
 export default function Instruction({ heading, instruction }) {
   return (
     <div className={styles.instructionWrapper}>
-      <div className={styles.headingContainer}>
+      <div className={styles.heading}>
         <h1>{heading}</h1>
         <hr className={styles.hr} />
       </div>
@@ -12,5 +12,5 @@ export default function Instruction({ heading, instruction }) {
         <p>{instruction}</p>
       </div>
     </div>
-  )
+  );
 }

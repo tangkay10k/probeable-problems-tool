@@ -3,21 +3,24 @@
     align-items: center;
     justify-content: center;
 
-    gap: 0.5rem;
-    border: none;
-    border-radius: var(--border-radius-1);
+    border-radius: 50%;
     padding: var(--padding-1);
 
-    color: var(--white);
-    background-color: var(--red);
-    box-shadow: 0.1rem 0.1rem 0.3rem var(--black);
+    color: var(--red);
+    border: 0.1rem solid var(--red);
+    background-color: transparent;
 
-    width: 2rem;
-    height: 100%;
+    width: 1rem;
+    height: 0.2rem;
+}
+
+.button p {
+    font-size: 0.6rem;
 }
 
 .button:hover {
     transform: scale(1.01);
     cursor: pointer;
     background-color: var(--hover-red);
+    color: var(--white);
 }

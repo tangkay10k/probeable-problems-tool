@@ -4,10 +4,14 @@
     gap: var(--padding-1);
 }
 
+.heading {
+    color: var(--white);
+}
+
 .hr {
     height: 0.2rem;
     border-radius: 1rem;
-    background-color: var(--black);
+    background-color: var(--white);
 
     border: none;
 }
@@ -18,4 +22,6 @@
     
     border: 0.1rem solid var(--dark-grey);
     border-radius: var(--border-radius-1);
+
+    color: var(--black);
 }
