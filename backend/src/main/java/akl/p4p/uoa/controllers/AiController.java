@@ -2,7 +2,9 @@ package akl.p4p.uoa.controllers;
 
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
+import akl.p4p.uoa.models.Oracle;
 import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.prompts.OracleGenerationPrompts;
 import akl.p4p.uoa.prompts.ProblemGenerationPrompts;
 import akl.p4p.uoa.prompts.TestSuitePrompts;
 import akl.p4p.uoa.services.AIService;
@@ -68,4 +70,17 @@ class AiController {
     problem.setProblemStatement(problemStatement);
     return ResponseEntity.ok(problem);
   }
+
+  @PostMapping("oracle")
+	public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem) {
+	  String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
+	  String oracleSrc = aiService.executeOneTimeLLMCall(sysPrompt, null);
+
+	  Oracle oracle = new Oracle();
+	  oracle.setOracle(oracleSrc);
+	  oracle.setProblemId(problem.getId());
+
+	  return ResponseEntity.ok(oracle);
+  }
+
 }

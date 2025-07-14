@@ -1,0 +1,70 @@
+.testContainer {
+    height: 100%;
+
+    background-color: var(--grey);
+    border-radius: var(--border-radius-2);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    font-family: "JetBrains Mono", sans-serif;
+
+    padding: var(--padding-2);
+}
+
+.testCase {
+    padding: var(--padding-2);
+    border-radius: var(--border-radius-2);
+
+    background-color: var(--light-white);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--padding-1);
+}
+
+.pass {
+    background-color: var(--pass-green);
+}
+
+.fail {
+    background-color: var(--fail-red);
+}
+
+.expectedBlock {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--transparent-grey);
+}
+
+.expectedBlock textarea:focus {
+    box-shadow: none;
+}
+
+.actualBlock {
+    background-color: var(--transparent-grey);
+}
+
+.actualBlock,
+.expectedBlock {
+    font-size: 0.8rem;
+    font-family: "JetBrains Mono", serif;
+    border-radius: var(--border-radius-1);
+    padding: var(--padding-1);
+}
+
+.testHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.addButtonContainer {
+    align-self: end;
+    justify-self: end;
+}

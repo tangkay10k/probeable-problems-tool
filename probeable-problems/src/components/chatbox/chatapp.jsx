@@ -103,14 +103,7 @@ function ChatBubble({ chatMessage }) {
   return (
     <div className={styles.bubbleContainer}>
       <div
-        className={styles.chatMessage}
-        style={{
-          justifySelf: chatMessage.role === "assistant" ? "start" : "end",
-          background:
-            chatMessage.role === "assistant"
-              ? "linear-gradient(to right, #BB94FF, #CA43FF)"
-              : "white",
-        }}
+        className={`${styles.chatMessage} ${chatMessage.role === "assistant" ? styles.assistant : styles.user}`}
       >
         {msg}
       </div>

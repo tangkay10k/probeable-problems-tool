@@ -41,6 +41,6 @@ int main(void) {
     //VAR_INPUTS
 
     int result = CountBetween(values, n, a, b);
-    printf("Function returned: %d\n", result);
+    printf("%d", result);
     return 0;
 }

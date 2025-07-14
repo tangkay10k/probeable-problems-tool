@@ -137,10 +137,23 @@
     font-size: 0.8rem;
 
     max-width: 75%;
+
+    white-space: pre-wrap;
 }
 
 .chatTimestamp {
     font-size: 0.6rem;
 
     /* styling is dynamic*/
+}
+
+.assistant {
+    background: linear-gradient(to right, #BB94FF, #CA43FF);
+    justify-self: start;
+}
+
+
+.user {
+    background: var(--white);
+    justify-self: end;
 }

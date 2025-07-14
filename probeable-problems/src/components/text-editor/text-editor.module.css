@@ -107,3 +107,12 @@
 .menuItem:hover {
     background-color: var(--dark-grey);
 }
+
+/*===TEST CASE EDITOR===*/
+.testCaseEditorWrapper {
+    background-color: var(--editor-colour);
+    padding: var(--padding-1);
+    border-radius: var(--border-radius-2);
+
+    overflow: clip;
+}

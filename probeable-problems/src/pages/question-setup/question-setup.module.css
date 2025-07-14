@@ -1,50 +1,52 @@
 .pageContainer {
     display: flex;
+    flex-direction: column;
     padding: var(--padding-3);
-    padding-top: var(--padding-2);
 
     width: 100%;
-    height: 100%;
-
-    background-color: var(--black);
-
-    gap: var(--padding-2);
-
-    overflow-y: scroll;
+    height: 5000vh;
 
     justify-content: center;
+    align-items: center;
 }
 
 .pageContainer h1 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 
 .pageContainer p {
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
-.innerContainer,
-.outerContainer {
-    border-radius: var(--padding-1);
-    padding: var(--padding-2);
+/* TEMP CSS FOR BUTTONS */
+.pageContainer .buttonContainer {
+    gap: 3rem;
+}
+
+.questionCreatorContainer {
+    border-radius: var(--padding-2);
+    padding: var(--padding-3);
 
     width: 100%;
+    max-width: 60vw;
     height: 100%;
 
-    /*max-width: 50rem;*/
-}
+    background-color: var(--dark-dark-grey);
 
-.outerContainer {
-    background-color: var(--dark-grey);
-}
+    box-shadow: 0 0 0.5rem rgba(252, 252, 252, 0.5);
 
-.innerContainer {
-    background-color: var(--grey);
-    
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
-    gap: 0.5rem;
+    gap: 1rem;
+}
+
+.modelSolutionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--padding-1);
 }
 
 .buttonContainer {
@@ -52,5 +54,15 @@
     justify-content: flex-end;
 
     width: 100%;
-    gap: 1rem;
 }
+
+.problemStatementContainer,
+.testSuiteContainer,
+.constraintsContainer {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-1);
+}
+
