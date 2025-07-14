@@ -9,24 +9,24 @@ import { QUESTION_TYPES } from "@/pages/question-setup/data/question-types.js";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import Button from "@/components/button/button.jsx";
 import { MODEL_SOLUTION_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
+import { useProblemContext } from "@/context/problem-context-provider.jsx";
 
-export default function ModelSolution({
-  language,
-  setLanguage,
-  setSource,
-  setProblem,
-  problem,
-}) {
+export default function ModelSolution() {
+  const { problem, setProblem, setLanguage, setModelSolution } =
+    useProblemContext();
+
   const [isLoading, withLoading] = useWithLoading();
+
   const handleQuestionTypeSelect = (problemType) => {
-    setProblem({ ...problem, problemType: problemType });
+    setProblem({ ...problem, problemType });
   };
+
   const handleConstraintsGeneration = () => {
     withLoading(
       () => generateConstraints(problem),
       (updatedProblem) => {
         setProblem(updatedProblem);
-        toast.success("Constraints generated! please review them carefully 😊");
+        toast.success("Constraints generated! Please review them 😊");
       },
       (err) => toast.error(err),
     );
@@ -55,10 +55,11 @@ export default function ModelSolution({
         onSelect={handleQuestionTypeSelect}
       />
       <TextEditor
-        language={language}
+        isResizable={true}
+        language={problem.programLanguage}
         setLanguage={setLanguage}
         src={problem.modelAnswer}
-        setSource={setSource}
+        setSource={setModelSolution}
       />
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>

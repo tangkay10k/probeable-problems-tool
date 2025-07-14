@@ -7,8 +7,10 @@ import Instruction from "@/components/instruction/instruction.jsx";
 import { PROBLEM_STATEMENT_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Button from "@/components/button/button.jsx";
+import { useProblemContext } from "@/context/problem-context-provider.jsx";
 
-export default function ProblemStatement({ problem, setProblem }) {
+export default function ProblemStatement() {
+  const { problem, setProblem } = useProblemContext();
   const [isLoading, withLoading] = useWithLoading();
 
   const handleProblemStatementGeneration = () => {
@@ -33,14 +35,17 @@ export default function ProblemStatement({ problem, setProblem }) {
   return (
     <div className={styles.problemStatementContainer}>
       <Instruction
-        heading={"3. Problem Statement Creation"}
+        heading="3. Problem Statement Creation"
         instruction={PROBLEM_STATEMENT_INSTRUCTION}
       />
       <TextArea
         rows={1}
         disabled={isLoading}
-        placeholder={"What the client initially prompts the student with: "}
+        placeholder="What the client initially prompts the student with: "
         value={problem.problemStatement}
+        onChange={(e) =>
+          setProblem({ ...problem, problemStatement: e.target.value })
+        }
       />
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>

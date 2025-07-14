@@ -1,5 +1,4 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { useState } from "react";
 import { createTestSuiteFromFile } from "@/pages/question-setup/test-setup-utils.js";
 import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { toast } from "react-toastify";
@@ -10,17 +9,19 @@ import { TEST_CASES_INSTRUCTION } from "@/pages/question-setup/data/instructions
 import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
 import Button from "@/components/button/button.jsx";
+import { useProblemContext } from "@/context/problem-context-provider.jsx";
+import { useState } from "react";
 
-export default function TestSuite({
-  language,
-  setLanguage,
-  problem,
-  setProblem,
-  setTestSuite,
-  testTemplate,
-  setTestTemplate,
-}) {
-  // Print statement delimiter
+export default function TestSuite() {
+  const {
+    problem,
+    setProblem,
+    testTemplate,
+    setTestTemplate,
+    setLanguage,
+    setTestSuite,
+  } = useProblemContext();
+
   const SPLIT_STRING = "$_@_BBJ_SPL1T_@_$";
   const [isLoading, withLoading] = useWithLoading();
   const [results, setResults] = useState([]);
@@ -31,11 +32,11 @@ export default function TestSuite({
       problem,
       testTemplate,
       SPLIT_STRING,
-      language,
+      problem.programLanguage,
     );
 
     withLoading(
-      () => executeCodePistonDirect(language, testSuiteFromFile),
+      () => executeCodePistonDirect(problem.programLanguage, testSuiteFromFile),
       (execution) => updateResults(execution),
       (err) => toast.error(err),
     );
@@ -43,9 +44,7 @@ export default function TestSuite({
 
   const updateResults = (execution) => {
     const output = execution.run.output;
-
     const lines = output.split(SPLIT_STRING);
-
     let passedCount = 0;
 
     const updatedResults = lines.map((line, i) => {
@@ -79,9 +78,9 @@ export default function TestSuite({
       />
 
       <TestSuiteList
-        tests={problem?.testSuite}
+        tests={problem.testSuite}
         setTests={setTestSuite}
-        language={language}
+        language={problem.programLanguage}
         setLanguage={setLanguage}
         results={results}
         setResults={setResults}
