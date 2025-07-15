@@ -1,16 +1,15 @@
-import axios from "axios"
+import axios from "axios";
+export const createProblem = async (problem) => {
+  const res = await axios.post("/api/problems", problem);
+  return res.data;
+};
 
-export const submitProblem = async (problem) => {
-  const response = await axios.post("api/problems", problem)
-  return response.data
-}
+export const updateProblem = async (problem) => {
+  const res = await axios.patch("/api/problems", problem);
+  return res.data;
+};
 
-export const getAllProblemsForStudent = async () => {
-  const response = await axios.get("api/problems/all?isStudent=true")
-  return response.data
-}
-
-export const getAllProblemsForLecturer = async () => {
-  const response = await axios.get("api/problems/all")
-  return response.data
-}
+export const getAllProblems = async () => {
+  const res = await axios.get("/api/problems");
+  return res.data;
+};
