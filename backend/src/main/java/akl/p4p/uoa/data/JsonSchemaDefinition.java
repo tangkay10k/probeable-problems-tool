@@ -72,8 +72,8 @@ public class JsonSchemaDefinition {
       }
       """;
 
-	private static final String ORACLE_GENERATION_SCHEMA =
-		"""
+  private static final String ORACLE_GENERATION_SCHEMA =
+      """
 		{
 			"type": "object",
 			"properties": {
@@ -116,7 +116,7 @@ public class JsonSchemaDefinition {
     return EXECUTION_PAYLOAD;
   }
 
-	public static String getOracleGenerationSchema() {
-		return ORACLE_GENERATION_SCHEMA;
-	}
+  public static String getOracleGenerationSchema() {
+    return ORACLE_GENERATION_SCHEMA;
+  }
 }
