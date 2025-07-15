@@ -69,10 +69,10 @@ public class ClientPrompts {
   private static String getCSpecificInstructions() {
     return """
 		- When a test case is requested, provide only example inputs to the function, matching the signature along with an explanation of what the parameters test along with their data types.
-	
+
 		For example:
 		function signature: int CountBetween(int values, int n , int a, int b)
-	
+
 		You should return:
 		int[] values = {1,2,3,4,5};
 		int n = 5;

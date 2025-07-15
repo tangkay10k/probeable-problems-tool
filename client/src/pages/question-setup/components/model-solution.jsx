@@ -53,6 +53,7 @@ export default function ModelSolution() {
         label="Question Type:"
         options={QUESTION_TYPES}
         onSelect={handleQuestionTypeSelect}
+        placeholder={problem?.problemType || "Please select a question type"}
       />
       <TextEditor
         isResizable={true}

@@ -7,10 +7,10 @@ import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/chatbox/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { submitUserMessage } from "@/routes/problem-attempt-route.js";
-import { useProblemContext } from "@/context/problem-attempt-context.js";
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 
 export default function ChatApp() {
-  const { chatHistory, setChatHistory } = useProblemContext();
+  const { chatHistory, setChatHistory } = useProblemAttemptContext();
   const [userMessage, setUserMessage] = useState("");
   const [isLoading, withLoading] = useWithLoading();
   const containerRef = useRef(null);

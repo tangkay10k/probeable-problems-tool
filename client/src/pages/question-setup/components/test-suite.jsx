@@ -1,16 +1,16 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { createTestSuiteFromFile } from "@/pages/question-setup/test-setup-utils.js";
-import { executeCodePistonDirect } from "@/routes/code-route.js";
-import { toast } from "react-toastify";
-import { updateProblem } from "@/routes/problem-route.js";
+import {createTestSuiteFromFile} from "@/pages/question-setup/utils/test-setup-utils.js";
+import {executeCodePistonDirect} from "@/routes/code-route.js";
+import {toast} from "react-toastify";
+import {updateProblem} from "@/routes/problem-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
 import Instruction from "@/components/instruction/instruction.jsx";
-import { TEST_CASES_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
-import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
+import {TEST_CASES_INSTRUCTION} from "@/pages/question-setup/data/instructions.js";
+import {TestSuiteList} from "@/components/text-editor/test-suite-list.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
 import Button from "@/components/button/button.jsx";
-import { useProblemContext } from "@/context/problem-context-provider.jsx";
-import { useState } from "react";
+import {useProblemContext} from "@/context/problem-context-provider.jsx";
+import {useState} from "react";
 
 export default function TestSuite() {
   const {
@@ -50,7 +50,7 @@ export default function TestSuite() {
     const updatedResults = lines.map((line, i) => {
       const expected = problem?.testSuite[i]?.expectedStdOut ?? "";
       if (line === expected) passedCount += 1;
-      return { actual: line, expected };
+      return {actual: line, expected};
     });
 
     setResults(updatedResults);
@@ -87,7 +87,7 @@ export default function TestSuite() {
         setTestTemplate={setTestTemplate}
       />
 
-      <Terminal output={terminalOutput} />
+      <Terminal output={terminalOutput}/>
 
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>

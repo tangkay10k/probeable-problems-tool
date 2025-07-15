@@ -13,3 +13,8 @@ export const generateProblemStatement = async (problem) => {
   const res = await axios.post("/api/ai/problem-statement", problem);
   return res.data;
 };
+
+export const generateOracle = async (problem) => {
+  const res = await axios.post("/api/ai/oracle", problem);
+  return res.data;
+};

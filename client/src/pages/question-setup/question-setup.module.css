@@ -58,11 +58,25 @@
 
 .problemStatementContainer,
 .testSuiteContainer,
-.constraintsContainer {
+.constraintsContainer,
+.oracleCreationContainer {
     height: 100%;
-
     display: flex;
     flex-direction: column;
     gap: var(--padding-1);
+}
+
+.oracleCreationContainer > p {
+    background-color: var(--dropdown-grey);
+    padding: var(--padding-1);
+    border-radius: var(--border-radius-1);
+}
+
+.oracleTextEditorContainer {
+    overflow: clip;
+    border-radius: var(--border-radius-1);
+
+    padding: var(--padding-1);
+    background-color: var(--editor-colour);
 }
 

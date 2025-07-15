@@ -8,7 +8,9 @@ import akl.p4p.uoa.prompts.OracleGenerationPrompts;
 import akl.p4p.uoa.prompts.ProblemGenerationPrompts;
 import akl.p4p.uoa.prompts.TestSuitePrompts;
 import akl.p4p.uoa.services.AIService;
+import akl.p4p.uoa.services.OracleService;
 import akl.p4p.uoa.services.ProblemService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +25,13 @@ class AiController {
   AIService aiService;
   ProblemService problemService;
 
-  public AiController(ProblemService problemService, AIService aiService) {
+  OracleService oracleService;
+
+  public AiController(
+      ProblemService problemService, AIService aiService, OracleService oracleService) {
     this.problemService = problemService;
     this.aiService = aiService;
+    this.oracleService = oracleService;
   }
 
   /**
@@ -72,15 +78,14 @@ class AiController {
   }
 
   @PostMapping("oracle")
-	public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem) {
-	  String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
-	  String oracleSrc = aiService.executeOneTimeLLMCall(sysPrompt, null);
+  public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
+      throws JsonProcessingException {
+    String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
+    String jsonResponse =
+        aiService.executeOneTimeLLMCall(
+            sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
 
-	  Oracle oracle = new Oracle();
-	  oracle.setOracle(oracleSrc);
-	  oracle.setProblemId(problem.getId());
-
-	  return ResponseEntity.ok(oracle);
+    var oracle = oracleService.parseLLMGeneratedOracle(problem, jsonResponse);
+    return ResponseEntity.ok(oracle);
   }
-
 }

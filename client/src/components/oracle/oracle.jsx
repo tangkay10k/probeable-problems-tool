@@ -2,11 +2,11 @@ import styles from "./oracle.module.css";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import Button from "@/components/button/button.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
-import { useProblemContext } from "@/context/problem-attempt-context.js";
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useEffect, useState } from "react";
 
 export default function Oracle() {
-  const { chatHistory, problemAttempt } = useProblemContext();
+  const { chatHistory, problemAttempt } = useProblemAttemptContext();
   const [oracleSrc, setOracleSrc] = useState();
   const [language, setLanguage] = useState("c");
 

@@ -5,36 +5,82 @@ import useWithLoading from "@/hooks/useWithLoading.js";
 const ProblemContext = createContext();
 
 export function ProblemProvider({ children }) {
-  const [problem, setProblem] = useState({
-    problemStatement: "",
-    modelAnswer: "",
-    constraints: "",
-    testSuite: [],
-    programLanguage: "c",
-    problemType: null,
-    defaultProbe: null,
+  const [creationState, setCreationState] = useState(() => {
+    const saved = localStorage.getItem("problemUnderCreation");
+    return saved
+      ? JSON.parse(saved)
+      : {
+        problem: {
+          problemStatement: "",
+          modelAnswer: "",
+          constraints: "",
+          testSuite: [],
+          programLanguage: "c",
+          problemType: null,
+          defaultProbe: null,
+        },
+        oracle: {
+          problemId: null,
+          defaultProbes: "",
+          sourceCode: "",
+        },
+      };
   });
+
   const [testTemplate, setTestTemplate] = useState("");
   const [_, withLoading] = useWithLoading();
 
-  // fetch template when language changes
+  const { problem, oracle } = creationState;
+
+  // Persist entire creationState
+  useEffect(() => {
+    localStorage.setItem(
+      "problemUnderCreation",
+      JSON.stringify(creationState)
+    );
+  }, [creationState]);
+
+  // Fetch template when language changes
   useEffect(() => {
     withLoading(
       () => getTestTemplate(problem.programLanguage),
       (template) => setTestTemplate(template),
-      (err) => console.error(`No template for ${problem.programLanguage}`, err),
+      (err) => console.error(`No template for ${problem.programLanguage}`, err)
     );
   }, [problem.programLanguage]);
 
-  // setters
+  // Problem setters
+  const setProblem = (newProblem) => {
+    setCreationState((prev) => ({ ...prev, problem: newProblem }));
+  };
   const setLanguage = (programLanguage) => {
-    setProblem((prev) => ({ ...prev, programLanguage }));
+    setCreationState((prev) => ({
+      ...prev,
+      problem: { ...prev.problem, programLanguage },
+    }));
   };
   const setModelSolution = (modelAnswer) => {
-    setProblem((prev) => ({ ...prev, modelAnswer }));
+    setCreationState((prev) => ({
+      ...prev,
+      problem: { ...prev.problem, modelAnswer },
+    }));
   };
   const setTestSuite = (testSuite) => {
-    setProblem((prev) => ({ ...prev, testSuite }));
+    setCreationState((prev) => ({
+      ...prev,
+      problem: { ...prev.problem, testSuite },
+    }));
+  };
+
+  // Oracle setters
+  const setOracle = (newOracle) => {
+    setCreationState((prev) => ({ ...prev, oracle: newOracle }));
+  };
+  const setOracleField = (field, value) => {
+    setCreationState((prev) => ({
+      ...prev,
+      oracle: { ...prev.oracle, [field]: value },
+    }));
   };
 
   return (
@@ -47,6 +93,9 @@ export function ProblemProvider({ children }) {
         setLanguage,
         setModelSolution,
         setTestSuite,
+        oracle,
+        setOracle,
+        setOracleField,
       }}
     >
       {children}
@@ -57,7 +106,9 @@ export function ProblemProvider({ children }) {
 export function useProblemContext() {
   const context = useContext(ProblemContext);
   if (!context) {
-    throw new Error("useProblemContext must be used within a ProblemProvider");
+    throw new Error(
+      "useProblemContext must be used within a ProblemProvider"
+    );
   }
   return context;
 }

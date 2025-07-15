@@ -72,6 +72,25 @@ public class JsonSchemaDefinition {
       }
       """;
 
+  private static final String ORACLE_GENERATION_SCHEMA =
+      """
+		{
+			"type": "object",
+			"properties": {
+				"source_code": {
+				  "type": "string",
+				  "description": "The main file containing the code for the problem"
+				},
+				"default_probes": {
+					"type": "string",
+					"description": "default inputs to the function(s), including their typings if applicable"
+				}
+			},
+			"required": ["source_code", "default_probes"],
+			"additionalProperties": false
+		}
+		 """;
+
   private static final String EXECUTION_PAYLOAD =
       """
         {
@@ -95,5 +114,9 @@ public class JsonSchemaDefinition {
 
   public static String getExecutionPayload() {
     return EXECUTION_PAYLOAD;
+  }
+
+  public static String getOracleGenerationSchema() {
+    return ORACLE_GENERATION_SCHEMA;
   }
 }
