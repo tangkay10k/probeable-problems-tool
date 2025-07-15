@@ -11,6 +11,7 @@
     font-family: "JetBrains Mono", sans-serif;
 
     padding: var(--padding-2);
+    gap: 1rem;
 }
 
 .testCase {

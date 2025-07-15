@@ -7,14 +7,14 @@ import Instruction from "@/components/instruction/instruction.jsx";
 import { CONSTRAINTS_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Button from "@/components/button/button.jsx";
+import { useProblemContext } from "@/context/problem-context-provider.jsx";
 
-export default function Constraints({ problem, setProblem }) {
+export default function Constraints() {
+  const { problem, setProblem } = useProblemContext();
   const [isLoading, withLoading] = useWithLoading();
+
   const handleChange = (e) => {
-    setProblem({
-      ...problem,
-      constraints: e.target.value,
-    });
+    setProblem({ ...problem, constraints: e.target.value });
   };
 
   const saveQuestion = () => {
@@ -33,9 +33,8 @@ export default function Constraints({ problem, setProblem }) {
       () => generateTestSuite(problem),
       (updatedProblem) => {
         setProblem(updatedProblem);
-
         toast.success(
-          "Test suite has been generated! please review them carefully 😊",
+          "Test suite has been generated! Please review them carefully 😊",
         );
       },
       (err) => toast.error(err),
@@ -45,7 +44,7 @@ export default function Constraints({ problem, setProblem }) {
   return (
     <div className={styles.constraintsContainer}>
       <Instruction
-        heading={"1. Constraint Generation"}
+        heading="1. Constraint Generation"
         instruction={CONSTRAINTS_INSTRUCTION}
       />
       <TextArea
@@ -53,7 +52,7 @@ export default function Constraints({ problem, setProblem }) {
         resizable={true}
         value={problem.constraints || ""}
         onChange={handleChange}
-        placeholder={"Problem Constraints: "}
+        placeholder="Problem Constraints: "
       />
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>

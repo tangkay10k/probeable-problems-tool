@@ -1,11 +1,15 @@
-import axios from "axios"
+import axios from "axios";
+export const generateConstraints = async (problem) => {
+  const res = await axios.post("/api/ai/constraints", problem);
+  return res.data;
+};
 
-export const submitThoughtProcess = async (payload) => {
-    const res = await axios.post("/api/ai", payload)
-    return res.data
-}
+export const generateTestSuite = async (problem) => {
+  const res = await axios.post("/api/ai/test-suite", problem);
+  return res.data;
+};
 
-export const checkQuestionDuplication = async (payload) => {
-    const res = await axios.post("/api/ai/duplicate", payload)
-    return res.data
-}
+export const generateProblemStatement = async (problem) => {
+  const res = await axios.post("/api/ai/problem-statement", problem);
+  return res.data;
+};
