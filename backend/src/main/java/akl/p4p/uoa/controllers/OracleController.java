@@ -21,7 +21,7 @@ public class OracleController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Oracle> createNewOracleForProblem(@RequestParam String problemId) {
+	public ResponseEntity<Oracle> getExistingOracleForProblem(@RequestParam String problemId) {
 		return ResponseEntity.ok(oracleService.loadOracle(problemId));
 	}
 

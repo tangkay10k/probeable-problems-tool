@@ -5,10 +5,10 @@ import { STAGE_ONE } from "@/pages/problem/data/instructions.js";
 import NotePad from "@/components/notes/notepad.jsx";
 import ChatApp from "@/components/chatbox/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
-import { useProblemContext } from "@/context/problem-attempt-context.js";
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 
 export default function ProblemStageOneContent() {
-  const { isLoading } = useProblemContext();
+  const { isLoading } = useProblemAttemptContext();
 
   if (isLoading) {
     return <div className={styles.problemPageContainer}>Loading...</div>;

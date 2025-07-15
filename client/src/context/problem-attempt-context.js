@@ -2,6 +2,6 @@ import { createContext, useContext } from "react";
 
 const ProblemAttemptContext = createContext(null);
 
-export const useProblemContext = () => useContext(ProblemAttemptContext);
+export const useProblemAttemptContext = () => useContext(ProblemAttemptContext);
 
 export default ProblemAttemptContext;

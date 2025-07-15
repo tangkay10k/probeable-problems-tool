@@ -6,7 +6,7 @@ export default function Dropdown({
   label = "Select",
   options = [],
   onSelect,
-  placeholder = "Please select a question type",
+  placeholder = "Default Placeholder",
 }) {
   const [open, setOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(placeholder);
