@@ -27,4 +27,23 @@ public class PersonService {
             throw new IllegalArgumentException("Unsupported person type: " + person.getClass());
         }
     }
+
+    public boolean checkIfEmailUsed(Person person) {
+        Person retrievedPerson;
+        
+        if (person instanceof Student) {
+            retrievedPerson = studentRepository.findById(person.getEmail()).orElse(null);
+        } else if (person instanceof Teacher) {
+            retrievedPerson = teacherRepository.findById(person.getEmail()).orElse(null);
+        } else {
+            throw new IllegalArgumentException("Unsupported person type: " + person.getClass());
+        }
+
+        if (retrievedPerson == null) {
+            return false;
+        }
+
+        return true;
+
+    }
 }

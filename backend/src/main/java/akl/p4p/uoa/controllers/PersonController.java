@@ -33,12 +33,16 @@ public class PersonController {
         Person person = personCodeDTO.getPerson();
         String code = personCodeDTO.getCode();
 
-        if (oneTimeCodeService.verifyCode(person.getEmail(), code)) {
-            personService.createPerson(person);
-            return ResponseEntity.ok().build();
-        } else {
+        if (!oneTimeCodeService.verifyCode(person.getEmail(), code)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Code supplied is incorrect or expired");
         }
+
+        if (personService.checkIfEmailUsed(person)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This email is already being used");
+        }
+
+        personService.createPerson(person);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
