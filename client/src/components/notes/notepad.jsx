@@ -1,8 +1,9 @@
 import styles from "./notes.module.css";
 import TextArea from "@/components/inputs/text-area.jsx";
-import { useState } from "react";
-export default function NotePad({ initialNotes = "" }) {
-  const [notes, setNotes] = useState(initialNotes);
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+
+export default function NotePad() {
+  const { studentNotes, updateStudentNotes } = useProblemAttemptContext();
 
   return (
     <div className={styles.notePad}>
@@ -14,8 +15,8 @@ export default function NotePad({ initialNotes = "" }) {
         <TextArea
           rows={0}
           resizable={false}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+          value={studentNotes}
+          onChange={(e) => updateStudentNotes(e.target.value)}
           placeholder={
             "Write your notes from interacting with the client here!"
           }

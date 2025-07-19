@@ -1,10 +1,10 @@
 import ProblemAttemptProvider from "@/context/problem-attempt-context-provider.jsx";
-import ProblemStageOneContent from "./stage-one-content.jsx";
+import ProblemContent from "./problem-content.jsx";
 
-export default function ProblemStageOne() {
+export default function ProblemPage() {
   return (
     <ProblemAttemptProvider>
-      <ProblemStageOneContent />
+      <ProblemContent />
     </ProblemAttemptProvider>
   );
 }
