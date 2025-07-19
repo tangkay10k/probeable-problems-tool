@@ -83,7 +83,7 @@ export default function ChatApp() {
           value={userMessage}
         />
         <Button onClick={handleSend} disabled={isLoading}>
-          {!isLoading && <PlaneIcon size={18} />}
+          <PlaneIcon size={18} />
         </Button>
       </div>
     </div>

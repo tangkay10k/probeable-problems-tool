@@ -18,6 +18,9 @@
     background-color: var(--oracle-grey);
     border-radius: var(--border-radius-2);
 
+    padding: var(--padding-2);
+    color: var(--black);
+
     height: 100%;
 }
 
@@ -75,7 +78,7 @@
     background-color: var(--button-green);
     border: none;
 
-    box-shadow: 0 0 0.3rem rgba(0,0,0,0.3);
+    box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
 }
 
 .editorContainer button:hover {
