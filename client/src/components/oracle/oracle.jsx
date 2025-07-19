@@ -12,10 +12,10 @@ import { useParams } from "react-router-dom";
 export default function Oracle() {
   const { problemId } = useParams();
   const { chatHistory, problemAttempt } = useProblemAttemptContext();
-  const [inputVariables, setInputVariables] = useState();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
   const [oracle, setOracle] = useState();
+  const [inputVariables, setInputVariables] = useState();
 
   useEffect(() => {
     if (chatHistory) {
@@ -26,7 +26,10 @@ export default function Oracle() {
   useEffect(() => {
     withLoading(
       () => getOracle(problemId),
-      (oracle) => setOracle(oracle),
+      (oracle) => {
+        setOracle(oracle);
+        setInputVariables(oracle?.defaultProbes);
+      },
       console.error,
     );
   }, []);
@@ -81,7 +84,7 @@ export default function Oracle() {
           </div>
 
           <Button onClick={executeOracle} disabled={isLoading}>
-            <p>Run</p>
+            Run
           </Button>
         </div>
         <TextArea
