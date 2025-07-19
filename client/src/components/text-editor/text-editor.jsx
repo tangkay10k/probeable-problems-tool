@@ -1,21 +1,21 @@
-import {useEffect, useRef, useState} from "react";
-import {Editor} from "@monaco-editor/react";
+import { useEffect, useRef, useState } from "react";
+import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./language-selector.jsx";
-import {CODE_SNIPPETS} from "./data/constants.js";
+import { CODE_SNIPPETS } from "./data/constants.js";
 import styles from "./text-editor.module.css";
 
 export function TextEditor({
-                             setLanguage,
-                             language,
-                             src,
-                             setSource,
-                             showLanguageSelect = true,
-                             lineNumbers = true,
-                             fontSize = 13,
-                             isResizable = false,
-                             fixedHeight = 200,
-                             minHeight = 100,
-                           }) {
+  setLanguage,
+  language,
+  src,
+  setSource,
+  showLanguageSelect = true,
+  lineNumbers = true,
+  fontSize = 13,
+  isResizable = false,
+  fixedHeight = 200,
+  minHeight = 100,
+}) {
   const [editorHeight, setEditorHeight] = useState(fixedHeight);
   const containerRef = useRef(null);
   const editorRef = useRef(null);
@@ -27,7 +27,7 @@ export function TextEditor({
 
   const options = {
     automaticLayout: false,
-    minimap: {enabled: false},
+    minimap: { enabled: false },
     fontSize,
     lineNumbers,
     wordWrap: "on",
@@ -42,7 +42,7 @@ export function TextEditor({
 
     if (isResizable) {
       const lineHeight = editor.getOption(
-        monaco.editor.EditorOption.lineHeight
+        monaco.editor.EditorOption.lineHeight,
       );
       editor.onDidContentSizeChange((e) => {
         const newHeight = e.contentHeight + lineHeight;
@@ -79,25 +79,19 @@ export function TextEditor({
       }}
     >
       {showLanguageSelect && (
-        <LanguageSelector
-          language={language}
-          onLanguageSelect={onSelect}
-        />
+        <LanguageSelector language={language} onLanguageSelect={onSelect} />
       )}
-      <div style={{flex: 1, position: "relative"}}>
-        <Editor
-          className={styles.textEditor}
-          width="100%"
-          height="100%"
-          theme="vs-dark"
-          language={language}
-          value={src}
-          onChange={(value) => setSource(value)}
-          onMount={handleEditorDidMount}
-          options={options}
-        />
-      </div>
-      {showLanguageSelect && <div className={styles.textEditorFooter}/>}
+      <Editor
+        className={styles.textEditor}
+        width="100%"
+        theme="vs-dark"
+        language={language}
+        value={src}
+        onChange={(value) => setSource(value)}
+        onMount={handleEditorDidMount}
+        options={options}
+      />
+      {showLanguageSelect && <div className={styles.textEditorFooter} />}
     </div>
   );
 }

@@ -68,15 +68,18 @@
 }
 
 .editorContainer button {
+    flex: 1;
+
     width: 5rem;
     height: auto;
 
-    border-radius: var(--border-radius-3);
+    border-radius: var(--border-radius-4);
 
+    font-size: 1.2rem;
     font-family: 'Poppins', sans-serif;
+    font-weight: 600;
 
     background-color: var(--button-green);
-    border: none;
 
     box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
 }
@@ -86,9 +89,11 @@
 }
 
 .editorWrapper {
+    flex: 6;
+
     width: 100%;
 
-    border-radius: var(--border-radius-3);
+    border-radius: var(--border-radius-4);
     overflow: hidden;
 
     padding: var(--padding-1);

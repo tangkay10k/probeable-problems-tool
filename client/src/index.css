@@ -64,6 +64,9 @@
     --layer-2: 2;
 
     --chat-box-height: 45vh;
+    --ai-agent-box-height: 20rem;
+
+    --nav-height: 5rem;
 }
 
 * {

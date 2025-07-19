@@ -4,7 +4,7 @@ import QuestionSetup from "./pages/question-setup/question-setup";
 import NavBar from "@/components/nav/navbar.jsx";
 import "./App.css";
 import { Bounce, ToastContainer } from "react-toastify";
-import ProblemStageOne from "@/pages/problem/problem-stage-one.jsx";
+import ProblemPage from "@/pages/problem/problem-page.jsx";
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/setup" element={<QuestionSetup />} />
-        <Route path="/problem/:problemId" element={<ProblemStageOne />} />
+        <Route path="/problem/:problemId" element={<ProblemPage />} />
       </Routes>
     </div>
   );

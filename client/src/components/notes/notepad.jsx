@@ -1,21 +1,22 @@
 import styles from "./notes.module.css";
 import TextArea from "@/components/inputs/text-area.jsx";
-import { useState } from "react";
-export default function NotePad({ initialNotes = "" }) {
-  const [notes, setNotes] = useState(initialNotes);
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+import Banner from "@/components/banner/banner.jsx";
+
+export default function NotePad() {
+  const { studentNotes, updateStudentNotes } = useProblemAttemptContext();
+
+  const leftIcon = <div className={styles.circle} />;
 
   return (
     <div className={styles.notePad}>
-      <div className={styles.header}>
-        <div className={styles.circle} />
-        <h2>Notes</h2>
-      </div>
+      <Banner header={"Notes"} leftIcon={leftIcon} />
       <div className={styles.textAreaContainer}>
         <TextArea
           rows={0}
           resizable={false}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+          value={studentNotes}
+          onChange={(e) => updateStudentNotes(e.target.value)}
           placeholder={
             "Write your notes from interacting with the client here!"
           }

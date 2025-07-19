@@ -1,5 +1,6 @@
-package akl.p4p.uoa.data;
+package akl.p4p.uoa.dtos;
 
+import akl.p4p.uoa.data.Person;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PersonCodeDTO {
-    String code;
-    Person person;
+	String code;
+	Person person;
 }
