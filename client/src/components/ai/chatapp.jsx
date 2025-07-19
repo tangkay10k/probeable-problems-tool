@@ -1,13 +1,14 @@
-import styles from "./chatapp.module.css";
+import styles from "./ai.module.css";
 import { IoChatbubbleEllipsesOutline as ChatIcon } from "react-icons/io5";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
 import Input from "@/components/inputs/text-input.jsx";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button.jsx";
-import { convertIsoStringToLocalTime } from "@/components/chatbox/chat-utils.js";
+import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { submitUserMessage } from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+import Banner from "@/components/banner/banner.jsx";
 
 export default function ChatApp() {
   const { chatHistory, setChatHistory } = useProblemAttemptContext();
@@ -48,24 +49,30 @@ export default function ChatApp() {
     );
   };
 
+  const leftIcon = (
+    <div className={styles.icon}>
+      <ChatIcon size={45} />
+    </div>
+  );
+
+  const rightIcon = (
+    <>
+      <div className={styles.status} />
+      <div className={styles.clientAvatar}>
+        <img src={"/client.svg"} alt={"Client"} />
+      </div>
+    </>
+  );
+
   return (
     <div className={styles.chatWrapper}>
       <div className={styles.chatApp}>
-        <div className={styles.header}>
-          <div className={styles.icon}>
-            <ChatIcon size={45} />
-          </div>
-
-          <div className={styles.headerText}>
-            <h2>My Client</h2>
-            <p>online now</p>
-          </div>
-
-          <div className={styles.status} />
-          <div className={styles.clientAvatar}>
-            <img src={"/client.svg"} alt={"Client"} />
-          </div>
-        </div>
+        <Banner
+          header={"My Client"}
+          subtext={"online now"}
+          leftIcon={leftIcon}
+          rightIcon={rightIcon}
+        />
 
         <div ref={containerRef} className={styles.chatBody}>
           {/*Always skip system message*/}

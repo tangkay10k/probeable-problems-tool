@@ -3,8 +3,6 @@
     flex-direction: column;
 
     gap: 1rem;
-
-
 }
 
 .chatApp {
@@ -15,36 +13,6 @@
 
     height: var(--chat-box-height); /*When you change this, you need to change .oracleWrapper*/
 }
-
-
-.header {
-    flex: 0 0 auto;
-
-    padding: var(--padding-1);
-    background-color: var(--white);
-
-    border-radius: var(--border-radius-5);
-    box-shadow: 0 0 0.6rem black;
-
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-}
-
-.headerText {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.headerText p {
-    margin-top: -0.5rem;
-    font-weight: 300;
-    font-size: 0.8rem;
-}
-
 
 .icon {
     position: absolute;
@@ -82,7 +50,7 @@
 
 .status {
     position: absolute;
-    z-index:  var(--layer-2);
+    z-index: var(--layer-2);
 
     /*===HARDCODED BASED ON HEIGHT OF HEADER===*/
     right: 4.3rem;
@@ -94,7 +62,6 @@
     border-radius: 50%;
     width: 1rem;
     height: 1rem;
-
 }
 
 .inputContainer {
@@ -152,8 +119,18 @@
     justify-self: start;
 }
 
-
 .user {
     background: var(--white);
     justify-self: end;
+}
+
+/*===AI Agent===*/
+.agentContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    min-height: var(--ai-agent-box-height);
+
+    background-color: red;
 }

@@ -2,11 +2,12 @@ import styles from "./problemPage.module.css";
 import Accordion from "@/components/accordian/accordion.jsx";
 import { STAGE_ONE, STAGE_TWO } from "@/pages/problem/data/instructions.js";
 import NotePad from "@/components/notes/notepad.jsx";
-import ChatApp from "@/components/chatbox/chatapp.jsx";
+import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Button from "@/components/button/button.jsx";
 import { useState } from "react";
+import AIAgent from "@/components/ai/ai-agent.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -60,6 +61,7 @@ function StageTwo() {
       <div className={styles.innerContainer}>
         <Accordion items={STAGE_TWO} initialTabOpen={0} />
         <NotePad />
+        <AIAgent />
       </div>
 
       <div className={styles.innerContainer}>
