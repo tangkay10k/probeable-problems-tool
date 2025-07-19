@@ -51,7 +51,7 @@ export default function ChatApp() {
 
   const leftIcon = (
     <div className={styles.icon}>
-      <ChatIcon size={45} />
+      <ChatIcon size={35} />
     </div>
   );
 

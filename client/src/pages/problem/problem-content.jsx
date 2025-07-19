@@ -8,6 +8,7 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Button from "@/components/button/button.jsx";
 import { useState } from "react";
 import AIAgent from "@/components/ai/ai-agent.jsx";
+import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -28,12 +29,14 @@ export default function ProblemContent() {
   return (
     <div className={styles.problemPageContainer}>
       {stage === 1 ? <StageOne /> : <StageTwo />}
+
       <div
         className={stage === 1 ? styles.nextContainer : styles.prevContainer}
       >
         <Button onClick={handleStageChange}>
           {stage === 1 ? "Next" : "Prev"}
         </Button>
+        {stage === 2 && <Button>Submit!</Button>}
       </div>
     </div>
   );
@@ -56,6 +59,8 @@ function StageOne() {
 }
 
 function StageTwo() {
+  const { problemAttempt } = useProblemAttemptContext();
+
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.innerContainer}>
@@ -65,8 +70,13 @@ function StageTwo() {
       </div>
 
       <div className={styles.innerContainer}>
-        <ChatApp />
-        <Oracle />
+        <div className={styles.textEditorContainer}>
+          <TextEditor
+            language={problemAttempt.problemLanguage}
+            showLanguageSelect={false}
+            fixedHeight={600}
+          />
+        </div>
       </div>
     </div>
   );

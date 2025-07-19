@@ -94,7 +94,7 @@
 }
 
 .prevContainer {
-    justify-content: start;
+    justify-content: space-between;
 }
 
 .prevContainer button,
@@ -108,3 +108,21 @@
     font-weight: bold;
 }
 
+.textEditorContainer {
+    flex: 10;
+
+    background-color: var(--editor-colour);
+    height: 100%;
+
+    padding: var(--padding-2);
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+
+    border-radius: var(--border-radius-3);
+}
+
+.buttonContainer {
+    flex: 1;
+
+    height: 100%;
+}

@@ -1,27 +1,5 @@
 .header {
-    flex: 0 0 auto;
-    background-color: var(--white);
-    box-shadow: 0 0 0.3rem black;
-    border-radius: var(--border-radius-5);
-    padding: var(--padding-2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.circle {
-    border-radius: 50%;
-    background-color: var(--red);
-    height: 3rem;
-    width: 3rem;
-
-    position: absolute;
-    left: var(--padding-2);
-}
-
-.header {
-    padding: var(--padding-2);
+    padding: var(--padding-1);
     background-color: var(--white);
 
     border-radius: var(--border-radius-5);
@@ -31,6 +9,9 @@
     position: relative;
     justify-content: center;
     align-items: center;
+
+    height: 100%;
+    max-height: 3.2rem;
 }
 
 .headerText {

@@ -23,4 +23,5 @@ public class ProblemAttempt {
 	private String problemId;
 	private ProgramLanguage problemLanguage;
 	private String chatHistoryId;
+	private String codeSubmission;
 }

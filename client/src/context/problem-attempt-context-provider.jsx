@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getLatestProblemAttemptForStudent } from "@/routes/problem-attempt-route.js";
 
-const STORAGE_KEY = "studentNotes";
+const NOTES_KEY = "studentNotes";
+const PROMPTS_KEY = "studentAgentPrompt";
 
 const ProblemAttemptProvider = ({ children }) => {
   const { problemId } = useParams();
@@ -15,14 +16,17 @@ const ProblemAttemptProvider = ({ children }) => {
   const navigate = useNavigate();
   const fetchedProblemIds = useRef(new Set());
 
-  // load the entire notes map from localStorage once
   const [notesMap, setNotesMap] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(NOTES_KEY);
     return saved ? JSON.parse(saved) : {};
   });
-
-  // derive just the current note
   const studentNotes = notesMap[problemId] || "";
+
+  const [agentPrompt, setAgentPrompt] = useState(() => {
+    const saved = localStorage.getItem(PROMPTS_KEY);
+    return saved ? JSON.parse(saved) : {};
+  });
+  const studentAgentPrompt = agentPrompt[problemId] || "";
 
   useEffect(() => {
     if (fetchedProblemIds.current.has(problemId)) return;
@@ -51,7 +55,7 @@ const ProblemAttemptProvider = ({ children }) => {
   const updateStudentNotes = (newNote) => {
     setNotesMap((prev) => {
       const updated = { ...prev, [problemId]: newNote };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      localStorage.setItem(NOTES_KEY, JSON.stringify(updated));
       return updated;
     });
   };
@@ -59,7 +63,23 @@ const ProblemAttemptProvider = ({ children }) => {
   const deleteStudentNotes = () => {
     setNotesMap((prev) => {
       const { [problemId]: _, ...rest } = prev;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(rest));
+      localStorage.setItem(NOTES_KEY, JSON.stringify(rest));
+      return rest;
+    });
+  };
+
+  const updateStudentAgentPrompt = (newPrompt) => {
+    setAgentPrompt((prev) => {
+      const updated = { ...prev, [problemId]: newPrompt };
+      localStorage.setItem(PROMPTS_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const deleteStudentAgentPrompt = () => {
+    setAgentPrompt((prev) => {
+      const { [problemId]: _, ...rest } = prev;
+      localStorage.setItem(PROMPTS_KEY, JSON.stringify(rest));
       return rest;
     });
   };
@@ -74,6 +94,9 @@ const ProblemAttemptProvider = ({ children }) => {
         studentNotes,
         updateStudentNotes,
         deleteStudentNotes,
+        studentAgentPrompt,
+        updateStudentAgentPrompt,
+        deleteStudentAgentPrompt,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ export default function Banner({
       {leftIcon}
       <div className={styles.headerText}>
         <h2>{header}</h2>
-        <p>{subtext}</p>
+        {subtext && <p>{subtext}</p>}
       </div>
       {rightIcon}
     </div>

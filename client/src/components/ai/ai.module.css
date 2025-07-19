@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     background-color: var(--grey);
-    border-radius: var(--border-radius-5) var(--border-radius-5) var(--border-radius-3) var(--border-radius-3);
+    border-radius: var(--border-radius-3);
 
     height: var(--chat-box-height); /*When you change this, you need to change .oracleWrapper*/
 }
@@ -31,8 +31,8 @@
     justify-content: center;
     align-items: center;
 
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
 
     border: 0.1rem solid var(--grey);
     border-radius: 50%;
@@ -53,8 +53,8 @@
     z-index: var(--layer-2);
 
     /*===HARDCODED BASED ON HEIGHT OF HEADER===*/
-    right: 4.3rem;
-    top: 2.7rem;
+    right: 3.9rem;
+    top: 2rem;
 
     background-color: var(--online-green);
     border: 2px solid white;
@@ -132,5 +132,54 @@
 
     min-height: var(--ai-agent-box-height);
 
-    background-color: red;
+    background-color: var(--grey);
+    border-radius: var(--border-radius-4);
 }
+
+.agentBody {
+    padding: var(--padding-2);
+    height: 100%;
+    display: flex;
+
+    gap: var(--padding-2);
+}
+
+
+.agentBody textarea {
+    flex: 4;
+
+    border-radius: var(--border-radius-4);
+    padding: var(--padding-2);
+    font-family: 'Poppins', sans-serif;
+}
+
+.agentBody textarea:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.buttonContainer {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.agentBody button {
+    height: 3rem;
+    border-radius: var(--border-radius-5);
+
+    background-color: var(--button-green);
+    box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
+
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.agentBody button:hover {
+    background-color: var(--hover-green);
+}
+
