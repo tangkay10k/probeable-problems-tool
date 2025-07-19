@@ -59,7 +59,8 @@ function StageOne() {
 }
 
 function StageTwo() {
-  const { problemAttempt } = useProblemAttemptContext();
+  const { problemAttempt, studentCodeSubmission, updateStudentCodeSubmission } =
+    useProblemAttemptContext();
 
   return (
     <div className={styles.containerWrapper}>
@@ -74,7 +75,9 @@ function StageTwo() {
           <TextEditor
             language={problemAttempt.problemLanguage}
             showLanguageSelect={false}
-            fixedHeight={600}
+            fixedHeight={680}
+            src={studentCodeSubmission}
+            setSource={updateStudentCodeSubmission}
           />
         </div>
       </div>

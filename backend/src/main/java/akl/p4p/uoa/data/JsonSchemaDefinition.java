@@ -104,6 +104,22 @@ public class JsonSchemaDefinition {
 			  }
 			""";
 
+	private static final String CODE_GENERATION_SCHEMA =
+		"""
+			{
+				"type": "object",
+				"properties": {
+					"source_code": {
+					  "type": "string",
+					  "description": "The source code of the function requested to be built"
+					}
+				},
+				"required": ["source_code"],
+				"additionalProperties": false
+			}
+			 """;
+
+
 	public static String getClientProbeSchema() {
 		return CLIENT_PROBE_SCHEMA;
 	}
@@ -118,5 +134,9 @@ public class JsonSchemaDefinition {
 
 	public static String getOracleGenerationSchema() {
 		return ORACLE_GENERATION_SCHEMA;
+	}
+
+	public static String getCodeGenerationSchema() {
+		return CODE_GENERATION_SCHEMA;
 	}
 }

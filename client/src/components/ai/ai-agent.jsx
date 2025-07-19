@@ -5,13 +5,23 @@ import TextArea from "@/components/inputs/text-area.jsx";
 import Button from "@/components/button/button.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
+import { generateSolutionAttempt } from "@/routes/ai-route.js";
 
 export default function AIAgent() {
-  const { studentAgentPrompt, updateStudentAgentPrompt } =
-    useProblemAttemptContext();
+  const {
+    studentAgentPrompt,
+    updateStudentAgentPrompt,
+    updateStudentCodeSubmission,
+  } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    withLoading(
+      () => generateSolutionAttempt({ prompt: studentAgentPrompt }),
+      (response) => updateStudentCodeSubmission(response.source_code),
+      console.error,
+    );
+  };
 
   const leftIcon = (
     <div className={styles.icon}>
@@ -44,7 +54,9 @@ export default function AIAgent() {
           onChange={(e) => updateStudentAgentPrompt(e.target.value)}
         ></TextArea>
         <div className={styles.buttonContainer}>
-          <Button>Build!</Button>
+          <Button onClick={handleSubmit} disabled={isLoading}>
+            Build!
+          </Button>
         </div>
       </div>
     </div>

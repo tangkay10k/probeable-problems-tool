@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getLatestProblemAttemptForStudent } from "@/routes/problem-attempt-route.js";
 
-const NOTES_KEY = "studentNotes";
-const PROMPTS_KEY = "studentAgentPrompt";
+const STUDENT_DATA_KEY = "studentProblemData";
 
 const ProblemAttemptProvider = ({ children }) => {
   const { problemId } = useParams();
@@ -16,17 +15,16 @@ const ProblemAttemptProvider = ({ children }) => {
   const navigate = useNavigate();
   const fetchedProblemIds = useRef(new Set());
 
-  const [notesMap, setNotesMap] = useState(() => {
-    const saved = localStorage.getItem(NOTES_KEY);
+  // Unified storage mapping: { [problemId]: { notes, agentPrompt, codeSubmission } }
+  const [studentDataMap, setStudentDataMap] = useState(() => {
+    const saved = localStorage.getItem(STUDENT_DATA_KEY);
     return saved ? JSON.parse(saved) : {};
   });
-  const studentNotes = notesMap[problemId] || "";
 
-  const [agentPrompt, setAgentPrompt] = useState(() => {
-    const saved = localStorage.getItem(PROMPTS_KEY);
-    return saved ? JSON.parse(saved) : {};
-  });
-  const studentAgentPrompt = agentPrompt[problemId] || "";
+  const currentData = studentDataMap[problemId] || {};
+  const studentNotes = currentData.notes || "";
+  const studentAgentPrompt = currentData.agentPrompt || "";
+  const studentCodeSubmission = currentData.codeSubmission || "";
 
   useEffect(() => {
     if (fetchedProblemIds.current.has(problemId)) return;
@@ -52,34 +50,29 @@ const ProblemAttemptProvider = ({ children }) => {
     );
   }, [problemId, navigate, withLoading]);
 
-  const updateStudentNotes = (newNote) => {
-    setNotesMap((prev) => {
-      const updated = { ...prev, [problemId]: newNote };
-      localStorage.setItem(NOTES_KEY, JSON.stringify(updated));
-      return updated;
+  // Helper to save any field into the unified map
+  const saveStudentData = (field, value) => {
+    setStudentDataMap((prev) => {
+      const updatedEntry = { ...(prev[problemId] || {}), [field]: value };
+      const updatedMap = { ...prev, [problemId]: updatedEntry };
+      localStorage.setItem(STUDENT_DATA_KEY, JSON.stringify(updatedMap));
+      return updatedMap;
     });
   };
 
-  const deleteStudentNotes = () => {
-    setNotesMap((prev) => {
+  const updateStudentNotes = (newNote) => saveStudentData("notes", newNote);
+  const updateStudentAgentPrompt = (newPrompt) =>
+    saveStudentData("agentPrompt", newPrompt);
+  const updateStudentCodeSubmission = (newCode) =>
+    saveStudentData("codeSubmission", newCode);
+
+  /**
+   * Deletes the entire stored data (notes, prompt, code) for this problem
+   */
+  const deleteStudentAttempt = () => {
+    setStudentDataMap((prev) => {
       const { [problemId]: _, ...rest } = prev;
-      localStorage.setItem(NOTES_KEY, JSON.stringify(rest));
-      return rest;
-    });
-  };
-
-  const updateStudentAgentPrompt = (newPrompt) => {
-    setAgentPrompt((prev) => {
-      const updated = { ...prev, [problemId]: newPrompt };
-      localStorage.setItem(PROMPTS_KEY, JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  const deleteStudentAgentPrompt = () => {
-    setAgentPrompt((prev) => {
-      const { [problemId]: _, ...rest } = prev;
-      localStorage.setItem(PROMPTS_KEY, JSON.stringify(rest));
+      localStorage.setItem(STUDENT_DATA_KEY, JSON.stringify(rest));
       return rest;
     });
   };
@@ -93,10 +86,11 @@ const ProblemAttemptProvider = ({ children }) => {
         isLoading,
         studentNotes,
         updateStudentNotes,
-        deleteStudentNotes,
         studentAgentPrompt,
         updateStudentAgentPrompt,
-        deleteStudentAgentPrompt,
+        studentCodeSubmission,
+        updateStudentCodeSubmission,
+        deleteStudentAttempt,
       }}
     >
       {children}
