@@ -4,21 +4,35 @@ import Button from "@/components/button/button.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useEffect, useState } from "react";
+import { executeOraclePistonDirect } from "@/routes/code-route.js";
+import useWithLoading from "@/hooks/useWithLoading.js";
+import { getOracle } from "@/routes/oracle-route.js";
+import { useParams } from "react-router-dom";
 
 export default function Oracle() {
+  const { problemId } = useParams();
   const { chatHistory, problemAttempt } = useProblemAttemptContext();
-  const [oracleSrc, setOracleSrc] = useState();
-  const [language, setLanguage] = useState("c");
+  const [isLoading, withLoading] = useWithLoading();
+  const [executionOutput, setExecutionOutput] = useState({});
+  const [oracle, setOracle] = useState();
+  const [inputVariables, setInputVariables] = useState();
 
   useEffect(() => {
     if (chatHistory) {
       handleLLMGeneratedTestCase(chatHistory.messages);
     }
-
-    if (problemAttempt) {
-      setLanguage(problemAttempt.programLanguage);
-    }
   }, [problemAttempt, chatHistory]);
+
+  useEffect(() => {
+    withLoading(
+      () => getOracle(problemId),
+      (oracle) => {
+        setOracle(oracle);
+        setInputVariables(oracle?.defaultProbes);
+      },
+      console.error,
+    );
+  }, []);
 
   function handleLLMGeneratedTestCase(messageList) {
     if (!messageList) return;
@@ -28,8 +42,22 @@ export default function Oracle() {
 
     const responseSchema = JSON.parse(latestMessage.content);
     if (responseSchema.test_case) {
-      setOracleSrc(responseSchema.test_case);
+      setInputVariables(responseSchema.test_case);
     }
+  }
+
+  function executeOracle() {
+    setExecutionOutput({});
+    withLoading(
+      () =>
+        executeOraclePistonDirect(
+          problemAttempt?.problemLanguage,
+          oracle.sourceCode,
+          inputVariables,
+        ),
+      (result) => setExecutionOutput(result),
+      console.error,
+    );
   }
 
   return (
@@ -44,24 +72,27 @@ export default function Oracle() {
         <div className={styles.editorContainer}>
           <div className={styles.editorWrapper}>
             <TextEditor
-              language={language}
+              language={problemAttempt?.problemLanguage}
               showLanguageSelect={false}
               lineNumbers={false}
               isResizable={false}
               fixedHeight={50}
               fontSize={12}
-              src={oracleSrc}
-              setSource={setOracleSrc}
+              src={inputVariables}
+              setSource={setInputVariables}
             />
           </div>
 
-          <Button>Run</Button>
+          <Button onClick={executeOracle} disabled={isLoading}>
+            Run
+          </Button>
         </div>
         <TextArea
           placeholder={"Output: "}
           disabled={true}
           resizable={false}
-          rows={3}
+          rows={2}
+          value={executionOutput?.run?.output || executionOutput?.run?.stderr}
         ></TextArea>
       </div>
     </div>

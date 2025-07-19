@@ -4,8 +4,7 @@ import { SpinnerCircular } from "spinners-react";
 export default function Button({ onClick, children, disabled = false }) {
   return (
     <button className={styles.button} onClick={onClick} disabled={disabled}>
-      <p>{children}</p>
-      {disabled && (
+      {disabled ? (
         <SpinnerCircular
           size={20}
           thickness={100}
@@ -13,6 +12,8 @@ export default function Button({ onClick, children, disabled = false }) {
           color="#1E1E1E"
           secondaryColor="#3A3A3A"
         />
+      ) : (
+        <p>{children}</p>
       )}
     </button>
   );
