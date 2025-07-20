@@ -83,7 +83,6 @@ export function TextEditor({
       )}
       <Editor
         className={styles.textEditor}
-        width="100%"
         theme="vs-dark"
         language={language}
         value={src}

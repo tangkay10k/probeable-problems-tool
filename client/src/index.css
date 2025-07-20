@@ -67,6 +67,8 @@
     --ai-agent-box-height: 20rem;
 
     --nav-height: 5rem;
+
+    --container-max-height: 80vh;
 }
 
 * {
