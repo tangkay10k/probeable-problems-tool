@@ -1,7 +1,9 @@
 .problemPageContainer {
-    width: 100vw;
-    height: 100vh;
     max-height: 100vh;
+    max-width: 100rem;
+
+    justify-self: center;
+    align-self: center;
 
     display: flex;
     flex-direction: column;
@@ -60,17 +62,16 @@
     width: 100%;
     height: 100%;
 
+    max-height: var(--container-max-height);
+
     gap: var(--padding-3);
     display: flex;
 }
 
 .innerContainer {
-    background-color: var(--dark-dark-grey);
-
-    width: 50%;
+    flex: 1;
     height: 100%;
 
-    padding: var(--padding-2);
     border-radius: var(--padding-3);
 
     display: flex;
@@ -109,20 +110,25 @@
 }
 
 .textEditorContainer {
-    flex: 10;
-
-    background-color: var(--editor-colour);
-    height: 100%;
-
     padding: var(--padding-2);
     padding-left: 0.1rem;
     padding-right: 0.1rem;
+}
 
+.textSuiteContainer,
+.textEditorContainer {
+    height: 100%;
+    border-color: var(--dark-dark-grey);
+    border-style: solid;
     border-radius: var(--border-radius-3);
+}
+
+.textSuiteContainer {
+    flex: 1;
+    overflow: clip;
 }
 
 .buttonContainer {
     flex: 1;
-
     height: 100%;
 }

@@ -4,7 +4,7 @@
     padding: var(--padding-3);
 
     width: 100%;
-    height: 5000vh;
+    height: auto;
 
     justify-content: center;
     align-items: center;

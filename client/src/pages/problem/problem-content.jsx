@@ -6,9 +6,19 @@ import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Button from "@/components/button/button.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AIAgent from "@/components/ai/ai-agent.jsx";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
+import useWithLoading from "@/hooks/useWithLoading.js";
+import { getProblem } from "@/routes/problem-route.js";
+import { toast } from "react-toastify";
+import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
+import {
+  handleTestSuiteExecution,
+  SPLIT_STRING,
+} from "@/pages/question-setup/utils/test-setup-utils.js";
+import { getTestTemplate } from "@/routes/test-template-route.js";
+import { useParams } from "react-router-dom";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -36,7 +46,6 @@ export default function ProblemContent() {
         <Button onClick={handleStageChange}>
           {stage === 1 ? "Next" : "Prev"}
         </Button>
-        {stage === 2 && <Button>Submit!</Button>}
       </div>
     </div>
   );
@@ -61,6 +70,54 @@ function StageOne() {
 function StageTwo() {
   const { problemAttempt, studentCodeSubmission, updateStudentCodeSubmission } =
     useProblemAttemptContext();
+  const { problemId } = useParams();
+  const [problem, setProblem] = useState([]);
+  const [isLoading, withLoading] = useWithLoading();
+  const [results, setResults] = useState([]);
+  const [template, setTestTemplate] = useState("");
+  const [showTestSuite, setShowTestSuite] = useState(false);
+
+  useEffect(() => {
+    withLoading(
+      () => getProblem(problemId),
+      (fetchedProblem) => {
+        setProblem(fetchedProblem);
+
+        withLoading(
+          () => getTestTemplate(fetchedProblem.programLanguage),
+          (template) => setTestTemplate(template),
+          (err) => toast.error(err),
+        );
+      },
+      (err) => toast.error(err),
+    );
+  }, [problemId]);
+
+  const updateResults = (execution) => {
+    const output = execution.run.output;
+    const lines = output.split(SPLIT_STRING);
+    let passedCount = 0;
+
+    const updatedResults = lines.map((line, i) => {
+      const expected = problem[i]?.expectedStdOut ?? "";
+      if (line === expected) passedCount += 1;
+      return { actual: line, expected };
+    });
+
+    setResults(updatedResults);
+    // setTerminalOutput(
+    //   `${passedCount}/${problem?.testSuite?.length} tests passed`,
+    // );
+  };
+
+  const handleExecution = () => {
+    setShowTestSuite(true);
+    withLoading(
+      () => handleTestSuiteExecution(problem, template, updateResults),
+      () => toast.success("Test suite executed successfully!"),
+      console.error,
+    );
+  };
 
   return (
     <div className={styles.containerWrapper}>
@@ -71,15 +128,36 @@ function StageTwo() {
       </div>
 
       <div className={styles.innerContainer}>
-        <div className={styles.textEditorContainer}>
-          <TextEditor
-            language={problemAttempt.problemLanguage}
-            showLanguageSelect={false}
-            fixedHeight={680}
-            src={studentCodeSubmission}
-            setSource={updateStudentCodeSubmission}
-          />
-        </div>
+        {showTestSuite ? (
+          isLoading ? (
+            <h1>LOADING</h1>
+          ) : (
+            <div className={styles.textSuiteContainer}>
+              <TestSuiteList
+                tests={problem.testSuite}
+                language={problem.programLanguage}
+                isEditable={false}
+                results={results}
+                setResults={setResults}
+              />
+            </div>
+          )
+        ) : (
+          <>
+            <div className={styles.textEditorContainer}>
+              <TextEditor
+                fixedHeight={"100%"}
+                language={problemAttempt.problemLanguage}
+                showLanguageSelect={false}
+                src={studentCodeSubmission}
+                setSource={updateStudentCodeSubmission}
+              />
+            </div>
+            <Button onClick={handleExecution} disabled={isLoading}>
+              Submit!
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

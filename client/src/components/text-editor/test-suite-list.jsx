@@ -1,30 +1,24 @@
-import React, { createContext, useContext } from "react";
+import React from "react";
 import { TestCaseEditor } from "@/components/text-editor/test-case-editor.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import styles from "./test-suite.module.css";
 import Button from "@/components/button/button.jsx";
 import DeleteButton from "@/components/button/delete-button";
 
-const TestSuiteContext = createContext(null);
-
 export function TestSuiteList({
   tests,
   setTests,
   language,
-  setLanguage,
   results,
   setResults,
-  setTestTemplate,
+  isEditable = true,
 }) {
-  const updateTest = (index, field, value) => {
-    const updated = tests.map((test, i) =>
-      i === index ? { ...test, [field]: value } : test,
-    );
-    setTests(updated);
-  };
+  const updateTest = (index, field, value) =>
+    setTests(tests.map((t, i) => (i === index ? { ...t, [field]: value } : t)));
 
   const addTestCase = () => {
     setTests([...tests, { code: "", expectedStdOut: "" }]);
+    setResults([...results, { actual: "" }]);
   };
 
   const deleteTest = (index) => {
@@ -33,64 +27,84 @@ export function TestSuiteList({
   };
 
   return (
-    <TestSuiteContext.Provider
-      value={{
-        tests,
-        results,
-        language,
-        setLanguage,
-        updateTest,
-        deleteTest,
-        setTestTemplate,
-      }}
-    >
-      <div className={styles.testContainer}>
-        {tests.map((test, index) => (
-          <TestCase key={index} index={index} />
-        ))}
+    <div className={styles.testContainer}>
+      {tests.map((test, idx) => (
+        <TestCase
+          key={idx}
+          index={idx}
+          test={test}
+          result={results[idx]}
+          language={language}
+          isEditable={isEditable}
+          updateTest={(field, value) => updateTest(idx, field, value)}
+          deleteTest={() => deleteTest(idx)}
+        />
+      ))}
 
+      {isEditable && (
         <div className={styles.addButtonContainer}>
           <Button onClick={addTestCase}>Add Test Case</Button>
         </div>
-      </div>
-    </TestSuiteContext.Provider>
+      )}
+    </div>
   );
 }
 
-function TestCase({ index }) {
-  const {
-    tests,
-    results,
-    language,
-    setLanguage,
-    updateTest,
-    deleteTest,
-    setTestTemplate,
-  } = useContext(TestSuiteContext);
-  const test = tests[index];
-  const result = results?.[index];
+function TestCase({
+  index,
+  test,
+  result,
+  language,
+  isEditable,
+  updateTest,
+  deleteTest,
+}) {
+  const passed = result?.actual === test.expectedStdOut;
+
+  if (!isEditable) {
+    return (
+      <details key={index} className={styles.testDetail}>
+        <summary>
+          <h1>Test {index + 1}</h1>
+          <span
+            className={`${styles.pill} ${passed ? styles.pass : result ? styles.fail : ""}`}
+          >
+            {passed ? "✓ Passed" : "✗ Failed"}
+          </span>
+        </summary>
+        <div className={styles.detailContent}>
+          <p>
+            <strong>Input:</strong>
+          </p>
+          <br />
+
+          <pre>{test.code}</pre>
+          <br />
+          <p>
+            <strong>Expected:</strong> {test.expectedStdOut}
+          </p>
+
+          <p>
+            <strong>Actual:</strong> {result?.actual ?? "N/A"}
+          </p>
+        </div>
+      </details>
+    );
+  }
 
   return (
     <div
-      className={`${styles.testCase} ${
-        result
-          ? result.actual === result.expected
-            ? styles.pass
-            : styles.fail
-          : ""
-      }`}
+      className={`${styles.testCase} ${passed ? styles.pass : result ? styles.fail : ""}`}
     >
       <div className={styles.testHeader}>
         <h3>Test {index + 1}</h3>
-        <DeleteButton onClick={() => deleteTest(index)}>X</DeleteButton>
+        <DeleteButton onClick={deleteTest}>X</DeleteButton>
       </div>
 
       <TestCaseEditor
         language={language}
-        setLanguage={setLanguage}
         src={test.code}
-        setSource={(newCode) => updateTest(index, "code", newCode)}
-        setTestTemplate={setTestTemplate}
+        setSource={(newCode) => updateTest("code", newCode)}
       />
 
       <div className={styles.expectedBlock}>
@@ -100,7 +114,7 @@ function TestCase({ index }) {
           resizable={false}
           placeholder="Enter expected value"
           value={test.expectedStdOut}
-          onChange={(e) => updateTest(index, "expectedStdOut", e.target.value)}
+          onChange={(e) => updateTest("expectedStdOut", e.target.value)}
         />
       </div>
 

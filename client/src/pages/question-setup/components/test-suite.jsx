@@ -1,46 +1,26 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
-import {createTestSuiteFromFile} from "@/pages/question-setup/utils/test-setup-utils.js";
-import {executeCodePistonDirect} from "@/routes/code-route.js";
-import {toast} from "react-toastify";
-import {updateProblem} from "@/routes/problem-route.js";
+import {
+  handleTestSuiteExecution,
+  SPLIT_STRING,
+} from "@/pages/question-setup/utils/test-setup-utils.js";
+import { toast } from "react-toastify";
+import { updateProblem } from "@/routes/problem-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
 import Instruction from "@/components/instruction/instruction.jsx";
-import {TEST_CASES_INSTRUCTION} from "@/pages/question-setup/data/instructions.js";
-import {TestSuiteList} from "@/components/text-editor/test-suite-list.jsx";
+import { TEST_CASES_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
+import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
 import Terminal from "@/components/text-editor/terminal.jsx";
 import Button from "@/components/button/button.jsx";
-import {useProblemContext} from "@/context/problem-context-provider.jsx";
-import {useState} from "react";
+import { useProblemContext } from "@/context/problem-context-provider.jsx";
+import { useState } from "react";
 
 export default function TestSuite() {
-  const {
-    problem,
-    setProblem,
-    testTemplate,
-    setTestTemplate,
-    setLanguage,
-    setTestSuite,
-  } = useProblemContext();
+  const { problem, setProblem, testTemplate, setLanguage, setTestSuite } =
+    useProblemContext();
 
-  const SPLIT_STRING = "$_@_BBJ_SPL1T_@_$";
   const [isLoading, withLoading] = useWithLoading();
   const [results, setResults] = useState([]);
   const [terminalOutput, setTerminalOutput] = useState();
-
-  const handleTestSuiteExecution = () => {
-    const testSuiteFromFile = createTestSuiteFromFile(
-      problem,
-      testTemplate,
-      SPLIT_STRING,
-      problem.programLanguage,
-    );
-
-    withLoading(
-      () => executeCodePistonDirect(problem.programLanguage, testSuiteFromFile),
-      (execution) => updateResults(execution),
-      (err) => toast.error(err),
-    );
-  };
 
   const updateResults = (execution) => {
     const output = execution.run.output;
@@ -50,12 +30,20 @@ export default function TestSuite() {
     const updatedResults = lines.map((line, i) => {
       const expected = problem?.testSuite[i]?.expectedStdOut ?? "";
       if (line === expected) passedCount += 1;
-      return {actual: line, expected};
+      return { actual: line, expected };
     });
 
     setResults(updatedResults);
     setTerminalOutput(
       `${passedCount}/${problem?.testSuite?.length} tests passed`,
+    );
+  };
+
+  const handleExecution = () => {
+    withLoading(
+      () => handleTestSuiteExecution(problem, testTemplate, updateResults),
+      () => toast.success("Test suite executed successfully!"),
+      console.error,
     );
   };
 
@@ -84,16 +72,16 @@ export default function TestSuite() {
         setLanguage={setLanguage}
         results={results}
         setResults={setResults}
-        setTestTemplate={setTestTemplate}
       />
-
-      <Terminal output={terminalOutput}/>
+      <div>
+        <Terminal output={terminalOutput} />
+      </div>
 
       <div className={styles.buttonContainer}>
         <Button onClick={saveQuestion} disabled={isLoading}>
           Save
         </Button>
-        <Button onClick={handleTestSuiteExecution} disabled={isLoading}>
+        <Button onClick={handleExecution} disabled={isLoading}>
           Execute Test Suite
         </Button>
       </div>
