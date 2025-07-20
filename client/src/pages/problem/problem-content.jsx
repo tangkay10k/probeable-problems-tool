@@ -132,7 +132,7 @@ function StageTwo() {
           isLoading ? (
             <h1>LOADING</h1>
           ) : (
-            <div className={styles.textSuiteContainer}>
+            <div className={styles.testSuiteContainer}>
               <TestSuiteList
                 tests={problem.testSuite}
                 language={problem.programLanguage}
@@ -153,9 +153,12 @@ function StageTwo() {
                 setSource={updateStudentCodeSubmission}
               />
             </div>
-            <Button onClick={handleExecution} disabled={isLoading}>
-              Submit!
-            </Button>
+
+            <div className={styles.buttonContainer}>
+              <Button onClick={handleExecution} disabled={isLoading}>
+                Submit!
+              </Button>
+            </div>
           </>
         )}
       </div>

@@ -123,12 +123,37 @@
     border-radius: var(--border-radius-3);
 }
 
-.textSuiteContainer {
+.testSuiteContainer {
     flex: 1;
     overflow: clip;
+}
+
+.textEditorContainer {
+    flex: 10;
 }
 
 .buttonContainer {
     flex: 1;
     height: 100%;
+}
+
+.buttonContainer button {
+    border-radius: var(--border-radius-5);
+    height: 100%;
+}
+
+.buttonContainer button {
+    height: 3rem;
+    border-radius: var(--border-radius-5);
+
+    background-color: var(--button-green);
+    box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
+
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.buttonContainer button:hover {
+    background-color: var(--hover-green);
 }

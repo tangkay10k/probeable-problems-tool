@@ -1,5 +1,6 @@
 .testContainer {
     height: 100%;
+    max-height: var(--container-max-height);
 
     background-color: var(--grey);
     border-radius: var(--border-radius-2);
@@ -93,7 +94,7 @@
 
 .testDetail summary h1 {
     font-size: 1rem;
-    font-weight: 1000;
+    font-weight: bolder;
 }
 
 .testDetail .detailContent {
