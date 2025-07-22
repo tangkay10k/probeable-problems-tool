@@ -1,8 +1,8 @@
 package akl.p4p.uoa.models;
 
-import akl.p4p.uoa.data.ProblemType;
-import akl.p4p.uoa.data.ProgramLanguage;
 import akl.p4p.uoa.data.Test;
+import akl.p4p.uoa.enums.ProblemType;
+import akl.p4p.uoa.enums.ProgramLanguage;
 import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.Id;

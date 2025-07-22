@@ -1,4 +1,4 @@
-package akl.p4p.uoa.data;
+package akl.p4p.uoa.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -8,14 +8,14 @@ public enum ProgramLanguage {
   JAVA,
   C;
 
-  @JsonValue
-  public String toJson() {
-    return name().toLowerCase(Locale.ROOT);
-  }
-
   @JsonCreator
   public static ProgramLanguage fromJson(String value) {
     if (value == null) return null;
     return valueOf(value.toUpperCase(Locale.ROOT));
+  }
+
+  @JsonValue
+  public String toJson() {
+    return name().toLowerCase(Locale.ROOT);
   }
 }

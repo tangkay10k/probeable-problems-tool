@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public class JsonSchemaDefinition {
 
-	private static final String CLIENT_PROBE_SCHEMA =
-		"""
+  private static final String CLIENT_PROBE_SCHEMA =
+      """
 			{
 				"type": "object",
 				"properties": {
@@ -36,8 +36,8 @@ public class JsonSchemaDefinition {
 			}
 			 """;
 
-	private static final String DUPLICATE_QUESTION_SCHEMA =
-		"""
+  private static final String DUPLICATE_QUESTION_SCHEMA =
+      """
 			{
 			  "type": "object",
 			  "properties": {
@@ -49,8 +49,8 @@ public class JsonSchemaDefinition {
 			}
 			""";
 
-	private static final String TEST_CASE_SCHEMA =
-		"""
+  private static final String TEST_CASE_SCHEMA =
+      """
 			{
 			  "type": "object",
 			  "properties": {
@@ -72,8 +72,8 @@ public class JsonSchemaDefinition {
 			}
 			""";
 
-	private static final String ORACLE_GENERATION_SCHEMA =
-		"""
+  private static final String ORACLE_GENERATION_SCHEMA =
+      """
 			{
 				"type": "object",
 				"properties": {
@@ -91,8 +91,8 @@ public class JsonSchemaDefinition {
 			}
 			 """;
 
-	private static final String EXECUTION_PAYLOAD =
-		"""
+  private static final String EXECUTION_PAYLOAD =
+      """
 			  {
 			    "language": %s,
 			    "version": %s,
@@ -104,8 +104,8 @@ public class JsonSchemaDefinition {
 			  }
 			""";
 
-	private static final String CODE_GENERATION_SCHEMA =
-		"""
+  private static final String CODE_GENERATION_SCHEMA =
+      """
 			{
 				"type": "object",
 				"properties": {
@@ -119,24 +119,23 @@ public class JsonSchemaDefinition {
 			}
 			 """;
 
+  public static String getClientProbeSchema() {
+    return CLIENT_PROBE_SCHEMA;
+  }
 
-	public static String getClientProbeSchema() {
-		return CLIENT_PROBE_SCHEMA;
-	}
+  public static String getTestCaseSchema() {
+    return TEST_CASE_SCHEMA;
+  }
 
-	public static String getTestCaseSchema() {
-		return TEST_CASE_SCHEMA;
-	}
+  public static String getExecutionPayload() {
+    return EXECUTION_PAYLOAD;
+  }
 
-	public static String getExecutionPayload() {
-		return EXECUTION_PAYLOAD;
-	}
+  public static String getOracleGenerationSchema() {
+    return ORACLE_GENERATION_SCHEMA;
+  }
 
-	public static String getOracleGenerationSchema() {
-		return ORACLE_GENERATION_SCHEMA;
-	}
-
-	public static String getCodeGenerationSchema() {
-		return CODE_GENERATION_SCHEMA;
-	}
+  public static String getCodeGenerationSchema() {
+    return CODE_GENERATION_SCHEMA;
+  }
 }

@@ -1,20 +1,22 @@
 package akl.p4p.uoa.data;
 
-import org.springframework.data.annotation.Id;
-
+import akl.p4p.uoa.enums.Role;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "role", visible = true)
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "role",
+    visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = akl.p4p.uoa.models.person.Student.class, name = "STUDENT"),
-        @JsonSubTypes.Type(value = akl.p4p.uoa.models.person.Teacher.class, name = "TEACHER")
+  @JsonSubTypes.Type(value = akl.p4p.uoa.models.person.Student.class, name = "STUDENT"),
+  @JsonSubTypes.Type(value = akl.p4p.uoa.models.person.Teacher.class, name = "TEACHER")
 })
 @Data
 public class Person {
-    @Id
-    String email;
-    Role role;
+  @Id String email;
+  Role role;
 }

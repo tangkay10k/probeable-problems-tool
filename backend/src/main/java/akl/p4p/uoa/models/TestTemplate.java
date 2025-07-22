@@ -1,6 +1,6 @@
 package akl.p4p.uoa.models;
 
-import akl.p4p.uoa.data.ProgramLanguage;
+import akl.p4p.uoa.enums.ProgramLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

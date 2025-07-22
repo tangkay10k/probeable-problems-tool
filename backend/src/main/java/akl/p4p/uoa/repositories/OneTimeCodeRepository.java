@@ -1,9 +1,6 @@
 package akl.p4p.uoa.repositories;
 
+import akl.p4p.uoa.models.OneTimeCode;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import akl.p4p.uoa.models.OneTimeCode;
-
-public interface OneTimeCodeRepository extends MongoRepository<OneTimeCode, String>{
-    
-}
+public interface OneTimeCodeRepository extends MongoRepository<OneTimeCode, String> {}
