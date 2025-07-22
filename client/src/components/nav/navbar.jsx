@@ -1,13 +1,15 @@
-import styles from "./nav.module.css"
-import {useNavigate} from "react-router-dom";
+import styles from "./nav.module.css";
+import { useNavigate } from "react-router-dom";
+
 export default function NavBar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  return <nav className={styles.navbar}>
-    <section onClick={()=> navigate("/")}>
-      <img src={"/favicon.svg"} alt="Logo"></img>
-      <h1>Probable Problems</h1>
-    </section>
-
-  </nav>
+  return (
+    <nav className={styles.navbar}>
+      <section onClick={() => navigate("/")}>
+        <img src={"/favicon.svg"} alt="Logo"></img>
+        <h1>Probeable Problems</h1>
+      </section>
+    </nav>
+  );
 }

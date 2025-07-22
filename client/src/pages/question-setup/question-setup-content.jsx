@@ -12,7 +12,7 @@ export default function QuestionSetupContent() {
       <Constraints />
       <TestSuite />
       <ProblemStatement />
-      <OracleCreation/>
+      <OracleCreation />
     </div>
   );
 }

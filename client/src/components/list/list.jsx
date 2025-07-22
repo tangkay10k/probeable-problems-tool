@@ -5,9 +5,10 @@ import { getAllProblems } from "@/routes/problem-route.js";
 import { useNavigate } from "react-router-dom";
 
 export default function ProblemList() {
-  const [isLoading, withLoading] = useWithLoading();
+  const [_, withLoading] = useWithLoading();
   const [problems, setProblems] = useState([]);
   const navigate = useNavigate();
+
   function onRowClick(problem) {
     navigate(`/problem/${problem.id}`);
   }

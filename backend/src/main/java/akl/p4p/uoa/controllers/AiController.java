@@ -23,77 +23,76 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/ai")
 class AiController {
 
-	AIService aiService;
-	ProblemService problemService;
+  AIService aiService;
+  ProblemService problemService;
 
-	OracleService oracleService;
+  OracleService oracleService;
 
-	public AiController(
-		ProblemService problemService, AIService aiService, OracleService oracleService) {
-		this.problemService = problemService;
-		this.aiService = aiService;
-		this.oracleService = oracleService;
-	}
+  public AiController(
+      ProblemService problemService, AIService aiService, OracleService oracleService) {
+    this.problemService = problemService;
+    this.aiService = aiService;
+    this.oracleService = oracleService;
+  }
 
-	/**
-	 * Endpoint to generate constraints for a given question. Note that this endpoint does not persist
-	 * the constraints generated in any database, but is sent back to the client for review /
-	 * iteration.
-	 */
-	@PostMapping("constraints")
-	public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
-		String sysPrompt = ProblemGenerationPrompts.getConstraintsGenerationPrompt(problem);
-		String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
-		problem.setConstraints(constraints);
-		return ResponseEntity.ok(problem);
-	}
+  /**
+   * Endpoint to generate constraints for a given question. Note that this endpoint does not persist
+   * the constraints generated in any database, but is sent back to the client for review /
+   * iteration.
+   */
+  @PostMapping("constraints")
+  public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
+    String sysPrompt = ProblemGenerationPrompts.getConstraintsGenerationPrompt(problem);
+    String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
+    problem.setConstraints(constraints);
+    return ResponseEntity.ok(problem);
+  }
 
-	/**
-	 * Endpoint to generate a test suite for a given question. Note that this endpoint does not
-	 * persist the test suite generated in any database, but is sent back to the client for review /
-	 * iteration.
-	 *
-	 * @throws Exception
-	 */
-	@PostMapping("test-suite")
-	public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
-		throws Exception {
-		ObjectMapper objectMapper = new ObjectMapper();
+  /**
+   * Endpoint to generate a test suite for a given question. Note that this endpoint does not
+   * persist the test suite generated in any database, but is sent back to the client for review /
+   * iteration.
+   */
+  @PostMapping("test-suite")
+  public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
+      throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
 
-		String sysPrompt = TestSuitePrompts.getTestSuiteGenerationPrompt(problem);
-		String testSuite =
-			aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+    String sysPrompt = TestSuitePrompts.getTestSuiteGenerationPrompt(problem);
+    String testSuite =
+        aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
 
-		TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
+    TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
-		problem.getTestSuite().addAll(testResponse.getTests());
-		return ResponseEntity.ok(problem);
-	}
+    problem.getTestSuite().addAll(testResponse.getTests());
+    return ResponseEntity.ok(problem);
+  }
 
-	@PostMapping("problem-statement")
-	public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
-		String sysPrompt = ProblemGenerationPrompts.getProblemStatementSystemPrompt(problem);
-		String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
-		problem.setProblemStatement(problemStatement);
-		return ResponseEntity.ok(problem);
-	}
+  @PostMapping("problem-statement")
+  public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
+    String sysPrompt = ProblemGenerationPrompts.getProblemStatementSystemPrompt(problem);
+    String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
+    problem.setProblemStatement(problemStatement);
+    return ResponseEntity.ok(problem);
+  }
 
-	@PostMapping("oracle")
-	public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
-		throws JsonProcessingException {
-		String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
-		String jsonResponse =
-			aiService.executeOneTimeLLMCall(
-				sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
+  @PostMapping("oracle")
+  public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
+      throws JsonProcessingException {
+    String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
+    String jsonResponse =
+        aiService.executeOneTimeLLMCall(
+            sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
 
-		var oracle = oracleService.parseLLMGeneratedOracle(problem, jsonResponse);
-		return ResponseEntity.ok(oracle);
-	}
+    var oracle = oracleService.parseLLMGeneratedOracle(problem, jsonResponse);
+    return ResponseEntity.ok(oracle);
+  }
 
-	@PostMapping("solution-attempt")
-	public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
-		String solutionAttempt = aiService.executeOneTimeLLMCall(prompt.getPrompt(),
-			JsonSchemaDefinition.getCodeGenerationSchema());
-		return ResponseEntity.ok(solutionAttempt);
-	}
+  @PostMapping("solution-attempt")
+  public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
+    String solutionAttempt =
+        aiService.executeOneTimeLLMCall(
+            prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
+    return ResponseEntity.ok(solutionAttempt);
+  }
 }

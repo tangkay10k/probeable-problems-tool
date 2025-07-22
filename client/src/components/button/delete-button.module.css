@@ -1,26 +1,26 @@
 .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    border-radius: 50%;
-    padding: var(--padding-1);
+  border-radius: 50%;
+  padding: var(--padding-1);
 
-    color: var(--red);
-    border: 0.1rem solid var(--red);
-    background-color: transparent;
+  color: var(--red);
+  border: 0.1rem solid var(--red);
+  background-color: transparent;
 
-    width: 1rem;
-    height: 0.2rem;
+  width: 1rem;
+  height: 0.2rem;
 }
 
 .button p {
-    font-size: 0.6rem;
+  font-size: 0.6rem;
 }
 
 .button:hover {
-    transform: scale(1.01);
-    cursor: pointer;
-    background-color: var(--hover-red);
-    color: var(--white);
+  transform: scale(1.01);
+  cursor: pointer;
+  background-color: var(--hover-red);
+  color: var(--white);
 }

@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PersonCodeDTO {
-	String code;
-	Person person;
+  String code;
+  Person person;
 }
