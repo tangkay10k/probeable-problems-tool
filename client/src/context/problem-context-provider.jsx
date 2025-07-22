@@ -10,21 +10,21 @@ export function ProblemProvider({ children }) {
     return saved
       ? JSON.parse(saved)
       : {
-        problem: {
-          problemStatement: "",
-          modelAnswer: "",
-          constraints: "",
-          testSuite: [],
-          programLanguage: "c",
-          problemType: null,
-          defaultProbe: null,
-        },
-        oracle: {
-          problemId: null,
-          defaultProbes: "",
-          sourceCode: "",
-        },
-      };
+          problem: {
+            problemStatement: "",
+            modelAnswer: "",
+            constraints: "",
+            testSuite: [],
+            programLanguage: "c",
+            problemType: null,
+            defaultProbe: null,
+          },
+          oracle: {
+            problemId: null,
+            defaultProbes: "",
+            sourceCode: "",
+          },
+        };
   });
 
   const [testTemplate, setTestTemplate] = useState("");
@@ -34,10 +34,7 @@ export function ProblemProvider({ children }) {
 
   // Persist entire creationState
   useEffect(() => {
-    localStorage.setItem(
-      "problemUnderCreation",
-      JSON.stringify(creationState)
-    );
+    localStorage.setItem("problemUnderCreation", JSON.stringify(creationState));
   }, [creationState]);
 
   // Fetch template when language changes
@@ -45,7 +42,7 @@ export function ProblemProvider({ children }) {
     withLoading(
       () => getTestTemplate(problem.programLanguage),
       (template) => setTestTemplate(template),
-      (err) => console.error(`No template for ${problem.programLanguage}`, err)
+      (err) => console.error(`No template for ${problem.programLanguage}`, err),
     );
   }, [problem.programLanguage]);
 
@@ -106,9 +103,7 @@ export function ProblemProvider({ children }) {
 export function useProblemContext() {
   const context = useContext(ProblemContext);
   if (!context) {
-    throw new Error(
-      "useProblemContext must be used within a ProblemProvider"
-    );
+    throw new Error("useProblemContext must be used within a ProblemProvider");
   }
   return context;
 }

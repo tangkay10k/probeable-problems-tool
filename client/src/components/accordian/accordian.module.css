@@ -1,96 +1,98 @@
 .accordion {
-    width: 100%;
-    margin: 0;
-    flex: 1 1 auto;
-    /* allow expanded panels to overflow the container */
-    overflow: visible;
+  width: 100%;
+  margin: 0;
+  flex: 1 1 auto;
+  /* allow expanded panels to overflow the container */
+  overflow: visible;
 }
 
 .item {
-    -webkit-tap-highlight-color: transparent;
-    position: relative;
-    overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Round top corners on the first header */
 .item:first-child .header {
-    border-radius: var(--acc-radius) var(--acc-radius) 0 0;
+  border-radius: var(--acc-radius) var(--acc-radius) 0 0;
 }
 
 /* Remove border under the last item */
 .item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 /* === Single-item (only one panel) corner logic === */
 /* Closed: fully pill-shaped header */
 .item:first-child:last-child .header[aria-expanded="false"] {
-    border-radius: var(--acc-radius);
-    /* delay re-rounding until after collapse */
-    --header-delay: var(--acc-duration);
-    /* delay content corner change too */
-    --content-delay: var(--acc-duration);
+  border-radius: var(--acc-radius);
+  /* delay re-rounding until after collapse */
+  --header-delay: var(--acc-duration);
+  /* delay content corner change too */
+  --content-delay: var(--acc-duration);
 }
 
 /* Open: square off bottom of header immediately */
 .item:first-child:last-child .header[aria-expanded="true"] {
-    border-radius: var(--acc-radius) var(--acc-radius) 0 0;
-    /* open action is immediate */
-    --header-delay: 0s;
-    --content-delay: 0s;
+  border-radius: var(--acc-radius) var(--acc-radius) 0 0;
+  /* open action is immediate */
+  --header-delay: 0s;
+  --content-delay: 0s;
 }
 
 /* === Header styling and transition === */
 .header {
-    width: 100%;
-    background: var(--dark-blue);
-    color: var(--white);
-    font-weight: bold;
-    padding: 1rem;
-    text-align: left;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 100%;
+  background: var(--dark-blue);
+  color: var(--white);
+  font-weight: bold;
+  padding: 1rem;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    /* Animate corner rounding with a possible delay */
-    transition: border-radius var(--acc-transition-duration) ease var(--header-delay, 0s);
+  /* Animate corner rounding with a possible delay */
+  transition: border-radius var(--acc-transition-duration) ease
+    var(--header-delay, 0s);
 }
 
 .header h3 {
-    color: var(--white);
-    font-size: 1rem;
+  color: var(--white);
+  font-size: 1rem;
 }
 
 .icon {
-    font-size: 1.25rem;
-    line-height: 1;
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 /* Collapse/expand body container */
 .body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height var(--acc-duration) ease;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--acc-duration) ease;
 }
 
 /* Content area styling and corner rounding */
 .content {
-    padding: 1rem;
-    background: var(--white);
-    font-size: 0.8rem;
-    line-height: 1.4;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    text-align: left;
+  padding: 1rem;
+  background: var(--white);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: left;
 
-    /* Animate bottom corner rounding */
-    border-radius: 0 0 var(--acc-radius) var(--acc-radius);
-    transition: border-radius var(--acc-transition-duration) ease var(--content-delay, 0s);
+  /* Animate bottom corner rounding */
+  border-radius: 0 0 var(--acc-radius) var(--acc-radius);
+  transition: border-radius var(--acc-transition-duration) ease
+    var(--content-delay, 0s);
 }
 
 /* When open, apply bottom corners on the content (adjacent sibling) */
 .item:first-child:last-child .header[aria-expanded="true"] + .body .content {
-    border-radius: 0 0 var(--acc-radius) var(--acc-radius);
+  border-radius: 0 0 var(--acc-radius) var(--acc-radius);
 }

@@ -1,108 +1,108 @@
 .testContainer {
-    height: 100%;
-    max-height: var(--container-max-height);
+  height: 100%;
+  max-height: var(--container-max-height);
 
-    background-color: var(--grey);
-    border-radius: var(--border-radius-2);
+  background-color: var(--grey);
+  border-radius: var(--border-radius-2);
 
-    display: flex;
-    flex: 1;
+  display: flex;
+  flex: 1;
 
-    flex-direction: column;
+  flex-direction: column;
 
-    font-family: "JetBrains Mono", sans-serif;
+  font-family: "JetBrains Mono", sans-serif;
 
-    padding: var(--padding-1);
+  padding: var(--padding-1);
 
-    overflow-y: scroll;
-    gap: var(--padding-025);
+  overflow-y: scroll;
+  gap: var(--padding-025);
 }
 
 .testCase {
-    padding: var(--padding-2);
-    border-radius: var(--border-radius-2);
+  padding: var(--padding-2);
+  border-radius: var(--border-radius-2);
 
-    background-color: var(--light-white);
+  background-color: var(--light-white);
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    gap: var(--padding-025);
+  gap: var(--padding-025);
 
-    margin: var(--padding-025);
+  margin: var(--padding-025);
 }
 
 .pass {
-    background-color: var(--pass-green);
+  background-color: var(--pass-green);
 }
 
 .fail {
-    background-color: var(--fail-red);
+  background-color: var(--fail-red);
 }
 
 .expectedBlock {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: var(--transparent-grey);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--transparent-grey);
 }
 
 .expectedBlock textarea:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .actualBlock {
-    background-color: var(--transparent-grey);
+  background-color: var(--transparent-grey);
 }
 
 .actualBlock,
 .expectedBlock {
-    font-size: 0.8rem;
-    font-family: "JetBrains Mono", serif;
-    border-radius: var(--border-radius-1);
-    padding: var(--padding-1);
+  font-size: 0.8rem;
+  font-family: "JetBrains Mono", serif;
+  border-radius: var(--border-radius-1);
+  padding: var(--padding-1);
 }
 
 .testHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-    align-items: center;
+  align-items: center;
 }
 
 .addButtonContainer {
-    align-self: end;
-    justify-self: end;
+  align-self: end;
+  justify-self: end;
 }
 
 /*===STUDENT VIEW===*/
 .testDetail {
-    background: var(--light-white);
-    border-radius: var(--border-radius-2);
-    font-size: 0.8rem;
+  background: var(--light-white);
+  border-radius: var(--border-radius-2);
+  font-size: 0.8rem;
 }
 
 .testDetail summary {
-    padding: var(--padding-1);
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+  padding: var(--padding-1);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 
-    align-items: center;
+  align-items: center;
 }
 
 .testDetail summary h1 {
-    font-size: 1rem;
-    font-weight: bolder;
+  font-size: 1rem;
+  font-weight: bolder;
 }
 
 .testDetail .detailContent {
-    padding: var(--padding-1);
-    border-top: 1px solid var(--white);
+  padding: var(--padding-1);
+  border-top: 1px solid var(--white);
 }
 
 .pill {
-    border-radius: var(--border-radius-3);
-    padding: var(--padding-1);
+  border-radius: var(--border-radius-3);
+  padding: var(--padding-1);
 }

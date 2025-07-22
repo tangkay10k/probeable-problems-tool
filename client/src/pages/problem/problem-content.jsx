@@ -96,18 +96,13 @@ function StageTwo() {
   const updateResults = (execution) => {
     const output = execution.run.output;
     const lines = output.split(SPLIT_STRING);
-    let passedCount = 0;
 
     const updatedResults = lines.map((line, i) => {
       const expected = problem[i]?.expectedStdOut ?? "";
-      if (line === expected) passedCount += 1;
       return { actual: line, expected };
     });
 
     setResults(updatedResults);
-    // setTerminalOutput(
-    //   `${passedCount}/${problem?.testSuite?.length} tests passed`,
-    // );
   };
 
   const handleExecution = () => {
