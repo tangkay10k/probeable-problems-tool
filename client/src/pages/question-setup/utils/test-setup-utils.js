@@ -1,7 +1,12 @@
 import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { toast } from "react-toastify";
 
-const inputCVariables = (problem, testTemplate, splitString) => {
+const inputCVariables = (
+  problem,
+  implementation,
+  testTemplate,
+  splitString,
+) => {
   const generatedTests = problem.testSuite
     .map(
       (test, i) => `
@@ -23,7 +28,7 @@ const inputCVariables = (problem, testTemplate, splitString) => {
   const numTests = problem.testSuite.length.toString();
 
   return testTemplate.template
-    .replace("//VAR_IMPLEMENTATION", problem.modelAnswer)
+    .replace("//VAR_IMPLEMENTATION", implementation)
     .replace("//VAR_SPLIT", splitString)
     .replace("//VAR_NUM_TESTS", numTests)
     .replace("//VAR_TESTS", generatedTests)
@@ -32,6 +37,7 @@ const inputCVariables = (problem, testTemplate, splitString) => {
 
 const createTestSuiteFromFile = (
   problem,
+  implementation,
   testTemplate,
   splitString,
   language,
@@ -39,7 +45,12 @@ const createTestSuiteFromFile = (
   let testSuiteFromFile;
   switch (language) {
     case "c":
-      testSuiteFromFile = inputCVariables(problem, testTemplate, splitString);
+      testSuiteFromFile = inputCVariables(
+        problem,
+        implementation,
+        testTemplate,
+        splitString,
+      );
       break;
     case "java":
       //TODO
@@ -53,11 +64,13 @@ const createTestSuiteFromFile = (
 
 export const handleTestSuiteExecution = async (
   problem,
+  implementation,
   testTemplate,
   resultsCallback,
 ) => {
   const testSuiteFromFile = createTestSuiteFromFile(
     problem,
+    implementation,
     testTemplate,
     SPLIT_STRING,
     problem.programLanguage,

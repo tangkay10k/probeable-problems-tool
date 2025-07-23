@@ -1,159 +1,154 @@
 .problemPageContainer {
-  max-height: 100vh;
-  max-width: 100rem;
+    height: 100vh;
+    max-height: 100vh;
+    max-width: var(--problem-page-container-max-width);
 
-  justify-self: center;
-  align-self: center;
+    justify-self: center;
+    align-self: center;
 
-  display: flex;
-  flex-direction: column;
+    justify-content: space-between;
 
-  gap: var(--padding-2);
+    display: flex;
+    flex-direction: column;
 
-  padding: var(--padding-3);
-  padding-top: 0;
-  padding-bottom: var(--padding-2);
+    gap: var(--padding-2);
+
+    padding: var(--padding-2);
 }
 
 .loadingContainer {
-  width: 100vw;
-  height: 100vh;
+    width: 100vw;
+    height: 100vh;
 
-  margin-top: calc(-1 * var(--nav-height));
+    margin-top: calc(-1 * var(--nav-height));
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  font-size: 3rem;
-  color: var(--white);
+    font-size: 3rem;
+    color: var(--white);
 }
 
 .dots::after {
-  display: flex;
-  align-items: end;
+    display: flex;
+    align-items: end;
 
-  content: "";
-  width: 1em;
-  text-align: left;
-  animation: ellipsis steps(4, end) 1s infinite;
-  overflow: hidden;
+    content: "";
+    width: 1em;
+    text-align: left;
+    animation: ellipsis steps(4, end) 1s infinite;
+    overflow: hidden;
 }
 
 @keyframes ellipsis {
-  0% {
-    content: "";
-  }
-  25% {
-    content: ".";
-  }
-  50% {
-    content: "..";
-  }
-  75% {
-    content: "...";
-  }
-  100% {
-    content: "";
-  }
+    0% {
+        content: "";
+    }
+    25% {
+        content: ".";
+    }
+    50% {
+        content: "..";
+    }
+    75% {
+        content: "...";
+    }
+    100% {
+        content: "";
+    }
 }
 
 .containerWrapper {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  max-height: var(--container-max-height);
-
-  gap: var(--padding-3);
-  display: flex;
+    gap: var(--padding-1);
+    display: flex;
 }
 
 .innerContainer {
-  flex: 1;
-  height: 100%;
+    flex: 1;
+    height: 100%;
 
-  border-radius: var(--padding-3);
+    border-radius: var(--padding-3);
 
-  display: flex;
+    display: flex;
 
-  flex-direction: column;
+    flex-direction: column;
 
-  justify-content: space-between;
-  gap: 1rem;
+    justify-content: space-between;
+    gap: 0.5rem;
 }
 
 .prevContainer,
 .nextContainer {
-  width: 100%;
-  height: var(--padding-4);
-  display: flex;
-  align-items: center;
+    width: 100%;
+    height: var(--padding-3);
+    display: flex;
+    align-items: center;
 }
 
 .nextContainer {
-  justify-content: end;
+    justify-content: end;
 }
 
 .prevContainer {
-  justify-content: space-between;
+    justify-content: space-between;
 }
 
 .prevContainer button,
 .nextContainer button {
-  width: 8rem;
+    width: 5rem;
 }
 
 .prevContainer p,
 .nextContainer p {
-  font-size: 1.5rem;
-  font-weight: bold;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .textEditorContainer {
-  padding: var(--padding-2);
-  padding-left: 0.1rem;
-  padding-right: 0.1rem;
+    padding: var(--padding-2);
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    background-color: var(--editor-colour);
 }
 
-.textSuiteContainer,
+.testSuiteContainer,
 .textEditorContainer {
-  height: 100%;
-  border-color: var(--dark-dark-grey);
-  border-style: solid;
-  border-radius: var(--border-radius-3);
+    height: 100%;
+    border-radius: var(--border-radius-1);
+    flex: 10;
+    flex-direction: column;
+
+    display: flex;
 }
 
 .testSuiteContainer {
-  flex: 1;
-  overflow: clip;
+    flex: 15;
+    gap: var(--padding-1);
 }
 
-.textEditorContainer {
-  flex: 10;
+.testSuiteListContainer {
+    min-height: 85vh;
+    max-height: 85vh;
 }
 
 .buttonContainer {
-  flex: 1;
-  height: 100%;
+    flex: 1;
+    height: 3rem;
 }
 
 .buttonContainer button {
-  border-radius: var(--border-radius-5);
-  height: 100%;
-}
+    height: 100%;
+    border-radius: var(--border-radius-2);
 
-.buttonContainer button {
-  height: 3rem;
-  border-radius: var(--border-radius-5);
-
-  background-color: var(--button-green);
-  box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
-
-  font-size: 1.2rem;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
+    font-size: 1.2rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
 }
 
 .buttonContainer button:hover {
-  background-color: var(--hover-green);
+    transform: scale(1);
 }

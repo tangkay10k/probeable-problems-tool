@@ -66,32 +66,32 @@ export default function ChatApp() {
 
   return (
     <div className={styles.chatWrapper}>
-      <div className={styles.chatApp}>
-        <Banner
-          header={"My Client"}
-          subtext={"online now"}
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
-        />
+      <Banner
+        header={"My Client"}
+        subtext={"online now"}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+      />
 
+      <div className={styles.chatApp}>
         <div ref={containerRef} className={styles.chatBody}>
           {/*Always skip system message*/}
           {chatHistory.messages?.slice(1).map((message, idx) => (
             <ChatBubble key={idx + message.timestamp} chatMessage={message} />
           ))}
         </div>
-      </div>
 
-      <div className={styles.inputContainer}>
-        <Input
-          onEnter={handleSend}
-          placeholder={"Ask the client a question!"}
-          onChange={(e) => setUserMessage(e.target.value)}
-          value={userMessage}
-        />
-        <Button onClick={handleSend} disabled={isLoading}>
-          <PlaneIcon size={18} />
-        </Button>
+        <div className={styles.inputContainer}>
+          <Input
+            onEnter={handleSend}
+            placeholder={"Ask the client a question!"}
+            onChange={(e) => setUserMessage(e.target.value)}
+            value={userMessage}
+          />
+          <Button onClick={handleSend} disabled={isLoading}>
+            <PlaneIcon size={18} />
+          </Button>
+        </div>
       </div>
     </div>
   );

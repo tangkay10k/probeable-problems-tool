@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/home/home";
 import QuestionSetup from "./pages/question-setup/question-setup";
 import NavBar from "@/components/nav/navbar.jsx";
@@ -7,9 +7,11 @@ import { Bounce, ToastContainer } from "react-toastify";
 import ProblemPage from "@/pages/problem/problem-page.jsx";
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="app">
-      <NavBar />
+      {!location.pathname.startsWith("/problem") && <NavBar />}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

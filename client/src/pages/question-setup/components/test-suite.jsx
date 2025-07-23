@@ -41,7 +41,13 @@ export default function TestSuite() {
 
   const handleExecution = () => {
     withLoading(
-      () => handleTestSuiteExecution(problem, testTemplate, updateResults),
+      () =>
+        handleTestSuiteExecution(
+          problem,
+          problem.modelAnswer,
+          testTemplate,
+          updateResults,
+        ),
       () => toast.success("Test suite executed successfully!"),
       console.error,
     );

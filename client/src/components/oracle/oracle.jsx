@@ -8,6 +8,7 @@ import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getOracle } from "@/routes/oracle-route.js";
 import { useParams } from "react-router-dom";
+import Banner from "@/components/banner/banner.jsx";
 
 export default function Oracle() {
   const { problemId } = useParams();
@@ -60,40 +61,41 @@ export default function Oracle() {
     );
   }
 
+  const leftIcon = (
+    <div className={styles.icon}>
+      <img src={"/oracle.svg"} alt={"Oracle"} />
+    </div>
+  );
+
   return (
     <div className={styles.oracleWrapper}>
-      <div className={styles.header}>
-        <div className={styles.icon}>
-          <img src={"/oracle.svg"} alt={"Oracle"} />
-        </div>
-        <h3>Mysterious Code Box</h3>
-      </div>
+      <Banner header={"Mysterious Code Box"} leftIcon={leftIcon} />
       <div className={styles.oracle}>
-        <div className={styles.editorContainer}>
-          <div className={styles.editorWrapper}>
-            <TextEditor
-              language={problemAttempt?.problemLanguage}
-              showLanguageSelect={false}
-              lineNumbers={false}
-              isResizable={false}
-              fixedHeight={50}
-              fontSize={12}
-              src={inputVariables}
-              setSource={setInputVariables}
-            />
-          </div>
+        <div className={styles.editorWrapper}>
+          <TextEditor
+            language={problemAttempt?.problemLanguage}
+            showLanguageSelect={false}
+            lineNumbers={false}
+            isResizable={false}
+            fixedHeight={100}
+            fontSize={12}
+            src={inputVariables}
+            setSource={setInputVariables}
+          />
+        </div>
+        <div className={styles.outputContainer}>
+          <TextArea
+            placeholder={"Output: "}
+            disabled={true}
+            resizable={false}
+            rows={1}
+            value={executionOutput?.run?.output || executionOutput?.run?.stderr}
+          ></TextArea>
 
           <Button onClick={executeOracle} disabled={isLoading}>
             Run
           </Button>
         </div>
-        <TextArea
-          placeholder={"Output: "}
-          disabled={true}
-          resizable={false}
-          rows={2}
-          value={executionOutput?.run?.output || executionOutput?.run?.stderr}
-        ></TextArea>
       </div>
     </div>
   );

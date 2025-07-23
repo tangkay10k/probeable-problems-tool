@@ -1,37 +1,36 @@
 .notePad {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: var(--grey);
-  border-radius: var(--border-radius-3) var(--border-radius-3)
-    var(--border-radius-2) var(--border-radius-2);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--grey);
+    border-radius: var(--border-radius-1);
 }
 
 .circle {
-  border-radius: 50%;
-  background-color: var(--red);
-  height: 1rem;
-  width: 1rem;
+    border-radius: 50%;
+    background-color: var(--red);
+    height: 1.5rem;
+    width: 1.5rem;
 
-  position: absolute;
-  left: var(--padding-2);
+    position: absolute;
+    left: var(--padding-2);
 }
 
 .textAreaContainer {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  padding: 1rem;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    padding: 1rem;
 }
 
 .textAreaContainer textarea {
-  border: 0.1rem solid var(--red) !important;
-  border-radius: var(--padding-2);
-  padding: var(--padding-2);
+    border: 0.1rem solid var(--red) !important;
+    border-radius: var(--padding-2);
+    padding: var(--padding-2);
 
-  font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .textAreaContainer textarea:focus {
-  box-shadow: none;
+    box-shadow: none;
 }
