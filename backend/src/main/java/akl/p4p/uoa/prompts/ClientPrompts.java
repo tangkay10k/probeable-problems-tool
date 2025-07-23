@@ -4,28 +4,27 @@ import akl.p4p.uoa.enums.ProgramLanguage;
 
 public class ClientPrompts {
 
-  public static String getClientInitialisationPrompt(
-      ProgramLanguage problemLanguage,
-      String problemStatement,
-      String modelAnswer,
-      String constraints) {
+	public static String getClientInitialisationPrompt(
+		ProgramLanguage problemLanguage,
+		String problemStatement,
+		String modelAnswer,
+		String constraints) {
 
-    String basePrompt = clientBasePrompt(problemStatement, modelAnswer, constraints);
-    String specificInstructions;
-    switch (problemLanguage) {
-      case C -> specificInstructions = getCSpecificInstructions();
-      case JAVA -> specificInstructions = getJavaSpecificInstructions();
-      default ->
-          throw new RuntimeException(
-              "Programming language: " + problemLanguage + " does not exist!");
-    }
-    return basePrompt.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions);
-  }
+		String basePrompt = clientBasePrompt(problemStatement, modelAnswer, constraints);
+		String specificInstructions;
+		switch (problemLanguage) {
+			case C -> specificInstructions = getCSpecificInstructions();
+			case JAVA -> specificInstructions = getJavaSpecificInstructions();
+			default -> throw new RuntimeException(
+				"Programming language: " + problemLanguage + " does not exist!");
+		}
+		return basePrompt.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions);
+	}
 
-  public static String clientBasePrompt(
-      String problemStatement, String modelAnswer, String constraints) {
-    String basePrompt =
-        """
+	public static String clientBasePrompt(
+		String problemStatement, String modelAnswer, String constraints) {
+		String basePrompt =
+			"""
 					You are a client that a software developer must query to understand the expected behavior of a hidden function.
 					Your role is to explain the Model Answer (confidential) to the student in plain terms, without revealing implementation details or specific values.
 
@@ -53,22 +52,22 @@ public class ClientPrompts {
 					- When generating test cases, the client should provide example inputs who's variable names match the function signature.
 					//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS
 
-					You should start the conversation by asking your developer the problem statement:
+					You should start the conversation ONLY asking your developer the problem statement as provided above and providing them with the function(s) signatures:
 
 					For example:
-					"Write me a function that returns a count of integers"
+					"Write me a function that returns a count of integers, the function signature is int CountBetween(int[] values, int n , int a, int b)"
 					"Write me a function to find the first vowel"
 					"Write me a function that divides certain numbers"
 				""";
 
-    return basePrompt
-        .replace("//VAR_PROBLEM_STATEMENT", problemStatement)
-        .replace("//VAR_MODEL_ANSWER", modelAnswer)
-        .replace("//VAR_CONSTRAINTS", constraints);
-  }
+		return basePrompt
+			.replace("//VAR_PROBLEM_STATEMENT", problemStatement)
+			.replace("//VAR_MODEL_ANSWER", modelAnswer)
+			.replace("//VAR_CONSTRAINTS", constraints);
+	}
 
-  private static String getCSpecificInstructions() {
-    return """
+	private static String getCSpecificInstructions() {
+		return """
 			- When a test case is requested, provide only example inputs to the function, matching the signature along with an explanation of what the parameters test along with their data types.
 
 			For example:
@@ -80,10 +79,10 @@ public class ClientPrompts {
 			int a = 0;
 			int b = 5;
 			""";
-  }
+	}
 
-  private static String getJavaSpecificInstructions() {
-    // TODO: write java Specific instructions.
-    return null;
-  }
+	private static String getJavaSpecificInstructions() {
+		// TODO: write java Specific instructions.
+		return null;
+	}
 }

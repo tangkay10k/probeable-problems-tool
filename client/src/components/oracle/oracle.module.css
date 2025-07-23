@@ -1,102 +1,119 @@
 .oracleWrapper {
-  height: 100%;
-  background-color: var(--grey);
-  border-radius: var(--border-radius-5) var(--border-radius-5)
-    var(--border-radius-3) var(--border-radius-3);
+    height: 100%;
+    background-color: var(--grey);
+    border-radius: var(--border-radius-1);
+
+    display: flex;
+    flex-direction: column;
 }
 
 .oracle {
-  padding: var(--padding-2);
+    padding: var(--padding-175);
 
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-  justify-content: space-between;
-  gap: var(--padding-1);
+    gap: var(--padding-1);
 }
 
 .oracle textarea {
-  background-color: var(--oracle-grey);
-  border-radius: var(--border-radius-2);
+    background-color: var(--oracle-grey);
+    border-radius: var(--border-radius-2);
 
-  padding: var(--padding-2);
-  color: var(--black);
+    padding: var(--padding-2);
+    color: var(--black);
 
-  height: 100%;
+    height: 100%;
 }
 
 .oracle textarea::placeholder {
-  font-family: "Poppins", sans-serif;
-  color: var(--dark-grey);
+    font-family: "Poppins", sans-serif;
+    color: var(--dark-grey);
 }
 
 .header {
-  padding: var(--padding-2);
-  background-color: var(--white);
+    padding: var(--padding-2);
+    background-color: var(--white);
 
-  border-radius: var(--border-radius-5);
-  box-shadow: 0 0 0.6rem black;
+    border-radius: var(--border-radius-5);
+    box-shadow: 0 0 0.6rem black;
 
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
 }
 
 .icon {
-  position: absolute;
-  left: var(--padding-3);
+    position: absolute;
+    left: var(--padding-3);
 
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 
-  width: 3rem;
-  height: 3rem;
-  border: 1px solid var(--grey);
-  border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
 }
 
 .icon img {
-  object-fit: cover;
+    object-fit: cover;
 }
 
 .editorContainer {
-  display: flex;
-  gap: var(--padding-1);
+    display: flex;
+    gap: var(--padding-1);
 
-  height: auto;
-  width: 100%;
-}
-
-.editorContainer button {
-  flex: 1;
-
-  width: 5rem;
-  height: auto;
-
-  border-radius: var(--border-radius-4);
-
-  font-size: 1.2rem;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-
-  background-color: var(--button-green);
-
-  box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
-}
-
-.editorContainer button:hover {
-  background-color: var(--hover-green);
+    height: auto;
+    width: 100%;
 }
 
 .editorWrapper {
-  flex: 6;
+    width: 100%;
 
-  width: 100%;
+    border-radius: var(--border-radius-2);
+    height: 100%;
+    overflow: hidden;
 
-  border-radius: var(--border-radius-4);
-  overflow: hidden;
+    padding: var(--padding-1);
+    background-color: var(--black);
+}
 
-  padding: var(--padding-1);
-  background-color: var(--black);
+.outputContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    gap: var(--padding-1);
+}
+
+.outputContainer textarea {
+    position: absolute;
+    flex: 5;
+    height: 100%;
+}
+
+.outputContainer button {
+    position: absolute;
+    right: 0;
+
+
+    flex: 1;
+    width: 5rem;
+    height: 100%;
+
+    border-radius: 0 var(--border-radius-2) var(--border-radius-2) 0;
+
+    font-size: 1.2rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+
+    background-color: var(--button-green);
+
+}
+
+.outputContainer button:hover {
+    background-color: var(--hover-green);
+    transform: scale(1);
 }

@@ -106,10 +106,20 @@ function StageTwo() {
   };
 
   const handleExecution = () => {
-    setShowTestSuite(true);
+    if (studentCodeSubmission.length === 0 || studentCodeSubmission === "") {
+      toast.error("Please write some code before submitting!");
+      return;
+    }
+
     withLoading(
-      () => handleTestSuiteExecution(problem, template, updateResults),
-      () => toast.success("Test suite executed successfully!"),
+      () =>
+        handleTestSuiteExecution(
+          problem,
+          studentCodeSubmission,
+          template,
+          updateResults,
+        ),
+      () => setShowTestSuite(true),
       console.error,
     );
   };
@@ -124,10 +134,8 @@ function StageTwo() {
 
       <div className={styles.innerContainer}>
         {showTestSuite ? (
-          isLoading ? (
-            <h1>LOADING</h1>
-          ) : (
-            <div className={styles.testSuiteContainer}>
+          <div className={styles.testSuiteContainer}>
+            <div className={styles.testSuiteListContainer}>
               <TestSuiteList
                 tests={problem.testSuite}
                 language={problem.programLanguage}
@@ -136,7 +144,11 @@ function StageTwo() {
                 setResults={setResults}
               />
             </div>
-          )
+
+            <div className={styles.buttonContainer}>
+              <Button onClick={() => setShowTestSuite(false)}>Return</Button>
+            </div>
+          </div>
         ) : (
           <>
             <div className={styles.textEditorContainer}>
