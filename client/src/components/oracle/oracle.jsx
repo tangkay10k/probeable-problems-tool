@@ -44,9 +44,7 @@ export default function Oracle() {
       (template) => setExecuteTemplate(template),
       (err) => toast.error(err),
     );
-  }, []);
 
-  useEffect(() => {
     withLoading(
       () => getProblem(problemId),
       (fetchedProblem) => {
@@ -78,9 +76,10 @@ export default function Oracle() {
           inputVariables,
           problem.modelAnswer
         ),
-      (result) =>{
-         setExecutionOutput(result)},
-      
+      (result) => {
+        setExecutionOutput(result)
+      },
+
       console.error,
     );
   }
