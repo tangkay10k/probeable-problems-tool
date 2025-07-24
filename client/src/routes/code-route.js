@@ -7,10 +7,11 @@ const PISTON_API = axios.create({
 
 export const executeOraclePistonDirect = async (
   language,
-  oracleSrc,
+  template,
   inputVariables,
+  modelAnswer
 ) => {
-  const src = oracleSrc.replace("//VAR_INPUTS", inputVariables);
+  const src = template.replace("//VAR_INPUTS", inputVariables).replace("//VAR_MODEL_SOLUTION", modelAnswer);
   return await executeCodePistonDirect(language, src);
 };
 

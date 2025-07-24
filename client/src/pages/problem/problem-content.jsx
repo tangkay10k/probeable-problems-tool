@@ -17,7 +17,7 @@ import {
   handleTestSuiteExecution,
   SPLIT_STRING,
 } from "@/pages/question-setup/utils/test-setup-utils.js";
-import { getTestTemplate } from "@/routes/test-template-route.js";
+import { getTestTemplate } from "@/routes/template-route.js";
 import { useParams } from "react-router-dom";
 
 export default function ProblemContent() {
