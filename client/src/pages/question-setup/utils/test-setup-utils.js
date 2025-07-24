@@ -40,10 +40,9 @@ const createTestSuiteFromFile = (
   implementation,
   testTemplate,
   splitString,
-  language,
 ) => {
   let testSuiteFromFile;
-  switch (language) {
+  switch (problem.programLanguage) {
     case "c":
       testSuiteFromFile = inputCVariables(
         problem,
@@ -73,7 +72,6 @@ export const handleTestSuiteExecution = async (
     implementation,
     testTemplate,
     SPLIT_STRING,
-    problem.programLanguage,
   );
 
   await executeCodePistonDirect(problem.programLanguage, testSuiteFromFile)

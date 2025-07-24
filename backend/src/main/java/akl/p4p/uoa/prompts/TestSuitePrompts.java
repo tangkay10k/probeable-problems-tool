@@ -3,23 +3,23 @@ package akl.p4p.uoa.prompts;
 import akl.p4p.uoa.models.Problem;
 
 public class TestSuitePrompts {
-	public static String getTestSuiteGenerationPrompt(Problem problem) throws Exception {
-		String specificInstructions;
-		String commonInstructions = getBaseTestSuitePrompt();
-		switch (problem.getProgramLanguage()) {
-			case C -> specificInstructions = getCSpecificTestSuiteInstructions();
-			case JAVA -> specificInstructions = getJavaSpecificTestSuiteInstructions();
-			default -> throw new Exception("The programming language selected is not supported");
-		}
+  public static String getTestSuiteGenerationPrompt(Problem problem) throws Exception {
+    String specificInstructions;
+    String commonInstructions = getBaseTestSuitePrompt();
+    switch (problem.getProgramLanguage()) {
+      case C -> specificInstructions = getCSpecificTestSuiteInstructions();
+      case JAVA -> specificInstructions = getJavaSpecificTestSuiteInstructions();
+      default -> throw new Exception("The programming language selected is not supported");
+    }
 
-		return commonInstructions
-			.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions)
-			.replace("//VAR_MODEL_SOLUTION", problem.getModelAnswer())
-			.replace("//VAR_CONSTRAINTS", problem.getConstraints());
-	}
+    return commonInstructions
+        .replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions)
+        .replace("//VAR_MODEL_SOLUTION", problem.getModelAnswer())
+        .replace("//VAR_CONSTRAINTS", problem.getConstraints());
+  }
 
-	private static String getBaseTestSuitePrompt() {
-		return """
+  private static String getBaseTestSuitePrompt() {
+    return """
 			You are a test engineer responsible for generating a structured test suite for a single function implementation.
 
 			The function implementation is:
@@ -34,10 +34,10 @@ public class TestSuitePrompts {
 
 			//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS
 			  """;
-	}
+  }
 
-	private static String getCSpecificTestSuiteInstructions() {
-		return """
+  private static String getCSpecificTestSuiteInstructions() {
+    return """
 			{
 			  "code": "C snippet that declares inputs and prints the result using printf, if the function is void dont print just call it",
 			  "expectedStdOut": "The exact expected output printed by the function"
@@ -59,10 +59,10 @@ public class TestSuitePrompts {
 			  ...
 			]
 			""";
-	}
+  }
 
-	private static String getJavaSpecificTestSuiteInstructions() {
-		return """
+  private static String getJavaSpecificTestSuiteInstructions() {
+    return """
 			{
 			  "code": "Java snippet that declares inputs and prints the result using System.out.print(), if the function is void dont print just call it",
 			  "expectedStdOut": "The exact expected output printed by the function"
@@ -84,5 +84,5 @@ public class TestSuitePrompts {
 			  ...
 			]
 			""";
-	}
+  }
 }

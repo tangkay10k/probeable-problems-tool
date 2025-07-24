@@ -37,11 +37,9 @@ public class OracleService {
       throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode = objectMapper.readTree(jsonResponse);
-    var src = jsonNode.get("source_code").asText();
     var probes = jsonNode.get("default_probes").asText();
 
     Oracle oracle = new Oracle();
-    oracle.setSourceCode(src);
     oracle.setDefaultProbes(probes);
     oracle.setProblemId(problem.getId());
 

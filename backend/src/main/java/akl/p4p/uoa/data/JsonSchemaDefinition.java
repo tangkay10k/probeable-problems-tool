@@ -77,16 +77,12 @@ public class JsonSchemaDefinition {
 			{
 				"type": "object",
 				"properties": {
-					"source_code": {
-					  "type": "string",
-					  "description": "The main file containing the code for the problem"
-					},
 					"default_probes": {
 						"type": "string",
 						"description": "default inputs to the function(s), including their typings if applicable"
 					}
 				},
-				"required": ["source_code", "default_probes"],
+				"required": ["default_probes"],
 				"additionalProperties": false
 			}
 			 """;
