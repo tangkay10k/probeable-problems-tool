@@ -23,7 +23,7 @@ public class TemplateController {
 
   @GetMapping("/{programLanguage}/{type}")
   public ResponseEntity<?> getTemplate(
-      @PathVariable ProgramLanguage programLanguage, @PathVariable String type) throws IOException {
+      @PathVariable String programLanguage, @PathVariable String type) throws IOException {
 
     TemplateType templateType;
     try {
@@ -32,7 +32,14 @@ public class TemplateController {
       return ResponseEntity.badRequest().body("Invalid template type: " + type);
     }
 
-    Template template = templateService.getTemplate(programLanguage, templateType);
+    ProgramLanguage templateLanguage;
+    try {
+      templateLanguage = ProgramLanguage.fromStringIgnoreCase(programLanguage);
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.badRequest().body("Invalid ProgramLanguage type: " + programLanguage);
+    }
+
+    Template template = templateService.getTemplate(templateLanguage, templateType);
 
     if (template == null)
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -46,9 +53,8 @@ public class TemplateController {
       @RequestBody Template template, HttpServletRequest request) throws IOException {
     Template savedTemplate = templateService.createTemplate(template);
 
-    URI location =
-        URI.create(
-            request.getRequestURL().toString() + "/" + savedTemplate.getProgramLanguage().name());
+    URI location = URI.create(
+        request.getRequestURL().toString() + "/" + savedTemplate.getProgramLanguage().name());
 
     return ResponseEntity.created(location).body(savedTemplate);
   }

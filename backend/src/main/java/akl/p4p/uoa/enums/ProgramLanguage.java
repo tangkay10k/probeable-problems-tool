@@ -10,12 +10,17 @@ public enum ProgramLanguage {
 
   @JsonCreator
   public static ProgramLanguage fromJson(String value) {
-    if (value == null) return null;
+    if (value == null)
+      return null;
     return valueOf(value.toUpperCase(Locale.ROOT));
   }
 
   @JsonValue
   public String toJson() {
     return name().toLowerCase(Locale.ROOT);
+  }
+
+  public static ProgramLanguage fromStringIgnoreCase(String value) {
+    return ProgramLanguage.valueOf(value.toUpperCase());
   }
 }
