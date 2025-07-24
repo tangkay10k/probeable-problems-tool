@@ -12,8 +12,8 @@ public class OracleGenerationPrompts {
         return getOOPOracleGenerationPrompt(problem);
       }
       default ->
-        throw new RuntimeException(
-            "The problem type: " + problem.getProblemType() + " does not exist!");
+          throw new RuntimeException(
+              "The problem type: " + problem.getProblemType() + " does not exist!");
     }
   }
 
@@ -30,8 +30,8 @@ public class OracleGenerationPrompts {
       case C -> languageSpecificInstructions = getCSpecificSingleFunctionOraclePrompt();
       case JAVA -> languageSpecificInstructions = getJavaSpecificSingleFunctionOraclePrompt();
       default ->
-        throw new RuntimeException(
-            "Programming Language: " + problem.getProgramLanguage() + " is not " + "supported!");
+          throw new RuntimeException(
+              "Programming Language: " + problem.getProgramLanguage() + " is not " + "supported!");
     }
     return basePrompt
         .replace("//VAR_MODEL_ANSWER", problem.getModelAnswer())

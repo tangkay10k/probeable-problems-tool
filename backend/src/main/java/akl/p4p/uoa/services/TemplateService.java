@@ -16,8 +16,8 @@ public class TemplateService {
   }
 
   public Template getTemplate(ProgramLanguage programLanguage, TemplateType templateType) {
-    Optional<Template> optionalTemplate = templateRepository.findByProgramLanguageAndType(programLanguage,
-        templateType);
+    Optional<Template> optionalTemplate =
+        templateRepository.findByProgramLanguageAndType(programLanguage, templateType);
     return optionalTemplate.orElse(null);
   }
 

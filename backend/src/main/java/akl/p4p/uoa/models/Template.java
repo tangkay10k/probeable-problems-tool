@@ -11,11 +11,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document(collection = "templates")
 @CompoundIndexes({
-  @CompoundIndex(name = "lang_type_unique_idx", def = "{'programLanguage' : 1, 'type': 1}", unique = true)
+  @CompoundIndex(
+      name = "lang_type_unique_idx",
+      def = "{'programLanguage' : 1, 'type': 1}",
+      unique = true)
 })
 public class Template {
-  @Id
-  private String id;
+  @Id private String id;
 
   private ProgramLanguage programLanguage;
 
