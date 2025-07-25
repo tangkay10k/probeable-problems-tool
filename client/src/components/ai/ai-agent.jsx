@@ -7,7 +7,7 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { generateSolutionAttempt } from "@/routes/ai-route.js";
 
-export default function AIAgent() {
+export default function AIAgent({ editorRef }) {
   const {
     studentAgentPrompt,
     updateStudentAgentPrompt,
@@ -16,16 +16,32 @@ export default function AIAgent() {
   const [isLoading, withLoading] = useWithLoading();
 
   const handleSubmit = () => {
+    updateStudentCodeSubmission(""); // clear
+
     withLoading(
       () => generateSolutionAttempt({ prompt: studentAgentPrompt }),
-      (response) => updateStudentCodeSubmission(response.source_code),
+      (response) => {
+        const lines = response.source_code.split("\n");
+        let buffer = "";
+
+        lines.forEach((line, idx) => {
+          setTimeout(() => {
+            buffer += line + "\n";
+            updateStudentCodeSubmission(buffer);
+
+            if (editorRef.current) {
+              editorRef.current.highlightLine(idx + 1);
+            }
+          }, idx * 100); // 100ms per line
+        });
+      },
       console.error,
     );
   };
 
   const leftIcon = (
     <div className={styles.icon}>
-      <ChatIcon size={35} />
+      <ChatIcon size={35} color={"white"} />
     </div>
   );
 
@@ -33,7 +49,7 @@ export default function AIAgent() {
     <>
       <div className={styles.status} />
       <div className={styles.clientAvatar}>
-        <img src={"/client.svg"} alt={"Client"} />
+        <img src={"/client.jpg"} alt={"Client"} />
       </div>
     </>
   );

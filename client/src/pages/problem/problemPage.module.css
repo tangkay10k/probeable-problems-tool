@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
 
-    gap: var(--padding-2);
+    gap: var(--padding-025);
 
     padding: var(--padding-2);
 }
@@ -78,37 +78,11 @@
     flex-direction: column;
 
     justify-content: space-between;
-    gap: 0.5rem;
-}
-
-.prevContainer,
-.nextContainer {
-    width: 100%;
-    height: var(--padding-3);
-    display: flex;
-    align-items: center;
-}
-
-.nextContainer {
-    justify-content: end;
-}
-
-.prevContainer {
-    justify-content: space-between;
-}
-
-.prevContainer button,
-.nextContainer button {
-    width: 5rem;
-}
-
-.prevContainer p,
-.nextContainer p {
-    font-size: 1rem;
-    font-weight: 500;
+    gap: 0.25rem;
 }
 
 .textEditorContainer {
+    height: 100%;
     padding: var(--padding-2);
     padding-left: 0.1rem;
     padding-right: 0.1rem;
@@ -130,25 +104,63 @@
     gap: var(--padding-1);
 }
 
-.testSuiteListContainer {
-    min-height: 85vh;
-    max-height: 85vh;
+.testSuiteContainer {
+    min-height: var(--container-max-height);
+    max-height: var(--container-max-height);
+    background-color: var(--editor-colour);
 }
 
 .buttonContainer {
     flex: 1;
-    height: 3rem;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+
+    justify-content: space-between;
+    height: auto;
+
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
 .buttonContainer button {
-    height: 100%;
-    border-radius: var(--border-radius-2);
+    height: var(--editor-buttons-height);
+    border-radius: var(--border-radius-1);
 
-    font-size: 1.2rem;
     font-family: "Poppins", sans-serif;
-    font-weight: 600;
+    width: auto;
+
+    background-color: var(--editor-colour);
+
+    display: flex;
+    align-items: center;
+
+    transition: 0.4s;
+
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
 .buttonContainer button:hover {
     transform: scale(1);
+    background-color: var(--dark-dark-grey);
+}
+
+.leftButtons {
+    display: flex;
+
+    gap: var(--padding-025);
+}
+
+.restartButton button {
+    width: var(--editor-buttons-height);
+    height: var(--editor-buttons-height);
+}
+
+.toggleContainer {
+    display: flex;
+
+    gap: var(--padding-025);
 }

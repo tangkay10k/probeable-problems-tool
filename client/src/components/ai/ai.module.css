@@ -6,7 +6,7 @@
 .chatApp {
     display: flex;
     flex-direction: column;
-    background-color: var(--grey);
+    background-color: var(--editor-colour);
     border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
 
     height: var(
@@ -14,7 +14,6 @@
     );
 
     padding: var(--padding-2);
-    padding-top: 0;
     gap: 0.25rem;
 }
 
@@ -38,7 +37,7 @@
     width: 2rem;
     height: 2rem;
 
-    border: 0.1rem solid var(--grey);
+    border: 0.1rem solid var(--black);
     border-radius: 50%;
 
     overflow: hidden;
@@ -47,8 +46,7 @@
 }
 
 .clientAvatar img {
-    padding-top: 1.1rem;
-    height: 4rem;
+    height: 2rem;
     object-fit: cover;
 }
 
@@ -61,7 +59,7 @@
     top: 1.8rem;
 
     background-color: var(--online-green);
-    border: 2px solid var(--light-grey);
+    border: 2px solid var(--black);
 
     border-radius: 50%;
     width: 0.8rem;
@@ -77,11 +75,21 @@
 .inputContainer input {
     flex: 8;
     border-radius: var(--border-radius-2);
+
+    background-color: var(--toggle-hover-editor);
+    color: var(--white);
 }
 
 .inputContainer button {
     flex: 1;
     border-radius: var(--border-radius-2);
+
+    background-color: var(--toggle-hover-editor);
+}
+
+.inputContainer button:hover {
+    background-color: var(--toggle-hover-editor);
+    border: var(--black);
 }
 
 .chatBody {
@@ -99,6 +107,22 @@
 
     padding-top: 0;
     padding-bottom: 0;
+
+    display: flex;
+    gap: var(--padding-1);
+}
+
+.avatarContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+    margin-bottom: 1.1rem;
+}
+
+.avatarContainer img {
+    height: 2rem;
+    border-radius: 50%;
 }
 
 .chatMessage {
@@ -112,8 +136,13 @@
     white-space: pre-wrap;
 }
 
+.chatBubble {
+    width: 100%;
+}
+
 .chatTimestamp {
     font-size: 0.6rem;
+    color: var(--white);
 
     /* styling is dynamic*/
 }
@@ -148,6 +177,9 @@
     display: flex;
 
     gap: var(--padding-2);
+
+    background-color: var(--editor-colour);
+    border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
 }
 
 .agentBody textarea {
@@ -156,6 +188,8 @@
     border-radius: var(--border-radius-3);
     padding: var(--padding-2);
     font-family: "Poppins", sans-serif;
+    background-color: var(--toggle-hover-editor);
+    color: var(--white);
 }
 
 .agentBody textarea:focus {

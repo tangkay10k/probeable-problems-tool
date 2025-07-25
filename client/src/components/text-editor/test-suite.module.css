@@ -1,7 +1,6 @@
 .testContainer {
     height: 100%;
 
-    background-color: var(--grey);
     border-radius: var(--border-radius-2);
 
     display: flex;
@@ -82,13 +81,16 @@
 
 /*===STUDENT VIEW===*/
 .testDetail {
-    background: var(--light-white);
-    border-radius: var(--border-radius-2);
+    background: var(--dark-dark-grey);
+    border-radius: var(--border-radius-1);
     font-size: 0.8rem;
+
+    transition: 0.4s;
+    color: var(--white);
 }
 
 .testDetail:hover {
-    background: var(--hover-grey);
+    background: var(--toggle-hover-editor-light);
 }
 
 .testDetail summary {
@@ -107,7 +109,7 @@
 
 .testDetail .detailContent {
     padding: var(--padding-1);
-    border-top: 1px solid var(--white);
+    border-top: 0.1rem solid var(--white);
 }
 
 .pill {

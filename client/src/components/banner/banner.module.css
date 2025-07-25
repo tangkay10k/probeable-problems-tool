@@ -1,6 +1,6 @@
 .header {
     padding: var(--padding-1);
-    background-color: var(--light-grey);
+    background-color: var(--black);
 
     border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
 
@@ -18,6 +18,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    color: var(--white);
 }
 
 .headerText h2 {
