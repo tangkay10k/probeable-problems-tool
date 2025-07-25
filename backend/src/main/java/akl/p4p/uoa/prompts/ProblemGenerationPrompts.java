@@ -3,9 +3,9 @@ package akl.p4p.uoa.prompts;
 import akl.p4p.uoa.models.Problem;
 
 public final class ProblemGenerationPrompts {
-	public static String getConstraintsGenerationPrompt(Problem problem) {
-		String basePrompt =
-			"""
+  public static String getConstraintsGenerationPrompt(Problem problem) {
+    String basePrompt =
+        """
 				You are a requirements author. Produce a numbered list of clear, testable acceptance criteria for the provided solution.
 				The developer will reference the implementation provided below:
 
@@ -40,12 +40,12 @@ public final class ProblemGenerationPrompts {
 				6. The output should be lowercase vowels.
 				7. y does not count as a vowel.
 				""";
-		return basePrompt.replace("//VAR_MODEL_SOLUTION", problem.getModelAnswer());
-	}
+    return basePrompt.replace("//VAR_MODEL_SOLUTION", problem.getModelAnswer());
+  }
 
-	public static String getProblemStatementSystemPrompt(Problem problem) {
-		String basePrompt =
-			"""
+  public static String getProblemStatementSystemPrompt(Problem problem) {
+    String basePrompt =
+        """
 				You are a product owner crafting an intentionally ambiguous problem statement to guide a developer’s implementation.
 
 				The implemented reference solution is provided between the markers:
@@ -69,8 +69,8 @@ public final class ProblemGenerationPrompts {
 
 				Respond only with the problem statement (no commentary or formatting).
 				""";
-		return basePrompt
-			.replace("//VAR_MODEL_SOLUTION", problem.getModelAnswer())
-			.replace("//VAR_CONSTRAINTS", problem.getConstraints());
-	}
+    return basePrompt
+        .replace("//VAR_MODEL_SOLUTION", problem.getModelAnswer())
+        .replace("//VAR_CONSTRAINTS", problem.getConstraints());
+  }
 }

@@ -18,4 +18,8 @@ public enum ProgramLanguage {
   public String toJson() {
     return name().toLowerCase(Locale.ROOT);
   }
+
+  public static ProgramLanguage fromStringIgnoreCase(String value) {
+    return ProgramLanguage.valueOf(value.toUpperCase());
+  }
 }

@@ -9,6 +9,9 @@ import useWithLoading from "@/hooks/useWithLoading.js";
 import { getOracle } from "@/routes/oracle-route.js";
 import { useParams } from "react-router-dom";
 import Banner from "@/components/banner/banner.jsx";
+import { getExecuteTemplate } from "@/routes/template-route.js";
+import { getProblem } from "@/routes/problem-route.js";
+import { toast } from "react-toastify";
 
 export default function Oracle() {
   const { problemId } = useParams();
@@ -17,6 +20,8 @@ export default function Oracle() {
   const [executionOutput, setExecutionOutput] = useState({});
   const [oracle, setOracle] = useState();
   const [inputVariables, setInputVariables] = useState();
+  const [executeTemplate, setExecuteTemplate] = useState("");
+  const [problem, setProblem] = useState({});
 
   useEffect(() => {
     if (chatHistory) {
@@ -33,7 +38,21 @@ export default function Oracle() {
       },
       console.error,
     );
-  }, []);
+
+    withLoading(
+      () => getExecuteTemplate(problemAttempt?.problemLanguage,),
+      (template) => setExecuteTemplate(template),
+      (err) => toast.error(err),
+    );
+
+    withLoading(
+      () => getProblem(problemId),
+      (fetchedProblem) => {
+        setProblem(fetchedProblem);
+      },
+      (err) => toast.error(err),
+    );
+  }, [problemId]);
 
   function handleLLMGeneratedTestCase(messageList) {
     if (!messageList) return;
@@ -53,10 +72,14 @@ export default function Oracle() {
       () =>
         executeOraclePistonDirect(
           problemAttempt?.problemLanguage,
-          oracle.sourceCode,
+          executeTemplate.template,
           inputVariables,
+          problem.modelAnswer
         ),
-      (result) => setExecutionOutput(result),
+      (result) => {
+        setExecutionOutput(result)
+      },
+
       console.error,
     );
   }

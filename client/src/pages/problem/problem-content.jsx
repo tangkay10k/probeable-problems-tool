@@ -18,7 +18,7 @@ import {
   SPLIT_STRING,
 } from "@/pages/question-setup/utils/test-setup-utils.js";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
-import { getTestTemplate } from "@/routes/test-template-route.js";
+import { getTestTemplate } from "@/routes/template-route.js";
 import { useParams } from "react-router-dom";
 import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
 import { VscDebugRestart } from "react-icons/vsc";

@@ -13,7 +13,7 @@ import Terminal from "@/components/text-editor/terminal.jsx";
 import { useState } from "react";
 
 export default function OracleCreation() {
-  const { problem, oracle, setOracle, setOracleField } = useProblemContext();
+  const { problem, oracle, setOracle, setOracleField, executeTemplate } = useProblemContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionResult, setExecutionResult] = useState({});
 
@@ -41,8 +41,9 @@ export default function OracleCreation() {
       () =>
         executeOraclePistonDirect(
           problem.programLanguage,
-          oracle.sourceCode,
+          executeTemplate.template,
           oracle.defaultProbes,
+          problem.modelAnswer,
         ),
       (executionResult) => {
         toast.success("Oracle executed successfully!");
@@ -69,19 +70,6 @@ export default function OracleCreation() {
           src={oracle.defaultProbes}
           isResizable={true}
           minHeight={10}
-        />
-      </div>
-
-      <p>
-        <i>What is executed in the background:</i>
-      </p>
-      <div className={styles.oracleTextEditorContainer}>
-        <TextEditor
-          showLanguageSelect={false}
-          language={problem.programLanguage}
-          setSource={(newCode) => setOracleField("sourceCode", newCode)}
-          src={oracle.sourceCode}
-          isResizable={true}
         />
       </div>
 
