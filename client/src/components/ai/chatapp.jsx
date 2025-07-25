@@ -51,7 +51,7 @@ export default function ChatApp() {
 
   const leftIcon = (
     <div className={styles.icon}>
-      <ChatIcon size={35} />
+      <ChatIcon size={35} color={"white"} />
     </div>
   );
 
@@ -59,7 +59,7 @@ export default function ChatApp() {
     <>
       <div className={styles.status} />
       <div className={styles.clientAvatar}>
-        <img src={"/client.svg"} alt={"Client"} />
+        <img src={"/client.jpg"} alt={"Client"} />
       </div>
     </>
   );
@@ -98,6 +98,7 @@ export default function ChatApp() {
 }
 
 function ChatBubble({ chatMessage }) {
+  const isAssistant = chatMessage.role === "assistant";
   let msg;
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
   if (chatMessage.role === "assistant") {
@@ -109,23 +110,38 @@ function ChatBubble({ chatMessage }) {
 
   return (
     <div className={styles.bubbleContainer}>
-      <div
-        className={`${styles.chatMessage} ${chatMessage.role === "assistant" ? styles.assistant : styles.user}`}
-      >
-        {msg}
-      </div>
-      <p
-        className={styles.chatTimestamp}
-        style={{
-          padding:
-            chatMessage.role === "assistant"
-              ? "0.25rem 0 0 0.5rem"
-              : "0.25rem 0.5rem 0 0",
-          justifySelf: chatMessage.role === "assistant" ? "start" : "end",
-        }}
-      >
-        Sent at: {time}
-      </p>
+      {isAssistant && (
+        <div className={styles.avatarContainer}>
+          <img src={"/client.jpg"} alt="Client Logo"></img>
+        </div>
+      )}
+
+      <section className={styles.chatBubble}>
+        <div
+          className={`${styles.chatMessage} ${isAssistant ? styles.assistant : styles.user}`}
+        >
+          {msg}
+        </div>
+        <p
+          className={styles.chatTimestamp}
+          style={{
+            padding:
+              chatMessage.role === "assistant"
+                ? "0.25rem 0 0 0.5rem"
+                : "0.25rem 0.5rem 0 0",
+            justifySelf: chatMessage.role === "assistant" ? "start" : "end",
+          }}
+        >
+          Sent at: {time}
+        </p>
+      </section>
+
+      {!isAssistant && (
+        <div className={styles.avatarContainer}>
+          {/*TODO: Update to user icon*/}
+          <img src={"/client.jpg"} alt="Client Logo"></img>
+        </div>
+      )}
     </div>
   );
 }

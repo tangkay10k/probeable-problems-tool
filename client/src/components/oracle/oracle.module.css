@@ -1,6 +1,6 @@
 .oracleWrapper {
     height: 100%;
-    background-color: var(--grey);
+    background-color: var(--toggle-hover-editor);
     border-radius: var(--border-radius-1);
 
     display: flex;
@@ -76,7 +76,7 @@
     overflow: hidden;
 
     padding: var(--padding-1);
-    background-color: var(--black);
+    background-color: var(--editor-colour);
 }
 
 .outputContainer {
@@ -92,6 +92,8 @@
     position: absolute;
     flex: 5;
     height: 100%;
+
+    background-color: var(--dark-dark-grey);
 }
 
 .outputContainer button {

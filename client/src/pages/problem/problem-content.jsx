@@ -6,7 +6,7 @@ import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Button from "@/components/button/button.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AIAgent from "@/components/ai/ai-agent.jsx";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import useWithLoading from "@/hooks/useWithLoading.js";
@@ -17,8 +17,13 @@ import {
   handleTestSuiteExecution,
   SPLIT_STRING,
 } from "@/pages/question-setup/utils/test-setup-utils.js";
+import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
 import { getTestTemplate } from "@/routes/template-route.js";
 import { useParams } from "react-router-dom";
+import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
+import { VscDebugRestart } from "react-icons/vsc";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
+import BottomNav from "@/components/nav/bottom-nav.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -39,14 +44,7 @@ export default function ProblemContent() {
   return (
     <div className={styles.problemPageContainer}>
       {stage === 1 ? <StageOne /> : <StageTwo />}
-
-      <div
-        className={stage === 1 ? styles.nextContainer : styles.prevContainer}
-      >
-        <Button onClick={handleStageChange}>
-          {stage === 1 ? "Next" : "Prev"}
-        </Button>
-      </div>
+      <BottomNav handleStageChange={handleStageChange} stage={stage} />
     </div>
   );
 }
@@ -76,6 +74,7 @@ function StageTwo() {
   const [results, setResults] = useState([]);
   const [template, setTestTemplate] = useState("");
   const [showTestSuite, setShowTestSuite] = useState(false);
+  const editorRef = useRef(null);
 
   useEffect(() => {
     withLoading(
@@ -129,44 +128,55 @@ function StageTwo() {
       <div className={styles.innerContainer}>
         <Accordion items={STAGE_TWO} initialTabOpen={0} />
         <NotePad />
-        <AIAgent />
+        <AIAgent editorRef={editorRef} />
       </div>
 
       <div className={styles.innerContainer}>
+        <div className={styles.buttonContainer}>
+          <ToggleButtons
+            on={showTestSuite}
+            onToggle={setShowTestSuite}
+            onLabel={"⚙ Tests"}
+            offLabel={"🛠Code"}
+          />
+
+          <section className={styles.leftButtons}>
+            <section className={styles.restartButton}>
+              <ButtonV2
+                onClick={() => updateStudentCodeSubmission("")}
+                disabled={isLoading}
+              >
+                <VscDebugRestart size={14} />
+              </ButtonV2>
+            </section>
+
+            <Button onClick={handleExecution} disabled={isLoading}>
+              <PlaneIcon size={12} /> Submit!
+            </Button>
+          </section>
+        </div>
+
         {showTestSuite ? (
           <div className={styles.testSuiteContainer}>
-            <div className={styles.testSuiteListContainer}>
-              <TestSuiteList
-                tests={problem.testSuite}
-                language={problem.programLanguage}
-                isEditable={false}
-                results={results}
-                setResults={setResults}
-              />
-            </div>
-
-            <div className={styles.buttonContainer}>
-              <Button onClick={() => setShowTestSuite(false)}>Return</Button>
-            </div>
+            <TestSuiteList
+              tests={problem.testSuite}
+              language={problem.programLanguage}
+              isEditable={false}
+              results={results}
+              setResults={setResults}
+            />
           </div>
         ) : (
-          <>
-            <div className={styles.textEditorContainer}>
-              <TextEditor
-                fixedHeight={"100%"}
-                language={problemAttempt.problemLanguage}
-                showLanguageSelect={false}
-                src={studentCodeSubmission}
-                setSource={updateStudentCodeSubmission}
-              />
-            </div>
-
-            <div className={styles.buttonContainer}>
-              <Button onClick={handleExecution} disabled={isLoading}>
-                Submit!
-              </Button>
-            </div>
-          </>
+          <div className={styles.textEditorContainer}>
+            <TextEditor
+              ref={editorRef}
+              fixedHeight={668}
+              language={problemAttempt.problemLanguage}
+              showLanguageSelect={false}
+              src={studentCodeSubmission}
+              setSource={updateStudentCodeSubmission}
+            />
+          </div>
         )}
       </div>
     </div>
