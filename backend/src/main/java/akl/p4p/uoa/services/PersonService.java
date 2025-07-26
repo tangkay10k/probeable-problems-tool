@@ -6,6 +6,8 @@ import akl.p4p.uoa.models.person.Teacher;
 import akl.p4p.uoa.repositories.StudentRepository;
 import akl.p4p.uoa.repositories.TeacherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class PersonService {
@@ -17,31 +19,34 @@ public class PersonService {
     this.teacherRepository = teacherRepository;
   }
 
-  public void createPerson(Person person) {
-    if (person instanceof Student student) {
-      studentRepository.save(student);
-    } else if (person instanceof Teacher teacher) {
-      teacherRepository.save(teacher);
-    } else {
-      throw new IllegalArgumentException("Unsupported person type: " + person.getClass());
-    }
+  public Teacher getTeacher(Person person) {
+    return teacherRepository.findById(person.getEmail())
+            .map(existingTeacher -> {
+              existingTeacher.updateTeacherFromPerson(person);
+
+              return teacherRepository.save(existingTeacher);
+            })
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "You are not authorised to login as teacher."));
   }
 
-  public boolean checkIfEmailUsed(Person person) {
-    Person retrievedPerson;
+  public Student getStudent(Person person) {
+    return studentRepository.findById(person.getEmail())
+            .map(existingStudent -> {
+              existingStudent.updateStudentFromPerson(person);
+              return studentRepository.save(existingStudent);
+            })
+            .orElseGet(() -> {
+              if (!(person instanceof Student)) {
+                throw new IllegalArgumentException("Person must be a Student");
+              }
 
-    if (person instanceof Student) {
-      retrievedPerson = studentRepository.findById(person.getEmail()).orElse(null);
-    } else if (person instanceof Teacher) {
-      retrievedPerson = teacherRepository.findById(person.getEmail()).orElse(null);
-    } else {
-      throw new IllegalArgumentException("Unsupported person type: " + person.getClass());
-    }
-
-    if (retrievedPerson == null) {
-      return false;
-    }
-
-    return true;
+              Student newStudent = (Student) person;
+              return studentRepository.save(newStudent);
+            });
   }
+
+
+
+
 }

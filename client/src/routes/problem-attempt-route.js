@@ -1,9 +1,9 @@
-import axios from "axios";
+import axiosClient from "./utils/axiosClient.js";
 export const getLatestProblemAttemptForStudent = async (
   problemId,
   studentEmail,
 ) => {
-  const res = await axios.get(
+  const res = await axiosClient.get(
     `/api/problemAttempt?problemId=${problemId}&studentEmail=${studentEmail}`,
   );
   return res.data;
@@ -17,6 +17,6 @@ export const submitUserMessage = async (sessionId, message) => {
     },
   };
 
-  const res = await axios.post(`/api/problemAttempt/chat`, payload);
+  const res = await axiosClient.post(`/api/problemAttempt/chat`, payload);
   return res.data;
 };

@@ -28,7 +28,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/setup" element={<QuestionSetup />} />
+        <Route path="/client" element={<QuestionSetup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/problem/:problemId" element={<ProblemPage />} />
       </Routes>

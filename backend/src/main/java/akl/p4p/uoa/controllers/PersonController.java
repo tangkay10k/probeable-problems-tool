@@ -6,6 +6,9 @@ import akl.p4p.uoa.services.JwtService;
 import akl.p4p.uoa.services.OneTimeCodeService;
 import akl.p4p.uoa.services.PersonService;
 import org.springframework.http.HttpStatus;
+import akl.p4p.uoa.models.person.Student;
+import akl.p4p.uoa.models.person.Teacher;
+import akl.p4p.uoa.enums.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,57 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/person")
 public class PersonController {
 
-  OneTimeCodeService oneTimeCodeService;
   PersonService personService;
   JwtService jwtService;
 
   public PersonController(
-      PersonService personService, OneTimeCodeService oneTimeCodeService, JwtService jwtService) {
-    this.oneTimeCodeService = oneTimeCodeService;
+          PersonService personService, JwtService jwtService) {
     this.personService = personService;
     this.jwtService = jwtService;
   }
 
-  @PostMapping("/signup")
-  public ResponseEntity<String> createPerson(@RequestBody PersonCodeDTO personCodeDTO) {
-    Person person = personCodeDTO.getPerson();
-    String code = personCodeDTO.getCode();
-
-    if (!oneTimeCodeService.verifyCode(person.getEmail(), code)) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body("Code supplied is incorrect or expired");
-    }
-
-    if (personService.checkIfEmailUsed(person)) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This email is already being used");
-    }
-
-    personService.createPerson(person);
-    return ResponseEntity.ok().build();
-  }
-
   @PostMapping("/login")
-  public ResponseEntity<String> loginPerson(@RequestBody PersonCodeDTO personCodeDTO) {
-    Person person = personCodeDTO.getPerson();
-    String code = personCodeDTO.getCode();
+  public ResponseEntity<?> loginPerson(@RequestBody Person person) {
+    String token = jwtService.generateToken(person.getEmail(), person.getRole().toString());
 
-    if (oneTimeCodeService.verifyCode(person.getEmail(), code)) {
-      String token = jwtService.generateToken(person.getEmail(), person.getRole().toString());
+    if (person.getRole() == Role.TEACHER) {
 
-      return ResponseEntity.ok().header("Authorization", "Bearer " + token).build();
-    } else {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body("Code supplied is incorrect or expired");
+      Teacher teacher = personService.getTeacher(person);
+
+      return ResponseEntity.ok()
+              .header("Authorization", "Bearer " + token)
+              .body(teacher);
+
+    } else if(person.getRole() == Role.STUDENT) {
+      Student student = personService.getStudent(person);
+
+      return ResponseEntity.ok()
+              .header("Authorization", "Bearer " + token)
+              .body(student);
     }
-  }
 
-  @PostMapping("/code")
-  public ResponseEntity<String> sendCode(@RequestBody String email) {
-    try {
-      oneTimeCodeService.sendCode(email);
-      return ResponseEntity.ok().build();
-    } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
-    }
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("Unknown role: " + person.getRole());
   }
 }
+

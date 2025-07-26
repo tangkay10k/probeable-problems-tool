@@ -1,39 +1,46 @@
 import { useState, useEffect } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import {getGoogleUser} from "@/routes/google-route.js";
+import {getUser} from "@/routes/person-route.js";
 
 export default function Login() {
     const [user, setUser] = useState([]);
-    const [profile, setProfile] = useState([]);
+    const [profile, setProfile] = useState(null);
+    const [loginRole, setLoginRole] = useState(null);
+
+    const loginAs = (role) => {
+        setLoginRole(role);
+        login();
+    };
+
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
     });
 
-    useEffect(
-        () => {
-            if (user) {
-                axios
-                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        setProfile(res.data);
-                    })
-                    .catch((err) => console.log(err));
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const googleUser = await getGoogleUser(user);
+                const person = await getUser(googleUser, loginRole)
+                setProfile(person);
+            } catch (err) {
+                console.error(err);
+                logOut()
             }
-        },
-        [user]
-    );
+        };
 
-    // log out function to log the user out of google and set the profile array to null
+        if (user&&loginRole) {
+            fetchProfile();
+        }
+    }, [user]);
+
     const logOut = () => {
         googleLogout();
         setProfile(null);
+        setUser(null);
+        setLoginRole(null);
     };
 
     return (
@@ -52,7 +59,11 @@ export default function Login() {
                     <button onClick={logOut}>Log out</button>
                 </div>
             ) : (
-                <button onClick={login}>Sign in with Google 🚀 </button>
+                <>
+                    <button onClick={() => loginAs("STUDENT")}>Login With Google as Student</button>
+                    <br />
+                    <button onClick={() => loginAs("TEACHER")}>Login With Google as Teacher</button>
+                </>
             )}
         </div>
     );
