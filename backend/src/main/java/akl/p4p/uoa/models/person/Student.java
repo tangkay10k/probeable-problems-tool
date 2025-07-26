@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Student extends Person {
   List<String> problemsCompleted;
 
-  public void updateStudentFromPerson(Person person){
+  public void updateStudentFromPerson(Person person) {
     if (person == null) return;
     this.setName(person.getName());
     this.setUserImage(person.getUserImage());
