@@ -22,6 +22,17 @@
     color: var(--white);
 }
 
+.headerRow {
+    font-weight: bold;
+
+    padding-top: var(--padding-025);
+    padding-bottom: var(--padding-025);
+    border-radius: var(--padding-1) var(--padding-1) 0 0;
+    border-bottom: var(--white) 0.2rem solid;
+    background-color: var(--toggle-hover-editor);
+    display: flex;
+}
+
 .row {
     display: flex;
     cursor: pointer;
@@ -51,6 +62,16 @@
 }
 
 .cell {
+    flex: 5;
+    padding: var(--padding-1);
+}
+
+.problemLang {
+    flex: 1;
+    padding: var(--padding-1);
+}
+
+.problemType {
     flex: 1;
     padding: var(--padding-1);
 }

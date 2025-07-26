@@ -29,6 +29,13 @@ export default function ProblemList() {
     <div className={styles.problemListContainer}>
       <h1>Problems</h1>
       <ul className={styles.table}>
+        {/* ——— Column headers ——— */}
+        <li className={styles.headerRow}>
+          <span className={styles.rowNumber}>#</span>
+          <span className={styles.cell}>Problem Description</span>{" "}
+          <span className={styles.problemLang}>Language</span>
+          <span className={styles.problemType}>Type</span>
+        </li>
         {problems.map((problem, idx) => (
           <li
             key={problem.id}
@@ -37,6 +44,10 @@ export default function ProblemList() {
           >
             <span className={styles.rowNumber}>{idx + 1}.</span>
             <span className={styles.cell}>{problem.problemStatement}</span>
+            <span className={styles.problemLang}>
+              {problem.programLanguage}
+            </span>
+            <span className={styles.problemType}>{problem.problemType}</span>
           </li>
         ))}
       </ul>

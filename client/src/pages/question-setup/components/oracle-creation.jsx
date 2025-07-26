@@ -13,7 +13,8 @@ import Terminal from "@/components/text-editor/terminal.jsx";
 import { useState } from "react";
 
 export default function OracleCreation() {
-  const { problem, oracle, setOracle, setOracleField, executeTemplate } = useProblemContext();
+  const { problem, oracle, setOracle, setOracleField, executeTemplate } =
+    useProblemContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionResult, setExecutionResult] = useState({});
 
@@ -59,10 +60,7 @@ export default function OracleCreation() {
         heading={"4. Oracle Creation"}
         instruction={ORACLE_INSTRUCTION}
       />
-      <p>
-        <i>What the student sees on problem load: </i>
-      </p>
-      <div className={styles.oracleTextEditorContainer}>
+      <div>
         <TextEditor
           showLanguageSelect={false}
           language={problem.programLanguage}
