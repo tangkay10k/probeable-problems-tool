@@ -18,5 +18,7 @@ import org.springframework.data.annotation.Id;
 @Data
 public class Person {
   @Id String email;
+  String name;
+  String userImage;
   Role role;
 }

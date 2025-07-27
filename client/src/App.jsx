@@ -5,6 +5,7 @@ import NavBar from "@/components/nav/navbar.jsx";
 import "./App.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import ProblemPage from "@/pages/problem/problem-page.jsx";
+import Login from "@/pages/login/login.jsx";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/setup" element={<QuestionSetup />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/problem/:problemId" element={<ProblemPage />} />
       </Routes>
     </div>
