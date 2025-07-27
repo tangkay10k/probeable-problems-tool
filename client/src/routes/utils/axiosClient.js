@@ -15,15 +15,14 @@ axiosClient.interceptors.request.use((config) => {
     return config;
 });
 
-//Think about this later not sure yet
-// axiosClient.interceptors.response.use(
-//     (response) => response,
-//     (error) => {
-//         if (error.response?.status === 401) {
-//             localStorage.removeItem("jwtToken");
-//         }
-//         return Promise.reject(error);
-//     }
-// );
+axiosClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem("jwtToken");
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default axiosClient;
