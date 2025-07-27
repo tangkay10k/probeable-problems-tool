@@ -1,9 +1,16 @@
 .problemListContainer {
+    position: relative;
+
     display: flex;
     flex-direction: column;
 
     height: 100%;
     gap: 1rem;
+
+    max-width: var(--page-container-max-width);
+    justify-self: center;
+
+    border-radius: var(--border-radius-1);
 }
 
 .problemListContainer h1 {
@@ -11,6 +18,9 @@
 }
 
 .table {
+    position: relative;
+    z-index: 1;
+
     list-style: none;
     margin: 0;
     padding: 0;
@@ -20,6 +30,7 @@
     overflow: hidden;
 
     color: var(--white);
+
 }
 
 .headerRow {
@@ -31,6 +42,12 @@
     border-bottom: var(--white) 0.2rem solid;
     background-color: var(--toggle-hover-editor);
     display: flex;
+}
+
+.status {
+    flex: 1;
+    padding: var(--padding-1);
+    text-align: center;
 }
 
 .row {
@@ -61,25 +78,46 @@
     background-color: var(--less-dark-grey);
 }
 
+.status,
+.row,
+.cell,
+.rowNumber,
+.problemLang,
+.problemType {
+    align-items: center;
+    display: flex;
+}
+
+.status {
+    justify-content: center;
+}
+
 .cell {
-    flex: 5;
+    flex: 15;
     padding: var(--padding-1);
 }
 
-.problemLang {
+.problemLang,
+.problemType {
+    flex: 3;
+}
+
+.status,
+.rowNumber {
     flex: 1;
+}
+
+.problemLang {
     padding: var(--padding-1);
 }
 
 .problemType {
-    flex: 1;
     padding: var(--padding-1);
 }
 
 .rowNumber {
     padding: var(--padding-1);
     padding-right: 0;
-    padding-left: var(--padding-4);
 }
 
 .empty {

@@ -9,6 +9,8 @@
 
     display: flex;
     justify-content: space-between;
+
+    border-bottom: 0.1rem solid white;
 }
 
 .buttonContainer button {
@@ -40,12 +42,26 @@
     width: 3rem;
 }
 
+.heading h1 {
+    font-size: 1.1rem;
+}
+
+.heading p {
+    font-size: 0.8rem;
+    margin-top: -0.3rem;
+    color: var(--light-grey);
+}
+
 .prevContainer,
 .nextContainer {
     width: 100%;
     height: var(--editor-buttons-height);
     display: flex;
     align-items: center;
+
+    border-radius: var(--border-radius-1);
+
+    padding: var(--padding-025);
 }
 
 /*===Bottom Nav===*/
@@ -73,12 +89,12 @@
 }
 
 .homeButtonContainer > button img {
-    height: 2rem;
+    height: 1.5rem;
 }
 
 .homeButtonContainer > button {
-    width: var(--editor-buttons-height);
-    height: var(--editor-buttons-height);
+    width: var(--bottom-nav-buttons-height);
+    height: var(--bottom-nav-buttons-height);
     border: none;
 }
 
@@ -87,13 +103,19 @@
 }
 
 .resetButtonContainer button {
-    height: var(--editor-buttons-height);
+    height: var(--bottom-nav-buttons-height);
+    width: var(--bottom-nav-buttons-height);
+}
+
+.infoIconContainer {
+    height: var(--bottom-nav-buttons-height);
+    width: var(--bottom-nav-buttons-height);
 }
 
 .prevContainer img,
 .nextContainer img {
-    width: 2rem;
-    height: 2rem;
+    width: 1rem;
+    height: 1rem;
     margin-right: var(--padding-025);
     background-color: var(--editor-colour);
     border-radius: 50%;

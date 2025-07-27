@@ -81,6 +81,8 @@
     color: var(--white);
     font-size: 0.8rem;
     user-select: none;
+
+    border: 0.01rem solid var(--light-grey);
 }
 
 .thumb:hover {

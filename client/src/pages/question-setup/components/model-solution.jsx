@@ -1,5 +1,4 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { generateConstraints } from "@/routes/ai-route.js";
 import { toast } from "react-toastify";
 import { createProblem } from "@/routes/problem-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
@@ -18,6 +17,12 @@ export default function ModelSolution() {
   const [isLoading, withLoading] = useWithLoading();
 
   const handleQuestionTypeSelect = (problemType) => {
+    if (problemType === "OOP") {
+      alert(
+        "OOP question type is not supported yet. Please select another type.",
+      );
+    }
+
     setProblem({ ...problem, problemType });
   };
 
@@ -27,6 +32,8 @@ export default function ModelSolution() {
       (updatedProblem) => {
         setProblem(updatedProblem);
         toast.success("Constraints generated! Please review them 😊");
+        // save to DB
+        saveQuestion();
       },
       (err) => toast.error(err),
     );
@@ -35,10 +42,7 @@ export default function ModelSolution() {
   const saveQuestion = () => {
     withLoading(
       () => createProblem(problem),
-      (persisted) => {
-        setProblem(persisted);
-        toast.success("Model solution saved to database!");
-      },
+      (persisted) => setProblem(persisted),
       (err) => toast.error(err),
     );
   };
@@ -63,9 +67,6 @@ export default function ModelSolution() {
         setSource={setModelSolution}
       />
       <div className={styles.buttonContainer}>
-        <Button onClick={saveQuestion} disabled={isLoading}>
-          Save
-        </Button>
         <Button onClick={handleConstraintsGeneration} disabled={isLoading}>
           Generate Constraints
         </Button>

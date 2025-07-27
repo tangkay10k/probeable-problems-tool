@@ -1,6 +1,6 @@
 .header {
     padding: var(--padding-1);
-    background-color: var(--black);
+    background-color: var(--dark-dark-grey);
 
     border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
 

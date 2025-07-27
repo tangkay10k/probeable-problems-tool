@@ -3,6 +3,7 @@ import styles from "./list.module.css";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getAllProblems } from "@/routes/problem-route.js";
 import { useNavigate } from "react-router-dom";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function ProblemList() {
   const [_, withLoading] = useWithLoading();
@@ -28,9 +29,12 @@ export default function ProblemList() {
   return (
     <div className={styles.problemListContainer}>
       <h1>Problems</h1>
-      <ul className={styles.table}>
-        {/* ——— Column headers ——— */}
+      <div className={styles.glow} />
+      <ul className={`${styles.table}`}>
         <li className={styles.headerRow}>
+          <span className={styles.status}>
+            <FaCircleCheck />
+          </span>
           <span className={styles.rowNumber}>#</span>
           <span className={styles.cell}>Problem Description</span>{" "}
           <span className={styles.problemLang}>Language</span>
@@ -42,6 +46,9 @@ export default function ProblemList() {
             className={styles.row}
             onClick={() => onRowClick(problem)}
           >
+            <span className={styles.status}>
+              <FaCircleCheck />
+            </span>
             <span className={styles.rowNumber}>{idx + 1}.</span>
             <span className={styles.cell}>{problem.problemStatement}</span>
             <span className={styles.problemLang}>

@@ -74,9 +74,10 @@
     --nav-height: 5rem;
 
     --container-max-height: 85vh;
-    --problem-page-container-max-width: 94.5rem;
+    --page-container-max-width: 145rem;
 
     --editor-buttons-height: 2.5rem;
+    --bottom-nav-buttons-height: 2.1rem;
     --slider-width: 8rem;
 
     --blue-highlight: rgba(99, 232, 255, 0.25);
@@ -101,3 +102,21 @@ body,
 
     background-color: var(--dark-grey);
 }
+
+.heroGlow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+            circle at center,
+            rgba(209, 32, 232, 0.6) 0%,
+            rgba(79, 36, 159, 0) 70%
+    );
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+}
+

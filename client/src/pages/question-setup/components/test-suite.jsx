@@ -4,7 +4,6 @@ import {
   SPLIT_STRING,
 } from "@/pages/question-setup/utils/test-setup-utils.js";
 import { toast } from "react-toastify";
-import { updateProblem } from "@/routes/problem-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
 import Instruction from "@/components/instruction/instruction.jsx";
 import { TEST_CASES_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
@@ -53,17 +52,6 @@ export default function TestSuite() {
     );
   };
 
-  const saveQuestion = () => {
-    withLoading(
-      () => updateProblem(problem),
-      (persisted) => {
-        setProblem(persisted);
-        toast.success("Problem has been updated in database!");
-      },
-      (err) => toast.error(err),
-    );
-  };
-
   return (
     <div className={styles.testSuiteContainer}>
       <Instruction
@@ -84,9 +72,6 @@ export default function TestSuite() {
       </div>
 
       <div className={styles.buttonContainer}>
-        <Button onClick={saveQuestion} disabled={isLoading}>
-          Save
-        </Button>
         <Button onClick={handleExecution} disabled={isLoading}>
           Execute Test Suite
         </Button>

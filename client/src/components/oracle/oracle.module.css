@@ -94,6 +94,7 @@
     height: 100%;
 
     background-color: var(--dark-dark-grey);
+    color: var(--white);
 }
 
 .outputContainer button {

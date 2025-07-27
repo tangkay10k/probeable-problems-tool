@@ -4,7 +4,6 @@ import styles from "../question-setup.module.css";
 import Button from "@/components/button/button.jsx";
 import { toast } from "react-toastify";
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { createOracle } from "@/routes/oracle-route.js";
 import { generateOracle } from "@/routes/ai-route.js";
 import { useProblemContext } from "@/context/problem-context-provider.jsx";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
@@ -17,17 +16,6 @@ export default function OracleCreation() {
     useProblemContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionResult, setExecutionResult] = useState({});
-
-  const saveQuestion = () => {
-    withLoading(
-      () => createOracle(oracle),
-      (persistedOracle) => {
-        setOracle(persistedOracle);
-        toast.success("Problem has been updated in database!");
-      },
-      (err) => toast.error(err),
-    );
-  };
 
   const handleOracleGeneration = () => {
     withLoading(
@@ -76,9 +64,6 @@ export default function OracleCreation() {
       </div>
 
       <div className={styles.buttonContainer}>
-        <Button onClick={saveQuestion} disabled={isLoading}>
-          Save
-        </Button>
         <Button onClick={handleOracleGeneration} disabled={isLoading}>
           Generate Oracle
         </Button>
