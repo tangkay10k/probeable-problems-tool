@@ -1,7 +1,6 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { generateProblemStatement } from "@/routes/ai-route.js";
 import { toast } from "react-toastify";
-import { updateProblem } from "@/routes/problem-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
 import Instruction from "@/components/instruction/instruction.jsx";
 import { PROBLEM_STATEMENT_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
@@ -14,20 +13,16 @@ export default function ProblemStatement() {
   const [isLoading, withLoading] = useWithLoading();
 
   const handleProblemStatementGeneration = () => {
+    if (problem.modelAnswer.length === 0 || problem.constraints.length === 0) {
+      toast.error(
+        "Please provide a model solution and constraints before generating the problem statement.",
+      );
+      return;
+    }
+
     withLoading(
       () => generateProblemStatement(problem),
       (updatedProblem) => setProblem(updatedProblem),
-      (err) => toast.error(err),
-    );
-  };
-
-  const saveQuestion = () => {
-    withLoading(
-      () => updateProblem(problem),
-      (persisted) => {
-        setProblem(persisted);
-        toast.success("Problem has been updated in database!");
-      },
       (err) => toast.error(err),
     );
   };
@@ -48,9 +43,6 @@ export default function ProblemStatement() {
         }
       />
       <div className={styles.buttonContainer}>
-        <Button onClick={saveQuestion} disabled={isLoading}>
-          Save
-        </Button>
         <Button onClick={handleProblemStatementGeneration} disabled={isLoading}>
           Generate Problem Statement
         </Button>

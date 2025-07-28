@@ -8,16 +8,27 @@ import Button from "@/components/button/button.jsx";
 import { toast } from "react-toastify";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { useProblemContext } from "@/context/problem-context-provider.jsx";
-import { updateProblem } from "@/routes/problem-route.js";
+import { createProblem } from "@/routes/problem-route.js";
 
 export default function QuestionSetupContent() {
   const [isLoading, withLoading] = useWithLoading();
-  const { problem } = useProblemContext();
+  const { problem, oracle } = useProblemContext();
   const saveQuestion = () => {
+    if (
+      !problem.problemStatement ||
+      !problem.modelAnswer ||
+      !problem.constraints ||
+      !problem.testSuite ||
+      !oracle
+    ) {
+      toast.error("Please generate all aspects of the problem before saving.");
+      return;
+    }
+
     withLoading(
-      () => updateProblem(problem),
+      () => createProblem(problem),
       () => {
-        toast.success("Problem has been updated in database!");
+        toast.success("Problem has been saved in database!");
         localStorage.removeItem("problemUnderCreation");
       },
       (err) => toast.error(err),

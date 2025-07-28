@@ -1,73 +1,100 @@
 .pageContainer {
-  display: flex;
-  flex-direction: column;
-  padding: var(--padding-3);
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding-3);
 
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 
-  justify-content: center;
-  align-items: center;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--editor-colour);
 }
 
 .pageContainer h1 {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 .pageContainer p {
-  font-size: 1rem;
+    font-size: 1rem;
 }
 
-/* TEMP CSS FOR BUTTONS */
 .pageContainer .buttonContainer {
-  gap: 3rem;
+    gap: 3rem;
 }
 
 .questionCreatorContainer {
-  border-radius: var(--padding-2);
-  padding: var(--padding-3);
+    border-radius: var(--padding-3);
+    padding: var(--padding-4);
 
-  width: 100%;
-  max-width: 60vw;
-  height: 100%;
+    width: 100%;
+    max-width: var(--problem-list-max-width);
+    height: 100%;
 
-  background-color: var(--dark-dark-grey);
+    background-color: var(--dark-dark-grey);
 
-  box-shadow: 0 0 0.5rem rgba(252, 252, 252, 0.5);
+    box-shadow: 0 0 5rem 0.01rem rgba(188, 124, 241, 0.5);
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-  gap: 1rem;
+    gap: 1rem;
 }
 
+.buttonContainer button {
+    height: 3rem;
+    border-radius: var(--border-radius-3);
+
+    background-color: transparent;
+    border: 0.1rem solid var(--white);
+    transition: 0.8s;
+}
+
+.buttonContainer button:hover {
+    background-color: var(--white-hover);
+    color: var(--editor-colour);
+}
+
+
 .modelSolutionContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: var(--padding-1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--padding-1);
 }
 
 .buttonContainer {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 
-  width: 100%;
+    width: 100%;
 }
 
 .problemStatementContainer,
 .testSuiteContainer,
 .constraintsContainer,
 .oracleCreationContainer {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--padding-1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-1);
 }
 
 .oracleCreationContainer > p {
-  background-color: var(--dropdown-grey);
-  padding: var(--padding-1);
-  border-radius: var(--border-radius-1);
+    background-color: var(--dropdown-grey);
+    padding: var(--padding-1);
+    border-radius: var(--border-radius-1);
+}
+
+.problemStatementContainer textarea,
+.constraintsContainer textarea {
+    background-color: var(--editor-colour);
+    color: var(--white);
+}
+
+.problemStatementContainer textarea:focus,
+.constraintsContainer textarea:focus {
+    box-shadow: 0 0 1rem 0.01rem rgba(188, 124, 241, 0.5);
 }

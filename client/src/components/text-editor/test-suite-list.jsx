@@ -90,7 +90,7 @@ function TestCase({
 
   return (
     <div
-      className={`${styles.testCase} ${passed ? styles.pass : result ? styles.fail : ""}`}
+      className={`${styles.testCase} ${passed ? styles.passLight : result ? styles.failLight : ""}`}
     >
       <div className={styles.testHeader}>
         <h3>Test {index + 1}</h3>

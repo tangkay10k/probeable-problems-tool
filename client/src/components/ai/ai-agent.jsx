@@ -49,7 +49,7 @@ export default function AIAgent({ editorRef }) {
     <>
       <div className={styles.status} />
       <div className={styles.clientAvatar}>
-        <img src={"/client.jpg"} alt={"Client"} />
+        <img src={"/default-avatar.jpg"} alt={"Client"} />
       </div>
     </>
   );
