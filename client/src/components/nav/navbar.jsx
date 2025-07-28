@@ -1,7 +1,8 @@
 import styles from "./nav.module.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { useEffect, useRef, useState } from "react";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -23,8 +24,18 @@ export default function NavBar() {
 function Profile() {
   const { profile, logOut } = useUserProfile();
   const [showMenu, setShowMenu] = useState(false);
-  const profilePicture = profile?.picture || "/client.jpg";
+  const profilePicture = profile?.picture || "/default-avatar.jpg";
   const menuRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const showCreateQuestionButton =
+    profile?.role === "TEACHER" && location.pathname !== "/setup";
+
+  // Reset menu to closed when path changes
+  useEffect(() => {
+    setShowMenu(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -40,18 +51,21 @@ function Profile() {
 
   return (
     <div className={styles.profileContainer} ref={menuRef}>
-      <div
-        className={styles.profile}
-        onClick={() => setShowMenu((prev) => !prev)}
-      >
-        <img src={profilePicture} alt="user" />
-      </div>
-
-      {showMenu && (
-        <div className={styles.menu}>
-          <button onClick={() => logOut()}>Log Out</button>
-        </div>
+      {showCreateQuestionButton && (
+        <ButtonV2 onClick={() => navigate("/setup")}>Create Question</ButtonV2>
       )}
+
+      <div className={styles.profileWrapper}>
+        <div className={styles.profile} onClick={(e) => setShowMenu(true)}>
+          <img src={profilePicture} alt="user" />
+        </div>
+
+        {showMenu && (
+          <div className={styles.menu}>
+            <button onClick={() => logOut()}>Log out</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

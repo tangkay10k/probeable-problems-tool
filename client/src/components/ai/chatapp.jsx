@@ -59,7 +59,7 @@ export default function ChatApp() {
     <>
       <div className={styles.status} />
       <div className={styles.clientAvatar}>
-        <img src={"/client.jpg"} alt={"Client"} />
+        <img src={"/default-avatar.jpg"} alt={"Client"} />
       </div>
     </>
   );
@@ -112,7 +112,7 @@ function ChatBubble({ chatMessage }) {
     <div className={styles.bubbleContainer}>
       {isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={"/client.jpg"} alt="Client Logo"></img>
+          <img src={"/default-avatar.jpg"} alt="Client Logo"></img>
         </div>
       )}
 
@@ -139,7 +139,7 @@ function ChatBubble({ chatMessage }) {
       {!isAssistant && (
         <div className={styles.avatarContainer}>
           {/*TODO: Update to user icon*/}
-          <img src={"/client.jpg"} alt="Client Logo"></img>
+          <img src={"/default-avatar.jpg"} alt="Client Logo"></img>
         </div>
       )}
     </div>

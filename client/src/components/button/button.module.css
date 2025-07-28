@@ -82,7 +82,7 @@
     font-size: 0.8rem;
     user-select: none;
 
-    border: 0.01rem solid var(--light-grey);
+    border: 1px solid var(--dark-dark-grey);
 }
 
 .thumb:hover {

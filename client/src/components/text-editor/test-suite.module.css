@@ -43,6 +43,14 @@
     background-color: var(--fail-red);
 }
 
+.passLight {
+    background-color: var(--pass-green-light);
+}
+
+.failLight {
+    background-color: var(--fail-red-light);
+}
+
 .expectedBlock {
     display: flex;
     align-items: center;

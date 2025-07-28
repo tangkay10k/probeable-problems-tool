@@ -17,6 +17,11 @@ export default function Constraints() {
   };
 
   const handleTestSuiteGeneration = () => {
+    if (problem.constraints.length === 0) {
+      toast.error("Please generate constraints before generating tests.");
+      return;
+    }
+
     withLoading(
       () => generateTestSuite(problem),
       (updatedProblem) => {

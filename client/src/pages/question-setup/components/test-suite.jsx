@@ -39,6 +39,13 @@ export default function TestSuite() {
   };
 
   const handleExecution = () => {
+    if (problem.modelAnswer.length === 0 || problem.testSuite.length === 0) {
+      toast.error(
+        "Please provide a model solution and at least one test case before executing the test suite.",
+      );
+      return;
+    }
+
     withLoading(
       () =>
         handleTestSuiteExecution(

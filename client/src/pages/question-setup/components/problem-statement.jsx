@@ -13,6 +13,13 @@ export default function ProblemStatement() {
   const [isLoading, withLoading] = useWithLoading();
 
   const handleProblemStatementGeneration = () => {
+    if (problem.modelAnswer.length === 0 || problem.constraints.length === 0) {
+      toast.error(
+        "Please provide a model solution and constraints before generating the problem statement.",
+      );
+      return;
+    }
+
     withLoading(
       () => generateProblemStatement(problem),
       (updatedProblem) => setProblem(updatedProblem),

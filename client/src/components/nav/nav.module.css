@@ -6,6 +6,7 @@
     padding: var(--padding-2) var(--padding-3) var(--padding-2) var(--padding-3);
 
     height: var(--nav-height);
+    min-height: var(--nav-height);
 
     display: flex;
     justify-content: space-between;
@@ -28,7 +29,6 @@
 
 .navbar section {
     display: flex;
-
     align-items: center;
     gap: 1rem;
 }
@@ -53,91 +53,47 @@
     color: var(--light-grey);
 }
 
-.prevContainer,
-.nextContainer {
-    width: 100%;
-    height: var(--editor-buttons-height);
-    display: flex;
-    align-items: center;
-
-    border-radius: var(--border-radius-1);
-
-    padding: var(--padding-025);
-}
-
-/*===Bottom Nav===*/
+/*=== Bottom Nav ===*/
 .bottomNavContainer {
     display: flex;
-    position: relative;
+    justify-content: space-between; /* Positions prev and next buttons to the left and right */
+    align-items: center;
 }
 
-.homeButtonContainer {
+.buttonGroupContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.buttonGroupContainer button {
+    width: var(--editor-buttons-height);
+    height: var(--editor-buttons-height);
+}
+
+.prevContainer, .nextContainer {
     display: flex;
     align-items: center;
+    justify-content: center;
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    height: 100%;
-
-    gap: var(--padding-025);
+    min-width: 5rem;
 }
 
-.homeButtonContainer button {
+.bottomNavContainer button {
+    border: 1px solid var(--dark-dark-grey);
     background-color: var(--editor-colour);
 }
 
-.homeButtonContainer > button img {
-    height: 1.5rem;
-}
-
-.homeButtonContainer > button {
-    width: var(--bottom-nav-buttons-height);
-    height: var(--bottom-nav-buttons-height);
-    border: none;
-}
-
-.homeButtonContainer button:hover {
-    background-color: var(--toggle-hover-editor);
-}
-
-.resetButtonContainer button {
-    height: var(--bottom-nav-buttons-height);
-    width: var(--bottom-nav-buttons-height);
-}
-
-.infoIconContainer {
-    height: var(--bottom-nav-buttons-height);
-    width: var(--bottom-nav-buttons-height);
-}
-
-.prevContainer img,
-.nextContainer img {
-    width: 1rem;
-    height: 1rem;
-    margin-right: var(--padding-025);
-    background-color: var(--editor-colour);
-    border-radius: 50%;
-}
-
-.prevContainer button,
-.nextContainer button {
-    background-color: var(--editor-colour);
-}
-
-.prevContainer button:hover,
-.nextContainer button:hover {
+.bottomNavContainer button:hover {
     background-color: var(--toggle-hover-editor);
 }
 
 .nextContainer {
-    justify-content: end;
+    justify-content: flex-end; /* Positions next button to the right */
 }
 
 .prevContainer {
-    justify-content: space-between;
+    justify-content: flex-start; /* Positions prev button to the left */
 }
 
 .prevContainer button,
@@ -151,39 +107,62 @@
     font-weight: 500;
 }
 
-/*===Profile Picture===*/
+/*=== Profile Picture ===*/
+.profileContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .profile {
     width: auto;
-
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
 }
 
 .profile img {
     width: auto;
     height: var(--nav-image-height);
     border-radius: 50%;
-
     cursor: pointer;
 }
 
-.profileContainer {
+.profileContainer button {
+    padding: var(--padding-1) var(--padding-2);
+    border-radius: var(--border-radius-3);
+
+    font-size: 1rem;
+    font-weight: 500;
+
+    border: 1px solid var(--dark-grey);
+    background-color: hsla(0, 0%, 61%, 0.3);
+    color: var(--white-hover);
+
+    cursor: pointer;
+
+    transition: 0.8s;
+}
+
+.profileContainer button:hover {
+    background-color: hsla(0, 0%, 53%, 0.9);
+}
+
+.profileWrapper {
     position: relative;
     display: inline-block;
 }
 
 .menu {
     position: absolute;
-    top: 110%;
+    top: 3.2rem;
     right: 0;
     background-color: var(--grey);
     border-radius: var(--border-radius-2);
     padding: 1rem;
     box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
     z-index: var(--layer-2);
-
-    min-width: auto;
 
     display: flex;
     justify-content: center;

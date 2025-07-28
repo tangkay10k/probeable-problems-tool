@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FaCircleCheck } from "react-icons/fa6";
 import AnimatedList from "@/components/list/animated-list/animated-list.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
+import { LANGUAGE_DISPLAY_NAMES } from "@/components/text-editor/data/constants.js";
 
 export default function ProblemList() {
   const [_, withLoading] = useWithLoading();
@@ -64,7 +65,9 @@ export default function ProblemList() {
               </span>
               <span className={styles.rowNumber}>{idx}.</span>
               <span className={styles.cell}>{item.problemStatement}</span>
-              <span className={styles.problemLang}>{item.programLanguage}</span>
+              <span className={styles.problemLang}>
+                {LANGUAGE_DISPLAY_NAMES[item.programLanguage]}
+              </span>
               <span className={styles.problemType}>{item.problemType}</span>
             </div>
           )

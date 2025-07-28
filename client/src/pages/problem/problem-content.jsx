@@ -24,6 +24,7 @@ import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
 import { VscDebugRestart } from "react-icons/vsc";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
+import SplitText from "@/components/text/split-text/split-text.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -36,7 +37,7 @@ export default function ProblemContent() {
   if (isLoading) {
     return (
       <div className={styles.loadingContainer}>
-        Loading<span className={styles.dots}></span>
+        <SplitText text={"Loading..."} />
       </div>
     );
   }
@@ -146,7 +147,7 @@ function StageTwo() {
                 onClick={() => updateStudentCodeSubmission("")}
                 disabled={isLoading}
               >
-                <VscDebugRestart size={14} />
+                <VscDebugRestart size={18} />
               </ButtonV2>
             </section>
 
@@ -167,16 +168,13 @@ function StageTwo() {
             />
           </div>
         ) : (
-          <div className={styles.textEditorContainer}>
-            <TextEditor
-              ref={editorRef}
-              fixedHeight={668}
-              language={problemAttempt.problemLanguage}
-              showLanguageSelect={false}
-              src={studentCodeSubmission}
-              setSource={updateStudentCodeSubmission}
-            />
-          </div>
+          <TextEditor
+            ref={editorRef}
+            fixedHeight={700}
+            language={problemAttempt.problemLanguage}
+            src={studentCodeSubmission}
+            setSource={updateStudentCodeSubmission}
+          />
         )}
       </div>
     </div>
