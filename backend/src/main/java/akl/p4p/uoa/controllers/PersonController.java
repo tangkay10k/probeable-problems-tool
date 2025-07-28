@@ -41,7 +41,7 @@ public class PersonController {
 
       authTokenService.createToken(token);
       return ResponseEntity.ok()
-          .header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token)
+          .header(AuthConstants.P4P_AUTH_HEADER, AuthConstants.BEARER_PREFIX + token)
           .body(teacher);
 
     } else if (person.getRole() == Role.STUDENT) {
@@ -49,7 +49,7 @@ public class PersonController {
 
       authTokenService.createToken(token);
       return ResponseEntity.ok()
-          .header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token)
+          .header(AuthConstants.P4P_AUTH_HEADER, AuthConstants.BEARER_PREFIX + token)
           .body(student);
     }
 
@@ -60,12 +60,12 @@ public class PersonController {
   public ResponseEntity<String> logoutPerson(
       @RequestHeader(value = AuthConstants.P4P_AUTH_HEADER, required = false) String authHeader) {
 
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+    if (authHeader == null || !authHeader.startsWith(AuthConstants.BEARER_PREFIX)) {
       return ResponseEntity.badRequest()
           .body("Missing or invalid " + AuthConstants.P4P_AUTH_HEADER + " header");
     }
 
-    String token = authHeader.substring(7);
+    String token = authHeader.substring(AuthConstants.BEARER_PREFIX.length());
 
     authTokenService.deleteToken(token);
 

@@ -1,6 +1,7 @@
 import { AUTH_TOKEN_KEY } from "@/constants/authConstants.js";
 import axiosClient from "./utils/axiosClient.js";
 import { AUTH_HEADER_KEY } from "@/constants/authConstants.js";
+import { BEARER_PREFIX } from "@/constants/authConstants";
 
 export const loginUser = async (googleUser, role) => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
@@ -13,7 +14,7 @@ export const loginUser = async (googleUser, role) => {
     });
 
     const authHeader = res.headers[AUTH_HEADER_KEY];
-    const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+    const token = authHeader?.startsWith(BEARER_PREFIX) ? authHeader.slice(BEARER_PREFIX.length) : null;
 
     if (token) {
         localStorage.setItem(AUTH_TOKEN_KEY, token);

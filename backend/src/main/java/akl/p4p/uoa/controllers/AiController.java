@@ -1,5 +1,6 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.dtos.ChatRequestDTO;
@@ -42,7 +43,7 @@ class AiController {
    * iteration.
    */
   @PostMapping("constraints")
-  @PreAuthorize("hasRole('TEACHER')")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
     String sysPrompt = ProblemGenerationPrompts.getConstraintsGenerationPrompt(problem);
     String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
@@ -56,7 +57,7 @@ class AiController {
    * iteration.
    */
   @PostMapping("test-suite")
-  @PreAuthorize("hasRole('TEACHER')")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
       throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
@@ -72,7 +73,7 @@ class AiController {
   }
 
   @PostMapping("problem-statement")
-  @PreAuthorize("hasRole('TEACHER')")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
     String sysPrompt = ProblemGenerationPrompts.getProblemStatementSystemPrompt(problem);
     String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
@@ -81,7 +82,7 @@ class AiController {
   }
 
   @PostMapping("oracle")
-  @PreAuthorize("hasRole('TEACHER')")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
       throws JsonProcessingException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
@@ -94,7 +95,7 @@ class AiController {
   }
 
   @PostMapping("solution-attempt")
-  @PreAuthorize("isAuthenticated()")
+  @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
     String solutionAttempt =
         aiService.executeOneTimeLLMCall(

@@ -35,8 +35,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     String authHeader = request.getHeader(AuthConstants.P4P_AUTH_HEADER);
 
-    if (authHeader != null && authHeader.startsWith("Bearer ")) {
-      String token = authHeader.substring(7);
+    if (authHeader != null && authHeader.startsWith(AuthConstants.BEARER_PREFIX)) {
+      String token = authHeader.substring(AuthConstants.BEARER_PREFIX.length());
 
       authTokenService.verifyAuthToken(token);
 

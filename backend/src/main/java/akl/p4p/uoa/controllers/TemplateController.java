@@ -1,5 +1,6 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.enums.ProgramLanguage;
 import akl.p4p.uoa.enums.TemplateType;
 import akl.p4p.uoa.models.Template;
@@ -23,7 +24,7 @@ public class TemplateController {
   }
 
   @GetMapping("/{programLanguage}/{type}")
-  @PreAuthorize("isAuthenticated()")
+  @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<?> getTemplate(
       @PathVariable String programLanguage, @PathVariable String type) throws IOException {
 
@@ -51,7 +52,7 @@ public class TemplateController {
   }
 
   @PostMapping
-  @PreAuthorize("hasRole('TEACHER')")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<?> createTemplate(
       @RequestBody Template template, HttpServletRequest request) throws IOException {
     Template savedTemplate = templateService.createTemplate(template);
