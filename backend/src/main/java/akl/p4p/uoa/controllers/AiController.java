@@ -14,6 +14,7 @@ import akl.p4p.uoa.services.ProblemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +37,14 @@ class AiController {
   }
 
   /**
-   * Endpoint to generate constraints for a given question. Note that this endpoint does not persist
-   * the constraints generated in any database, but is sent back to the client for review /
+   * Endpoint to generate constraints for a given question. Note that this
+   * endpoint does not persist
+   * the constraints generated in any database, but is sent back to the client for
+   * review /
    * iteration.
    */
   @PostMapping("constraints")
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
     String sysPrompt = ProblemGenerationPrompts.getConstraintsGenerationPrompt(problem);
     String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
@@ -49,18 +53,20 @@ class AiController {
   }
 
   /**
-   * Endpoint to generate a test suite for a given question. Note that this endpoint does not
-   * persist the test suite generated in any database, but is sent back to the client for review /
+   * Endpoint to generate a test suite for a given question. Note that this
+   * endpoint does not
+   * persist the test suite generated in any database, but is sent back to the
+   * client for review /
    * iteration.
    */
   @PostMapping("test-suite")
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
       throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
 
     String sysPrompt = TestSuitePrompts.getTestSuiteGenerationPrompt(problem);
-    String testSuite =
-        aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+    String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
 
     TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
@@ -69,6 +75,7 @@ class AiController {
   }
 
   @PostMapping("problem-statement")
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
     String sysPrompt = ProblemGenerationPrompts.getProblemStatementSystemPrompt(problem);
     String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
@@ -77,22 +84,22 @@ class AiController {
   }
 
   @PostMapping("oracle")
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
       throws JsonProcessingException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
-    String jsonResponse =
-        aiService.executeOneTimeLLMCall(
-            sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
+    String jsonResponse = aiService.executeOneTimeLLMCall(
+        sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
 
     var oracle = oracleService.parseLLMGeneratedOracle(problem, jsonResponse);
     return ResponseEntity.ok(oracle);
   }
 
   @PostMapping("solution-attempt")
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
-    String solutionAttempt =
-        aiService.executeOneTimeLLMCall(
-            prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
+    String solutionAttempt = aiService.executeOneTimeLLMCall(
+        prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
     return ResponseEntity.ok(solutionAttempt);
   }
 }

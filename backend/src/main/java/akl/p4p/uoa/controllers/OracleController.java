@@ -3,6 +3,7 @@ package akl.p4p.uoa.controllers;
 import akl.p4p.uoa.models.Oracle;
 import akl.p4p.uoa.services.OracleService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,11 +17,13 @@ public class OracleController {
   }
 
   @PostMapping
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<Oracle> createNewOracleForProblem(@RequestBody Oracle oracle) {
     return ResponseEntity.ok(oracleService.saveOracle(oracle));
   }
 
   @GetMapping
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<Oracle> getExistingOracleForProblem(@RequestParam String problemId) {
     return ResponseEntity.ok(oracleService.loadOracle(problemId));
   }

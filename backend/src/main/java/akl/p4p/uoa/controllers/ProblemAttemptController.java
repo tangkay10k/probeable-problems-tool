@@ -5,6 +5,7 @@ import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.ProblemAttempt;
 import akl.p4p.uoa.services.ProblemAttemptService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,20 +18,20 @@ public class ProblemAttemptController {
   }
 
   @GetMapping
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(
       @RequestParam String problemId, @RequestParam String studentEmail) {
 
-    ProblemAttempt attempt =
-        problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
+    ProblemAttempt attempt = problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
     return ResponseEntity.ok(attempt);
   }
 
   @PostMapping("chat")
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) {
 
-    ChatHistory attempt =
-        problemAttemptService.chatWithClientWithSessionHistory(
-            message.getSessionId(), message.getChatMessage().getContent());
+    ChatHistory attempt = problemAttemptService.chatWithClientWithSessionHistory(
+        message.getSessionId(), message.getChatMessage().getContent());
     return ResponseEntity.ok(attempt);
   }
 }

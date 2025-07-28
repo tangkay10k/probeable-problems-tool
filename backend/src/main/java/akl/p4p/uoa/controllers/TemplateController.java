@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class TemplateController {
   }
 
   @GetMapping("/{programLanguage}/{type}")
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<?> getTemplate(
       @PathVariable String programLanguage, @PathVariable String type) throws IOException {
 
@@ -49,13 +51,13 @@ public class TemplateController {
   }
 
   @PostMapping
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<?> createTemplate(
       @RequestBody Template template, HttpServletRequest request) throws IOException {
     Template savedTemplate = templateService.createTemplate(template);
 
-    URI location =
-        URI.create(
-            request.getRequestURL().toString() + "/" + savedTemplate.getProgramLanguage().name());
+    URI location = URI.create(
+        request.getRequestURL().toString() + "/" + savedTemplate.getProgramLanguage().name());
 
     return ResponseEntity.created(location).body(savedTemplate);
   }

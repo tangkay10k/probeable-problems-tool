@@ -4,6 +4,7 @@ import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.ProblemService;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class ProblemController {
   }
 
   @GetMapping
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<List<Problem>> getAllProblems(
       @RequestParam(required = false, defaultValue = "false") boolean isStudent) {
 
@@ -26,6 +28,7 @@ public class ProblemController {
   }
 
   @GetMapping("{problemId}")
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<Problem> getProblem(@PathVariable String problemId) {
 
     // TO DO: add authentication logic.
@@ -33,6 +36,7 @@ public class ProblemController {
   }
 
   @GetMapping("/test-suite")
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<Problem> getProblemTestSuiteById(@RequestParam String problemId) {
 
     // TO DO: add authentication logic.
@@ -42,6 +46,7 @@ public class ProblemController {
   }
 
   @PostMapping
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<Problem> createNewProblem(@RequestBody Problem problem) {
 
     // TO DO: add authentication logic.
@@ -51,6 +56,7 @@ public class ProblemController {
   }
 
   @PatchMapping
+  @PreAuthorize("hasRole('TEACHER')")
   public ResponseEntity<Problem> updateExistingProblem(@RequestBody Problem problem) {
     return ResponseEntity.ok(problemService.updateProblem(problem));
   }

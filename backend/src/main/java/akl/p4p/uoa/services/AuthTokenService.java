@@ -2,8 +2,8 @@ package akl.p4p.uoa.services;
 
 import akl.p4p.uoa.models.AuthToken;
 import akl.p4p.uoa.repositories.AuthTokenRepository;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 @Service
@@ -14,18 +14,19 @@ public class AuthTokenService {
         this.authTokenRepository = authTokenRepository;
     }
 
-    public String getAuthToken(String token) {
-        return authTokenRepository.findById(token)
+    public void verifyAuthToken(String token) {
+        authTokenRepository.findById(token)
                 .map(AuthToken::getToken)
-                .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.UNAUTHORIZED,
-                                "Authentication token has expired. Please log in again."
-                        )
-                );
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "Authentication token has expired. Please log in again."));
     }
 
     public void createToken(String token) {
         authTokenRepository.save(new AuthToken(token));
+    }
+
+    public void deleteToken(String token) {
+        authTokenRepository.deleteById(token);
     }
 }
