@@ -10,7 +10,7 @@ export default function NotePad() {
 
   return (
     <div className={styles.notePad}>
-      <Banner header={"Notes"} leftIcon={leftIcon} />
+      <Banner header={""} leftIcon={leftIcon} />
       <div className={styles.textAreaContainer}>
         <TextArea
           rows={0}

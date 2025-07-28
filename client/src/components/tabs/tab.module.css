@@ -1,0 +1,51 @@
+.tabWrapper {
+    width: 100%;
+}
+
+.tabsList {
+    display: flex;
+    gap: var(--padding-025);
+    list-style: none;
+
+}
+
+.tab {
+    padding: var(--padding-1) var(--padding-3);
+    /*background: transparent;*/
+    background-color: var(--editor-colour);
+
+    border: none;
+    border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
+    cursor: pointer;
+
+
+    font-weight: bold;
+    color: #888;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+
+}
+
+.tabSelected {
+    color: var(--purple);
+    border-bottom: 0.1rem solid var(--purple);
+}
+
+.tabDisabled {
+    color: var(--grey);
+    cursor: not-allowed;
+}
+
+.tabPanel {
+    border: none;
+    padding: var(--padding-025);
+    display: none;
+
+    border-radius: 0 var(--padding-1) var(--padding-1) var(--padding-1);
+
+    background-color: var(--editor-colour);
+}
+
+.tabPanelSelected {
+    display: block;
+}

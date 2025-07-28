@@ -1,6 +1,6 @@
 import styles from "./problemPage.module.css";
 import Accordion from "@/components/accordian/accordion.jsx";
-import { STAGE_ONE, STAGE_TWO } from "@/pages/problem/data/instructions.js";
+import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
 import NotePad from "@/components/notes/notepad.jsx";
 import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
@@ -25,6 +25,8 @@ import { VscDebugRestart } from "react-icons/vsc";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import SplitText from "@/components/text/split-text/split-text.jsx";
+import DualTabs from "@/components/tabs/tab.jsx";
+import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -54,8 +56,12 @@ function StageOne() {
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.innerContainer}>
-        <Accordion items={STAGE_ONE} initialTabOpen={0} />
-        <NotePad />
+        <DualTabs
+          firstPanelHeading={"Tasks: "}
+          secondPanelHeading={"Notes: "}
+          firstPanel={<StudentInstruction />}
+          secondPanel={<NotePad />}
+        />
       </div>
 
       <div className={styles.innerContainer}>

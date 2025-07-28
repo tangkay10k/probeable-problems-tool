@@ -56,8 +56,8 @@ function Profile() {
       )}
 
       <div className={styles.profileWrapper}>
-        <div className={styles.profile} onClick={(e) => setShowMenu(true)}>
-          <img src={profilePicture} alt="user" />
+        <div className={styles.profile} onClick={() => setShowMenu(true)}>
+          <img src={profilePicture} alt="user" referrerPolicy="no-referrer" />
         </div>
 
         {showMenu && (

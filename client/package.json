@@ -21,6 +21,7 @@
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.2",
+    "react-tabs": "^6.1.0",
     "react-toastify": "^11.0.5",
     "resizable-container": "^0.0.0",
     "spinners-react": "^1.0.11",
