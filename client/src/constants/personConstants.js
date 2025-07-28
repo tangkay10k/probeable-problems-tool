@@ -1,1 +1,1 @@
-export const userProfileName = "user_profile"
+export const USER_PROFILE_KEY = "user_profile";
