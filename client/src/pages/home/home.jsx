@@ -5,6 +5,9 @@ import { useUserProfile } from "@/context/user-context.jsx";
 import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 import { useEffect, useState } from "react";
 import { getRandomSubheading } from "@/pages/home/home-utils.js";
+import CircularIconButton from "@/components/button/circular-button.jsx";
+import { RiSurveyLine as SurveyIcon } from "react-icons/ri";
+import { MdInfoOutline as InfoIcon } from "react-icons/md";
 
 const WELCOME_TEXT_DURATION = 2;
 
@@ -38,6 +41,11 @@ export default function Home() {
       </div>
 
       <ProblemList />
+
+      <div className={styles.stickyButtonContainer}>
+        <CircularIconButton icon={<SurveyIcon size={20} />} />
+        <CircularIconButton icon={<InfoIcon size={20} />} />
+      </div>
     </div>
   );
 }

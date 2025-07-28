@@ -89,6 +89,8 @@
     --blue-highlight: rgba(99, 232, 255, 0.25);
 
     --nav-image-height: 2.5rem;
+
+    --circular-button-size: 3rem;
 }
 
 * {

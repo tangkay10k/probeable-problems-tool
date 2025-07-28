@@ -95,3 +95,28 @@
     transform: translateX(calc(var(--slider-width) / 2 - 0.2rem));
 }
 
+/*===Circular Button===*/
+.circularButton {
+    background-color: var(--black);
+    border: none;
+
+    height: var(--circular-button-size);
+    width: var(--circular-button-size);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    color: var(--hover-light-grey);
+
+    transition: 0.4s;
+}
+
+.circularButton:hover {
+    background-color: var(--dark-dark-grey);
+    cursor: pointer;
+}
+
+/*===*/
+
