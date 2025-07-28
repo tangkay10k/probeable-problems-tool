@@ -22,7 +22,8 @@ public class ProblemAttemptController {
   public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(
       @RequestParam String problemId, @RequestParam String studentEmail) {
 
-    ProblemAttempt attempt = problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
+    ProblemAttempt attempt =
+        problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
     return ResponseEntity.ok(attempt);
   }
 
@@ -30,8 +31,9 @@ public class ProblemAttemptController {
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) {
 
-    ChatHistory attempt = problemAttemptService.chatWithClientWithSessionHistory(
-        message.getSessionId(), message.getChatMessage().getContent());
+    ChatHistory attempt =
+        problemAttemptService.chatWithClientWithSessionHistory(
+            message.getSessionId(), message.getChatMessage().getContent());
     return ResponseEntity.ok(attempt);
   }
 }

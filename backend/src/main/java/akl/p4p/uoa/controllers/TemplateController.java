@@ -56,8 +56,9 @@ public class TemplateController {
       @RequestBody Template template, HttpServletRequest request) throws IOException {
     Template savedTemplate = templateService.createTemplate(template);
 
-    URI location = URI.create(
-        request.getRequestURL().toString() + "/" + savedTemplate.getProgramLanguage().name());
+    URI location =
+        URI.create(
+            request.getRequestURL().toString() + "/" + savedTemplate.getProgramLanguage().name());
 
     return ResponseEntity.created(location).body(savedTemplate);
   }

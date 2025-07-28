@@ -37,10 +37,8 @@ class AiController {
   }
 
   /**
-   * Endpoint to generate constraints for a given question. Note that this
-   * endpoint does not persist
-   * the constraints generated in any database, but is sent back to the client for
-   * review /
+   * Endpoint to generate constraints for a given question. Note that this endpoint does not persist
+   * the constraints generated in any database, but is sent back to the client for review /
    * iteration.
    */
   @PostMapping("constraints")
@@ -53,10 +51,8 @@ class AiController {
   }
 
   /**
-   * Endpoint to generate a test suite for a given question. Note that this
-   * endpoint does not
-   * persist the test suite generated in any database, but is sent back to the
-   * client for review /
+   * Endpoint to generate a test suite for a given question. Note that this endpoint does not
+   * persist the test suite generated in any database, but is sent back to the client for review /
    * iteration.
    */
   @PostMapping("test-suite")
@@ -66,7 +62,8 @@ class AiController {
     ObjectMapper objectMapper = new ObjectMapper();
 
     String sysPrompt = TestSuitePrompts.getTestSuiteGenerationPrompt(problem);
-    String testSuite = aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+    String testSuite =
+        aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
 
     TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
@@ -88,8 +85,9 @@ class AiController {
   public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
       throws JsonProcessingException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
-    String jsonResponse = aiService.executeOneTimeLLMCall(
-        sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
+    String jsonResponse =
+        aiService.executeOneTimeLLMCall(
+            sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
 
     var oracle = oracleService.parseLLMGeneratedOracle(problem, jsonResponse);
     return ResponseEntity.ok(oracle);
@@ -98,8 +96,9 @@ class AiController {
   @PostMapping("solution-attempt")
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
-    String solutionAttempt = aiService.executeOneTimeLLMCall(
-        prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
+    String solutionAttempt =
+        aiService.executeOneTimeLLMCall(
+            prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
     return ResponseEntity.ok(solutionAttempt);
   }
 }

@@ -24,7 +24,8 @@ public class PersonController {
   JwtService jwtService;
   AuthTokenService authTokenService;
 
-  public PersonController(PersonService personService, JwtService jwtService, AuthTokenService authTokenService) {
+  public PersonController(
+      PersonService personService, JwtService jwtService, AuthTokenService authTokenService) {
     this.personService = personService;
     this.jwtService = jwtService;
     this.authTokenService = authTokenService;
@@ -39,13 +40,17 @@ public class PersonController {
       Teacher teacher = personService.getTeacher(person);
 
       authTokenService.createToken(token);
-      return ResponseEntity.ok().header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token).body(teacher);
+      return ResponseEntity.ok()
+          .header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token)
+          .body(teacher);
 
     } else if (person.getRole() == Role.STUDENT) {
       Student student = personService.getStudent(person);
 
       authTokenService.createToken(token);
-      return ResponseEntity.ok().header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token).body(student);
+      return ResponseEntity.ok()
+          .header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token)
+          .body(student);
     }
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown role: " + person.getRole());
@@ -56,7 +61,8 @@ public class PersonController {
       @RequestHeader(value = AuthConstants.P4P_AUTH_HEADER, required = false) String authHeader) {
 
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-      return ResponseEntity.badRequest().body("Missing or invalid " +AuthConstants.P4P_AUTH_HEADER+" header");
+      return ResponseEntity.badRequest()
+          .body("Missing or invalid " + AuthConstants.P4P_AUTH_HEADER + " header");
     }
 
     String token = authHeader.substring(7);
@@ -65,5 +71,4 @@ public class PersonController {
 
     return ResponseEntity.ok("Logout successful");
   }
-
 }
