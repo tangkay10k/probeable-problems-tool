@@ -4,13 +4,15 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GOOGLE_CLIENT_ID } from "@/constants/google-constants.js";
+import { UserProvider } from "@/context/user-context.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId="694933505323-ul2k8fm8tv2q36p1k6m341jenunces2v.apps.googleusercontent.com">
-    <StrictMode>
+  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+    <UserProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </StrictMode>
-  </GoogleOAuthProvider>,
+    </UserProvider>
+  </GoogleOAuthProvider>
 );

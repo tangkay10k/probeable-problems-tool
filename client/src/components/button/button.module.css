@@ -12,6 +12,7 @@
 
     width: 100%;
     height: 100%;
+    transition: 0.4s;
 }
 
 .button:hover {
@@ -30,3 +31,65 @@
     transform: none;
     cursor: progress;
 }
+
+/*===Toggle===*/
+.toggle {
+    position: relative;
+    display: flex;
+
+    width: var(--slider-width);
+    height: var(--editor-buttons-height);
+
+    cursor: pointer;
+}
+
+.checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.track {
+    position: absolute;
+    width: 100%;
+    height: var(--editor-buttons-height);
+
+    background-color: var(--dark-dark-grey);
+    border-radius: var(--border-radius-1);
+    transition: 0.4s;
+
+    padding: 1rem;
+}
+
+.thumb {
+    position: absolute;
+
+    top: 0.1rem;
+    left: 0.1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: calc(0.5 * var(--slider-width));
+    height: calc(var(--editor-buttons-height) * 0.9);
+
+    background-color: var(--editor-colour);
+    border-radius: var(--border-radius-1);
+    transition: 0.4s;
+
+    color: var(--white);
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+.thumb:hover {
+    background-color: var(--toggle-hover-editor);
+}
+
+/* Move thumb on checked */
+.checkbox:checked + .track + .thumb {
+    /* translate halfway, minus a small padding so it doesn't touch the edge */
+    transform: translateX(calc(var(--slider-width) / 2 - 0.2rem));
+}
+

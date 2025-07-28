@@ -59,34 +59,30 @@ function TestCase({
   updateTest,
   deleteTest,
 }) {
-  const passed = result?.actual === test.expectedStdOut;
+  const hasRun = result?.actual != null && result.actual !== "";
+  const passed = hasRun && result.actual === test.expectedStdOut;
 
   if (!isEditable) {
     return (
       <details key={index} className={styles.testDetail}>
         <summary>
           <h1>Test {index + 1}</h1>
-          <span
-            className={`${styles.pill} ${passed ? styles.pass : result ? styles.fail : ""}`}
-          >
-            {passed ? "✓ Passed" : "✗ Failed"}
-          </span>
+          {hasRun && (
+            <span
+              className={`${styles.pill} ${passed ? styles.pass : styles.fail}`}
+            >
+              {passed ? "✓ Passed" : "✗ Failed"}
+            </span>
+          )}
         </summary>
         <div className={styles.detailContent}>
           <p>
-            <strong>Input:</strong>
+            <strong>Input:</strong> <br />
           </p>
-          <br />
-
           <pre>{test.code}</pre>
           <br />
-          <p>
-            <strong>Expected:</strong> {test.expectedStdOut}
-          </p>
-
-          <p>
-            <strong>Actual:</strong> {result?.actual ?? "N/A"}
-          </p>
+          <p>Expected: {test.expectedStdOut}</p>
+          {hasRun && <p> Actual: {result?.actual ?? "N/A"}</p>}
         </div>
       </details>
     );
