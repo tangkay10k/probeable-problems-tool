@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.services.AuthTokenService;
 import akl.p4p.uoa.services.JwtService;
 import jakarta.servlet.FilterChain;
@@ -36,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authHeader = request.getHeader("P4p-Authorization");
+        String authHeader = request.getHeader(AuthConstants.P4P_AUTH_HEADER);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);

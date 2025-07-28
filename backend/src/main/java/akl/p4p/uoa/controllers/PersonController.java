@@ -1,5 +1,6 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.data.Person;
 import akl.p4p.uoa.enums.Role;
 import akl.p4p.uoa.models.person.Student;
@@ -38,13 +39,13 @@ public class PersonController {
       Teacher teacher = personService.getTeacher(person);
 
       authTokenService.createToken(token);
-      return ResponseEntity.ok().header("p4p-authorization", "Bearer " + token).body(teacher);
+      return ResponseEntity.ok().header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token).body(teacher);
 
     } else if (person.getRole() == Role.STUDENT) {
       Student student = personService.getStudent(person);
 
       authTokenService.createToken(token);
-      return ResponseEntity.ok().header("p4p-authorization", "Bearer " + token).body(student);
+      return ResponseEntity.ok().header(AuthConstants.P4P_AUTH_HEADER, "Bearer " + token).body(student);
     }
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown role: " + person.getRole());
@@ -52,10 +53,10 @@ public class PersonController {
 
   @PostMapping("/logout")
   public ResponseEntity<String> logoutPerson(
-      @RequestHeader(value = "P4p-Authorization", required = false) String authHeader) {
+      @RequestHeader(value = AuthConstants.P4P_AUTH_HEADER, required = false) String authHeader) {
 
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-      return ResponseEntity.badRequest().body("Missing or invalid P4p-Authorization header");
+      return ResponseEntity.badRequest().body("Missing or invalid " +AuthConstants.P4P_AUTH_HEADER+" header");
     }
 
     String token = authHeader.substring(7);

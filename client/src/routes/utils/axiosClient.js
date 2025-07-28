@@ -1,6 +1,6 @@
 import axios from "axios";
-import { authTokenName } from "@/constants/authConstants";
-import { authHeaderName } from "@/constants/authConstants";
+import { AUTH_TOKEN_KEY } from "@/constants/authConstants";
+import { AUTH_HEADER_KEY } from "@/constants/authConstants";
 
 const axiosClient = axios.create({
     baseURL: "/",
@@ -10,9 +10,9 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem(authTokenName);
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
     if (token) {
-        config.headers[authHeaderName]  = `Bearer ${token}`;
+        config.headers[AUTH_HEADER_KEY]  = `Bearer ${token}`;
     }
     return config;
 });
