@@ -4,7 +4,6 @@ import {
   SPLIT_STRING,
 } from "@/pages/question-setup/utils/test-setup-utils.js";
 import { toast } from "react-toastify";
-import { updateProblem } from "@/routes/problem-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
 import Instruction from "@/components/instruction/instruction.jsx";
 import { TEST_CASES_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
@@ -40,6 +39,13 @@ export default function TestSuite() {
   };
 
   const handleExecution = () => {
+    if (problem.modelAnswer.length === 0 || problem.testSuite.length === 0) {
+      toast.error(
+        "Please provide a model solution and at least one test case before executing the test suite.",
+      );
+      return;
+    }
+
     withLoading(
       () =>
         handleTestSuiteExecution(
@@ -50,17 +56,6 @@ export default function TestSuite() {
         ),
       () => toast.success("Test suite executed successfully!"),
       console.error,
-    );
-  };
-
-  const saveQuestion = () => {
-    withLoading(
-      () => updateProblem(problem),
-      (persisted) => {
-        setProblem(persisted);
-        toast.success("Problem has been updated in database!");
-      },
-      (err) => toast.error(err),
     );
   };
 
@@ -84,9 +79,6 @@ export default function TestSuite() {
       </div>
 
       <div className={styles.buttonContainer}>
-        <Button onClick={saveQuestion} disabled={isLoading}>
-          Save
-        </Button>
         <Button onClick={handleExecution} disabled={isLoading}>
           Execute Test Suite
         </Button>

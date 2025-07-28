@@ -1,9 +1,15 @@
 .problemListContainer {
+    position: relative;
+
     display: flex;
     flex-direction: column;
 
     height: 100%;
     gap: 1rem;
+
+    max-width: var(--problem-list-max-width);
+
+    border-radius: var(--border-radius-1);
 }
 
 .problemListContainer h1 {
@@ -11,6 +17,9 @@
 }
 
 .table {
+    position: relative;
+    z-index: 1;
+
     list-style: none;
     margin: 0;
     padding: 0;
@@ -20,6 +29,24 @@
     overflow: hidden;
 
     color: var(--white);
+
+}
+
+.headerRow {
+    font-weight: bold;
+
+    padding-top: var(--padding-025);
+    padding-bottom: var(--padding-025);
+    border-radius: var(--padding-1) var(--padding-1) 0 0;
+    border-bottom: var(--white) 0.2rem solid;
+    background-color: var(--toggle-hover-editor);
+    display: flex;
+}
+
+.status {
+    flex: 1;
+    padding: var(--padding-1);
+    text-align: center;
 }
 
 .row {
@@ -50,15 +77,46 @@
     background-color: var(--less-dark-grey);
 }
 
+.status,
+.row,
+.cell,
+.rowNumber,
+.problemLang,
+.problemType {
+    align-items: center;
+    display: flex;
+}
+
+.status {
+    justify-content: center;
+}
+
 .cell {
+    flex: 15;
+    padding: var(--padding-1);
+}
+
+.problemLang,
+.problemType {
+    flex: 3;
+}
+
+.status,
+.rowNumber {
     flex: 1;
+}
+
+.problemLang {
+    padding: var(--padding-1);
+}
+
+.problemType {
     padding: var(--padding-1);
 }
 
 .rowNumber {
     padding: var(--padding-1);
     padding-right: 0;
-    padding-left: var(--padding-4);
 }
 
 .empty {

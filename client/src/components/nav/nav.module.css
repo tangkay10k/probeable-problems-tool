@@ -6,9 +6,12 @@
     padding: var(--padding-2) var(--padding-3) var(--padding-2) var(--padding-3);
 
     height: var(--nav-height);
+    min-height: var(--nav-height);
 
     display: flex;
     justify-content: space-between;
+
+    border-bottom: 0.1rem solid white;
 }
 
 .buttonContainer button {
@@ -26,7 +29,6 @@
 
 .navbar section {
     display: flex;
-
     align-items: center;
     gap: 1rem;
 }
@@ -36,85 +38,62 @@
     color: var(--white-hover);
 }
 
-.navbar img {
-    width: 3rem;
+.icon {
+    height: var(--nav-image-height);
+    box-shadow: 0 0 1rem 0.01rem rgba(188, 124, 241, 0.5);
 }
 
-.prevContainer,
-.nextContainer {
-    width: 100%;
-    height: var(--editor-buttons-height);
-    display: flex;
-    align-items: center;
+.heading h1 {
+    font-size: 1.1rem;
 }
 
-/*===Bottom Nav===*/
+.heading p {
+    font-size: 0.8rem;
+    margin-top: -0.3rem;
+    color: var(--light-grey);
+}
+
+/*=== Bottom Nav ===*/
 .bottomNavContainer {
     display: flex;
-    position: relative;
-}
-
-.homeButtonContainer {
-    display: flex;
+    justify-content: space-between; /* Positions prev and next buttons to the left and right */
     align-items: center;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    height: 100%;
-
-    gap: var(--padding-025);
 }
 
-.homeButtonContainer button {
-    background-color: var(--editor-colour);
+.buttonGroupContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
 
-.homeButtonContainer > button img {
-    height: 2rem;
-}
-
-.homeButtonContainer > button {
+.buttonGroupContainer button {
     width: var(--editor-buttons-height);
     height: var(--editor-buttons-height);
-    border: none;
 }
 
-.homeButtonContainer button:hover {
-    background-color: var(--toggle-hover-editor);
+.prevContainer, .nextContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 5rem;
 }
 
-.resetButtonContainer button {
-    height: var(--editor-buttons-height);
-}
-
-.prevContainer img,
-.nextContainer img {
-    width: 2rem;
-    height: 2rem;
-    margin-right: var(--padding-025);
-    background-color: var(--editor-colour);
-    border-radius: 50%;
-}
-
-.prevContainer button,
-.nextContainer button {
+.bottomNavContainer button {
+    border: 1px solid var(--dark-dark-grey);
     background-color: var(--editor-colour);
 }
 
-.prevContainer button:hover,
-.nextContainer button:hover {
+.bottomNavContainer button:hover {
     background-color: var(--toggle-hover-editor);
 }
 
 .nextContainer {
-    justify-content: end;
+    justify-content: flex-end; /* Positions next button to the right */
 }
 
 .prevContainer {
-    justify-content: space-between;
+    justify-content: flex-start; /* Positions prev button to the left */
 }
 
 .prevContainer button,
@@ -126,4 +105,84 @@
 .nextContainer p {
     font-size: 1rem;
     font-weight: 500;
+}
+
+/*=== Profile Picture ===*/
+.profileContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile img {
+    width: auto;
+    height: var(--nav-image-height);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profileContainer button {
+    padding: var(--padding-1) var(--padding-2);
+    border-radius: var(--border-radius-3);
+
+    font-size: 1rem;
+    font-weight: 500;
+
+    border: 1px solid var(--dark-grey);
+    background-color: hsla(0, 0%, 61%, 0.3);
+    color: var(--white-hover);
+
+    cursor: pointer;
+
+    transition: 0.8s;
+}
+
+.profileContainer button:hover {
+    background-color: hsla(0, 0%, 53%, 0.9);
+}
+
+.profileWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.menu {
+    position: absolute;
+    top: 3.2rem;
+    right: 0;
+    background-color: var(--grey);
+    border-radius: var(--border-radius-2);
+    padding: 1rem;
+    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
+    z-index: var(--layer-2);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu button {
+    width: 7rem;
+    padding: 0.8rem 1.5rem;
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-4);
+    cursor: pointer;
+
+    font-family: Poppins, sans-serif;
+
+    transition: 0.4s;
+}
+
+.menu button:hover {
+    background: var(--hover-red);
 }

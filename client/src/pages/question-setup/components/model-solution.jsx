@@ -1,7 +1,5 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { generateConstraints } from "@/routes/ai-route.js";
 import { toast } from "react-toastify";
-import { createProblem } from "@/routes/problem-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
 import Instruction from "@/components/instruction/instruction.jsx";
 import Dropdown from "@/components/dropdown/dropdown.jsx";
@@ -10,6 +8,7 @@ import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import Button from "@/components/button/button.jsx";
 import { MODEL_SOLUTION_INSTRUCTION } from "@/pages/question-setup/data/instructions.js";
 import { useProblemContext } from "@/context/problem-context-provider.jsx";
+import { generateConstraints } from "@/routes/ai-route.js";
 
 export default function ModelSolution() {
   const { problem, setProblem, setLanguage, setModelSolution } =
@@ -18,26 +17,28 @@ export default function ModelSolution() {
   const [isLoading, withLoading] = useWithLoading();
 
   const handleQuestionTypeSelect = (problemType) => {
+    if (problemType === "OOP") {
+      alert(
+        "OOP question type is not supported yet. Please select another type.",
+      );
+    }
+
     setProblem({ ...problem, problemType });
   };
 
   const handleConstraintsGeneration = () => {
+    if (problem.modelAnswer.length === 0) {
+      toast.error(
+        "Please provide a model solution before generating constraints.",
+      );
+      return;
+    }
+
     withLoading(
       () => generateConstraints(problem),
       (updatedProblem) => {
         setProblem(updatedProblem);
         toast.success("Constraints generated! Please review them 😊");
-      },
-      (err) => toast.error(err),
-    );
-  };
-
-  const saveQuestion = () => {
-    withLoading(
-      () => createProblem(problem),
-      (persisted) => {
-        setProblem(persisted);
-        toast.success("Model solution saved to database!");
       },
       (err) => toast.error(err),
     );
@@ -63,9 +64,6 @@ export default function ModelSolution() {
         setSource={setModelSolution}
       />
       <div className={styles.buttonContainer}>
-        <Button onClick={saveQuestion} disabled={isLoading}>
-          Save
-        </Button>
         <Button onClick={handleConstraintsGeneration} disabled={isLoading}>
           Generate Constraints
         </Button>

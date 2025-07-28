@@ -1,5 +1,4 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { updateProblem } from "@/routes/problem-route.js";
 import { toast } from "react-toastify";
 import { generateTestSuite } from "@/routes/ai-route.js";
 import styles from "@/pages/question-setup/question-setup.module.css";
@@ -17,18 +16,12 @@ export default function Constraints() {
     setProblem({ ...problem, constraints: e.target.value });
   };
 
-  const saveQuestion = () => {
-    withLoading(
-      () => updateProblem(problem),
-      (persisted) => {
-        setProblem(persisted);
-        toast.success("Problem has been updated in database!");
-      },
-      (err) => toast.error(err),
-    );
-  };
-
   const handleTestSuiteGeneration = () => {
+    if (problem.constraints.length === 0) {
+      toast.error("Please generate constraints before generating tests.");
+      return;
+    }
+
     withLoading(
       () => generateTestSuite(problem),
       (updatedProblem) => {
@@ -55,9 +48,6 @@ export default function Constraints() {
         placeholder="Problem Constraints: "
       />
       <div className={styles.buttonContainer}>
-        <Button onClick={saveQuestion} disabled={isLoading}>
-          Save
-        </Button>
         <Button onClick={handleTestSuiteGeneration} disabled={isLoading}>
           Generate Tests
         </Button>

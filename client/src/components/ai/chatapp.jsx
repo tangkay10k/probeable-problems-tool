@@ -9,6 +9,7 @@ import useWithLoading from "@/hooks/useWithLoading.js";
 import { submitUserMessage } from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
+import { useUserProfile } from "@/context/user-context.jsx";
 
 export default function ChatApp() {
   const { chatHistory, setChatHistory } = useProblemAttemptContext();
@@ -59,7 +60,7 @@ export default function ChatApp() {
     <>
       <div className={styles.status} />
       <div className={styles.clientAvatar}>
-        <img src={"/client.jpg"} alt={"Client"} />
+        <img src={"/default-avatar.jpg"} alt={"Client"} />
       </div>
     </>
   );
@@ -98,6 +99,8 @@ export default function ChatApp() {
 }
 
 function ChatBubble({ chatMessage }) {
+  const { profile } = useUserProfile();
+  const userImage = profile?.userImage || "/default-avatar.jpg";
   const isAssistant = chatMessage.role === "assistant";
   let msg;
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
@@ -112,7 +115,7 @@ function ChatBubble({ chatMessage }) {
     <div className={styles.bubbleContainer}>
       {isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={"/client.jpg"} alt="Client Logo"></img>
+          <img src={"/default-avatar.jpg"} alt="Client Logo"></img>
         </div>
       )}
 
@@ -138,8 +141,7 @@ function ChatBubble({ chatMessage }) {
 
       {!isAssistant && (
         <div className={styles.avatarContainer}>
-          {/*TODO: Update to user icon*/}
-          <img src={"/client.jpg"} alt="Client Logo"></img>
+          <img src={userImage} alt="Client Logo"></img>
         </div>
       )}
     </div>
