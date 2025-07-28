@@ -1,4 +1,5 @@
 .notePad {
+    position: relative;
     display: flex;
     flex-direction: column;
 
@@ -25,17 +26,5 @@
 
 .notePad textarea:focus {
     box-shadow: none;
-}
-
-
-/*===Deprecated===*/
-.circle {
-    border-radius: 50%;
-    background-color: var(--red);
-    height: 1.5rem;
-    width: 1.5rem;
-
-    position: absolute;
-    left: var(--padding-2);
 }
 

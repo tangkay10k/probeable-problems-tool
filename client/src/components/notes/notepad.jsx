@@ -5,8 +5,6 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 export default function NotePad() {
   const { studentNotes, updateStudentNotes } = useProblemAttemptContext();
 
-  const leftIcon = <div className={styles.circle} />;
-
   return (
     <div className={styles.notePad}>
       <TextArea

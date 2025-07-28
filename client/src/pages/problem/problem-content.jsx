@@ -24,8 +24,8 @@ import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
 import { VscDebugRestart } from "react-icons/vsc";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import SplitText from "@/components/text/split-text/split-text.jsx";
-import DualTabs from "@/components/tabs/tab.jsx";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
+import Tabs from "@/components/tabs/tabs.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -54,15 +54,18 @@ export default function ProblemContent() {
 function StageOne() {
   const [showOracle, setShowOracle] = useState(false);
 
+  const tabs = [
+    {
+      label: "Task",
+      content: <StudentInstruction instruction={STAGE_ONE[0].content} />,
+    },
+    { label: "Note Pad", content: <NotePad /> },
+  ];
+
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.leftContainer}>
-        <DualTabs
-          firstPanelHeading={"Task "}
-          secondPanelHeading={"Notepad "}
-          firstPanel={<StudentInstruction instruction={STAGE_ONE[0].content} />}
-          secondPanel={<NotePad />}
-        />
+        <Tabs tabs={tabs} defaultIndex={0} />
       </div>
 
       <div className={styles.rightContainer}>

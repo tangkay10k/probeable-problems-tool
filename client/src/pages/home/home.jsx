@@ -23,7 +23,6 @@ export default function Home() {
   return (
     <div className={styles.homePageContainer}>
       <WelcomeText />
-
       <ProblemList />
 
       {isTeacher && (

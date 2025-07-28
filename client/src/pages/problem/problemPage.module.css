@@ -41,13 +41,17 @@
 
 .rightContainer,
 .leftContainer {
-    height: var(--container-max-height);
-    max-height: var(--container-max-height);
+    /*height: var(--container-max-height);*/
+    /*max-height: var(--container-max-height);*/
+    max-height: 100%;
+    height: 100%;
 
     border-radius: var(--padding-3);
 
     display: flex;
     flex-direction: column;
+
+    background-color: red;
 }
 
 .leftContainer {
