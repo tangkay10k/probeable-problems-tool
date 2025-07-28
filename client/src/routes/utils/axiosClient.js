@@ -1,4 +1,7 @@
 import axios from "axios";
+import { AUTH_TOKEN_KEY } from "@/constants/authConstants";
+import { AUTH_HEADER_KEY } from "@/constants/authConstants";
+import { BEARER_PREFIX } from "@/constants/authConstants";
 
 const axiosClient = axios.create({
     baseURL: "/",
@@ -8,22 +11,11 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem("jwtToken");
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers[AUTH_HEADER_KEY]  = `${BEARER_PREFIX}${token}`;
     }
     return config;
 });
-
-//Think about this later not sure yet
-// axiosClient.interceptors.response.use(
-//     (response) => response,
-//     (error) => {
-//         if (error.response?.status === 401) {
-//             localStorage.removeItem("jwtToken");
-//         }
-//         return Promise.reject(error);
-//     }
-// );
 
 export default axiosClient;

@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { getGoogleUser } from "@/routes/google-route.js";
-import { getUser } from "@/routes/person-route.js";
+
+import { loginUser } from "@/routes/person-route.js";
+import { USER_PROFILE_KEY } from "@/constants/personConstants.js"
+import { logoutUser } from "@/routes/person-route";
 import { useNavigate } from "react-router-dom";
 
+
 const UserContext = createContext();
-const USER_PROFILE_KEY = "user_profile";
 
 export function UserProvider({ children }) {
   const navigate = useNavigate();
@@ -28,7 +31,7 @@ export function UserProvider({ children }) {
 
       try {
         const googleUser = await getGoogleUser(tokenResponse);
-        const person = await getUser(googleUser, loginRole);
+        const person = await loginUser(googleUser, loginRole);
         setProfile(person);
         localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(person));
         navigate("/problems");
@@ -55,6 +58,7 @@ export function UserProvider({ children }) {
     setUser(null);
     setLoginRole(null);
     setProfile(null);
+    logoutUser();
     navigate("/");
   };
 

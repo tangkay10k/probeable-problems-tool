@@ -1,5 +1,6 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.dtos.ChatRequestDTO;
@@ -14,6 +15,7 @@ import akl.p4p.uoa.services.ProblemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +43,7 @@ class AiController {
    * iteration.
    */
   @PostMapping("constraints")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
     String sysPrompt = ProblemGenerationPrompts.getConstraintsGenerationPrompt(problem);
     String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
@@ -54,6 +57,7 @@ class AiController {
    * iteration.
    */
   @PostMapping("test-suite")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
       throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
@@ -69,6 +73,7 @@ class AiController {
   }
 
   @PostMapping("problem-statement")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
     String sysPrompt = ProblemGenerationPrompts.getProblemStatementSystemPrompt(problem);
     String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
@@ -77,6 +82,7 @@ class AiController {
   }
 
   @PostMapping("oracle")
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
       throws JsonProcessingException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
@@ -89,6 +95,7 @@ class AiController {
   }
 
   @PostMapping("solution-attempt")
+  @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
     String solutionAttempt =
         aiService.executeOneTimeLLMCall(

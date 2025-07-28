@@ -1,15 +1,18 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.data.Person;
 import akl.p4p.uoa.enums.Role;
 import akl.p4p.uoa.models.person.Student;
 import akl.p4p.uoa.models.person.Teacher;
+import akl.p4p.uoa.services.AuthTokenService;
 import akl.p4p.uoa.services.JwtService;
 import akl.p4p.uoa.services.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,10 +22,13 @@ public class PersonController {
 
   PersonService personService;
   JwtService jwtService;
+  AuthTokenService authTokenService;
 
-  public PersonController(PersonService personService, JwtService jwtService) {
+  public PersonController(
+      PersonService personService, JwtService jwtService, AuthTokenService authTokenService) {
     this.personService = personService;
     this.jwtService = jwtService;
+    this.authTokenService = authTokenService;
   }
 
   @PostMapping("/login")
@@ -33,14 +39,36 @@ public class PersonController {
 
       Teacher teacher = personService.getTeacher(person);
 
-      return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(teacher);
+      authTokenService.createToken(token);
+      return ResponseEntity.ok()
+          .header(AuthConstants.P4P_AUTH_HEADER, AuthConstants.BEARER_PREFIX + token)
+          .body(teacher);
 
     } else if (person.getRole() == Role.STUDENT) {
       Student student = personService.getStudent(person);
 
-      return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(student);
+      authTokenService.createToken(token);
+      return ResponseEntity.ok()
+          .header(AuthConstants.P4P_AUTH_HEADER, AuthConstants.BEARER_PREFIX + token)
+          .body(student);
     }
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown role: " + person.getRole());
+  }
+
+  @PostMapping("/logout")
+  public ResponseEntity<String> logoutPerson(
+      @RequestHeader(value = AuthConstants.P4P_AUTH_HEADER, required = false) String authHeader) {
+
+    if (authHeader == null || !authHeader.startsWith(AuthConstants.BEARER_PREFIX)) {
+      return ResponseEntity.badRequest()
+          .body("Missing or invalid " + AuthConstants.P4P_AUTH_HEADER + " header");
+    }
+
+    String token = authHeader.substring(AuthConstants.BEARER_PREFIX.length());
+
+    authTokenService.deleteToken(token);
+
+    return ResponseEntity.ok("Logout successful");
   }
 }

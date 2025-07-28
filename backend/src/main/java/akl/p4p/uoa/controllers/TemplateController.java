@@ -1,5 +1,6 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.enums.ProgramLanguage;
 import akl.p4p.uoa.enums.TemplateType;
 import akl.p4p.uoa.models.Template;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.net.URI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +24,7 @@ public class TemplateController {
   }
 
   @GetMapping("/{programLanguage}/{type}")
+  @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<?> getTemplate(
       @PathVariable String programLanguage, @PathVariable String type) throws IOException {
 
@@ -49,6 +52,7 @@ public class TemplateController {
   }
 
   @PostMapping
+  @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<?> createTemplate(
       @RequestBody Template template, HttpServletRequest request) throws IOException {
     Template savedTemplate = templateService.createTemplate(template);
