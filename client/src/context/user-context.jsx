@@ -2,22 +2,34 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { getGoogleUser } from "@/routes/google-route.js";
 import { getUser } from "@/routes/person-route.js";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(null);     
-  const [loginRole, setLoginRole] = useState(null);  
-  const [profile, setProfile] = useState(() => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [loginRole, setLoginRole] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
     const saved = localStorage.getItem("user_profile");
-    return saved ? JSON.parse(saved) : null;
-  });
+    if (saved) {
+      setProfile(JSON.parse(saved));
+    }
+    setLoading(false);
+  }, []);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       setUser(codeResponse);
+      navigate("/problems");
     },
-    onError: (error) => console.log("Login Failed:", error),
+    onError: (error) => {
+      console.log("Login Failed:", error);
+      navigate("/");
+    },
   });
 
   const loginAs = (role) => {
@@ -31,6 +43,7 @@ export function UserProvider({ children }) {
     setUser(null);
     setLoginRole(null);
     setProfile(null);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -52,10 +65,10 @@ export function UserProvider({ children }) {
   }, [user, loginRole]);
 
   return (
-    <UserContext.Provider value={{ profile, loginAs, logOut }}>
+    <UserContext.Provider value={{ profile, loginAs, logOut, isLoading }}>
       {children}
     </UserContext.Provider>
   );
 }
 
-export const useUser = () => useContext(UserContext);
+export const useUserProfile = () => useContext(UserContext);

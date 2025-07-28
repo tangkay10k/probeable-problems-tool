@@ -6,13 +6,14 @@ import "./App.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import ProblemPage from "@/pages/problem/problem-page.jsx";
 import Login from "@/pages/login/login.jsx";
+import PrivateRoutes from "@/components/router/private-route.jsx";
 
 function App() {
   const location = useLocation();
 
   return (
     <div className="app">
-      {!location.pathname.startsWith("/problem") && <NavBar />}
+      {!location.pathname.startsWith("/problem/") && <NavBar />}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -27,10 +28,13 @@ function App() {
         transition={Bounce}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/setup" element={<QuestionSetup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/problem/:problemId" element={<ProblemPage />} />
+        <Route path="/" element={<Login />} />
+
+        <Route element={<PrivateRoutes />}>
+          <Route path="/problems" element={<Home />} />
+          <Route path="/setup" element={<QuestionSetup />} />
+          <Route path="/problem/:problemId" element={<ProblemPage />} />
+        </Route>
       </Routes>
     </div>
   );

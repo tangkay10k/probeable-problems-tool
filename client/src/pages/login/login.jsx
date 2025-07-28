@@ -1,27 +1,58 @@
-import { useUser } from "@/context/user-context.jsx";
+import { useUserProfile } from "@/context/user-context.jsx";
+import styles from "./login.module.css";
+import Particles from "@/components/particles/particles.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { profile, loginAs, logOut } = useUser();
+  const navigate = useNavigate();
+  const { profile } = useUserProfile();
+
+  if (profile) {
+    navigate("/problems");
+  }
 
   return (
-    <div>
-      <h2>React Google Login</h2>
+    <div className={styles.loginPageContainer}>
+      <div className={styles.content}>
+        <h1>Develop Critical Thinking Through</h1>
+        <h1>Probeable Problems</h1>
+        <br />
+        <LoginButtons />
+      </div>
+
+      <div className={styles.background}>
+        <Particles
+          particleColors={["#c59ce5", "#a715ff"]}
+          particleCount={500}
+          particleSpread={10}
+          speed={0.1}
+          particleBaseSize={100}
+          moveParticlesOnHover={true}
+          alphaParticles={false}
+          disableRotation={false}
+        />
+      </div>
+    </div>
+  );
+}
+
+function LoginButtons() {
+  const { loginAs } = useUserProfile();
+  return (
+    <div className={styles.buttonContainer}>
+      <button
+        className={styles.studentButton}
+        onClick={() => loginAs("STUDENT")}
+      >
+        Login as Student
+      </button>
       <br />
-      {profile ? (
-        <div>
-          <img src={profile.picture} alt="user" />
-          <h3>User Logged in</h3>
-          <p>Name: {profile.name}</p>
-          <p>Email: {profile.email}</p>
-          <button onClick={logOut}>Log out</button>
-        </div>
-      ) : (
-        <>
-          <button onClick={() => loginAs("STUDENT")}>Login as Student</button>
-          <br />
-          <button onClick={() => loginAs("TEACHER")}>Login as Teacher</button>
-        </>
-      )}
+      <button
+        className={styles.teacherButton}
+        onClick={() => loginAs("TEACHER")}
+      >
+        Login as Teacher
+      </button>
     </div>
   );
 }

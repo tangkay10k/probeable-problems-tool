@@ -38,8 +38,9 @@
     color: var(--white-hover);
 }
 
-.navbar img {
-    width: 3rem;
+.icon {
+    height: var(--nav-image-height);
+    box-shadow: 0 0 1rem 0.01rem rgba(188, 124, 241, 0.5);
 }
 
 .heading h1 {
@@ -148,4 +149,61 @@
 .nextContainer p {
     font-size: 1rem;
     font-weight: 500;
+}
+
+/*===Profile Picture===*/
+.profile {
+    width: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile img {
+    width: auto;
+    height: var(--nav-image-height);
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.profileContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: var(--grey);
+    border-radius: var(--border-radius-2);
+    padding: 1rem;
+    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
+    z-index: var(--layer-2);
+
+    min-width: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu button {
+    width: 7rem;
+    padding: 0.8rem 1.5rem;
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-4);
+    cursor: pointer;
+
+    font-family: Poppins, sans-serif;
+
+    transition: 0.4s;
+}
+
+.menu button:hover {
+    background: var(--hover-red);
 }

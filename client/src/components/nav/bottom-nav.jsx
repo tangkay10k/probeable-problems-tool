@@ -16,7 +16,7 @@ export default function BottomNav({ stage, handleStageChange }) {
           </ButtonV2>
         </div>
 
-        <ButtonV2 onClick={() => navigate("/")}>
+        <ButtonV2 onClick={() => navigate("/problems")}>
           <img src={"/favicon.svg"} alt={"Probeable Problems Logo"}></img>
         </ButtonV2>
 

@@ -7,11 +7,13 @@
     -moz-osx-font-smoothing: grayscale;
 
     /*===Global Variables===*/
+    --purple: rgb(188, 124, 241);
+
     --black: #000000;
     --light-grey: #e5e5e5;
     --less-dark-grey: #757575;
     --dark-grey: #5b5b5b;
-    --dark-dark-grey: #3a3a3a;
+    --dark-dark-grey: #2f2f2f;
     --oracle-grey: #c0c0c0;
     --transparent-grey: rgba(0, 0, 0, 0.04);
     --grey: #d9d9d9;
@@ -28,6 +30,7 @@
     --hover-green: #0edc31;
     --button-green: #00d624;
 
+    --darker-white: #d2d1d1;
     --white-hover: #e0e0e0;
 
     --dark-blue: #4aa7ff;
@@ -75,12 +78,15 @@
 
     --container-max-height: 85vh;
     --page-container-max-width: 145rem;
+    --problem-list-max-width: 70vw;
 
     --editor-buttons-height: 2.5rem;
     --bottom-nav-buttons-height: 2.1rem;
     --slider-width: 8rem;
 
     --blue-highlight: rgba(99, 232, 255, 0.25);
+
+    --nav-image-height: 2.5rem;
 }
 
 * {
@@ -100,7 +106,7 @@ body,
     width: 100vw;
     height: 100%;
 
-    background-color: var(--dark-grey);
+    background-color: var(--editor-colour);
 }
 
 .heroGlow {

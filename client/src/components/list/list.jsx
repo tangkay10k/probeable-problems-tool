@@ -4,15 +4,16 @@ import useWithLoading from "@/hooks/useWithLoading.js";
 import { getAllProblems } from "@/routes/problem-route.js";
 import { useNavigate } from "react-router-dom";
 import { FaCircleCheck } from "react-icons/fa6";
+import AnimatedList from "@/components/list/animated-list/animated-list.jsx";
+import { useUserProfile } from "@/context/user-context.jsx";
 
 export default function ProblemList() {
   const [_, withLoading] = useWithLoading();
   const [problems, setProblems] = useState([]);
   const navigate = useNavigate();
+  const { profile } = useUserProfile();
 
-  function onRowClick(problem) {
-    navigate(`/problem/${problem.id}`);
-  }
+  const completedSet = new Set(profile?.problemsCompleted || []);
 
   useEffect(() => {
     withLoading(
@@ -22,42 +23,53 @@ export default function ProblemList() {
     );
   }, []);
 
+  const onRowClick = (problem) => {
+    navigate(`/problem/${problem.id}`);
+  };
+
   if (!problems.length) {
     return <div className={styles.empty}>No problems to show.</div>;
   }
 
+  const allItems = [{ isHeader: true }, ...problems];
+
   return (
     <div className={styles.problemListContainer}>
       <h1>Problems</h1>
-      <div className={styles.glow} />
-      <ul className={`${styles.table}`}>
-        <li className={styles.headerRow}>
-          <span className={styles.status}>
-            <FaCircleCheck />
-          </span>
-          <span className={styles.rowNumber}>#</span>
-          <span className={styles.cell}>Problem Description</span>{" "}
-          <span className={styles.problemLang}>Language</span>
-          <span className={styles.problemType}>Type</span>
-        </li>
-        {problems.map((problem, idx) => (
-          <li
-            key={problem.id}
-            className={styles.row}
-            onClick={() => onRowClick(problem)}
-          >
-            <span className={styles.status}>
-              <FaCircleCheck />
-            </span>
-            <span className={styles.rowNumber}>{idx + 1}.</span>
-            <span className={styles.cell}>{problem.problemStatement}</span>
-            <span className={styles.problemLang}>
-              {problem.programLanguage}
-            </span>
-            <span className={styles.problemType}>{problem.problemType}</span>
-          </li>
-        ))}
-      </ul>
+
+      <AnimatedList
+        items={allItems}
+        className={styles.table}
+        showGradients={true}
+        enableArrowNavigation={true}
+        displayScrollbar={true}
+        onItemSelect={(item, idx) => {
+          if (idx > 0) onRowClick(item);
+        }}
+        renderItem={(item, idx) =>
+          item.isHeader ? (
+            <div className={styles.headerRow}>
+              <span className={styles.status}>
+                <FaCircleCheck />
+              </span>
+              <span className={styles.rowNumber}>#</span>
+              <span className={styles.cell}>Problem Description</span>
+              <span className={styles.problemLang}>Language</span>
+              <span className={styles.problemType}>Type</span>
+            </div>
+          ) : (
+            <div className={styles.row} onClick={() => onRowClick(item)}>
+              <span className={styles.status}>
+                {completedSet.has(item.id) && <FaCircleCheck color={"green"} />}
+              </span>
+              <span className={styles.rowNumber}>{idx}.</span>
+              <span className={styles.cell}>{item.problemStatement}</span>
+              <span className={styles.problemLang}>{item.programLanguage}</span>
+              <span className={styles.problemType}>{item.problemType}</span>
+            </div>
+          )
+        }
+      />
     </div>
   );
 }

@@ -1,23 +1,57 @@
 import styles from "./nav.module.css";
 import { useNavigate } from "react-router-dom";
-import Button from "@/components/button/button.jsx";
+import { useUserProfile } from "@/context/user-context.jsx";
+import { useEffect, useRef, useState } from "react";
 
 export default function NavBar() {
   const navigate = useNavigate();
 
   return (
     <nav className={styles.navbar}>
-      <section onClick={() => navigate("/")}>
-        <img src={"/favicon.svg"} alt="Logo"></img>
+      <section onClick={() => navigate("/problems")}>
+        <img className={styles.icon} src={"/favicon.png"} alt="Logo"></img>
         <div className={styles.heading}>
           <h1>Probeable Problems</h1>
           <p>Developing Critical Thinking</p>
         </div>
       </section>
-
-      <div className={styles.buttonContainer}>
-        <Button>Sign In</Button>
-      </div>
+      <Profile />
     </nav>
+  );
+}
+
+function Profile() {
+  const { profile, logOut } = useUserProfile();
+  const [showMenu, setShowMenu] = useState(false);
+  const profilePicture = profile?.picture || "/client.jpg";
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  if (!profile) return null;
+
+  return (
+    <div className={styles.profileContainer} ref={menuRef}>
+      <div
+        className={styles.profile}
+        onClick={() => setShowMenu((prev) => !prev)}
+      >
+        <img src={profilePicture} alt="user" />
+      </div>
+
+      {showMenu && (
+        <div className={styles.menu}>
+          <button onClick={() => logOut()}>Log Out</button>
+        </div>
+      )}
+    </div>
   );
 }
