@@ -24,7 +24,7 @@ export default function NavBar() {
 function Profile() {
   const { profile, logOut } = useUserProfile();
   const [showMenu, setShowMenu] = useState(false);
-  const profilePicture = profile?.picture || "/default-avatar.jpg";
+  const profilePicture = profile?.userImage || "/default-avatar.jpg";
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();

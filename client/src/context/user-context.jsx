@@ -5,6 +5,7 @@ import { getUser } from "@/routes/person-route.js";
 import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
+const USER_PROFILE_KEY = "user_profile";
 
 export function UserProvider({ children }) {
   const navigate = useNavigate();
@@ -14,55 +15,48 @@ export function UserProvider({ children }) {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem("user_profile");
-    if (saved) {
-      setProfile(JSON.parse(saved));
-    }
+    const saved = localStorage.getItem(USER_PROFILE_KEY);
+    if (saved) setProfile(JSON.parse(saved));
     setLoading(false);
   }, []);
 
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      setUser(codeResponse);
-      navigate("/problems");
+    scope: "openid profile email",
+    onSuccess: async (tokenResponse) => {
+      setUser(tokenResponse);
+      setProfile(null);
+
+      try {
+        const googleUser = await getGoogleUser(tokenResponse);
+        const person = await getUser(googleUser, loginRole);
+        setProfile(person);
+        localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(person));
+        navigate("/problems");
+      } catch (err) {
+        console.error("Login or profile fetch failed:", err);
+        logOut();
+      }
     },
-    onError: (error) => {
-      console.log("Login Failed:", error);
+    onError: (err) => {
+      console.error("Login Failed:", err);
       navigate("/");
     },
   });
 
   const loginAs = (role) => {
     setLoginRole(role);
+    setProfile(null);
     login();
   };
 
   const logOut = () => {
     googleLogout();
-    localStorage.removeItem("user_profile");
+    localStorage.removeItem(USER_PROFILE_KEY);
     setUser(null);
     setLoginRole(null);
     setProfile(null);
     navigate("/");
   };
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const googleUser = await getGoogleUser(user);
-        const person = await getUser(googleUser, loginRole);
-        setProfile(person);
-        localStorage.setItem("user_profile", JSON.stringify(person));
-      } catch (err) {
-        console.error(err);
-        logOut();
-      }
-    };
-
-    if (user && loginRole && !profile) {
-      fetchProfile();
-    }
-  }, [user, loginRole]);
 
   return (
     <UserContext.Provider value={{ profile, loginAs, logOut, isLoading }}>

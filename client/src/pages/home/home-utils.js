@@ -1,6 +1,7 @@
 export function getRandomSubheading() {
   const messages = [
     "Get ready to solve some problems!",
+    "🥚Minecraft made me choose software engineering ~10k",
     "Time to flex those brain muscles!",
     "Let's dive into some challenges!",
     "Sharpen your mind—it's problem time!",
