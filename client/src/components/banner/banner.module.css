@@ -2,7 +2,7 @@
     padding: var(--padding-1);
     background-color: var(--dark-dark-grey);
 
-    border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
+    border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
 
     display: flex;
     position: relative;

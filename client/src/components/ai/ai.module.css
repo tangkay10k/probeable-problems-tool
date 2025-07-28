@@ -1,19 +1,21 @@
 .chatWrapper {
     display: flex;
     flex-direction: column;
+
+    width: 100%;
+    height: calc(var(--container-max-height));
 }
 
 .chatApp {
     display: flex;
     flex-direction: column;
-    background-color: var(--editor-colour);
-    border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
+    background-color: var(--toggle-hover-editor);
+    border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
 
-    height: var(
-            --chat-box-height
-    );
+    height: var(--chat-box-height);
+    width: 100%;
 
-    padding: var(--padding-2);
+    padding: var(--padding-2) var(--padding-3);
     gap: 0.25rem;
 }
 
@@ -84,20 +86,22 @@
     flex: 1;
     border-radius: var(--border-radius-2);
 
-    background-color: var(--toggle-hover-editor);
+    background-color: var(--editor-colour);
 }
 
 .inputContainer button:hover {
-    background-color: var(--toggle-hover-editor);
+    background-color: var(--dark-dark-grey);
     border: var(--black);
 }
 
 .chatBody {
-    height: 100%;
+    width: 100%;
+    height: var(--chat-box-height);
     overflow-y: scroll;
 
-    box-shadow: inset 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
     scroll-behavior: smooth;
+
+    padding-bottom: var(--padding-1);
 }
 
 /*===CHAT BUBBLE===*/

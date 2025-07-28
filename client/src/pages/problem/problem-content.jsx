@@ -1,6 +1,6 @@
 import styles from "./problemPage.module.css";
 import Accordion from "@/components/accordian/accordion.jsx";
-import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
+import { STAGE_ONE, STAGE_TWO } from "@/pages/problem/data/instructions.js";
 import NotePad from "@/components/notes/notepad.jsx";
 import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
@@ -23,7 +23,6 @@ import { useParams } from "react-router-dom";
 import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
 import { VscDebugRestart } from "react-icons/vsc";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
-import BottomNav from "@/components/nav/bottom-nav.jsx";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import DualTabs from "@/components/tabs/tab.jsx";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
@@ -47,26 +46,36 @@ export default function ProblemContent() {
   return (
     <div className={styles.problemPageContainer}>
       {stage === 1 ? <StageOne /> : <StageTwo />}
-      <BottomNav handleStageChange={handleStageChange} stage={stage} />
+      {/*<BottomNav handleStageChange={handleStageChange} stage={stage} />*/}
     </div>
   );
 }
 
 function StageOne() {
+  const [showOracle, setShowOracle] = useState(false);
+
   return (
     <div className={styles.containerWrapper}>
-      <div className={styles.innerContainer}>
+      <div className={styles.leftContainer}>
         <DualTabs
-          firstPanelHeading={"Tasks: "}
-          secondPanelHeading={"Notes: "}
-          firstPanel={<StudentInstruction />}
+          firstPanelHeading={"Task "}
+          secondPanelHeading={"Notepad "}
+          firstPanel={<StudentInstruction instruction={STAGE_ONE[0].content} />}
           secondPanel={<NotePad />}
         />
       </div>
 
-      <div className={styles.innerContainer}>
-        <ChatApp />
-        <Oracle />
+      <div className={styles.rightContainer}>
+        <div className={styles.toggleButtonContainer}>
+          <ToggleButtons
+            on={showOracle}
+            onToggle={setShowOracle}
+            onLabel={"⚙ Oracle"}
+            offLabel={"🛠 Client"}
+          />
+        </div>
+
+        {showOracle ? <Oracle /> : <ChatApp />}
       </div>
     </div>
   );

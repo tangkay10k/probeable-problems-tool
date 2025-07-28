@@ -1,9 +1,11 @@
-import { STAGE_ONE } from "@/pages/problem/data/instructions.js";
+import styles from "./instruction.module.css";
 
-export default function StudentInstruction() {
+export default function StudentInstruction({
+  instruction = "INSERT INSTRUCTION STRING",
+}) {
   return (
-    <div>
-      <p>{STAGE_ONE[0].content}</p>
+    <div className={styles.studentInstructionContainer}>
+      <p>{instruction}</p>
     </div>
   );
 }

@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="app">
-      {!location.pathname.startsWith("/problem/") && <NavBar />}
+      <NavBar />
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

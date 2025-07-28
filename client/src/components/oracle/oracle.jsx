@@ -8,7 +8,6 @@ import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getOracle } from "@/routes/oracle-route.js";
 import { useParams } from "react-router-dom";
-import Banner from "@/components/banner/banner.jsx";
 import { getExecuteTemplate } from "@/routes/template-route.js";
 import { getProblem } from "@/routes/problem-route.js";
 import { toast } from "react-toastify";
@@ -40,7 +39,7 @@ export default function Oracle() {
     );
 
     withLoading(
-      () => getExecuteTemplate(problemAttempt?.problemLanguage,),
+      () => getExecuteTemplate(problemAttempt?.problemLanguage),
       (template) => setExecuteTemplate(template),
       (err) => toast.error(err),
     );
@@ -74,10 +73,10 @@ export default function Oracle() {
           problemAttempt?.problemLanguage,
           executeTemplate.template,
           inputVariables,
-          problem.modelAnswer
+          problem.modelAnswer,
         ),
       (result) => {
-        setExecutionOutput(result)
+        setExecutionOutput(result);
       },
 
       console.error,
@@ -92,33 +91,29 @@ export default function Oracle() {
 
   return (
     <div className={styles.oracleWrapper}>
-      <Banner header={"Mysterious Code Box"} leftIcon={leftIcon} />
-      <div className={styles.oracle}>
-        <div className={styles.editorWrapper}>
-          <TextEditor
-            language={problemAttempt?.problemLanguage}
-            showLanguageSelect={false}
-            lineNumbers={false}
-            isResizable={false}
-            fixedHeight={100}
-            fontSize={12}
-            src={inputVariables}
-            setSource={setInputVariables}
-          />
-        </div>
-        <div className={styles.outputContainer}>
-          <TextArea
-            placeholder={"Output: "}
-            disabled={true}
-            resizable={false}
-            rows={1}
-            value={executionOutput?.run?.output || executionOutput?.run?.stderr}
-          ></TextArea>
+      <div className={styles.editorWrapper}>
+        <TextEditor
+          language={problemAttempt?.problemLanguage}
+          showLanguageSelect={false}
+          lineNumbers={false}
+          isResizable={false}
+          fixedHeight={350}
+          fontSize={13}
+          src={inputVariables}
+          setSource={setInputVariables}
+        />
+      </div>
+      <div className={styles.outputContainer}>
+        <TextArea
+          placeholder={"Output: "}
+          disabled={true}
+          resizable={false}
+          value={executionOutput?.run?.output || executionOutput?.run?.stderr}
+        ></TextArea>
 
-          <Button onClick={executeOracle} disabled={isLoading}>
-            Run
-          </Button>
-        </div>
+        <Button onClick={executeOracle} disabled={isLoading}>
+          Run
+        </Button>
       </div>
     </div>
   );

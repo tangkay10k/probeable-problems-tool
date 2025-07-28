@@ -8,6 +8,7 @@
 
     /*===Global Variables===*/
     --purple: rgb(188, 124, 241);
+    --hover-purple: rgb(201, 149, 246);
 
     --black: #000000;
     --light-grey: #e5e5e5;
@@ -73,13 +74,13 @@
     --layer-1: 1;
     --layer-2: 2;
 
-    --chat-box-height: 45vh;
+    --chat-box-height: 100%;
     --ai-agent-box-height: 20rem;
 
     --nav-height: 5rem;
 
-    --container-max-height: 85vh;
-    --page-container-max-width: 145rem;
+    --container-max-height: 90%;
+    --page-container-max-width: 90vw;
     --problem-list-max-width: 70vw;
 
     --editor-buttons-height: 2.5rem;

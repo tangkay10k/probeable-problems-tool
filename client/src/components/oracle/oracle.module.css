@@ -1,79 +1,23 @@
 .oracleWrapper {
-    height: 100%;
     background-color: var(--toggle-hover-editor);
-    border-radius: var(--border-radius-1);
-
-    display: flex;
-    flex-direction: column;
-}
-
-.oracle {
-    padding: var(--padding-175);
-
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    gap: var(--padding-1);
-}
-
-.oracle textarea {
-    background-color: var(--oracle-grey);
     border-radius: var(--border-radius-2);
 
-    padding: var(--padding-2);
-    color: var(--black);
-
-    height: 100%;
-}
-
-.oracle textarea::placeholder {
-    font-family: "Poppins", sans-serif;
-    color: var(--dark-grey);
-}
-
-.header {
-    padding: var(--padding-2);
-    background-color: var(--white);
-
-    border-radius: var(--border-radius-5);
-    box-shadow: 0 0 0.6rem black;
-
     display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-}
+    flex: 1;
+    flex-direction: column;
 
-.icon {
-    position: absolute;
-    left: var(--padding-3);
-
-    display: flex;
-    justify-content: center;
-
-    width: 2rem;
-    height: 2rem;
-}
-
-.icon img {
-    object-fit: cover;
-}
-
-.editorContainer {
-    display: flex;
+    padding: var(--padding-1);
     gap: var(--padding-1);
 
-    height: auto;
+    height: 100%;
     width: 100%;
 }
 
 .editorWrapper {
     width: 100%;
+    height: auto;
 
-    border-radius: var(--border-radius-2);
-    height: 100%;
-    overflow: hidden;
+    border-radius: inherit;
 
     padding: var(--padding-1);
     background-color: var(--editor-colour);
@@ -83,24 +27,26 @@
     position: relative;
     display: flex;
     align-items: center;
-    height: 100%;
 
-    gap: var(--padding-1);
+    width: 100%;
+    height: 100%;
 }
 
+/*===Oracle Terminal===*/
 .outputContainer textarea {
     position: absolute;
-    flex: 5;
     height: 100%;
 
     background-color: var(--dark-dark-grey);
     color: var(--white);
+
+    padding: var(--padding-2);
+    font-size: 1rem;
 }
 
 .outputContainer button {
     position: absolute;
     right: 0;
-
 
     flex: 1;
     width: 5rem;
@@ -110,13 +56,13 @@
 
     font-size: 1.2rem;
     font-family: "Poppins", sans-serif;
-    font-weight: 600;
+    font-weight: 500;
 
-    background-color: var(--button-green);
+    background-color: var(--purple);
 
 }
 
 .outputContainer button:hover {
-    background-color: var(--hover-green);
+    background-color: var(--hover-purple);
     transform: scale(1);
 }
