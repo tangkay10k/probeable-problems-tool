@@ -129,26 +129,6 @@
     cursor: pointer;
 }
 
-.profileContainer button {
-    padding: var(--padding-1) var(--padding-2);
-    border-radius: var(--border-radius-3);
-
-    font-size: 1rem;
-    font-weight: 500;
-
-    border: 1px solid var(--dark-grey);
-    background-color: hsla(0, 0%, 61%, 0.3);
-    color: var(--white-hover);
-
-    cursor: pointer;
-
-    transition: 0.8s;
-}
-
-.profileContainer button:hover {
-    background-color: hsla(0, 0%, 53%, 0.9);
-}
-
 .profileWrapper {
     position: relative;
     display: inline-block;
@@ -158,7 +138,7 @@
     position: absolute;
     top: 3.2rem;
     right: 0;
-    background-color: var(--grey);
+    background-color: var(--dark-dark-grey);
     border-radius: var(--border-radius-2);
     padding: 1rem;
     box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
@@ -172,9 +152,9 @@
 .menu button {
     width: 7rem;
     padding: 0.8rem 1.5rem;
-    background: var(--red);
+    background: transparent;
     color: var(--white);
-    border: none;
+    border: 0.1rem solid var(--white);
     border-radius: var(--border-radius-4);
     cursor: pointer;
 
@@ -184,5 +164,6 @@
 }
 
 .menu button:hover {
-    background: var(--hover-red);
+    background: var(--white-hover);
+    color: var(--editor-colour);
 }

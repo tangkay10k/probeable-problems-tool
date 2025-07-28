@@ -2,7 +2,6 @@ import styles from "./nav.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { useEffect, useRef, useState } from "react";
-import ButtonV2 from "@/components/button/buttonV2.jsx";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -26,11 +25,7 @@ function Profile() {
   const [showMenu, setShowMenu] = useState(false);
   const profilePicture = profile?.userImage || "/default-avatar.jpg";
   const menuRef = useRef(null);
-  const navigate = useNavigate();
   const location = useLocation();
-
-  const showCreateQuestionButton =
-    profile?.role === "TEACHER" && location.pathname !== "/setup";
 
   // Reset menu to closed when path changes
   useEffect(() => {
@@ -51,10 +46,6 @@ function Profile() {
 
   return (
     <div className={styles.profileContainer} ref={menuRef}>
-      {showCreateQuestionButton && (
-        <ButtonV2 onClick={() => navigate("/setup")}>Create Question</ButtonV2>
-      )}
-
       <div className={styles.profileWrapper}>
         <div className={styles.profile} onClick={() => setShowMenu(true)}>
           <img src={profilePicture} alt="user" referrerPolicy="no-referrer" />
