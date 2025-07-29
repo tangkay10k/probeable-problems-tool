@@ -19,21 +19,14 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(AbstractHttpConfigurer::disable)
+		http
+			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers(
-					"/",
-					"/index.html",
-					"/static/**",
-					"/assets/**",
-					"/favicon.png",
-					"/api/person/login",
-					"/api/person/logout"
-				).permitAll()
-				.anyRequest().authenticated()
+				.requestMatchers("/api/person/login", "/api/person/logout").permitAll()
+				.requestMatchers("/api/**").authenticated()
+				.anyRequest().permitAll()
 			)
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
 		return http.build();
 	}
 }
