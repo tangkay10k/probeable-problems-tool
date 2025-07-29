@@ -1,10 +1,10 @@
 .testContainer {
-    height: 100%;
+    /*Goofy solution for now*/
+    height: calc(0.68 * 100vh);
+    max-height: calc(0.68 * 100vh);
 
     border-radius: var(--border-radius-2);
-
     display: flex;
-    flex: 1;
 
     flex-direction: column;
 
@@ -16,7 +16,6 @@
 
     /*Hide scroll bar track*/
     scrollbar-width: thin;
-    scrollbar-color: var(--dark-grey) transparent;
 
     gap: var(--padding-025);
 }
@@ -95,6 +94,9 @@
 
     transition: 0.4s;
     color: var(--white);
+
+    height: 100%;
+    width: 100%;
 }
 
 .testDetail:hover {
@@ -118,6 +120,9 @@
 .testDetail .detailContent {
     padding: var(--padding-1);
     border-top: 0.1rem solid var(--white);
+
+    height: 100%;
+    width: 100%;
 }
 
 .pill {

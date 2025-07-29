@@ -6,12 +6,11 @@
 
     display: flex;
     position: relative;
+
     justify-content: center;
     align-items: center;
 
-    height: 100%;
-    min-height: 3rem;
-    max-height: 3rem;
+    height: var(--banner-height);
 }
 
 .headerText {

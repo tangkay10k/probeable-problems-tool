@@ -56,8 +56,12 @@
 /*=== Bottom Nav ===*/
 .bottomNavContainer {
     display: flex;
-    justify-content: space-between; /* Positions prev and next buttons to the left and right */
+    justify-content: space-between;
     align-items: center;
+
+    width: 100%;
+    height: 100%;
+    max-height: var(--editor-buttons-height);
 }
 
 .buttonGroupContainer {

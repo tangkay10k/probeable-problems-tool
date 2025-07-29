@@ -57,6 +57,11 @@
     cursor: pointer;
 }
 
+.toggleButton:disabled {
+    background-color: var(--editor-colour);
+    cursor: default;
+}
+
 .arrow {
     display: flex;
     justify-content: center;

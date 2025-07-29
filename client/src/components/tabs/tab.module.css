@@ -1,53 +1,58 @@
-.tabWrapper {
+.tabs {
+    display: flex;
+    flex-direction: column;
+
     width: 100%;
     height: 100%;
+
+    border-radius: inherit;
 }
 
-.tabsList {
+.tabList {
     display: flex;
     gap: var(--padding-025);
     list-style: none;
 
+    height: auto;
+    width: auto;
 }
 
-.tab {
+.tabButton {
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+
     padding: var(--padding-025) var(--padding-3);
     background-color: var(--dark-dark-grey);
 
-    border: none;
     border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
-    cursor: pointer;
-
     color: var(--white);
-    font-weight: 500;
 
     border-bottom: 0.1rem solid transparent;
     transition: all 0.2s;
 
-    height: 2rem;
+    height: auto;
+    width: auto;
 }
 
-.tabSelected {
-    color: var(--purple);
+.activeTab {
     border-bottom: 0.1rem solid var(--purple);
+    color: var(--purple);
+
+    height: auto;
+    width: auto;
 }
 
-.tabDisabled {
-    color: var(--grey);
-    cursor: not-allowed;
-}
+.tabContent {
+    width: 100%;
+    height: 100%;
 
-.tabPanel {
-    border: none;
+    overflow: auto;
     padding: var(--padding-025);
-    display: none;
-
-    border-radius: 0 var(--padding-2) var(--padding-2) var(--padding-2);
+    border-radius: 0 var(--border-radius-2) var(--border-radius-2) var(--border-radius-2);
 
     background-color: var(--dark-dark-grey);
-    height: 100%;
-}
-
-.tabPanelSelected {
-    display: block;
 }

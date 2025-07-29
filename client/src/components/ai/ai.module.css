@@ -3,20 +3,32 @@
     flex-direction: column;
 
     width: 100%;
-    height: calc(var(--container-max-height));
+
+    height: calc(var(--container-max-height) - var(--stage-one-button-container-height));
+    max-height: calc(var(--container-max-height) - var(--stage-one-button-container-height));
 }
 
 .chatApp {
     display: flex;
+    z-index: 0;
+
     flex-direction: column;
+    height: calc(100% - var(--banner-height));
+    max-height: calc(100% - var(--banner-height));
+
+
     background-color: var(--toggle-hover-editor);
     border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
 
-    height: var(--chat-box-height);
-    width: 100%;
-
     padding: var(--padding-2) var(--padding-3);
-    gap: 0.25rem;
+}
+
+.chatBody {
+    overflow-y: auto;
+    max-height: 100%;
+
+    scroll-behavior: smooth;
+    padding-bottom: var(--padding-1);
 }
 
 .icon {
@@ -70,6 +82,7 @@
 
 .inputContainer {
     display: flex;
+    flex: 0 0 auto;
     gap: 0.5rem;
     height: 3rem;
 }
@@ -92,16 +105,6 @@
 .inputContainer button:hover {
     background-color: var(--dark-dark-grey);
     border: var(--black);
-}
-
-.chatBody {
-    width: 100%;
-    height: var(--chat-box-height);
-    overflow-y: scroll;
-
-    scroll-behavior: smooth;
-
-    padding-bottom: var(--padding-1);
 }
 
 /*===CHAT BUBBLE===*/
@@ -141,6 +144,7 @@
 }
 
 .chatBubble {
+    padding-top: var(--padding-1);
     width: 100%;
 }
 
@@ -154,24 +158,20 @@
 .assistant {
     background: linear-gradient(to right, #bb94ff, #ca43ff);
     justify-self: start;
-    padding-left: var(--padding-2);
+    padding-left: var(--padding-25);
 }
 
 .user {
     background: var(--white);
     justify-self: end;
-    padding-right: var(--padding-2);
+    padding-right: var(--padding-25);
 }
 
 /*===AI Agent===*/
 .agentContainer {
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
-
-    min-height: var(--ai-agent-box-height);
-
-    background-color: var(--grey);
+    height: 100%;
     border-radius: var(--border-radius-1);
 }
 
@@ -194,6 +194,8 @@
     font-family: "Poppins", sans-serif;
     background-color: var(--toggle-hover-editor);
     color: var(--white);
+
+    height: 100%;
 }
 
 .agentBody textarea:focus {
@@ -212,15 +214,15 @@
 
 .agentBody button {
     height: 3rem;
-    border-radius: var(--border-radius-3);
+    border-radius: var(--border-radius-2);
 
-    background-color: var(--button-green);
+    background-color: var(--purple);
 
     font-size: 1.2rem;
     font-family: "Poppins", sans-serif;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .agentBody button:hover {
-    background-color: var(--hover-green);
+    background-color: var(--hover-purple);
 }
