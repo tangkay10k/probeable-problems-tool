@@ -1,50 +1,51 @@
 package akl.p4p.uoa.prompts;
 
-import akl.p4p.uoa.enums.ProgramLanguage;
-
-import java.io.IOException;
-
 import static akl.p4p.uoa.utils.PromptUtils.readFileFromResources;
+
+import akl.p4p.uoa.enums.ProgramLanguage;
+import java.io.IOException;
 
 public class ClientPrompts {
 
-	private static final String PROMPT_RESOURCE_DIR = "prompts/";
-	private static final String CLIENT_BASE_PROMPT_FILE = "clientBasePrompt.txt";
-	private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS = "cSingleFunctionSpecificInstructions.txt";
+  private static final String PROMPT_RESOURCE_DIR = "prompts/";
+  private static final String CLIENT_BASE_PROMPT_FILE = "clientBasePrompt.txt";
+  private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS =
+      "cSingleFunctionSpecificInstructions.txt";
 
-	public static String getClientInitialisationPrompt(
-		ProgramLanguage problemLanguage,
-		String problemStatement,
-		String modelAnswer,
-		String constraints) throws IOException {
+  public static String getClientInitialisationPrompt(
+      ProgramLanguage problemLanguage,
+      String problemStatement,
+      String modelAnswer,
+      String constraints)
+      throws IOException {
 
-		String basePrompt = clientBasePrompt(problemStatement, modelAnswer, constraints);
-		String specificInstructions;
-		switch (problemLanguage) {
-			case C -> specificInstructions = getCSpecificInstructions();
-			case JAVA -> specificInstructions = getJavaSpecificInstructions();
-			default -> throw new RuntimeException(
-				"Programming language: " + problemLanguage + " does not exist!");
-		}
-		return basePrompt.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions);
-	}
+    String basePrompt = clientBasePrompt(problemStatement, modelAnswer, constraints);
+    String specificInstructions;
+    switch (problemLanguage) {
+      case C -> specificInstructions = getCSpecificInstructions();
+      case JAVA -> specificInstructions = getJavaSpecificInstructions();
+      default ->
+          throw new RuntimeException(
+              "Programming language: " + problemLanguage + " does not exist!");
+    }
+    return basePrompt.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions);
+  }
 
-	public static String clientBasePrompt(
-		String problemStatement, String modelAnswer, String constraints) throws IOException {
-		String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_BASE_PROMPT_FILE);
-		return basePrompt
-			.replace("//VAR_PROBLEM_STATEMENT", problemStatement)
-			.replace("//VAR_MODEL_ANSWER", modelAnswer)
-			.replace("//VAR_CONSTRAINTS", constraints);
-	}
+  public static String clientBasePrompt(
+      String problemStatement, String modelAnswer, String constraints) throws IOException {
+    String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_BASE_PROMPT_FILE);
+    return basePrompt
+        .replace("//VAR_PROBLEM_STATEMENT", problemStatement)
+        .replace("//VAR_MODEL_ANSWER", modelAnswer)
+        .replace("//VAR_CONSTRAINTS", constraints);
+  }
 
-	private static String getCSpecificInstructions() throws IOException {
-		return readFileFromResources(PROMPT_RESOURCE_DIR + C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS);
+  private static String getCSpecificInstructions() throws IOException {
+    return readFileFromResources(PROMPT_RESOURCE_DIR + C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS);
+  }
 
-	}
-
-	private static String getJavaSpecificInstructions() {
-		// TODO: write java Specific instructions.
-		return null;
-	}
+  private static String getJavaSpecificInstructions() {
+    // TODO: write java Specific instructions.
+    return null;
+  }
 }

@@ -1,5 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getTestTemplate, getExecuteTemplate } from "@/routes/template-route.js";
+import {
+  getTestTemplate,
+  getExecuteTemplate,
+} from "@/routes/template-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 
 const ProblemContext = createContext();
@@ -10,21 +13,21 @@ export function ProblemProvider({ children }) {
     return saved
       ? JSON.parse(saved)
       : {
-        problem: {
-          problemStatement: "",
-          modelAnswer: "",
-          constraints: "",
-          testSuite: [],
-          programLanguage: "c",
-          problemType: null,
-          defaultProbe: null,
-        },
-        oracle: {
-          problemId: null,
-          defaultProbes: "",
-          sourceCode: "",
-        },
-      };
+          problem: {
+            problemStatement: "",
+            modelAnswer: "",
+            constraints: "",
+            testSuite: [],
+            programLanguage: "c",
+            problemType: null,
+            defaultProbe: null,
+          },
+          oracle: {
+            problemId: null,
+            defaultProbes: "",
+            sourceCode: "",
+          },
+        };
   });
 
   const [testTemplate, setTestTemplate] = useState("");
@@ -43,18 +46,22 @@ export function ProblemProvider({ children }) {
     withLoading(
       () => getTestTemplate(problem.programLanguage),
       (template) => setTestTemplate(template),
-      (err) => console.error(`No TEST template for ${problem.programLanguage}`, err)
+      (err) =>
+        console.error(`No TEST template for ${problem.programLanguage}`, err),
     );
 
     withLoading(
       () => getExecuteTemplate(problem.programLanguage),
       (template) => {
-        setExecuteTemplate(template)
+        setExecuteTemplate(template);
       },
-      (err) => console.error(`No EXECUTE template for ${problem.programLanguage}`, err)
+      (err) =>
+        console.error(
+          `No EXECUTE template for ${problem.programLanguage}`,
+          err,
+        ),
     );
   }, [problem.programLanguage]);
-
 
   // Problem setters
   const setProblem = (newProblem) => {

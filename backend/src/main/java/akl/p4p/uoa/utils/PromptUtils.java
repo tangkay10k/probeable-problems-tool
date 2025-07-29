@@ -8,26 +8,26 @@ import java.nio.charset.StandardCharsets;
 
 public class PromptUtils {
 
-	public static String readFileFromResources(String fileName) throws IOException {
-		InputStream is = getInputStream(fileName);
-		return readFromInputStream(is);
-	}
+  public static String readFileFromResources(String fileName) throws IOException {
+    InputStream is = getInputStream(fileName);
+    return readFromInputStream(is);
+  }
 
-	private static InputStream getInputStream(String fileName) {
-		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		return classloader.getResourceAsStream(fileName);
-	}
+  private static InputStream getInputStream(String fileName) {
+    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+    return classloader.getResourceAsStream(fileName);
+  }
 
-	private static String readFromInputStream(InputStream is) throws IOException {
+  private static String readFromInputStream(InputStream is) throws IOException {
 
-		assert is != null;
+    assert is != null;
 
-		StringBuilder sb = new StringBuilder();
-		InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
-		BufferedReader reader = new BufferedReader(streamReader);
-		for (String line; (line = reader.readLine()) != null; ) {
-			sb.append(line).append(System.lineSeparator());
-		}
-		return sb.toString();
-	}
+    StringBuilder sb = new StringBuilder();
+    InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
+    BufferedReader reader = new BufferedReader(streamReader);
+    for (String line; (line = reader.readLine()) != null; ) {
+      sb.append(line).append(System.lineSeparator());
+    }
+    return sb.toString();
+  }
 }

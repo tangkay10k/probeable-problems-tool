@@ -1,33 +1,33 @@
 .header {
-    padding: var(--padding-1);
-    background-color: var(--dark-dark-grey);
+  padding: var(--padding-1);
+  background-color: var(--dark-dark-grey);
 
-    border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
+  border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
 
-    display: flex;
-    position: relative;
+  display: flex;
+  position: relative;
 
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 
-    height: var(--banner-height);
+  height: var(--banner-height);
 }
 
 .headerText {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    color: var(--white);
+  color: var(--white);
 }
 
 .headerText h2 {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .headerText p {
-    margin-top: -0.5rem;
-    font-weight: 300;
-    font-size: 0.7rem;
+  margin-top: -0.5rem;
+  font-weight: 300;
+  font-size: 0.7rem;
 }

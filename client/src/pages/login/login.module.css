@@ -1,64 +1,64 @@
 .loginPageContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-height: calc(100vh - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: calc(100vh - var(--nav-height));
 }
 
 .background {
-    position: relative;
-    z-index: var(--layer-1);
+  position: relative;
+  z-index: var(--layer-1);
 
-    width: 100%;
-    height: calc(100vh - var(--nav-height));
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
 }
 
 .content {
-    position: absolute;
-    z-index: var(--layer-2);
+  position: absolute;
+  z-index: var(--layer-2);
 }
 
 .loginPageContainer h1 {
-    font-size: 3rem;
-    color: var(--white);
-    text-align: center;
+  font-size: 3rem;
+  color: var(--white);
+  text-align: center;
 }
 
 .loginPageContainer button {
-    border-radius: var(--border-radius-4);
-    padding: var(--padding-2) var(--padding-3);
-    font-family: "Poppins", sans-serif;
+  border-radius: var(--border-radius-4);
+  padding: var(--padding-2) var(--padding-3);
+  font-family: "Poppins", sans-serif;
 
-    transition: 0.8s;
+  transition: 0.8s;
 }
 
 .loginPageContainer button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .buttonContainer {
-    display: flex;
-    justify-content: center;
-    gap: var(--padding-1);
+  display: flex;
+  justify-content: center;
+  gap: var(--padding-1);
 }
 
 .studentButton {
-    border: none;
+  border: none;
 
-    background-color: var(--darker-white);
+  background-color: var(--darker-white);
 }
 
 .studentButton:hover {
-    background-color: var(--white);
+  background-color: var(--white);
 }
 
 .teacherButton {
-    border: 1px solid var(--dark-grey);
-    background-color: hsla(0, 0%, 61%, 0.3);
-    color: var(--white-hover);
+  border: 1px solid var(--dark-grey);
+  background-color: hsla(0, 0%, 61%, 0.3);
+  color: var(--white-hover);
 }
 
 .teacherButton:hover {
-    background-color: hsla(0, 0%, 53%, 0.9);
+  background-color: hsla(0, 0%, 53%, 0.9);
 }
