@@ -13,7 +13,7 @@ ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
 COPY client/package*.json ./
 RUN npm ci
 
-# Copy source & build
+# Copy source & build.
 COPY client/ ./
 RUN npm run build
 
