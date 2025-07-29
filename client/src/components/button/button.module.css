@@ -1,122 +1,180 @@
 .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    border: none;
-    border-radius: var(--border-radius-1);
-    padding: var(--padding-1);
+  border: none;
+  border-radius: var(--border-radius-1);
+  padding: var(--padding-1);
 
-    color: var(--white);
-    background-color: var(--dark-blue);
+  color: var(--white);
+  background-color: var(--dark-blue);
 
-    width: 100%;
-    height: 100%;
-    transition: 0.4s;
+  width: 100%;
+  height: 100%;
+  transition: 0.4s;
 }
 
 .button:hover {
-    transform: scale(1.01);
-    cursor: pointer;
-    background-color: var(--hover-blue);
+  transform: scale(1.01);
+  cursor: pointer;
+  background-color: var(--hover-blue);
 }
 
 .button:disabled {
-    background-color: var(--dark-grey);
+  background-color: var(--dark-grey);
 
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .button:disabled:hover {
-    transform: none;
-    cursor: progress;
+  transform: none;
+  cursor: progress;
 }
 
 /*===Toggle===*/
 .toggle {
-    position: relative;
-    display: flex;
+  position: relative;
+  display: flex;
 
-    width: var(--slider-width);
-    height: var(--editor-buttons-height);
+  width: var(--slider-width);
+  height: var(--editor-buttons-height);
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .checkbox {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .track {
-    position: absolute;
-    width: 100%;
-    height: var(--editor-buttons-height);
+  position: absolute;
+  width: 100%;
+  height: var(--editor-buttons-height);
 
-    background-color: var(--dark-dark-grey);
-    border-radius: var(--border-radius-1);
-    transition: 0.4s;
+  background-color: var(--dark-dark-grey);
+  border-radius: var(--border-radius-1);
+  transition: 0.4s;
 
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .thumb {
-    position: absolute;
+  position: absolute;
 
-    top: 0.1rem;
-    left: 0.1rem;
+  top: 0.1rem;
+  left: 0.1rem;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: calc(0.5 * var(--slider-width));
-    height: calc(var(--editor-buttons-height) * 0.9);
+  width: calc(0.5 * var(--slider-width));
+  height: calc(var(--editor-buttons-height) * 0.9);
 
-    background-color: var(--editor-colour);
-    border-radius: var(--border-radius-1);
-    transition: 0.4s;
+  background-color: var(--editor-colour);
+  border-radius: var(--border-radius-1);
+  transition: 0.4s;
 
-    color: var(--white);
-    font-size: 0.8rem;
-    user-select: none;
+  color: var(--white);
+  font-size: 0.8rem;
+  user-select: none;
 
-    border: 1px solid var(--dark-dark-grey);
+  border: 1px solid var(--dark-dark-grey);
 }
 
 .thumb:hover {
-    background-color: var(--toggle-hover-editor);
+  background-color: var(--toggle-hover-editor);
 }
 
 /* Move thumb on checked */
 .checkbox:checked + .track + .thumb {
-    /* translate halfway, minus a small padding so it doesn't touch the edge */
-    transform: translateX(calc(var(--slider-width) / 2 - 0.2rem));
+  /* translate halfway, minus a small padding so it doesn't touch the edge */
+  transform: translateX(calc(var(--slider-width) / 2 - 0.2rem));
 }
 
 /*===Circular Button===*/
 .circularButton {
-    background-color: var(--black);
-    border: none;
+  background-color: var(--black);
+  border: none;
 
-    height: var(--circular-button-size);
-    width: var(--circular-button-size);
+  height: var(--circular-button-size);
+  width: var(--circular-button-size);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    border-radius: 50%;
-    color: var(--hover-light-grey);
+  border-radius: 50%;
+  color: var(--hover-light-grey);
 
-    transition: 0.4s;
+  transition: 0.4s;
 }
 
 .circularButton:hover {
-    background-color: var(--dark-dark-grey);
-    cursor: pointer;
+  background-color: var(--dark-dark-grey);
+  cursor: pointer;
 }
 
 /*===*/
 
+/*===BUTTON GROUP===*/
+.buttonGroup {
+  background-color: var(--toggle-hover-editor);
+  width: auto;
+  height: var(--editor-buttons-height);
+
+  display: flex;
+
+  padding: var(--padding-025);
+  gap: var(--padding-025);
+
+  border-radius: var(--border-radius-1);
+}
+
+.groupButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  color: var(--white-hover);
+  cursor: pointer;
+
+  background-color: var(--toggle-hover-editor);
+  border-radius: var(--border-radius-1);
+  transition:
+    background 0.8s,
+    color 0.2s;
+
+  font-family: "Poppins", sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.groupButton:hover {
+  background: var(--editor-colour);
+}
+
+.selected {
+  background: var(--editor-colour);
+  border: 0.01rem solid var(--dark-dark-grey);
+  color: var(--white);
+}
+
+.shiny {
+  border-color: var(--purple);
+  animation: shine 1s infinite alternate;
+}
+
+@keyframes shine {
+  from {
+    box-shadow: 0 0 0.1rem var(--purple);
+  }
+  to {
+    box-shadow: 0 0 0.4rem var(--hover-purple);
+  }
+}
+
+/*===*/

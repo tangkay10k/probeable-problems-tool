@@ -5,6 +5,7 @@ import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.ProblemAttempt;
 import akl.p4p.uoa.services.ProblemAttemptService;
+import java.io.IOException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ProblemAttemptController {
   @GetMapping
   @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(
-      @RequestParam String problemId, @RequestParam String studentEmail) {
+      @RequestParam String problemId, @RequestParam String studentEmail) throws IOException {
 
     ProblemAttempt attempt =
         problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);

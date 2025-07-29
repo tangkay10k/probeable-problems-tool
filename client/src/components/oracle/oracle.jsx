@@ -12,13 +12,13 @@ import { getExecuteTemplate } from "@/routes/template-route.js";
 import { getProblem } from "@/routes/problem-route.js";
 import { toast } from "react-toastify";
 
-export default function Oracle() {
+export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
   const { problemId } = useParams();
   const { chatHistory, problemAttempt } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
-  const [oracle, setOracle] = useState();
-  const [inputVariables, setInputVariables] = useState();
+  const [_, setOracle] = useState();
+  const [inputVariables, setInputVariables] = useState("");
   const [executeTemplate, setExecuteTemplate] = useState("");
   const [problem, setProblem] = useState({});
 
@@ -62,6 +62,10 @@ export default function Oracle() {
     const responseSchema = JSON.parse(latestMessage.content);
     if (responseSchema.test_case) {
       setInputVariables(responseSchema.test_case);
+
+      // Add shine effect on oracle button
+      console.log("Setting shine...");
+      llmGeneratedTestCaseCallback?.(1);
     }
   }
 
@@ -82,12 +86,6 @@ export default function Oracle() {
       console.error,
     );
   }
-
-  const leftIcon = (
-    <div className={styles.icon}>
-      <img src={"/oracle.svg"} alt={"Oracle"} />
-    </div>
-  );
 
   return (
     <div className={styles.oracleWrapper}>

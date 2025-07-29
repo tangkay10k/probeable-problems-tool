@@ -15,13 +15,16 @@ import {
 } from "@/pages/question-setup/utils/test-setup-utils.js";
 import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";
-import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
-import { VscDebugRestart } from "react-icons/vsc";
+import {
+  MdRestartAlt as RestartIcon,
+  MdOutlinePlayArrow as PlayIcon,
+} from "react-icons/md";
 import Button from "@/components/button/button.jsx";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
 import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
+import ButtonGroup from "@/components/button/button-group.jsx";
 
 export default function StageTwo() {
   const { problemAttempt, studentCodeSubmission, updateStudentCodeSubmission } =
@@ -33,6 +36,7 @@ export default function StageTwo() {
   const [template, setTestTemplate] = useState("");
   const [showTestSuite, setShowTestSuite] = useState(false);
   const editorRef = useRef(null);
+  const [selected, setSelected] = useState(0);
 
   const tabs = [
     {
@@ -85,7 +89,10 @@ export default function StageTwo() {
           template,
           updateResults,
         ),
-      () => setShowTestSuite(true),
+      () => {
+        setShowTestSuite(true);
+        setSelected(1);
+      },
       console.error,
     );
   };
@@ -97,24 +104,34 @@ export default function StageTwo() {
       </div>
 
       <div className={styles.rightContainer}>
-        <div className={styles.buttonContainer}>
-          <ToggleButtons
-            on={showTestSuite}
-            onToggle={setShowTestSuite}
-            onLabel={"⚙ Tests"}
-            offLabel={"🛠Code"}
+        <div className={styles.toggleButtonContainerSecondPage}>
+          <ButtonGroup
+            selectedIndex={selected}
+            onSelectedIndexChange={setSelected}
+            labels={["Code", "Tests"]}
+            onClickHandlers={[
+              () => setShowTestSuite(false),
+              () => setShowTestSuite(true),
+            ]}
           />
+
           <section className={styles.leftButtons}>
-            <section className={styles.restartButton}>
+            <section>
               <ButtonV2
                 onClick={() => updateStudentCodeSubmission("")}
                 disabled={isLoading}
               >
-                <VscDebugRestart size={18} />
+                <RestartIcon size={18} />
+              </ButtonV2>
+              <ButtonV2 onClick={handleExecution} disabled={isLoading}>
+                <PlayIcon size={18} />
               </ButtonV2>
             </section>
 
-            <Button onClick={handleExecution} disabled={isLoading}>
+            <Button
+              onClick={() => console.log("TODO: persist attempt in BE")}
+              disabled={isLoading}
+            >
               <PlaneIcon size={12} /> Submit!
             </Button>
           </section>

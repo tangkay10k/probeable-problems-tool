@@ -1,30 +1,29 @@
 .notePad {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 
-    background-color: var(--editor-colour);
-    border-radius: var(--border-radius-2);
+  background-color: var(--editor-colour);
+  border-radius: var(--border-radius-2);
 
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .notePad textarea {
-    border-radius: var(--padding-2);
-    padding: var(--padding-3);
+  border-radius: var(--padding-2);
+  padding: var(--padding-3);
 
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-    background-color: var(--toggle-hover-editor);
-    color: var(--white);
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  background-color: var(--toggle-hover-editor);
+  color: var(--white);
 
-    height: 100%;
-    width: 100%;
-    overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
 }
 
 .notePad textarea:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
-

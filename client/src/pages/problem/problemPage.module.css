@@ -1,167 +1,190 @@
 .problemPageContainer {
-    height: calc(100vh - var(--nav-height));
-    max-height: calc(100vh - var(--nav-height));
+  height: calc(100vh - var(--nav-height));
+  max-height: calc(100vh - var(--nav-height));
 
-    width: 100%;
+  width: 100%;
 
-    justify-self: center;
-    align-self: center;
+  justify-self: center;
+  align-self: center;
 
-    justify-content: space-between;
-    gap: var(--padding-2);
+  justify-content: space-between;
+  gap: var(--padding-2);
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-
-    padding-top: var(--padding-3); /*if this is changed, container max height must be changed!*/
-    padding-left: 8rem;
-    padding-right: 8rem;
-    background-color: var(--editor-colour);
+  padding-top: var(
+    --padding-3
+  ); /*if this is changed, container max height must be changed!*/
+  padding-left: 8rem;
+  padding-right: 8rem;
+  background-color: var(--editor-colour);
 }
 
 .content {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    justify-content: space-between;
+  justify-content: space-between;
 
-
-    /*Adjust next and prev buttons from bottom*/
-    padding-bottom: var(--padding-2);
+  /*Adjust next and prev buttons from bottom*/
+  padding-bottom: var(--padding-2);
 }
 
 .containerWrapper {
-    width: 100%;
+  width: 100%;
 
-    /*Maintain content max height here and ONLY here*/
-    height: var(--container-max-height);
-    max-height: var(--container-max-height);
+  /*Maintain content max height here and ONLY here*/
+  height: var(--container-max-height);
+  max-height: var(--container-max-height);
 
-    gap: var(--padding-3);
-    display: flex;
+  gap: var(--padding-3);
+  display: flex;
 }
 
 .rightContainer,
 .leftContainer {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 
-    border-radius: var(--padding-3);
+  border-radius: var(--padding-3);
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .leftContainer {
-    flex: 3;
-    justify-content: space-between;
+  flex: 3;
 }
 
 .rightContainer {
-    flex: 4;
-    gap: var(--padding-1);
+  flex: 4;
 }
 
 .toggleButtonContainer {
-    display: flex;
-    align-items: center;
-    height: var(--stage-one-button-container-height);
-    max-height: var(--stage-one-button-container-height);
+  display: flex;
+  align-items: start;
+  height: var(--stage-one-button-container-height);
+  max-height: var(--stage-one-button-container-height);
 }
 
-.testSuiteContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-height: 100%;
-    border-radius: var(--border-radius-2);
-    background-color: var(--dark-dark-grey);
+.toggleButtonContainerSecondPage {
+  display: flex;
+  height: var(--stage-one-button-container-height);
+  max-height: var(--stage-one-button-container-height);
 
-    padding: var(--padding-025);
-}
-
-.listWrapper {
-    background-color: var(--editor-colour);
-    border-radius: inherit;
-}
-
-.editorWrapper {
-    height: 100%;
-    background-color: var(--dark-dark-grey);
-
-
-    border-radius: var(--border-radius-2);
-    padding: var(--padding-025);
-}
-
-.buttonContainer {
-    flex: 0 0 auto;
-
-    display: flex;
-    flex-direction: row;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.buttonContainer button {
-    height: var(--editor-buttons-height);
-    border-radius: var(--border-radius-1);
-
-    border: 0.01rem solid var(--dark-dark-grey);
-
-    font-family: "Poppins", sans-serif;
-    width: auto;
-
-    background-color: var(--editor-colour);
-
-    display: flex;
-    align-items: center;
-
-    transition: 0.4s;
-
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.buttonContainer button:hover {
-    transform: scale(1);
-    background-color: var(--dark-dark-grey);
+  justify-content: space-between;
 }
 
 .leftButtons {
-    display: flex;
-
-    gap: var(--padding-025);
+  height: var(--editor-buttons-height);
+  padding: var(--padding-025);
 }
 
-.restartButton button {
-    width: var(--editor-buttons-height);
-    height: var(--editor-buttons-height);
+.leftButtons section {
+  display: flex;
+  gap: var(--padding-025);
+}
+
+.leftButtons button {
+  background-color: var(--editor-colour);
+  border: 0.01rem solid var(--dark-dark-grey);
+}
+
+.leftButtons button:hover {
+  background-color: var(--dark-dark-grey);
+}
+
+.testSuiteContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  border-radius: var(--border-radius-2);
+  background-color: var(--dark-dark-grey);
+
+  padding: var(--padding-025);
+}
+
+.listWrapper {
+  background-color: var(--editor-colour);
+  border-radius: inherit;
+}
+
+.editorWrapper {
+  height: calc(
+    var(--container-max-height) - var(--editor-buttons-height) -
+      var(--padding-1)
+  );
+
+  background-color: var(--dark-dark-grey);
+
+  border-radius: var(--border-radius-2);
+  padding: var(--padding-025);
+}
+
+.buttonContainer {
+  flex: 0 0 auto;
+
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.buttonContainer button {
+  height: var(--editor-buttons-height);
+  border-radius: var(--border-radius-1);
+
+  border: 0.01rem solid var(--dark-dark-grey);
+
+  font-family: "Poppins", sans-serif;
+  width: auto;
+
+  background-color: var(--editor-colour);
+
+  display: flex;
+  align-items: center;
+
+  transition: 0.4s;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.buttonContainer button:hover {
+  transform: scale(1);
+  background-color: var(--dark-dark-grey);
+}
+
+.leftButtons {
+  display: flex;
+  gap: var(--padding-025);
 }
 
 .toggleContainer {
-    display: flex;
-    gap: var(--padding-025);
+  display: flex;
+  gap: var(--padding-025);
 }
 
 .loadingContainer {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    font-size: 3rem;
-    color: var(--white);
-    background-color: var(--editor-colour);
+  font-size: 3rem;
+  color: var(--white);
+  background-color: var(--editor-colour);
 }

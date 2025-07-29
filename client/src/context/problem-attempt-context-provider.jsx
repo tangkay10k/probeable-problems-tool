@@ -4,11 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getLatestProblemAttemptForStudent } from "@/routes/problem-attempt-route.js";
+import { useUserProfile } from "@/context/user-context.jsx";
 
 const STUDENT_DATA_KEY = "studentProblemData";
 
 const ProblemAttemptProvider = ({ children }) => {
   const { problemId } = useParams();
+  const { profile } = useUserProfile();
   const [problemAttempt, setProblemAttempt] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, withLoading] = useWithLoading();
@@ -31,11 +33,7 @@ const ProblemAttemptProvider = ({ children }) => {
     fetchedProblemIds.current.add(problemId);
 
     withLoading(
-      () =>
-        getLatestProblemAttemptForStudent(
-          problemId,
-          "ktan185@aucklanduni.ac.nz", // TODO: Replace with authenticated email
-        ),
+      () => getLatestProblemAttemptForStudent(problemId, profile.email),
       (attempt) => {
         setProblemAttempt(attempt);
         setChatHistory({

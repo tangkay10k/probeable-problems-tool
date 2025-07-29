@@ -28,7 +28,6 @@ export default function ChatApp() {
   const handleSend = () => {
     if (!userMessage) return;
 
-    // Render first on FE
     const message = userMessage;
     setChatHistory({
       ...chatHistory,
@@ -80,6 +79,8 @@ export default function ChatApp() {
           {chatHistory.messages?.slice(1).map((message, idx) => (
             <ChatBubble key={idx + message.timestamp} chatMessage={message} />
           ))}
+
+          {isLoading && <LoadingBubble />}
         </div>
 
         <div className={styles.inputContainer}>
@@ -144,6 +145,36 @@ function ChatBubble({ chatMessage }) {
           <img src={userImage} alt="Client Logo"></img>
         </div>
       )}
+    </div>
+  );
+}
+
+function LoadingBubble() {
+  return (
+    <div className={styles.bubbleContainer}>
+      <div className={styles.avatarContainer}>
+        <img src={"/default-avatar.jpg"} alt="Client Logo" />
+      </div>
+
+      <section className={styles.chatBubble}>
+        <div className={`${styles.chatMessage} ${styles.assistant}`}>
+          <div className={styles.typing}>
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+
+        <p
+          className={styles.chatTimestamp}
+          style={{
+            padding: "0.25rem 0 0 0.5rem",
+            justifySelf: "start",
+          }}
+        >
+          Client is typing…
+        </p>
+      </section>
     </div>
   );
 }

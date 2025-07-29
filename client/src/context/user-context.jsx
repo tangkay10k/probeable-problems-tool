@@ -3,16 +3,15 @@ import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { getGoogleUser } from "@/routes/google-route.js";
 
 import { loginUser } from "@/routes/person-route.js";
-import { USER_PROFILE_KEY } from "@/constants/personConstants.js"
+import { USER_PROFILE_KEY } from "@/constants/personConstants.js";
 import { logoutUser } from "@/routes/person-route";
 import { useNavigate } from "react-router-dom";
-
 
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [_, setUser] = useState(null);
   const [loginRole, setLoginRole] = useState(null);
   const [profile, setProfile] = useState(null);
   const [isLoading, setLoading] = useState(true);

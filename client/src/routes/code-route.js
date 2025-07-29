@@ -9,9 +9,11 @@ export const executeOraclePistonDirect = async (
   language,
   template,
   inputVariables,
-  modelAnswer
+  modelAnswer,
 ) => {
-  const src = template.replace("//VAR_INPUTS", inputVariables).replace("//VAR_MODEL_SOLUTION", modelAnswer);
+  const src = template
+    .replace("//VAR_INPUTS", inputVariables)
+    .replace("//VAR_MODEL_SOLUTION", modelAnswer);
   return await executeCodePistonDirect(language, src);
 };
 

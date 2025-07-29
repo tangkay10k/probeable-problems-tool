@@ -5,12 +5,12 @@ import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useState } from "react";
-import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import Tabs from "@/components/tabs/tabs.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import StageTwo from "@/pages/problem/stage-two.jsx";
+import ButtonGroup from "@/components/button/button-group.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -40,6 +40,14 @@ export default function ProblemContent() {
 
 function StageOne() {
   const [showOracle, setShowOracle] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const [shiny, setShiny] = useState(null);
+
+  const handleButtonClick = () => {
+    setShowOracle((prev) => !prev);
+    setShiny(null);
+  };
+
   const tabs = [
     {
       label: "Task",
@@ -56,14 +64,18 @@ function StageOne() {
 
       <div className={styles.rightContainer}>
         <div className={styles.toggleButtonContainer}>
-          <ToggleButtons
-            on={showOracle}
-            onToggle={setShowOracle}
-            onLabel={"⚙ Oracle"}
-            offLabel={"🛠 Client"}
+          <ButtonGroup
+            selectedIndex={selected}
+            onSelectedIndexChange={setSelected}
+            shinyIndex={shiny}
+            labels={["Client", "Oracle"]}
+            onClickHandlers={[handleButtonClick, handleButtonClick]}
           />
         </div>
-        {showOracle ? <Oracle /> : <ChatApp />}
+        <div style={{ display: showOracle ? "block" : "none", height: "100%" }}>
+          <Oracle llmGeneratedTestCaseCallback={setShiny} />
+        </div>
+        {!showOracle && <ChatApp />}
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.repositories.ChatHistoryRepository;
 import akl.p4p.uoa.repositories.ProblemAttemptRepository;
 import akl.p4p.uoa.repositories.ProblemRepository;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -35,8 +36,8 @@ public class ProblemAttemptService {
     this.aiService = aiService;
   }
 
-  public ProblemAttempt retrieveLatestOrCreateProblemAttempt(
-      String problemId, String studentEmail) {
+  public ProblemAttempt retrieveLatestOrCreateProblemAttempt(String problemId, String studentEmail)
+      throws IOException {
     List<ProblemAttempt> attempts =
         problemAttemptRepository.findAllByProblemIdAndStudentEmailOrderByCreatedDateDesc(
             problemId, studentEmail);
@@ -82,7 +83,7 @@ public class ProblemAttemptService {
         sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema());
   }
 
-  private ChatHistory initialiseClientPersona(Problem problem) {
+  private ChatHistory initialiseClientPersona(Problem problem) throws IOException {
     String systemPrompt =
         ClientPrompts.getClientInitialisationPrompt(
             problem.getProgramLanguage(),
