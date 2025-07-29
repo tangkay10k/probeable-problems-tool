@@ -45,7 +45,7 @@ function StageOne() {
       label: "Task",
       content: <StudentInstruction instruction={STAGE_ONE[0].content} />,
     },
-    { label: "Note Pad", content: <NotePad /> },
+    { label: "Notepad", content: <NotePad /> },
   ];
 
   return (

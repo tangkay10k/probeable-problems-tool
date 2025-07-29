@@ -14,9 +14,9 @@
     flex-direction: column;
 
 
-    padding-top: var(--padding-3);
-    padding-left: var(--padding-7);
-    padding-right: var(--padding-7);
+    padding-top: var(--padding-3); /*if this is changed, container max height must be changed!*/
+    padding-left: 8rem;
+    padding-right: 8rem;
     background-color: var(--editor-colour);
 }
 

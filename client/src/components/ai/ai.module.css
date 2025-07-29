@@ -171,11 +171,7 @@
 .agentContainer {
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
-
-    min-height: var(--ai-agent-box-height);
-
-    background-color: var(--grey);
+    height: 100%;
     border-radius: var(--border-radius-1);
 }
 
@@ -198,6 +194,8 @@
     font-family: "Poppins", sans-serif;
     background-color: var(--toggle-hover-editor);
     color: var(--white);
+
+    height: 100%;
 }
 
 .agentBody textarea:focus {
@@ -216,15 +214,15 @@
 
 .agentBody button {
     height: 3rem;
-    border-radius: var(--border-radius-3);
+    border-radius: var(--border-radius-2);
 
-    background-color: var(--button-green);
+    background-color: var(--purple);
 
     font-size: 1.2rem;
     font-family: "Poppins", sans-serif;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .agentBody button:hover {
-    background-color: var(--hover-green);
+    background-color: var(--hover-purple);
 }
