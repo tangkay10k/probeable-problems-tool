@@ -79,12 +79,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    min-width: 5rem;
 }
 
 .bottomNavContainer button {
-    border: 1px solid var(--dark-dark-grey);
+    border: 0.01rem solid var(--dark-dark-grey);
     background-color: var(--editor-colour);
 }
 

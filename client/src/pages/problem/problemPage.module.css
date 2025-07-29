@@ -54,23 +54,49 @@
 
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .leftContainer {
     flex: 3;
-    justify-content: space-between;
 }
 
 .rightContainer {
     flex: 4;
-    gap: var(--padding-1);
 }
 
 .toggleButtonContainer {
     display: flex;
-    align-items: center;
+    align-items: start;
     height: var(--stage-one-button-container-height);
     max-height: var(--stage-one-button-container-height);
+}
+
+.toggleButtonContainerSecondPage {
+    display: flex;
+    height: var(--stage-one-button-container-height);
+    max-height: var(--stage-one-button-container-height);
+
+    justify-content: space-between;
+}
+
+.leftButtons {
+    height: var(--editor-buttons-height);
+    padding: var(--padding-025);
+}
+
+.leftButtons section {
+    display: flex;
+    gap: var(--padding-025);
+}
+
+.leftButtons button {
+    background-color: var(--editor-colour);
+    border: 0.01rem solid var(--dark-dark-grey);
+}
+
+.leftButtons button:hover {
+    background-color: var(--dark-dark-grey);
 }
 
 .testSuiteContainer {
@@ -139,13 +165,7 @@
 
 .leftButtons {
     display: flex;
-
     gap: var(--padding-025);
-}
-
-.restartButton button {
-    width: var(--editor-buttons-height);
-    height: var(--editor-buttons-height);
 }
 
 .toggleContainer {

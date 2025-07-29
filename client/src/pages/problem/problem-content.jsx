@@ -11,6 +11,7 @@ import StudentInstruction from "@/components/instruction/student-instruction.jsx
 import Tabs from "@/components/tabs/tabs.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import StageTwo from "@/pages/problem/stage-two.jsx";
+import ButtonGroup from "@/components/button/button-group.jsx";
 
 export default function ProblemContent() {
   const { isLoading } = useProblemAttemptContext();
@@ -56,11 +57,12 @@ function StageOne() {
 
       <div className={styles.rightContainer}>
         <div className={styles.toggleButtonContainer}>
-          <ToggleButtons
-            on={showOracle}
-            onToggle={setShowOracle}
-            onLabel={"⚙ Oracle"}
-            offLabel={"🛠 Client"}
+          <ButtonGroup
+            labels={["Client", "Oracle"]}
+            onClickHandlers={[
+              () => setShowOracle(false),
+              () => setShowOracle(true),
+            ]}
           />
         </div>
         {showOracle ? <Oracle /> : <ChatApp />}

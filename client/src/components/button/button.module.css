@@ -120,3 +120,46 @@
 
 /*===*/
 
+/*===BUTTON GROUP===*/
+.buttonGroup {
+    background-color: var(--toggle-hover-editor);
+    width: auto;
+    height: var(--editor-buttons-height);
+
+    display: flex;
+
+    padding: var(--padding-025);
+    gap: var(--padding-025);
+
+    border-radius: var(--border-radius-1);
+}
+
+.groupButton {
+    padding: 0.5rem 1rem;
+    border: none;
+    color: var(--white-hover);
+    cursor: pointer;
+
+    background-color: var(--toggle-hover-editor);
+    border-radius: var(--border-radius-1);
+    transition: background 0.8s, color 0.2s;
+
+    font-family: "Poppins", sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.groupButton:hover {
+    background: var(--editor-colour);
+}
+
+.selected {
+    background: var(--editor-colour);
+    border: 0.01rem solid var(--dark-dark-grey);
+    color: var(--white);
+}
+
+/*===*/
+
