@@ -6,7 +6,7 @@ steps:
     args:
       [
         'build',
-        # pass the secret in as a build‑arg to your Dockerfile
+        # pass the secret in as a build‑arg to your Dockerfile.
         '--build-arg', 'VITE_GOOGLE_OAUTH_CLIENT_ID=$VITE_GOOGLE_OAUTH_CLIENT_ID',
         # tag the image
         '-t', 'gcr.io/$PROJECT_ID/probeable:$SHORT_SHA',
