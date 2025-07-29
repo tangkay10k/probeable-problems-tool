@@ -36,6 +36,7 @@ export default function StageTwo() {
   const [template, setTestTemplate] = useState("");
   const [showTestSuite, setShowTestSuite] = useState(false);
   const editorRef = useRef(null);
+  const [selected, setSelected] = useState(0);
 
   const tabs = [
     {
@@ -88,7 +89,10 @@ export default function StageTwo() {
           template,
           updateResults,
         ),
-      () => setShowTestSuite(true),
+      () => {
+        setShowTestSuite(true);
+        setSelected(1);
+      },
       console.error,
     );
   };
@@ -102,6 +106,8 @@ export default function StageTwo() {
       <div className={styles.rightContainer}>
         <div className={styles.toggleButtonContainerSecondPage}>
           <ButtonGroup
+            selectedIndex={selected}
+            onSelectedIndexChange={setSelected}
             labels={["Code", "Tests"]}
             onClickHandlers={[
               () => setShowTestSuite(false),

@@ -7,10 +7,9 @@ import { Bounce, ToastContainer } from "react-toastify";
 import ProblemPage from "@/pages/problem/problem-page.jsx";
 import Login from "@/pages/login/login.jsx";
 import PrivateRoutes from "@/components/router/private-route.jsx";
+import NotFound from "@/pages/not-found/not-found.jsx";
 
 function App() {
-  const location = useLocation();
-
   return (
     <div className="app">
       <NavBar />
@@ -29,6 +28,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route element={<PrivateRoutes />}>
           <Route path="/problems" element={<Home />} />

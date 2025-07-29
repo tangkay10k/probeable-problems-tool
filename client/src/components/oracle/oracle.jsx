@@ -18,7 +18,7 @@ export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
   const [_, setOracle] = useState();
-  const [inputVariables, setInputVariables] = useState();
+  const [inputVariables, setInputVariables] = useState("");
   const [executeTemplate, setExecuteTemplate] = useState("");
   const [problem, setProblem] = useState({});
 

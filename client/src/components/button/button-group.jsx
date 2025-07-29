@@ -1,27 +1,22 @@
 import styles from "./button.module.css";
-import { useState } from "react";
 
 export default function ButtonGroup({
   labels = [],
   onClickHandlers = [],
+  selectedIndex,
+  onSelectedIndexChange,
   shinyIndex = null,
-  setShinyIndex = null,
 }) {
-  const [selectedButton, setSelectedButton] = useState(0);
-
-  console.log("shine index:", shinyIndex);
-
   const handleClick = (idx) => {
-    setSelectedButton(idx);
-    setShinyIndex?.(null);
+    onSelectedIndexChange(idx);
     if (onClickHandlers[idx]) onClickHandlers[idx]();
   };
 
   return (
     <div className={styles.buttonGroup}>
       {labels.map((label, idx) => {
-        const isSelected = idx === selectedButton;
-        const isShiny = idx === shinyIndex; // ← check
+        const isSelected = idx === selectedIndex;
+        const isShiny = idx === shinyIndex;
 
         return (
           <button

@@ -40,11 +40,12 @@ export default function ProblemContent() {
 
 function StageOne() {
   const [showOracle, setShowOracle] = useState(false);
-  const [highlight, setHighlight] = useState(null);
+  const [selected, setSelected] = useState(0);
+  const [shiny, setShiny] = useState(null);
 
   const handleButtonClick = () => {
     setShowOracle((prev) => !prev);
-    setHighlight(null);
+    setShiny(null);
   };
 
   const tabs = [
@@ -64,14 +65,15 @@ function StageOne() {
       <div className={styles.rightContainer}>
         <div className={styles.toggleButtonContainer}>
           <ButtonGroup
-            shinyIndex={highlight}
-            setShinyIndex={setHighlight}
+            selectedIndex={selected}
+            onSelectedIndexChange={setSelected}
+            shinyIndex={shiny}
             labels={["Client", "Oracle"]}
             onClickHandlers={[handleButtonClick, handleButtonClick]}
           />
         </div>
         <div style={{ display: showOracle ? "block" : "none", height: "100%" }}>
-          <Oracle llmGeneratedTestCaseCallback={setHighlight} />
+          <Oracle llmGeneratedTestCaseCallback={setShiny} />
         </div>
         {!showOracle && <ChatApp />}
       </div>

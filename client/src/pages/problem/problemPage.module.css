@@ -116,7 +116,9 @@
 }
 
 .editorWrapper {
-    height: 100%;
+    height: calc(var(--container-max-height) - var(--editor-buttons-height) - var(--padding-1));
+
+
     background-color: var(--dark-dark-grey);
 
 

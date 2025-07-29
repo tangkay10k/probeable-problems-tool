@@ -59,7 +59,7 @@ export const TextEditor = forwardRef(
     };
 
     const options = {
-      automaticLayout: false,
+      automaticLayout: true,
       minimap: { enabled: false },
       fontSize,
       lineNumbers,
