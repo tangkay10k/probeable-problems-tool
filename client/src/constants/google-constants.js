@@ -1,4 +1,1 @@
-export const GOOGLE_CLIENT_ID =
-  "837455747674-5n70nho4dfur8ah1dqja3om3cho76log.apps.googleusercontent.com";
-
-// OLD "694933505323-ul2k8fm8tv2q36p1k6m341jenunces2v.apps.googleusercontent.com";
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_O_AUTH_CLIENT_ID;

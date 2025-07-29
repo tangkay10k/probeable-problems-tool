@@ -2,6 +2,10 @@
 FROM node:18-alpine AS client-builder
 WORKDIR /app/client
 
+# Inject Google Client ID ENV
+ARG VITE_GOOGLE_OAUTH_CLIENT_ID
+ENV VITE_GOOGLE_OAUTH_CLIENT_ID=$VITE_GOOGLE_OAUTH_CLIENT_ID
+
 # ensure npm will use legacy peer‑deps
 ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
 
