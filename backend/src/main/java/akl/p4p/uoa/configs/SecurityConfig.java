@@ -25,7 +25,8 @@ public class SecurityConfig {
 					"/",
 					"/index.html",
 					"/static/**",
-					"/favicon.ico",
+					"/assets/**",
+					"/favicon.png",
 					"/api/person/login",
 					"/api/person/logout"
 				).permitAll()
