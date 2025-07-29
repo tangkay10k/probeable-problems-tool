@@ -28,7 +28,6 @@ export default function ChatApp() {
   const handleSend = () => {
     if (!userMessage) return;
 
-    // Render first on FE
     const message = userMessage;
     setChatHistory({
       ...chatHistory,

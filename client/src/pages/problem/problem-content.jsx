@@ -5,7 +5,6 @@ import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useState } from "react";
-import ToggleButtons from "@/components/button/editor-toggle-buttons.jsx";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import Tabs from "@/components/tabs/tabs.jsx";
@@ -41,6 +40,13 @@ export default function ProblemContent() {
 
 function StageOne() {
   const [showOracle, setShowOracle] = useState(false);
+  const [highlight, setHighlight] = useState(null);
+
+  const handleButtonClick = () => {
+    setShowOracle((prev) => !prev);
+    setHighlight(null);
+  };
+
   const tabs = [
     {
       label: "Task",
@@ -58,14 +64,16 @@ function StageOne() {
       <div className={styles.rightContainer}>
         <div className={styles.toggleButtonContainer}>
           <ButtonGroup
+            shinyIndex={highlight}
+            setShinyIndex={setHighlight}
             labels={["Client", "Oracle"]}
-            onClickHandlers={[
-              () => setShowOracle(false),
-              () => setShowOracle(true),
-            ]}
+            onClickHandlers={[handleButtonClick, handleButtonClick]}
           />
         </div>
-        {showOracle ? <Oracle /> : <ChatApp />}
+        <div style={{ display: showOracle ? "block" : "none", height: "100%" }}>
+          <Oracle llmGeneratedTestCaseCallback={setHighlight} />
+        </div>
+        {!showOracle && <ChatApp />}
       </div>
     </div>
   );

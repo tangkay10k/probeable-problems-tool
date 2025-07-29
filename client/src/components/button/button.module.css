@@ -161,5 +161,19 @@
     color: var(--white);
 }
 
+.shiny {
+    border-color: var(--purple);
+    animation: shine 1s infinite alternate;
+}
+
+@keyframes shine {
+    from {
+        box-shadow: 0 0 0.1rem var(--purple);
+    }
+    to {
+        box-shadow: 0 0 0.4rem var(--hover-purple);
+    }
+}
+
 /*===*/
 
