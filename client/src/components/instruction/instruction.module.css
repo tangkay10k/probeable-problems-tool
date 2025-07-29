@@ -27,8 +27,7 @@
 }
 
 .studentInstructionContainer {
-    padding: var(--padding-2) var(--padding-3);
-    padding-top: 3rem;
+    padding: var(--padding-3);
     border-radius: inherit;
 
     white-space: pre-wrap;
@@ -40,5 +39,9 @@
     overflow-y: scroll;
 
     background-color: var(--toggle-hover-editor);
+}
+
+.studentInstructionContainer p {
+    font-size: 1rem;
 }
 
