@@ -21,3 +21,5 @@ availableSecrets:
 
 images:
   - 'gcr.io/$PROJECT_ID/probeable:$SHORT_SHA'
+options:
+  logging: CLOUD_LOGGING_ONLY
