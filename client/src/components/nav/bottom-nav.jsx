@@ -9,25 +9,10 @@ import {
 } from "react-icons/md";
 
 export default function BottomNav({ handleStageChange, stage }) {
-  const navigate = useNavigate();
   return (
     <div className={styles.bottomNavContainer}>
       <div className={styles.prevContainer}>
         {stage === 2 && <Button onClick={handleStageChange}>Prev</Button>}
-      </div>
-
-      <div className={styles.buttonGroupContainer}>
-        <ButtonV2 onClick={() => console.log("TODO: ")}>
-          <InfoIcon size={50} color={"white"} />
-        </ButtonV2>
-
-        <ButtonV2 onClick={() => navigate("/problems")}>
-          <HomeIcon size={50} color={"white"} />
-        </ButtonV2>
-
-        <ButtonV2 onClick={() => console.log("TODO: ")}>
-          <ResetIcon size={50} />
-        </ButtonV2>
       </div>
 
       <div className={styles.nextContainer}>

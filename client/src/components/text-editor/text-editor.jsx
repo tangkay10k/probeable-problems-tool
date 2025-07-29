@@ -23,6 +23,7 @@ export const TextEditor = forwardRef(
       isResizable = false,
       fixedHeight = 200,
       minHeight = 100,
+      disableLanguageSelect = false,
     },
     ref,
   ) => {
@@ -112,7 +113,11 @@ export const TextEditor = forwardRef(
         }}
       >
         {showLanguageSelect && (
-          <LanguageSelector language={language} onLanguageSelect={onSelect} />
+          <LanguageSelector
+            language={language}
+            onLanguageSelect={onSelect}
+            disabled={disableLanguageSelect}
+          />
         )}
         <Editor
           className={styles.textEditor}

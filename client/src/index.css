@@ -54,9 +54,12 @@
     --padding-1: 0.5rem;
     --padding-175: 0.75rem;
     --padding-2: 1rem;
+    --padding-25: 1.5rem;
     --padding-3: 2rem;
     --padding-4: 3rem;
     --padding-5: 4rem;
+    --padding-6: 5rem;
+    --padding-7: 6rem;
 
     --border-radius-1: 0.5rem;
     --border-radius-2: 1rem;
@@ -79,11 +82,15 @@
 
     --nav-height: 5rem;
 
-    --container-max-height: 90%;
+    --container-max-height: 78vh;
     --page-container-max-width: 90vw;
     --problem-list-max-width: 70vw;
 
     --editor-buttons-height: 2.5rem;
+
+    --stage-one-button-container-height: 3rem;
+    --banner-height: 3rem;
+
     --bottom-nav-buttons-height: 2.1rem;
     --slider-width: 8rem;
 

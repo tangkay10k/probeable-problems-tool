@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import styles from "./tab.module.css";
 
-export default function Tabs({ tabs, defaultIndex = 0 }) {
+function Tabs({ tabs, defaultIndex = 0 }) {
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
 
   return (
@@ -21,3 +21,5 @@ export default function Tabs({ tabs, defaultIndex = 0 }) {
     </div>
   );
 }
+
+export default memo(Tabs);

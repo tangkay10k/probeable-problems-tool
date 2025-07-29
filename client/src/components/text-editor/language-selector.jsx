@@ -5,7 +5,11 @@ import { getRuntimes } from "@/routes/code-route.js";
 import { RxCaretDown } from "react-icons/rx";
 import styles from "./text-editor.module.css";
 
-export default function LanguageSelector({ language, onLanguageSelect }) {
+export default function LanguageSelector({
+  language,
+  onLanguageSelect,
+  disabled = false,
+}) {
   useEffect(() => {
     getRuntimes()
       .then((arr) => {
@@ -24,11 +28,17 @@ export default function LanguageSelector({ language, onLanguageSelect }) {
       label={language}
       options={languages}
       onSelect={onLanguageSelect}
+      clickable={!disabled}
     />
   );
 }
 
-function LanguageDropDown({ label = "C", options = [], onSelect }) {
+function LanguageDropDown({
+  label = "C",
+  options = [],
+  onSelect,
+  clickable = true,
+}) {
   const [languageLabel, setLanguageLabel] = useState(label);
   const [open, setOpen] = useState(false);
   const containerRef = useRef();
@@ -56,7 +66,11 @@ function LanguageDropDown({ label = "C", options = [], onSelect }) {
 
   return (
     <div className={styles.dropdownContainer} ref={containerRef}>
-      <button className={styles.toggleButton} onClick={handleToggle}>
+      <button
+        className={styles.toggleButton}
+        onClick={handleToggle}
+        disabled={!clickable}
+      >
         <p>{languageLabel}</p>
         <div className={styles.arrow}>
           <RxCaretDown className={styles.caret} />
