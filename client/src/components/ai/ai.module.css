@@ -140,7 +140,6 @@
 
 .inputContainer button:hover {
   background-color: var(--dark-dark-grey);
-  border: var(--black);
 }
 
 /*===CHAT BUBBLE===*/
@@ -252,7 +251,7 @@
   height: 3rem;
   border-radius: var(--border-radius-2);
 
-  background-color: var(--purple);
+  background-color: var(--dark-dark-grey);
 
   font-size: 1.2rem;
   font-family: "Poppins", sans-serif;
@@ -260,5 +259,6 @@
 }
 
 .agentBody button:hover {
-  background-color: var(--hover-purple);
+  background-color: var(--less-dark-grey);
+  transform: scale(1);
 }

@@ -46,6 +46,7 @@
   flex: 1;
   padding: var(--padding-1);
   text-align: center;
+  color: var(--pass-green);
 }
 
 .row {

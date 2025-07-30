@@ -58,10 +58,10 @@
   font-family: "Poppins", sans-serif;
   font-weight: 500;
 
-  background-color: var(--purple);
+  background-color: var(--editor-colour);
 }
 
 .outputContainer button:hover {
-  background-color: var(--hover-purple);
+  background-color: var(--toggle-hover-editor-light);
   transform: scale(1);
 }

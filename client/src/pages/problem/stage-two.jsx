@@ -136,7 +136,7 @@ export default function StageTwo() {
               {/*O(N) Here but we don't have that many problems -> O(1)*/}
               {profile?.problemsCompleted?.includes(problemId) && (
                 <span>
-                  <CompletedIcon color={"#bc7cf1"} size={24} />
+                  <CompletedIcon />
                 </span>
               )}
 

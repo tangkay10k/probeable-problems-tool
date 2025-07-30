@@ -87,9 +87,10 @@
 
 .leftButtons span {
   background-color: transparent;
+  color: var(--pass-green);
 
   border: 0.01rem solid var(--dark-dark-grey);
-  padding: var(--padding-025);
+  padding: var(--padding-1);
   border-radius: 50%;
 
   display: flex;

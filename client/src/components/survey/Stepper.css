@@ -80,7 +80,7 @@
   padding: var(--padding-1) var(--padding-2);
   border-radius: var(--padding-025);
 
-  color: var(--dark-grey);
+  color: var(--white);
   cursor: pointer;
 
   background-color: transparent;
@@ -90,7 +90,7 @@
 }
 
 .back-button:hover {
-  color: var(--dark-dark-grey);
+  color: var(--white-hover);
 }
 
 .back-button.inactive {
@@ -108,7 +108,7 @@
   border: none;
 
   border-radius: var(--border-radius-3);
-  background-color: var(--dark-purple);
+  background-color: var(--editor-colour);
   color: var(--white);
 
   font-weight: 500;
@@ -120,11 +120,11 @@
 }
 
 .next-button:hover {
-  background-color: var(--dark-purple-hover);
+  background-color: var(--dark-dark-grey);
 }
 
 .next-button:active {
-  background-color: var(--dark-purple);
+  background-color: var(--editor-colour);
 }
 
 .step-indicator {
