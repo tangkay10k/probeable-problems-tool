@@ -1,172 +1,172 @@
 .navbar {
-  width: 100%;
-  color: var(--white);
-  background-color: var(--editor-colour);
+    width: 100%;
+    color: var(--white);
+    background-color: var(--editor-colour);
 
-  padding: var(--padding-2) var(--padding-3) var(--padding-2) var(--padding-3);
+    padding: var(--padding-2) var(--padding-3) var(--padding-2) var(--padding-3);
 
-  height: var(--nav-height);
-  min-height: var(--nav-height);
+    height: var(--nav-height);
+    min-height: var(--nav-height);
 
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 
-  border-bottom: 0.1rem solid white;
+    border-bottom: 0.1rem solid white;
 }
 
 .buttonContainer button {
-  width: 6rem;
-  border-radius: var(--border-radius-3);
-  background-color: transparent;
-  border: 0.1rem solid var(--white);
+    width: 6rem;
+    border-radius: var(--border-radius-3);
+    background-color: transparent;
+    border: 0.1rem solid var(--white);
 
-  font-size: 1rem;
+    font-size: 1rem;
 }
 
 .buttonContainer button:hover {
-  background-color: var(--toggle-hover-editor);
+    background-color: var(--toggle-hover-editor);
 }
 
 .navbar section {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .navbar section:hover {
-  cursor: pointer;
-  color: var(--white-hover);
+    cursor: pointer;
+    color: var(--white-hover);
 }
 
 .icon {
-  height: var(--nav-image-height);
-  box-shadow: 0 0 1rem 0.01rem rgba(188, 124, 241, 0.5);
+    height: var(--nav-image-height);
+    box-shadow: 0 0 1rem 0.01rem rgba(255, 255, 255, 0.5);
 }
 
 .heading h1 {
-  font-size: 1.1rem;
+    font-size: 1.1rem;
 }
 
 .heading p {
-  font-size: 0.8rem;
-  margin-top: -0.3rem;
-  color: var(--light-grey);
+    font-size: 0.8rem;
+    margin-top: -0.3rem;
+    color: var(--light-grey);
 }
 
 /*=== Bottom Nav ===*/
 .bottomNavContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  width: 100%;
-  height: 100%;
-  max-height: var(--editor-buttons-height);
+    width: 100%;
+    height: 100%;
+    max-height: var(--editor-buttons-height);
 }
 
 .buttonGroupContainer {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .buttonGroupContainer button {
-  width: var(--editor-buttons-height);
-  height: var(--editor-buttons-height);
+    width: var(--editor-buttons-height);
+    height: var(--editor-buttons-height);
 }
 
 .prevContainer,
 .nextContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .bottomNavContainer button {
-  border: 0.01rem solid var(--dark-dark-grey);
-  background-color: var(--editor-colour);
+    border: 0.01rem solid var(--dark-dark-grey);
+    background-color: var(--editor-colour);
 }
 
 .bottomNavContainer button:hover {
-  background-color: var(--toggle-hover-editor);
+    background-color: var(--toggle-hover-editor);
 }
 
 .nextContainer {
-  justify-content: flex-end; /* Positions next button to the right */
+    justify-content: flex-end; /* Positions next button to the right */
 }
 
 .prevContainer {
-  justify-content: flex-start; /* Positions prev button to the left */
+    justify-content: flex-start; /* Positions prev button to the left */
 }
 
 .prevContainer button,
 .nextContainer button {
-  width: 5rem;
+    width: 5rem;
 }
 
 .prevContainer p,
 .nextContainer p {
-  font-size: 1rem;
-  font-weight: 500;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 /*=== Profile Picture ===*/
 .profileContainer {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .profile {
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
 
 .profile img {
-  width: auto;
-  height: var(--nav-image-height);
-  border-radius: 50%;
-  cursor: pointer;
+    width: auto;
+    height: var(--nav-image-height);
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .profileWrapper {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .menu {
-  position: absolute;
-  top: 3.2rem;
-  right: 0;
-  background-color: var(--dark-dark-grey);
-  border-radius: var(--border-radius-1);
-  padding: var(--padding-1);
-  box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
-  z-index: var(--layer-2);
+    position: absolute;
+    top: 3.2rem;
+    right: 0;
+    background-color: var(--dark-dark-grey);
+    border-radius: var(--border-radius-1);
+    padding: var(--padding-1);
+    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
+    z-index: var(--layer-2);
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .menu button {
-  width: 7rem;
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: var(--white);
-  border: 0.01rem solid var(--white);
-  border-radius: var(--border-radius-1);
-  cursor: pointer;
+    width: 7rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: var(--white);
+    border: 0.01rem solid var(--white);
+    border-radius: var(--border-radius-1);
+    cursor: pointer;
 
-  font-family: Poppins, sans-serif;
+    font-family: Poppins, sans-serif;
 
-  transition: 0.4s;
+    transition: 0.4s;
 }
 
 .menu button:hover {
-  background: var(--toggle-hover-editor);
-  color: var(--white);
+    background: var(--toggle-hover-editor);
+    color: var(--white);
 }

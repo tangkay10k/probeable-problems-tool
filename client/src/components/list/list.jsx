@@ -51,7 +51,7 @@ export default function ProblemList() {
           item.isHeader ? (
             <div className={styles.headerRow}>
               <span className={styles.status}>
-                <CompletedIcon />
+                <CompletedIcon color={"white"} />
               </span>
               <span className={styles.rowNumber}>#</span>
               <span className={styles.cell}>Problem Description</span>
@@ -61,9 +61,7 @@ export default function ProblemList() {
           ) : (
             <div className={styles.row} onClick={() => onRowClick(item)}>
               <span className={styles.status}>
-                {completedSet.has(item.id) && (
-                  <CompletedIcon color={"#bc7cf1"} />
-                )}
+                {completedSet.has(item.id) && <CompletedIcon />}
               </span>
               <span className={styles.rowNumber}>{idx}.</span>
               <span className={styles.cell}>{item.problemStatement}</span>

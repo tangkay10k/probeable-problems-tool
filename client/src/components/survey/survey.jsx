@@ -1,4 +1,4 @@
-import Stepper, { Step } from "./Stepper";
+import Stepper, { Step } from "./stepper.jsx";
 import styles from "./survey.module.css";
 import Input from "@/components/inputs/text-input.jsx";
 import { useEffect, useRef } from "react";
