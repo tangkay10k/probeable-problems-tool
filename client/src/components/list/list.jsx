@@ -3,7 +3,7 @@ import styles from "./list.module.css";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getAllProblems } from "@/routes/problem-route.js";
 import { useNavigate } from "react-router-dom";
-import { FaCircleCheck } from "react-icons/fa6";
+import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import AnimatedList from "@/components/list/animated-list/animated-list.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { LANGUAGE_DISPLAY_NAMES } from "@/components/text-editor/data/constants.js";
@@ -51,7 +51,7 @@ export default function ProblemList() {
           item.isHeader ? (
             <div className={styles.headerRow}>
               <span className={styles.status}>
-                <FaCircleCheck />
+                <CompletedIcon />
               </span>
               <span className={styles.rowNumber}>#</span>
               <span className={styles.cell}>Problem Description</span>
@@ -61,7 +61,9 @@ export default function ProblemList() {
           ) : (
             <div className={styles.row} onClick={() => onRowClick(item)}>
               <span className={styles.status}>
-                {completedSet.has(item.id) && <FaCircleCheck color={"green"} />}
+                {completedSet.has(item.id) && (
+                  <CompletedIcon color={"#bc7cf1"} />
+                )}
               </span>
               <span className={styles.rowNumber}>{idx}.</span>
               <span className={styles.cell}>{item.problemStatement}</span>
