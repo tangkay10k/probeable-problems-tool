@@ -29,30 +29,11 @@ export function TestSuiteList({
   return (
     <div className={styles.testContainer}>
       {tests.map((test, idx) => {
-        const result = results[idx];
-        const hasRun = result?.actual != null && result.actual !== "";
-        const passed = hasRun && result.actual === test.expectedStdOut;
-
         if (!isEditable) {
           const anyFailedBefore = results
             .slice(0, idx)
             .some((r, i) => r?.actual !== tests[i]?.expectedStdOut);
-          const hasFailed = hasRun && !passed;
           if (anyFailedBefore) return null;
-          if (hasFailed) {
-            return (
-              <TestCase
-                key={idx}
-                index={idx}
-                test={test}
-                result={result}
-                language={language}
-                isEditable={isEditable}
-                updateTest={(field, value) => updateTest(idx, field, value)}
-                deleteTest={() => deleteTest(idx)}
-              />
-            );
-          }
         }
 
         return (
@@ -60,7 +41,7 @@ export function TestSuiteList({
             key={idx}
             index={idx}
             test={test}
-            result={result}
+            result={results[idx]}
             language={language}
             isEditable={isEditable}
             updateTest={(field, value) => updateTest(idx, field, value)}
