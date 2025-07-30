@@ -218,7 +218,7 @@
   gap: var(--padding-2);
 
   background-color: var(--editor-colour);
-  border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
+  border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
 }
 
 .agentBody textarea {

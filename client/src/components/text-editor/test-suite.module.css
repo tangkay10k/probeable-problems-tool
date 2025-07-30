@@ -97,6 +97,7 @@
 
   height: 100%;
   width: 100%;
+  max-height: max-content;
 }
 
 .testDetail:hover {
