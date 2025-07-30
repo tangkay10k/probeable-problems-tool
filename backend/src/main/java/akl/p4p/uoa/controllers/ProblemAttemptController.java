@@ -1,6 +1,7 @@
 package akl.p4p.uoa.controllers;
 
-import akl.p4p.uoa.constants.AuthConstants;
+import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
+
 import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.ProblemAttempt;
@@ -20,7 +21,7 @@ public class ProblemAttemptController {
   }
 
   @GetMapping
-  @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
+  @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(
       @RequestParam String problemId, @RequestParam String studentEmail) throws IOException {
 
@@ -30,12 +31,19 @@ public class ProblemAttemptController {
   }
 
   @PostMapping("chat")
-  @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
+  @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) {
 
     ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistory(
             message.getSessionId(), message.getChatMessage().getContent());
     return ResponseEntity.ok(attempt);
+  }
+
+  @PostMapping
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<ProblemAttempt> saveProblemAttempt(@RequestBody ProblemAttempt attempt) {
+    return ResponseEntity.ok(
+        problemAttemptService.saveProblemAttemptAndUpdateProblemsCompleted(attempt));
   }
 }

@@ -34,3 +34,10 @@ export const logoutUser = async () => {
 
   localStorage.removeItem(AUTH_TOKEN_KEY);
 };
+
+export const getUserProfileSilently = async (userEmail) => {
+  const res = await axiosClient.get(
+    `/api/person/silently?userEmail=${userEmail}`,
+  );
+  return res.data;
+};

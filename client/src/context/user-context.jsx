@@ -13,8 +13,17 @@ export function UserProvider({ children }) {
   const navigate = useNavigate();
   const [_, setUser] = useState(null);
   const [loginRole, setLoginRole] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfileState] = useState(null);
   const [isLoading, setLoading] = useState(true);
+
+  const setProfile = (profile) => {
+    if (profile) {
+      localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile));
+    } else {
+      localStorage.removeItem(USER_PROFILE_KEY);
+    }
+    setProfileState(profile);
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem(USER_PROFILE_KEY);
@@ -62,7 +71,9 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ profile, loginAs, logOut, isLoading }}>
+    <UserContext.Provider
+      value={{ profile, setProfile, loginAs, logOut, isLoading }}
+    >
       {children}
     </UserContext.Provider>
   );

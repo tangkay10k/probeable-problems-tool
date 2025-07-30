@@ -5,6 +5,9 @@ import akl.p4p.uoa.models.person.Student;
 import akl.p4p.uoa.models.person.Teacher;
 import akl.p4p.uoa.repositories.StudentRepository;
 import akl.p4p.uoa.repositories.TeacherRepository;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,12 +47,40 @@ public class PersonService {
             })
         .orElseGet(
             () -> {
-              if (!(person instanceof Student)) {
+              if (!(person instanceof Student newStudent)) {
                 throw new IllegalArgumentException("Person must be a Student");
               }
 
-              Student newStudent = (Student) person;
               return studentRepository.save(newStudent);
             });
+  }
+
+  public Person findPersonByEmail(String email) {
+    Optional<Student> student = studentRepository.findById(email);
+
+    if (student.isPresent()) {
+      return student.get();
+    }
+
+    Optional<Teacher> teacher = teacherRepository.findById(email);
+    return teacher.orElseThrow(
+        () -> new NoSuchElementException("User with email: " + email + " does not exist!"));
+  }
+
+  public Person updateProblemsCompleted(String userEmail, String problemId) {
+    var user = findPersonByEmail(userEmail);
+
+    if (user.getProblemsCompleted() == null) {
+      user.setProblemsCompleted(new ArrayList<>());
+    }
+
+    user.getProblemsCompleted().add(problemId);
+    return updateUser(user);
+  }
+
+  public Person updateUser(Person user) {
+    return user instanceof Student
+        ? studentRepository.save((Student) user)
+        : teacherRepository.save((Teacher) user);
   }
 }

@@ -25,15 +25,19 @@ public class ProblemAttemptService {
 
   private final ChatHistoryRepository chatHistoryRepository;
 
+  private final PersonService personService;
+
   ProblemAttemptService(
       ProblemAttemptRepository problemAttemptRepository,
       ProblemRepository problemRepository,
       ChatHistoryRepository chatHistoryRepository,
-      AIService aiService) {
+      AIService aiService,
+      PersonService personService) {
     this.problemAttemptRepository = problemAttemptRepository;
     this.problemRepository = problemRepository;
     this.chatHistoryRepository = chatHistoryRepository;
     this.aiService = aiService;
+    this.personService = personService;
   }
 
   public ProblemAttempt retrieveLatestOrCreateProblemAttempt(String problemId, String studentEmail)
@@ -81,6 +85,14 @@ public class ProblemAttemptService {
   public ChatHistory chatWithClientWithSessionHistory(String sessionId, String userMessage) {
     return aiService.chatWithClient(
         sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema());
+  }
+
+  public ProblemAttempt saveProblemAttemptAndUpdateProblemsCompleted(
+      ProblemAttempt problemAttempt) {
+    var saved = problemAttemptRepository.save(problemAttempt);
+    String submitterEmail = saved.getStudentEmail();
+    personService.updateProblemsCompleted(submitterEmail, saved.getProblemId());
+    return saved;
   }
 
   private ChatHistory initialiseClientPersona(Problem problem) throws IOException {

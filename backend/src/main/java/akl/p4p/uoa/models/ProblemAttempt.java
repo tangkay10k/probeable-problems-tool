@@ -15,10 +15,13 @@ public class ProblemAttempt {
 
   @Transient private List<ChatMessage> messageList;
   @Id private String id;
-  private String studentEmail; // TODO: Potentially swap to a student object.
+  private String studentEmail;
   private Date createdDate;
   private String problemId;
   private ProgramLanguage problemLanguage;
   private String chatHistoryId;
   private String codeSubmission;
+  private String score;
+  private String notesTaken;
+  private String agentPrompt;
 }

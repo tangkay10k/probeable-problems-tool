@@ -1,6 +1,6 @@
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
@@ -25,11 +25,19 @@ import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
 import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import ButtonGroup from "@/components/button/button-group.jsx";
+import { useUserProfile } from "@/context/user-context.jsx";
+import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 
 export default function StageTwo() {
-  const { problemAttempt, studentCodeSubmission, updateStudentCodeSubmission } =
-    useProblemAttemptContext();
+  const {
+    problemAttempt,
+    studentCodeSubmission,
+    updateStudentCodeSubmission,
+    saveStudentAttempt,
+    updateStudentScore,
+  } = useProblemAttemptContext();
   const { problemId } = useParams();
+  const { profile } = useUserProfile();
   const [problem, setProblem] = useState([]);
   const [isLoading, withLoading] = useWithLoading();
   const [results, setResults] = useState([]);
@@ -66,17 +74,25 @@ export default function StageTwo() {
   const updateResults = (execution) => {
     const output = execution.run.output;
     const lines = output.split(SPLIT_STRING);
+    let passedCount = 0;
 
     const updatedResults = lines.map((line, i) => {
-      const expected = problem[i]?.expectedStdOut ?? "";
+      const expected = problem?.testSuite[i]?.expectedStdOut ?? "";
+      if (line === expected) passedCount += 1;
       return { actual: line, expected };
     });
 
     setResults(updatedResults);
+
+    const numberOfTestCasesPassed = `${passedCount}/${problem?.testSuite?.length}`;
+    updateStudentScore(numberOfTestCasesPassed);
   };
 
   const handleExecution = () => {
-    if (studentCodeSubmission.length === 0 || studentCodeSubmission === "") {
+    if (
+      studentCodeSubmission.length === 0 ||
+      studentCodeSubmission.trim() === ""
+    ) {
       toast.error("Please write some code before submitting!");
       return;
     }
@@ -117,6 +133,13 @@ export default function StageTwo() {
 
           <section className={styles.leftButtons}>
             <section>
+              {/*O(N) Here but we don't have that many problems -> O(1)*/}
+              {profile?.problemsCompleted?.includes(problemId) && (
+                <span>
+                  <CompletedIcon color={"#bc7cf1"} size={24} />
+                </span>
+              )}
+
               <ButtonV2
                 onClick={() => updateStudentCodeSubmission("")}
                 disabled={isLoading}
@@ -128,10 +151,7 @@ export default function StageTwo() {
               </ButtonV2>
             </section>
 
-            <Button
-              onClick={() => console.log("TODO: persist attempt in BE")}
-              disabled={isLoading}
-            >
+            <Button onClick={saveStudentAttempt} disabled={isLoading}>
               <PlaneIcon size={12} /> Submit!
             </Button>
           </section>
