@@ -50,6 +50,9 @@
   --dropdown-grey: #a8a8a8;
   --hover-light-grey: #a0a0a0;
 
+  --dark-purple-hover: #5e37fa;
+  --dark-purple: #5227ff;
+
   --padding-025: 0.25rem;
   --padding-1: 0.5rem;
   --padding-175: 0.75rem;
@@ -76,6 +79,7 @@
 
   --layer-1: 1;
   --layer-2: 2;
+  --layer-3: 3;
 
   --chat-box-height: 100%;
   --ai-agent-box-height: 20rem;

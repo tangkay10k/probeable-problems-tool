@@ -12,6 +12,7 @@ import {
   MdOutlineCreate as CreateIcon,
 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Survey from "@/components/survey/survey.jsx";
 
 const WELCOME_TEXT_DURATION = 2;
 
@@ -19,11 +20,13 @@ export default function Home() {
   const { profile } = useUserProfile();
   const navigate = useNavigate();
   const isTeacher = profile.role === "TEACHER";
+  const [showSurvey, setShowSurvey] = useState(false);
 
   return (
     <div className={styles.homePageContainer}>
       <WelcomeText />
       <ProblemList />
+      <Survey setShowSurvey={setShowSurvey} showSurvey={showSurvey} />
 
       {isTeacher && (
         <div className={styles.stickyButtonContainerLeft}>
@@ -34,7 +37,10 @@ export default function Home() {
         </div>
       )}
       <div className={styles.stickyButtonContainer}>
-        <CircularIconButton icon={<SurveyIcon size={20} />} />
+        <CircularIconButton
+          onClick={() => setShowSurvey(true)}
+          icon={<SurveyIcon size={20} />}
+        />
         <CircularIconButton icon={<InfoIcon size={20} />} />
       </div>
     </div>

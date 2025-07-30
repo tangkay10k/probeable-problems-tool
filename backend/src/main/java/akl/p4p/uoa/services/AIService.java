@@ -20,6 +20,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AIService {
 
+  private static final double TOP_P_VAL = 0.5;
+
+  private static final double TEMP_VAL = 0.2;
+
   private final ChatClient chatClient;
 
   private final ChatHistoryService chatHistoryService;
@@ -39,6 +43,21 @@ public class AIService {
    *     to a string.
    */
   public String executeOneTimeLLMCall(String systemPrompt, @Nullable String responseSchema) {
+    return executeOneTimeLLMCall(
+        systemPrompt, responseSchema, TOP_P_VAL, TEMP_VAL, OpenAiApi.ChatModel.O3);
+  }
+
+  public String executeOneTimeLLMCallStudent(String systemPrompt, @Nullable String responseSchema) {
+    return executeOneTimeLLMCall(
+        systemPrompt, responseSchema, TOP_P_VAL, TEMP_VAL, OpenAiApi.ChatModel.GPT_4_O);
+  }
+
+  public String executeOneTimeLLMCall(
+      String systemPrompt,
+      @Nullable String responseSchema,
+      double topP,
+      double temperature,
+      OpenAiApi.ChatModel model) {
 
     var responseFormat = getResponseType(responseSchema);
 
@@ -46,8 +65,9 @@ public class AIService {
     history.add(new SystemMessage(systemPrompt));
     OpenAiChatOptions options =
         OpenAiChatOptions.builder()
-            .model(OpenAiApi.ChatModel.O3)
-            .temperature(1D)
+            .model(model)
+            .temperature(temperature)
+            .topP(topP)
             .responseFormat(responseFormat)
             .build();
     return chatClient.prompt().options(options).messages(history).call().content();

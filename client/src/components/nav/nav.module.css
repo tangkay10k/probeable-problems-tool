@@ -142,8 +142,8 @@
   top: 3.2rem;
   right: 0;
   background-color: var(--dark-dark-grey);
-  border-radius: var(--border-radius-2);
-  padding: 1rem;
+  border-radius: var(--border-radius-1);
+  padding: var(--padding-1);
   box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
   z-index: var(--layer-2);
 
@@ -154,11 +154,11 @@
 
 .menu button {
   width: 7rem;
-  padding: 0.8rem 1.5rem;
+  padding: 0.5rem 1rem;
   background: transparent;
   color: var(--white);
-  border: 0.1rem solid var(--white);
-  border-radius: var(--border-radius-4);
+  border: 0.01rem solid var(--white);
+  border-radius: var(--border-radius-1);
   cursor: pointer;
 
   font-family: Poppins, sans-serif;
@@ -167,6 +167,6 @@
 }
 
 .menu button:hover {
-  background: var(--white-hover);
-  color: var(--editor-colour);
+  background: var(--toggle-hover-editor);
+  color: var(--white);
 }

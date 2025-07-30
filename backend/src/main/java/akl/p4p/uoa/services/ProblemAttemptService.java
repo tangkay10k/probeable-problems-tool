@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProblemAttemptService {
-
   private final AIService aiService;
 
   private final ProblemRepository problemRepository;
