@@ -31,7 +31,12 @@ export default function ProblemContent() {
   return (
     <div className={styles.problemPageContainer}>
       <div className={styles.content}>
-        {stage === 1 ? <StageOne /> : <StageTwo />}
+        <div style={{ display: stage === 1 ? "flex" : "none" }}>
+          <StageOne />
+        </div>
+        <div style={{ display: stage === 2 ? "flex" : "none" }}>
+          <StageTwo />
+        </div>
         <BottomNav handleStageChange={handleStageChange} stage={stage} />
       </div>
     </div>

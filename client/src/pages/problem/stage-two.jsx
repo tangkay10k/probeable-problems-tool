@@ -174,7 +174,7 @@ export default function StageTwo() {
             <TextEditor
               ref={editorRef}
               fixedHeight={"100%"}
-              language={problemAttempt.problemLanguage}
+              language={problemAttempt?.problemLanguage}
               src={studentCodeSubmission}
               setSource={updateStudentCodeSubmission}
               disableLanguageSelect={true}
