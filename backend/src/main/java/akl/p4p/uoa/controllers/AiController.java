@@ -98,7 +98,7 @@ class AiController {
   @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
     String solutionAttempt =
-        aiService.executeOneTimeLLMCall(
+        aiService.executeOneTimeLLMCallStudent(
             prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
     return ResponseEntity.ok(solutionAttempt);
   }
