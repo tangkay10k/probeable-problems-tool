@@ -50,7 +50,6 @@ export function TestSuiteList({
         );
       })}
 
-
       {isEditable && (
         <div className={styles.addButtonContainer}>
           <Button onClick={addTestCase}>Add Test Case</Button>
