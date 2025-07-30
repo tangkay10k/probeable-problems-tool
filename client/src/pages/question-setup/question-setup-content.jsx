@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { useProblemContext } from "@/context/problem-context-provider.jsx";
 import { createProblem } from "@/routes/problem-route.js";
+import { createOracle } from "@/routes/oracle-route.js";
 
 export default function QuestionSetupContent() {
   const [isLoading, withLoading] = useWithLoading();
@@ -27,9 +28,12 @@ export default function QuestionSetupContent() {
 
     withLoading(
       () => createProblem(problem),
-      () => {
-        toast.success("Problem has been saved in database!");
-        localStorage.removeItem("problemUnderCreation");
+      (savedProblem) => {
+        const updatedOracle = { ...oracle, problemId: savedProblem.id };
+        createOracle(updatedOracle).then(() => {
+          toast.success("Problem has been saved in database!");
+          localStorage.removeItem("problemUnderCreation");
+        });
       },
       (err) => toast.error(err),
     );
