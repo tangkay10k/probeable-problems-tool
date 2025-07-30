@@ -1,9 +1,6 @@
 package akl.p4p.uoa.models.person;
 
 import akl.p4p.uoa.data.Person;
-
-import java.util.List;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,9 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("students")
 public class Student extends Person {
 
-	public void updateStudentFromPerson(Person person) {
-		if (person == null) return;
-		this.setName(person.getName());
-		this.setUserImage(person.getUserImage());
-	}
+  public void updateStudentFromPerson(Person person) {
+    if (person == null) return;
+    this.setName(person.getName());
+    this.setUserImage(person.getUserImage());
+  }
 }
