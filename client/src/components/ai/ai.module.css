@@ -1,264 +1,264 @@
 .chatWrapper {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    width: 100%;
+  width: 100%;
 
-    height: calc(
-            var(--container-max-height) - var(--stage-one-button-container-height)
-    );
-    max-height: calc(
-            var(--container-max-height) - var(--stage-one-button-container-height)
-    );
+  height: calc(
+    var(--container-max-height) - var(--stage-one-button-container-height)
+  );
+  max-height: calc(
+    var(--container-max-height) - var(--stage-one-button-container-height)
+  );
 }
 
 .chatApp {
-    display: flex;
-    z-index: 0;
+  display: flex;
+  z-index: 0;
 
-    flex-direction: column;
-    height: calc(100% - var(--banner-height));
-    max-height: calc(100% - var(--banner-height));
+  flex-direction: column;
+  height: calc(100% - var(--banner-height));
+  max-height: calc(100% - var(--banner-height));
 
-    background-color: var(--toggle-hover-editor);
-    border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
+  background-color: var(--toggle-hover-editor);
+  border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
 
-    padding: var(--padding-2) var(--padding-3);
+  padding: var(--padding-2) var(--padding-3);
 }
 
 .chatBody {
-    overflow-y: auto;
-    height: 100%;
-    max-height: 100%;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 100%;
 
-    scroll-behavior: smooth;
-    padding-bottom: var(--padding-1);
+  scroll-behavior: smooth;
+  padding-bottom: var(--padding-1);
 }
 
 .icon {
-    position: absolute;
-    left: var(--padding-3);
+  position: absolute;
+  left: var(--padding-3);
 
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 /* three‑dot typing animation */
 .typing {
-    display: flex;
-    gap: 0.25rem;
+  display: flex;
+  gap: 0.25rem;
 }
 
 .typing span {
-    width: 0.5rem;
-    height: 0.5rem;
-    background-color: #ccc; /* pick something visible */
-    border-radius: 50%;
-    animation: bounce 1.2s infinite ease-in-out;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #ccc; /* pick something visible */
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
 }
 
 .typing span:nth-child(2) {
-    animation-delay: 0.2s;
+  animation-delay: 0.2s;
 }
 
 .typing span:nth-child(3) {
-    animation-delay: 0.4s;
+  animation-delay: 0.4s;
 }
 
 @keyframes bounce {
-    0%,
-    80%,
-    100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-6px);
-    }
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
 }
 
 /*=== CLIENT ICON (HARDCODED)===*/
 .clientAvatar {
-    position: absolute;
-    right: var(--padding-3);
+  position: absolute;
+  right: var(--padding-3);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    width: 2rem;
-    height: 2rem;
+  width: 2rem;
+  height: 2rem;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    z-index: var(--layer-1);
+  z-index: var(--layer-1);
 }
 
 .clientAvatar img {
-    height: 2rem;
-    object-fit: cover;
+  height: 2rem;
+  object-fit: cover;
 }
 
 .status {
-    position: absolute;
-    z-index: var(--layer-2);
+  position: absolute;
+  z-index: var(--layer-2);
 
-    /*===HARDCODED BASED ON HEIGHT OF HEADER===*/
-    right: 3.5rem;
-    top: 1.8rem;
+  /*===HARDCODED BASED ON HEIGHT OF HEADER===*/
+  right: 3.5rem;
+  top: 1.8rem;
 
-    background-color: var(--online-green);
-    border: 0.1rem solid var(--dark-dark-grey);
+  background-color: var(--online-green);
+  border: 0.1rem solid var(--dark-dark-grey);
 
-    border-radius: 50%;
-    width: 0.8rem;
-    height: 0.8rem;
+  border-radius: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
 }
 
 .inputContainer {
-    display: flex;
-    flex: 0 0 auto;
-    gap: 0.5rem;
-    height: 3rem;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+  height: 3rem;
 }
 
 .inputContainer input {
-    flex: 8;
-    border-radius: var(--border-radius-2);
+  flex: 8;
+  border-radius: var(--border-radius-2);
 
-    background-color: var(--toggle-hover-editor);
-    color: var(--white);
+  background-color: var(--toggle-hover-editor);
+  color: var(--white);
 }
 
 .inputContainer button {
-    flex: 1;
-    border-radius: var(--border-radius-2);
+  flex: 1;
+  border-radius: var(--border-radius-2);
 
-    background-color: var(--editor-colour);
+  background-color: var(--editor-colour);
 }
 
 .inputContainer button:hover {
-    background-color: var(--dark-dark-grey);
+  background-color: var(--dark-dark-grey);
 }
 
 /*===CHAT BUBBLE===*/
 .bubbleContainer {
-    padding: var(--padding-1);
-    max-width: 100%;
+  padding: var(--padding-1);
+  max-width: 100%;
 
-    padding-top: 0;
-    padding-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 
-    display: flex;
-    gap: var(--padding-1);
+  display: flex;
+  gap: var(--padding-1);
 }
 
 .avatarContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 
-    margin-bottom: 1.1rem;
+  margin-bottom: 1.1rem;
 }
 
 .avatarContainer img {
-    height: 2rem;
-    border-radius: 50%;
+  height: 2rem;
+  border-radius: 50%;
 }
 
 .chatMessage {
-    border-radius: var(--border-radius-2);
-    padding: var(--padding-175);
+  border-radius: var(--border-radius-2);
+  padding: var(--padding-175);
 
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 
-    max-width: 75%;
+  max-width: 75%;
 
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 .chatBubble {
-    padding-top: var(--padding-1);
-    width: 100%;
+  padding-top: var(--padding-1);
+  width: 100%;
 }
 
 .chatTimestamp {
-    font-size: 0.6rem;
-    color: var(--white);
+  font-size: 0.6rem;
+  color: var(--white);
 
-    /* styling is dynamic*/
+  /* styling is dynamic*/
 }
 
 .assistant {
-    background: linear-gradient(to right, #bb94ff, #ca43ff);
-    justify-self: start;
-    padding-left: var(--padding-25);
+  background: linear-gradient(to right, #bb94ff, #ca43ff);
+  justify-self: start;
+  padding-left: var(--padding-25);
 }
 
 .user {
-    background: var(--white);
-    justify-self: end;
-    padding-right: var(--padding-25);
+  background: var(--white);
+  justify-self: end;
+  padding-right: var(--padding-25);
 }
 
 /*===AI Agent===*/
 .agentContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border-radius: var(--border-radius-1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--border-radius-1);
 }
 
 .agentBody {
-    padding: var(--padding-2);
-    height: 100%;
-    display: flex;
+  padding: var(--padding-2);
+  height: 100%;
+  display: flex;
 
-    gap: var(--padding-2);
+  gap: var(--padding-2);
 
-    background-color: var(--editor-colour);
-    border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
+  background-color: var(--editor-colour);
+  border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
 }
 
 .agentBody textarea {
-    flex: 4;
+  flex: 4;
 
-    border-radius: var(--border-radius-3);
-    padding: var(--padding-2);
-    font-family: "Poppins", sans-serif;
-    background-color: var(--toggle-hover-editor);
-    color: var(--white);
+  border-radius: var(--border-radius-3);
+  padding: var(--padding-2);
+  font-family: "Poppins", sans-serif;
+  background-color: var(--toggle-hover-editor);
+  color: var(--white);
 
-    height: 100%;
+  height: 100%;
 }
 
 .agentBody textarea:focus {
-    outline: none;
-    box-shadow: none;
-    border: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
 
 .buttonContainer {
-    flex: 1;
+  flex: 1;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
 
 .agentBody button {
-    height: 3rem;
-    border-radius: var(--border-radius-2);
+  height: 3rem;
+  border-radius: var(--border-radius-2);
 
-    background-color: var(--dark-dark-grey);
+  background-color: var(--dark-dark-grey);
 
-    font-size: 1.2rem;
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
 }
 
 .agentBody button:hover {
-    background-color: var(--less-dark-grey);
-    transform: scale(1);
+  background-color: var(--less-dark-grey);
+  transform: scale(1);
 }

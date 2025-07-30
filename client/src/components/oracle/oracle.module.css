@@ -1,67 +1,67 @@
 .oracleWrapper {
-    background-color: var(--toggle-hover-editor);
-    border-radius: var(--border-radius-2);
+  background-color: var(--toggle-hover-editor);
+  border-radius: var(--border-radius-2);
 
-    display: flex;
-    flex: 1;
-    flex-direction: column;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 
-    padding: var(--padding-1);
-    gap: var(--padding-1);
+  padding: var(--padding-1);
+  gap: var(--padding-1);
 
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .editorWrapper {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 
-    border-radius: inherit;
+  border-radius: inherit;
 
-    padding: var(--padding-1);
-    background-color: var(--editor-colour);
+  padding: var(--padding-1);
+  background-color: var(--editor-colour);
 }
 
 .outputContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
+  position: relative;
+  display: flex;
+  align-items: center;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 /*===Oracle Terminal===*/
 .outputContainer textarea {
-    position: absolute;
-    height: 100%;
+  position: absolute;
+  height: 100%;
 
-    background-color: var(--dark-dark-grey);
-    color: var(--white);
+  background-color: var(--dark-dark-grey);
+  color: var(--white);
 
-    padding: var(--padding-2);
-    font-size: 1rem;
+  padding: var(--padding-2);
+  font-size: 1rem;
 }
 
 .outputContainer button {
-    position: absolute;
-    right: 0;
+  position: absolute;
+  right: 0;
 
-    flex: 1;
-    width: 5rem;
-    height: 100%;
+  flex: 1;
+  width: 5rem;
+  height: 100%;
 
-    border-radius: 0 var(--border-radius-2) var(--border-radius-2) 0;
+  border-radius: 0 var(--border-radius-2) var(--border-radius-2) 0;
 
-    font-size: 1.2rem;
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
 
-    background-color: var(--editor-colour);
+  background-color: var(--editor-colour);
 }
 
 .outputContainer button:hover {
-    background-color: var(--toggle-hover-editor-light);
-    transform: scale(1);
+  background-color: var(--toggle-hover-editor-light);
+  transform: scale(1);
 }
