@@ -1,3 +1,4 @@
 client/.env
 .vscode
 .idea
+.env
