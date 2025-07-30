@@ -28,18 +28,28 @@ export function TestSuiteList({
 
   return (
     <div className={styles.testContainer}>
-      {tests.map((test, idx) => (
-        <TestCase
-          key={idx}
-          index={idx}
-          test={test}
-          result={results[idx]}
-          language={language}
-          isEditable={isEditable}
-          updateTest={(field, value) => updateTest(idx, field, value)}
-          deleteTest={() => deleteTest(idx)}
-        />
-      ))}
+      {tests.map((test, idx) => {
+        if (!isEditable) {
+          const anyFailedBefore = results
+            .slice(0, idx)
+            .some((r, i) => r?.actual !== tests[i]?.expectedStdOut);
+          if (anyFailedBefore) return null;
+        }
+
+        return (
+          <TestCase
+            key={idx}
+            index={idx}
+            test={test}
+            result={results[idx]}
+            language={language}
+            isEditable={isEditable}
+            updateTest={(field, value) => updateTest(idx, field, value)}
+            deleteTest={() => deleteTest(idx)}
+          />
+        );
+      })}
+
 
       {isEditable && (
         <div className={styles.addButtonContainer}>
