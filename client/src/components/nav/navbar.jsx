@@ -26,6 +26,7 @@ function Profile() {
   const profilePicture = profile?.userImage || "/default-avatar.jpg";
   const menuRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Reset menu to closed when path changes
   useEffect(() => {
@@ -42,7 +43,11 @@ function Profile() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (!profile) return null;
+  useEffect(() => {
+    if (!profile) {
+      navigate("/");
+    }
+  }, [profile]);
 
   return (
     <div className={styles.profileContainer} ref={menuRef}>

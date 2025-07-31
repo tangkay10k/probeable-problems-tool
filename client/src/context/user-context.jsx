@@ -7,6 +7,9 @@ import { USER_PROFILE_KEY } from "@/constants/personConstants.js";
 import { logoutUser } from "@/routes/person-route";
 import { useNavigate } from "react-router-dom";
 
+let staticLogOut = () => {};
+export const getStaticLogOut = () => staticLogOut;
+
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
@@ -29,6 +32,10 @@ export function UserProvider({ children }) {
     const saved = localStorage.getItem(USER_PROFILE_KEY);
     if (saved) setProfile(JSON.parse(saved));
     setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    staticLogOut = logOut;
   }, []);
 
   const login = useGoogleLogin({

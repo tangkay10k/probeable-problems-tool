@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -27,27 +30,30 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     this.authTokenService = authTokenService;
     this.jwtService = jwtService;
   }
-
-  @Override
-  protected void doFilterInternal(
-      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
-
+@Override
+protected void doFilterInternal(
+    HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    throws ServletException, IOException {
+  try {
     String authHeader = request.getHeader(AuthConstants.P4P_AUTH_HEADER);
 
     if (authHeader != null && authHeader.startsWith(AuthConstants.BEARER_PREFIX)) {
       String token = authHeader.substring(AuthConstants.BEARER_PREFIX.length());
 
       authTokenService.verifyAuthToken(token);
-
       String role = jwtService.extractRole(token);
 
       List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
-
       Authentication auth = new UsernamePasswordAuthenticationToken(null, null, authorities);
       SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    filterChain.doFilter(request, response);
+    filterChain.doFilter(request, response); 
+  } catch (Exception e) {
+    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    response.getWriter().write("Unauthorized");
+    response.getWriter().flush();
   }
+}
+
 }
