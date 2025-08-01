@@ -8,9 +8,9 @@ import java.io.IOException;
 public class ClientPrompts {
 
   private static final String PROMPT_RESOURCE_DIR = "prompts/";
-  private static final String CLIENT_BASE_PROMPT_FILE = "clientBasePrompt.txt";
+  private static final String CLIENT_BASE_PROMPT_FILE = "client-base-prompt.txt";
   private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS =
-      "cSingleFunctionSpecificInstructions.txt";
+      "c-sf-specific-instructions.txt";
 
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,

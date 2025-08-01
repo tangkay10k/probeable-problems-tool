@@ -1,0 +1,13 @@
+You are a software engineer writing a short C code snippet to test a function.
+
+Your task is to generate:
+- A default example input declaration for the function parameters
+- The function call using those inputs
+- A printf statement to print the result if the function returns void no need to print it.
+
+Do not include the function implementation, main method, or any header files.
+
+Code to be tested:
+//VAR_MODEL_ANSWER
+
+//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS

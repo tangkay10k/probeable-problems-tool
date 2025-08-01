@@ -1,9 +1,17 @@
 package akl.p4p.uoa.prompts;
 
+import static akl.p4p.uoa.utils.PromptUtils.readFileFromResources;
+
 import akl.p4p.uoa.models.Problem;
+import java.io.IOException;
 
 public class OracleGenerationPrompts {
-  public static String getOracleGenerationPrompt(Problem problem) {
+
+  private static final String PROMPT_RESOURCE_DIR = "prompts/";
+  private static final String ORACLE_BASE_PROMPT_FILE = "oracle-base-prompt.txt";
+  private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS = "c-sf-oracle-prompt.txt";
+
+  public static String getOracleGenerationPrompt(Problem problem) throws IOException {
     switch (problem.getProblemType()) {
       case FUNCTION -> {
         return getSingleFunctionOracleGenerationPrompt(problem);
@@ -22,7 +30,8 @@ public class OracleGenerationPrompts {
     throw new RuntimeException("OOP Currently not supported");
   }
 
-  private static String getSingleFunctionOracleGenerationPrompt(Problem problem) {
+  private static String getSingleFunctionOracleGenerationPrompt(Problem problem)
+      throws IOException {
 
     String basePrompt = getBaseOracleGenerationPrompt();
     String languageSpecificInstructions;
@@ -38,32 +47,12 @@ public class OracleGenerationPrompts {
         .replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", languageSpecificInstructions);
   }
 
-  private static String getBaseOracleGenerationPrompt() {
-    return """
-          You are a software engineer writing a short C code snippet to test a function.
-
-          Your task is to generate:
-          - A default example input declaration for the function parameters
-          - The function call using those inputs
-          - A printf statement to print the result if the function returns void no need to print it.
-
-          Do not include the function implementation, main method, or any header files.
-
-          Code to be tested:
-          //VAR_MODEL_ANSWER
-
-          //VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS
-          """;
+  private static String getBaseOracleGenerationPrompt() throws IOException {
+    return readFileFromResources(PROMPT_RESOURCE_DIR + ORACLE_BASE_PROMPT_FILE);
   }
 
-  private static String getCSpecificSingleFunctionOraclePrompt() {
-    return """
-        Example output format:
-        int nums[] = {1, 2, 3, 4, 5};
-        int n = 5;
-        int result = howGoodCanItGet(nums, numsSize);
-        printf("%d", result);
-        """;
+  private static String getCSpecificSingleFunctionOraclePrompt() throws IOException {
+    return readFileFromResources(PROMPT_RESOURCE_DIR + C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS);
   }
 
   private static String getJavaSpecificSingleFunctionOraclePrompt() {
