@@ -1,5 +1,6 @@
 package akl.p4p.uoa.services;
 
+import akl.p4p.uoa.data.PastedContent;
 import akl.p4p.uoa.models.StudentLog;
 import akl.p4p.uoa.repositories.StudentLogRepository;
 
@@ -15,15 +16,15 @@ public class StudentLogService {
     this.studentLogRepository = studentLogRepository;
   }
 
-  public StudentLog savePastedLog(String problemAttemptId, String pastedContent) {
+  public StudentLog savePastedLog(String problemAttemptId, PastedContent pastedContent) {
     StudentLog log = studentLogRepository.findById(problemAttemptId).orElseGet(() -> {
       StudentLog newLog = new StudentLog();
       newLog.setProblemAttemptId(problemAttemptId);
-      newLog.setPastedContent(new ArrayList<>());
+      newLog.setPastedContents(new ArrayList<>());
       return newLog;
     });
 
-    log.getPastedContent().add(pastedContent);
+    log.getPastedContents().add(pastedContent);
 
     return studentLogRepository.save(log);
   }

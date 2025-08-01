@@ -1,5 +1,6 @@
 package akl.p4p.uoa.controllers;
 
+import akl.p4p.uoa.data.PastedContent;
 import akl.p4p.uoa.services.StudentLogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class StudentLogController {
   @PostMapping("/paste/{problemAttemptId}")
   public ResponseEntity<?> logPastedContent(
       @PathVariable String problemAttemptId,
-      @RequestBody String pastedContent) {
+      @RequestBody PastedContent pastedContent) {
     studentLogService.savePastedLog(problemAttemptId, pastedContent);
 
     return ResponseEntity.ok().build();
