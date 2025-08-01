@@ -63,6 +63,6 @@
 }
 
 .outputContainer button:hover {
-  background-color: var(--toggle-hover-editor-light);
+  background-color: var(--less-dark-grey);
   transform: scale(1);
 }

@@ -120,7 +120,7 @@ export default function StageTwo() {
       </div>
 
       <div className={styles.rightContainer}>
-        <div className={styles.toggleButtonContainerSecondPage}>
+        <div className={styles.toggleButtonContainer}>
           <ButtonGroup
             selectedIndex={selected}
             onSelectedIndexChange={setSelected}
@@ -167,6 +167,7 @@ export default function StageTwo() {
                 results={results}
                 setResults={setResults}
               />
+              <div className={styles.gradient} />
             </section>
           </div>
         ) : (

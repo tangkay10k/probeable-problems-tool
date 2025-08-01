@@ -17,9 +17,9 @@ export const STAGE_ONE = [
 export const STAGE_TWO = [
   {
     title: "Tasks",
-    content: `Now that you understand what the client is looking for, its time for you to deliver a solution that meets their requirements!
+    content: `Now that you understand what your client is looking for, its time for you to deliver a solution that meets their requirements!
 
-Your company has leased you an AI agent that you can use to help write your code for you, however it costs a lot of energy to run code, so be sure to provide as much information as possible to the agent so that it knows what to do first try!
+Your company has leased you an AI agent named Cogs that you can use to help write your code for you if you wish!
 `,
   },
 ];

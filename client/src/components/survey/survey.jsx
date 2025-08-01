@@ -1,23 +1,12 @@
 import Stepper, { Step } from "./stepper.jsx";
 import styles from "./survey.module.css";
 import Input from "@/components/inputs/text-input.jsx";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 
 export default function Survey({ setShowSurvey, showSurvey }) {
   const modalRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setShowSurvey(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setShowSurvey]);
+  useOnClickOutside(modalRef, () => setShowSurvey(false));
 
   return (
     <div
