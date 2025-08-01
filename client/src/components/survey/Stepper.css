@@ -32,9 +32,9 @@
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
-  background-color: rgba(120, 99, 176, 0.13);
-  backdrop-filter: blur(0.5rem);
-  -webkit-backdrop-filter: blur(0.5rem);
+  background-color: rgba(178, 178, 178, 0.3); /*rgba(120, 99, 176, 0.13);*/
+  backdrop-filter: blur(0.1rem);
+  -webkit-backdrop-filter: blur(0.1rem);
 
   color: var(--white);
 }
