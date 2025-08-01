@@ -17,12 +17,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: process.env.SERVER_URL || "http://localhost:8080",
         changeOrigin: true,
         secure: false,
       },
       "/log": {
-        target: "http://localhost:8081",
+        target: process.env.LOGGING_SERVER_URL || "http://localhost:8081",
         changeOrigin: true,
         secure: false,
       },
