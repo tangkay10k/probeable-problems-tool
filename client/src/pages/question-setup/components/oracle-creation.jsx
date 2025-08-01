@@ -12,15 +12,17 @@ import Terminal from "@/components/text-editor/terminal.jsx";
 import { useState } from "react";
 
 export default function OracleCreation() {
-  const { problem, oracle, setOracle, setOracleField, executeTemplate } =
-    useProblemContext();
+  const { problem, oracle, setOracle, executeTemplate } = useProblemContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionResult, setExecutionResult] = useState({});
 
   const handleOracleGeneration = () => {
     withLoading(
       () => generateOracle(problem),
-      (oracle) => setOracle(oracle),
+      (problemWithOracle) => {
+        console.log(problemWithOracle);
+        setOracle(problemWithOracle.defaultProbe);
+      },
       (err) => toast.error(err),
     );
   };
@@ -31,7 +33,7 @@ export default function OracleCreation() {
         executeOraclePistonDirect(
           problem.programLanguage,
           executeTemplate.template,
-          oracle.defaultProbes,
+          problem.defaultProbe,
           problem.modelAnswer,
         ),
       (executionResult) => {
@@ -52,8 +54,8 @@ export default function OracleCreation() {
         <TextEditor
           showLanguageSelect={false}
           language={problem.programLanguage}
-          setSource={(newCode) => setOracleField("defaultProbes", newCode)}
-          src={oracle.defaultProbes}
+          setSource={(newCode) => setOracle(newCode)}
+          src={problem.defaultProbe}
           isResizable={true}
           minHeight={10}
         />

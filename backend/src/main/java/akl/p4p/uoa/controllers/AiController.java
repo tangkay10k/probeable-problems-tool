@@ -4,16 +4,15 @@ import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.dtos.ChatRequestDTO;
-import akl.p4p.uoa.models.Oracle;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.prompts.OracleGenerationPrompts;
 import akl.p4p.uoa.prompts.ProblemGenerationPrompts;
 import akl.p4p.uoa.prompts.TestSuitePrompts;
 import akl.p4p.uoa.services.AIService;
-import akl.p4p.uoa.services.OracleService;
 import akl.p4p.uoa.services.ProblemService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import akl.p4p.uoa.utils.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,13 +27,9 @@ class AiController {
   AIService aiService;
   ProblemService problemService;
 
-  OracleService oracleService;
-
-  public AiController(
-      ProblemService problemService, AIService aiService, OracleService oracleService) {
+  public AiController(ProblemService problemService, AIService aiService) {
     this.problemService = problemService;
     this.aiService = aiService;
-    this.oracleService = oracleService;
   }
 
   /**
@@ -44,7 +39,8 @@ class AiController {
    */
   @PostMapping("constraints")
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
-  public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem) {
+  public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem)
+      throws IOException {
     String sysPrompt = ProblemGenerationPrompts.getConstraintsGenerationPrompt(problem);
     String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
     problem.setConstraints(constraints);
@@ -74,7 +70,8 @@ class AiController {
 
   @PostMapping("problem-statement")
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
-  public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem) {
+  public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem)
+      throws IOException {
     String sysPrompt = ProblemGenerationPrompts.getProblemStatementSystemPrompt(problem);
     String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
     problem.setProblemStatement(problemStatement);
@@ -83,15 +80,15 @@ class AiController {
 
   @PostMapping("oracle")
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
-  public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
-      throws JsonProcessingException {
+  public ResponseEntity<Problem> generateOracle(@RequestBody Problem problem) throws IOException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
     String jsonResponse =
         aiService.executeOneTimeLLMCall(
             sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
 
-    var oracle = oracleService.parseLLMGeneratedOracle(problem, jsonResponse);
-    return ResponseEntity.ok(oracle);
+    var initialProbe = JsonUtils.parseOracleJsonResponse(jsonResponse);
+    problem.setDefaultProbe(initialProbe);
+    return ResponseEntity.ok(problem);
   }
 
   @PostMapping("solution-attempt")

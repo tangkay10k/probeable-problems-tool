@@ -133,8 +133,9 @@ public class AIService {
 
     OpenAiChatOptions options =
         OpenAiChatOptions.builder()
-            .model(OpenAiApi.ChatModel.O3)
-            .temperature(1D)
+            .model(OpenAiApi.ChatModel.GPT_4_O)
+            .temperature(TEMP_VAL)
+            .topP(TOP_P_VAL)
             .responseFormat(getResponseType(responseSchema))
             .build();
 

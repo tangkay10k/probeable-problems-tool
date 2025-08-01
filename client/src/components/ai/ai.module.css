@@ -226,7 +226,6 @@
 
   border-radius: var(--border-radius-3);
   padding: var(--padding-2);
-  font-family: "Poppins", sans-serif;
   background-color: var(--toggle-hover-editor);
   color: var(--white);
 

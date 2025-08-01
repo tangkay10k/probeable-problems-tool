@@ -6,18 +6,21 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useEffect, useState } from "react";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { getOracle } from "@/routes/oracle-route.js";
 import { useParams } from "react-router-dom";
 import { getExecuteTemplate } from "@/routes/template-route.js";
 import { getProblem } from "@/routes/problem-route.js";
 import { toast } from "react-toastify";
 
-export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
+const DEFAULT_PROBES_KEY = "problemInitialProbes";
+
+export default function Oracle({
+  llmGeneratedTestCaseCallback = null,
+  resetOracle = false,
+}) {
   const { problemId } = useParams();
   const { chatHistory, problemAttempt } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
-  const [_, setOracle] = useState();
   const [inputVariables, setInputVariables] = useState("");
   const [executeTemplate, setExecuteTemplate] = useState("");
   const [problem, setProblem] = useState({});
@@ -30,15 +33,6 @@ export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
 
   useEffect(() => {
     withLoading(
-      () => getOracle(problemId),
-      (oracle) => {
-        setOracle(oracle);
-        setInputVariables(oracle?.defaultProbes);
-      },
-      console.error,
-    );
-
-    withLoading(
       () => getExecuteTemplate(problemAttempt?.problemLanguage),
       (template) => setExecuteTemplate(template),
       (err) => toast.error(err),
@@ -48,10 +42,20 @@ export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
       () => getProblem(problemId),
       (fetchedProblem) => {
         setProblem(fetchedProblem);
+        saveProbesToLocalStorage(problemId, fetchedProblem.defaultProbe);
+        setInputVariables(fetchedProblem.defaultProbe);
       },
       (err) => toast.error(err),
     );
   }, [problemId]);
+
+  useEffect(() => {
+    const defaultProbeMap = localStorage.getItem(DEFAULT_PROBES_KEY);
+    if (defaultProbeMap) {
+      const obj = JSON.parse(defaultProbeMap);
+      setInputVariables(obj[problemId]);
+    }
+  }, [resetOracle]);
 
   function handleLLMGeneratedTestCase(messageList) {
     if (!messageList) return;
@@ -64,7 +68,6 @@ export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
       setInputVariables(responseSchema.test_case);
 
       // Add shine effect on oracle button
-      console.log("Setting shine...");
       llmGeneratedTestCaseCallback?.(1);
     }
   }
@@ -114,5 +117,23 @@ export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
         </Button>
       </div>
     </div>
+  );
+}
+
+function saveProbesToLocalStorage(problemId, probe) {
+  let storedData = localStorage.getItem(DEFAULT_PROBES_KEY);
+
+  let probeMap;
+  if (!storedData) {
+    probeMap = new Map();
+  } else {
+    let parsedObject = JSON.parse(storedData);
+    probeMap = new Map(Object.entries(parsedObject));
+  }
+
+  probeMap.set(problemId, probe);
+  localStorage.setItem(
+    DEFAULT_PROBES_KEY,
+    JSON.stringify(Object.fromEntries(probeMap)),
   );
 }
