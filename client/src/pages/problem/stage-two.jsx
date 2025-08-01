@@ -179,6 +179,7 @@ export default function StageTwo() {
               src={studentCodeSubmission}
               setSource={updateStudentCodeSubmission}
               disableLanguageSelect={true}
+              isLogging={true}
             />
           </div>
         )}

@@ -1,24 +1,14 @@
 import styles from "./problemPage.module.css";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { useState, useEffect} from "react";
+import { useState} from "react";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import StageTwo from "@/pages/problem/stage-two.jsx";
-import {logPastedContent} from "@/routes/log-route.js";
 import StageOne from "@/pages/problem/stage-one.jsx";
 
 export default function ProblemContent() {
-  const { isLoading, problemAttempt } = useProblemAttemptContext();
+  const { isLoading } = useProblemAttemptContext();
   const [stage, setStage] = useState(1);
-
-  useEffect(() => {
-    const handlePaste = (e) => {
-      logPastedContent(problemAttempt.id, e.clipboardData.getData("text"))
-    };
-
-    document.addEventListener("paste", handlePaste);
-    return () => document.removeEventListener("paste", handlePaste);
-  }, [problemAttempt]);
 
   function handleStageChange() {
     stage === 1 ? setStage(2) : setStage(1);
