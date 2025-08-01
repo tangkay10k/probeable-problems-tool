@@ -77,12 +77,12 @@ public class JsonSchemaDefinition {
 			{
 				"type": "object",
 				"properties": {
-					"default_probes": {
+					"probe": {
 						"type": "string",
 						"description": "default inputs to the function(s), including their typings if applicable"
 					}
 				},
-				"required": ["default_probes"],
+				"required": ["probe"],
 				"additionalProperties": false
 			}
 			 """;

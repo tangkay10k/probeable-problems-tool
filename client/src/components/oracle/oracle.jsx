@@ -6,18 +6,17 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useEffect, useState } from "react";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { getOracle } from "@/routes/oracle-route.js";
 import { useParams } from "react-router-dom";
 import { getExecuteTemplate } from "@/routes/template-route.js";
 import { getProblem } from "@/routes/problem-route.js";
 import { toast } from "react-toastify";
+import { useProblemContext } from "@/context/problem-context-provider.jsx";
 
 export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
   const { problemId } = useParams();
   const { chatHistory, problemAttempt } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
-  const [_, setOracle] = useState();
   const [inputVariables, setInputVariables] = useState("");
   const [executeTemplate, setExecuteTemplate] = useState("");
   const [problem, setProblem] = useState({});
@@ -30,15 +29,6 @@ export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
 
   useEffect(() => {
     withLoading(
-      () => getOracle(problemId),
-      (oracle) => {
-        setOracle(oracle);
-        setInputVariables(oracle?.defaultProbes);
-      },
-      console.error,
-    );
-
-    withLoading(
       () => getExecuteTemplate(problemAttempt?.problemLanguage),
       (template) => setExecuteTemplate(template),
       (err) => toast.error(err),
@@ -48,6 +38,7 @@ export default function Oracle({ llmGeneratedTestCaseCallback = null }) {
       () => getProblem(problemId),
       (fetchedProblem) => {
         setProblem(fetchedProblem);
+        setInputVariables(fetchedProblem.defaultProbe);
       },
       (err) => toast.error(err),
     );

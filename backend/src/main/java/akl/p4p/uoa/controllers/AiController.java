@@ -4,14 +4,13 @@ import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.dtos.ChatRequestDTO;
-import akl.p4p.uoa.models.Oracle;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.prompts.OracleGenerationPrompts;
 import akl.p4p.uoa.prompts.ProblemGenerationPrompts;
 import akl.p4p.uoa.prompts.TestSuitePrompts;
 import akl.p4p.uoa.services.AIService;
-import akl.p4p.uoa.services.OracleService;
 import akl.p4p.uoa.services.ProblemService;
+import akl.p4p.uoa.utils.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +27,9 @@ class AiController {
   AIService aiService;
   ProblemService problemService;
 
-  OracleService oracleService;
-
-  public AiController(
-      ProblemService problemService, AIService aiService, OracleService oracleService) {
+  public AiController(ProblemService problemService, AIService aiService) {
     this.problemService = problemService;
     this.aiService = aiService;
-    this.oracleService = oracleService;
   }
 
   /**
@@ -85,15 +80,15 @@ class AiController {
 
   @PostMapping("oracle")
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
-  public ResponseEntity<Oracle> generateOracleFile(@RequestBody Problem problem)
-      throws IOException {
+  public ResponseEntity<Problem> generateOracle(@RequestBody Problem problem) throws IOException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
     String jsonResponse =
         aiService.executeOneTimeLLMCall(
             sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
 
-    var oracle = oracleService.parseLLMGeneratedOracle(problem, jsonResponse);
-    return ResponseEntity.ok(oracle);
+    var initialProbe = JsonUtils.parseOracleJsonResponse(jsonResponse);
+    problem.setDefaultProbe(initialProbe);
+    return ResponseEntity.ok(problem);
   }
 
   @PostMapping("solution-attempt")
