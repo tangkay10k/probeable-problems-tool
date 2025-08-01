@@ -4,17 +4,27 @@ import NotePad from "@/components/notes/notepad.jsx";
 import ChatApp from "@/components/ai/chatapp.jsx";
 import Oracle from "@/components/oracle/oracle.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import Tabs from "@/components/tabs/tabs.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import StageTwo from "@/pages/problem/stage-two.jsx";
 import ButtonGroup from "@/components/button/button-group.jsx";
+import {logPastedContent} from "@/routes/log-route.js";
 
 export default function ProblemContent() {
-  const { isLoading } = useProblemAttemptContext();
+  const { isLoading, problemAttempt } = useProblemAttemptContext();
   const [stage, setStage] = useState(1);
+
+  useEffect(() => {
+    const handlePaste = (e) => {
+      logPastedContent(problemAttempt.id, e.clipboardData.getData("text"))
+    };
+
+    document.addEventListener("paste", handlePaste);
+    return () => document.removeEventListener("paste", handlePaste);
+  }, [problemAttempt]);
 
   function handleStageChange() {
     stage === 1 ? setStage(2) : setStage(1);

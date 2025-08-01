@@ -6,7 +6,7 @@ import akl.p4p.uoa.models.Template;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface TemplateRepository extends MongoRepository<Template, ProgramLanguage> {
+public interface TemplateRepository extends MongoRepository<Template, String> {
   Optional<Template> findByProgramLanguageAndType(
       ProgramLanguage programLanguage, TemplateType type);
 }
