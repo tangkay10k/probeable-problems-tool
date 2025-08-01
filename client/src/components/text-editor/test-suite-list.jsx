@@ -93,6 +93,7 @@ function TestCase({
           <p>Expected: {test.expectedStdOut}</p>
           {hasRun && <p> Actual: {result?.actual ?? "N/A"}</p>}
         </div>
+        <div className={styles.gradient} />
       </details>
     );
   }

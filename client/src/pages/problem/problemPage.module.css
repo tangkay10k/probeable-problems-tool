@@ -41,7 +41,7 @@
   height: var(--container-max-height);
   max-height: var(--container-max-height);
 
-  gap: var(--padding-3);
+  gap: var(--padding-2);
   display: flex;
 }
 
@@ -70,13 +70,6 @@
   align-items: start;
   height: var(--stage-one-button-container-height);
   max-height: var(--stage-one-button-container-height);
-}
-
-.toggleButtonContainerSecondPage {
-  display: flex;
-  height: var(--stage-one-button-container-height);
-  max-height: var(--stage-one-button-container-height);
-
   justify-content: space-between;
 }
 
@@ -126,8 +119,20 @@
 }
 
 .listWrapper {
+  position: relative;
   background-color: var(--editor-colour);
   border-radius: inherit;
+}
+
+.gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5rem;
+  background: linear-gradient(to top, var(--editor-colour), transparent);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .editorWrapper {
