@@ -1,5 +1,6 @@
 package akl.p4p.uoa.services;
 
+import akl.p4p.uoa.data.ChatMessage;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.Problem;
@@ -58,10 +59,12 @@ public class ProblemAttemptService {
       attempt.setCreatedDate(new Date());
 
       ChatHistory chatHistory = initialiseClientPersona(problem);
+      List<ChatMessage> chatMessages = attempt.getMessageList();
 
       attempt.setChatHistoryId(chatHistory.getSessionId());
       attempt.setMessageList(chatHistory.getMessages());
       attempt = problemAttemptRepository.save(attempt);
+      attempt.setMessageList(chatMessages);
 
       // Return attempt that contains transient field (messages)
       return attempt;
