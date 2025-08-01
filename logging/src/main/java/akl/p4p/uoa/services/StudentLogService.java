@@ -24,7 +24,7 @@ public class StudentLogService {
     });
 
     log.getPastedContent().add(pastedContent);
-    System.out.println(studentLogRepository.save(log));
-    return null;
+
+    return studentLogRepository.save(log);
   }
 }
