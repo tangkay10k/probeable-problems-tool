@@ -22,11 +22,6 @@ export function ProblemProvider({ children }) {
             problemType: null,
             defaultProbe: null,
           },
-          oracle: {
-            problemId: null,
-            defaultProbes: "",
-            sourceCode: "",
-          },
         };
   });
 
@@ -86,14 +81,10 @@ export function ProblemProvider({ children }) {
     }));
   };
 
-  // Oracle setters
-  const setOracle = (newOracle) => {
-    setCreationState((prev) => ({ ...prev, oracle: newOracle }));
-  };
-  const setOracleField = (field, value) => {
+  const setOracle = (defaultProbe) => {
     setCreationState((prev) => ({
       ...prev,
-      oracle: { ...prev.oracle, [field]: value },
+      problem: { ...prev.problem, defaultProbe },
     }));
   };
 
@@ -111,7 +102,6 @@ export function ProblemProvider({ children }) {
         setTestSuite,
         oracle,
         setOracle,
-        setOracleField,
       }}
     >
       {children}
