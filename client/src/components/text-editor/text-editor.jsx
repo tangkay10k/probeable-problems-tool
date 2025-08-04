@@ -76,23 +76,20 @@ export const TextEditor = forwardRef(
     function handleEditorDidMount(editor, monaco) {
       editorRef.current = editor;
       monacoRef.current = monaco;
-      editor.layout();
 
-      if (isLogging) {
-        editor.onDidChangeModelContent((e) => {
-          for (const change of e.changes) {
-            // Monaco will fire one change per contiguous insertion;
-            // pasted blocks almost always insert more than one character at once
-            if (change.text.length >1) {
-              const fullText = editor.getValue();
-              logPastedContent(problemAttempt.id, {
-                pastedContent: change.text,
-                afterPastedContent: fullText
-              });
-            }
-          }
-        });
-      }
+      // Fires only when the user pastes (Ctrl/Cmd+V, context menu, etc.)
+      editor.onDidPaste((e) => {
+        const pastedText =
+          e.clipboardEvent?.clipboardData?.getData("text/plain") ?? "";
+          console.log(pastedText)
+        // const fullText = editor.getValue();
+        // if (isLogging && pastedText) {
+        //   logPastedContent(problemAttempt.id, {
+        //     pastedContent: pastedText,
+        //     afterPastedContent: fullText,
+        //   });
+        // }
+      });
 
       if (isResizable) {
         const lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
