@@ -107,7 +107,7 @@ function TestCase({
 
         <div className={styles.testHeaderActions}>
           <ToggleButton
-            checked={!test.hidden}
+            checked={test.hidden}
             onChange={() => updateTest("hidden", !test.hidden)}
             leftText="Hidden"
             rightText="Visible"
