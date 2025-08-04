@@ -59,10 +59,20 @@ public class JsonSchemaDefinition {
 			      "items": {
 			        "type": "object",
 			        "properties": {
-			          "code": { "type": "string" },
-			          "expectedStdOut": { "type": "string" }
+			          "code": { 
+						"type": "string",
+						"description": "code for the test case."
+					  },
+			          "expectedStdOut": { 
+						"type": "string",
+						"description": "expected output of the test case."
+					  },
+					  "explanation": {
+						"type": "string",
+						"description": "short explanation of what constraint this test case covers."
+					  }
 			        },
-			        "required": ["code", "expectedStdOut"],
+			        "required": ["code", "expectedStdOut","explanation"],
 			        "additionalProperties": false
 			      }
 			    }
