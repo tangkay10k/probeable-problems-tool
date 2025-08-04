@@ -1,9 +1,9 @@
-import React from "react";
 import { TestCaseEditor } from "@/components/text-editor/test-case-editor.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import styles from "./test-suite.module.css";
 import Button from "@/components/button/button.jsx";
 import DeleteButton from "@/components/button/delete-button";
+import ToggleButton from "@/components/button/toggle-button";
 
 export function TestSuiteList({
   tests,
@@ -104,7 +104,16 @@ function TestCase({
     >
       <div className={styles.testHeader}>
         <h3>Test {index + 1}</h3>
-        <DeleteButton onClick={deleteTest}>X</DeleteButton>
+
+        <div className={styles.testHeaderActions}>
+          <ToggleButton
+            checked={test.hidden}
+            onChange={() => updateTest("hidden", !test.hidden)}
+            leftText="Hidden"
+            rightText="Visible"
+          />
+          <DeleteButton onClick={deleteTest}>X</DeleteButton>
+        </div>
       </div>
 
       <TestCaseEditor
@@ -112,6 +121,13 @@ function TestCase({
         src={test.code}
         setSource={(newCode) => updateTest("code", newCode)}
       />
+
+      {test.explanation && (
+        <div className={styles.explanationBlock}>
+          <b>Explanation:</b>
+          <p>{test.explanation}</p>
+        </div>
+      )}
 
       <div className={styles.expectedBlock}>
         <label>Expected:</label>

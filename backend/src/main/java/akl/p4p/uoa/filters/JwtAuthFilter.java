@@ -3,6 +3,7 @@ package akl.p4p.uoa.filters;
 import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.services.AuthTokenService;
 import akl.p4p.uoa.services.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,10 +49,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       }
 
       filterChain.doFilter(request, response);
-    } catch (Exception e) {
+    } catch (AuthenticationException | JwtException e) {
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       response.getWriter().write("Unauthorized");
       response.getWriter().flush();
+    } catch (Exception e) {
+      throw e;
     }
   }
 }
