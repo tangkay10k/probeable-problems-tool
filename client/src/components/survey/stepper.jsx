@@ -10,6 +10,7 @@ import "./Stepper.css";
 
 export default function Stepper({
   children,
+  validateStep = () => true,
   initialStep = 1,
   onStepChange = () => {},
   onFinalStepCompleted = () => {},
@@ -49,15 +50,17 @@ export default function Stepper({
   };
 
   const handleNext = () => {
-    if (!isLastStep) {
+    if (!isLastStep && validateStep(currentStep)) {
       setDirection(1);
       updateStep(currentStep + 1);
     }
   };
 
   const handleComplete = () => {
-    setDirection(1);
-    updateStep(totalSteps + 1);
+    if (validateStep(currentStep)) {
+      setDirection(1);
+      updateStep(totalSteps + 1);
+    }
   };
 
   return (
@@ -126,9 +129,10 @@ export default function Stepper({
               <button
                 onClick={isLastStep ? handleComplete : handleNext}
                 className="next-button"
+                disabled={!validateStep(currentStep)}
                 {...nextButtonProps}
               >
-                {isLastStep ? "Complete" : nextButtonText}
+                {isLastStep ? "Submit!" : nextButtonText}
               </button>
             </div>
           </div>
@@ -207,8 +211,8 @@ const stepVariants = {
   }),
 };
 
-export function Step({ children }) {
-  return <div className="step-default">{children}</div>;
+export function Step({ children, className }) {
+  return <div className={`${"step-default"} ${className}`}>{children}</div>;
 }
 
 function StepIndicator({

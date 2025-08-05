@@ -3,7 +3,7 @@ import Home from "./pages/home/home";
 import QuestionSetup from "./pages/question-setup/question-setup";
 import NavBar from "@/components/nav/navbar.jsx";
 import "./App.css";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import ProblemPage from "@/pages/problem/problem-page.jsx";
 import Login from "@/pages/login/login.jsx";
 import PrivateRoutes from "@/components/router/private-route.jsx";
@@ -15,16 +15,16 @@ function App() {
       <NavBar />
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
+        closeButton={false}
+        autoClose={2000}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick={false}
         rtl={false}
-        pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="dark"
-        transition={Bounce}
+        transition={Slide}
       />
       <Routes>
         <Route path="/" element={<Login />} />

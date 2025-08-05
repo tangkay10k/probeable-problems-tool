@@ -9,11 +9,7 @@ export default function ToggleButton({
 }) {
   return (
     <label className={styles.switchLabel}>
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-      />
+      <input type="checkbox" checked={checked} onChange={onChange} />
       <span className={styles.slider}></span>
       <span className={styles.toggleText}>
         {checked ? rightText : leftText}

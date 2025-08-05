@@ -8,6 +8,8 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+
+  max-height: 90vh;
 }
 
 @media (min-width: 640px) {
@@ -54,6 +56,10 @@
 .step-default {
   padding-left: 2rem;
   padding-right: 2rem;
+  height: 100%;
+
+  max-height: 70vh;
+  overflow-y: scroll;
 }
 
 .footer-container {
@@ -125,6 +131,12 @@
 
 .next-button:active {
   background-color: var(--editor-colour);
+}
+
+.next-button:disabled {
+  background-color: var(--dark-dark-grey);
+  cursor: not-allowed;
+  color: var(--dark-grey);
 }
 
 .step-indicator {

@@ -43,11 +43,7 @@ function Profile() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (!profile) {
-      navigate("/");
-    }
-  }, [profile]);
+  if (!profile) return null;
 
   return (
     <div className={styles.profileContainer} ref={menuRef}>

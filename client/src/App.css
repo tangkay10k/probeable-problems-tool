@@ -4,3 +4,9 @@
   height: 100%;
   width: 100vw;
 }
+
+.Toastify__toast {
+  border: 0.01rem solid var(--dark-dark-grey);
+  background-color: var(--editor-colour);
+  border-radius: var(--border-radius-1);
+}

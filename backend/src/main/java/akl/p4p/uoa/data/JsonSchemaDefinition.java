@@ -59,11 +59,11 @@ public class JsonSchemaDefinition {
 			      "items": {
 			        "type": "object",
 			        "properties": {
-			          "code": { 
+			          "code": {
 						"type": "string",
 						"description": "code for the test case."
 					  },
-			          "expectedStdOut": { 
+			          "expectedStdOut": {
 						"type": "string",
 						"description": "expected output of the test case."
 					  },
