@@ -10,6 +10,8 @@ import { submitUserMessage } from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
+import ReactMarkdown from "react-markdown";
+import rehypeSanitize from "rehype-sanitize";
 
 export default function ChatApp() {
   const { chatHistory, setChatHistory } = useProblemAttemptContext();
@@ -124,7 +126,7 @@ function ChatBubble({ chatMessage }) {
         <div
           className={`${styles.chatMessage} ${isAssistant ? styles.assistant : styles.user}`}
         >
-          {msg}
+          <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{msg}</ReactMarkdown>
         </div>
         <p
           className={styles.chatTimestamp}
