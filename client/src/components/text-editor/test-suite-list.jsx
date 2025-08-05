@@ -1,9 +1,11 @@
+import React, { useCallback } from "react";
 import { TestCaseEditor } from "@/components/text-editor/test-case-editor.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import styles from "./test-suite.module.css";
 import Button from "@/components/button/button.jsx";
 import DeleteButton from "@/components/button/delete-button";
 import ToggleButton from "@/components/button/toggle-button";
+import { FaLock as LockedIcon } from "react-icons/fa";
 
 export function TestSuiteList({
   tests,
@@ -13,42 +15,41 @@ export function TestSuiteList({
   setResults,
   isEditable = true,
 }) {
-  const updateTest = (index, field, value) =>
-    setTests(tests.map((t, i) => (i === index ? { ...t, [field]: value } : t)));
+  const updateTest = useCallback(
+    (index, field, value) =>
+      setTests((prev) =>
+        prev.map((t, i) => (i === index ? { ...t, [field]: value } : t)),
+      ),
+    [setTests],
+  );
 
-  const addTestCase = () => {
-    setTests([...tests, { code: "", expectedStdOut: "" }]);
-    setResults([...results, { actual: "" }]);
-  };
+  const addTestCase = useCallback(() => {
+    setTests((prev) => [...prev, { code: "", expectedStdOut: "" }]);
+    setResults((prev) => [...prev, { actual: "" }]);
+  }, [setTests, setResults]);
 
-  const deleteTest = (index) => {
-    setTests(tests.filter((_, i) => i !== index));
-    setResults(results.filter((_, i) => i !== index));
-  };
+  const deleteTest = useCallback(
+    (index) => {
+      setTests((prev) => prev.filter((_, i) => i !== index));
+      setResults((prev) => prev.filter((_, i) => i !== index));
+    },
+    [setTests, setResults],
+  );
 
   return (
     <div className={styles.testContainer}>
-      {tests.map((test, idx) => {
-        if (!isEditable) {
-          const anyFailedBefore = results
-            .slice(0, idx)
-            .some((r, i) => r?.actual !== tests[i]?.expectedStdOut);
-          if (anyFailedBefore) return null;
-        }
-
-        return (
-          <TestCase
-            key={idx}
-            index={idx}
-            test={test}
-            result={results[idx]}
-            language={language}
-            isEditable={isEditable}
-            updateTest={(field, value) => updateTest(idx, field, value)}
-            deleteTest={() => deleteTest(idx)}
-          />
-        );
-      })}
+      {tests.map((test, idx) => (
+        <TestCase
+          key={idx}
+          index={idx}
+          test={test}
+          result={results[idx]}
+          language={language}
+          isEditable={isEditable}
+          onUpdate={(field, value) => updateTest(idx, field, value)}
+          onDelete={() => deleteTest(idx)}
+        />
+      ))}
 
       {isEditable && (
         <div className={styles.addButtonContainer}>
@@ -59,75 +60,88 @@ export function TestSuiteList({
   );
 }
 
+const StatusPill = ({ hasRun, passed }) =>
+  hasRun ? (
+    <span className={`${styles.pill} ${passed ? styles.pass : styles.fail}`}>
+      {passed ? "✓ Passed" : "✗ Failed"}
+    </span>
+  ) : null;
+
 function TestCase({
   index,
   test,
   result,
   language,
   isEditable,
-  updateTest,
-  deleteTest,
+  onUpdate,
+  onDelete,
 }) {
-  const hasRun = result?.actual != null && result.actual !== "";
+  const hasRun = Boolean(result?.actual);
   const passed = hasRun && result.actual === test.expectedStdOut;
 
   if (!isEditable) {
     return (
-      <details key={index} className={styles.testDetail}>
+      <details
+        className={`${styles.testDetail} ${test.hidden ? styles.hidden : ""}`}
+      >
         <summary>
-          <h1>Test {index + 1}</h1>
-          {hasRun && (
-            <span
-              className={`${styles.pill} ${passed ? styles.pass : styles.fail}`}
-            >
-              {passed ? "✓ Passed" : "✗ Failed"}
-            </span>
+          {test.hidden ? (
+            <>
+              <section className={styles.locked}>
+                <LockedIcon />
+                <h1>Hidden Test</h1>
+              </section>
+              <StatusPill hasRun={hasRun} passed={passed} />
+            </>
+          ) : (
+            <>
+              <h1>Test {index + 1}</h1>
+              <StatusPill hasRun={hasRun} passed={passed} />
+            </>
           )}
         </summary>
-        <div className={styles.detailContent}>
-          <p>
-            <strong>Input:</strong> <br />
-          </p>
-          <pre>{test.code}</pre>
-          <br />
-          <p>Expected: {test.expectedStdOut}</p>
-          {hasRun && <p> Actual: {result?.actual ?? "N/A"}</p>}
-        </div>
-        <div className={styles.gradient} />
+        {!test.hidden && (
+          <div className={styles.detailContent}>
+            <p>
+              <strong>Input:</strong>
+            </p>
+            <pre>{test.code}</pre>
+            <p>Expected: {test.expectedStdOut}</p>
+            {hasRun && <p>Actual: {result.actual}</p>}
+          </div>
+        )}
       </details>
     );
   }
 
   return (
     <div
-      className={`${styles.testCase} ${passed ? styles.passLight : result ? styles.failLight : ""}`}
+      className={`${styles.testCase} ${
+        passed ? styles.passLight : result ? styles.failLight : ""
+      }`}
     >
       <div className={styles.testHeader}>
-        <h3>Test {index + 1}</h3>
+        <section>
+          <h3>Test {index + 1}:</h3>
+          <p>{test.explanation}</p>
+        </section>
 
         <div className={styles.testHeaderActions}>
           <ToggleButton
             checked={test.hidden}
-            onChange={() => updateTest("hidden", !test.hidden)}
+            onChange={() => onUpdate("hidden", !test.hidden)}
             leftText="Hidden"
             rightText="Visible"
           />
-          <DeleteButton onClick={deleteTest}>X</DeleteButton>
+          <DeleteButton onClick={onDelete}>X</DeleteButton>
         </div>
       </div>
 
       <TestCaseEditor
         language={language}
         src={test.code}
-        setSource={(newCode) => updateTest("code", newCode)}
+        setSource={(code) => onUpdate("code", code)}
       />
-
-      {test.explanation && (
-        <div className={styles.explanationBlock}>
-          <b>Explanation:</b>
-          <p>{test.explanation}</p>
-        </div>
-      )}
 
       <div className={styles.expectedBlock}>
         <label>Expected:</label>
@@ -136,7 +150,7 @@ function TestCase({
           resizable={false}
           placeholder="Enter expected value"
           value={test.expectedStdOut}
-          onChange={(e) => updateTest("expectedStdOut", e.target.value)}
+          onChange={(e) => onUpdate("expectedStdOut", e.target.value)}
         />
       </div>
 
