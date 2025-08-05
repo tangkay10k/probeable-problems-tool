@@ -42,7 +42,7 @@ export default function ProblemList() {
         items={allItems}
         className={styles.table}
         showGradients={true}
-        enableArrowNavigation={true}
+        enableArrowNavigation={false}
         displayScrollbar={true}
         onItemSelect={(item, idx) => {
           if (idx > 0) onRowClick(item);
