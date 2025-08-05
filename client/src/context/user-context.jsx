@@ -14,36 +14,26 @@ const UserContext = createContext();
 
 export function UserProvider({ children }) {
   const navigate = useNavigate();
-  const [_, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [loginRole, setLoginRole] = useState(null);
-  const [profile, setProfileState] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
-  const setProfile = (profile) => {
-    if (profile) {
-      localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile));
-    } else {
-      localStorage.removeItem(USER_PROFILE_KEY);
-    }
-    setProfileState(profile);
-  };
-
+  // on mount: restore profile
   useEffect(() => {
     const saved = localStorage.getItem(USER_PROFILE_KEY);
     if (saved) setProfile(JSON.parse(saved));
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    staticLogOut = logOut;
-  }, []);
-
+  // login hook: specify prompt to force account selection
   const login = useGoogleLogin({
     scope: "openid profile email",
+    prompt: "select_account", // always ask which account to use:contentReference[oaicite:6]{index=6}
+    // you can also add select_account: true here:contentReference[oaicite:7]{index=7}
     onSuccess: async (tokenResponse) => {
       setUser(tokenResponse);
       setProfile(null);
-
       try {
         const googleUser = await getGoogleUser(tokenResponse);
         const person = await loginUser(googleUser, loginRole);
@@ -64,11 +54,15 @@ export function UserProvider({ children }) {
   const loginAs = (role) => {
     setLoginRole(role);
     setProfile(null);
-    login();
+    login(); // triggers Google OAuth with forced account selection
   };
 
   const logOut = () => {
-    googleLogout();
+    googleLogout(); // revoke client session
+    // disable auto-selection cookie to avoid auto‑login on next attempt:contentReference[oaicite:8]{index=8}
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+      window.google.accounts.id.disableAutoSelect();
+    }
     localStorage.removeItem(USER_PROFILE_KEY);
     setUser(null);
     setLoginRole(null);
