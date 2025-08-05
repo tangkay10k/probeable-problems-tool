@@ -8,19 +8,22 @@ import ToggleButton from "@/components/button/toggle-button";
 import { FaLock as LockedIcon } from "react-icons/fa";
 
 export function TestSuiteList({
-  tests,
+  tests = [],
   setTests,
   language,
-  results,
+  results = [],
   setResults,
   isEditable = true,
 }) {
   const updateTest = useCallback(
-    (index, field, value) =>
-      setTests((prev) =>
-        prev.map((t, i) => (i === index ? { ...t, [field]: value } : t)),
-      ),
-    [setTests],
+    (index, field, value) => {
+      const next = Array.isArray(tests)
+        ? tests.map((t, i) => (i === index ? { ...t, [field]: value } : t))
+        : [];
+
+      setTests(next);
+    },
+    [tests, setTests],
   );
 
   const addTestCase = useCallback(() => {
