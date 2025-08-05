@@ -1,0 +1,79 @@
+.radioWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding-2);
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+
+  justify-content: space-between;
+}
+
+/* Horizontal and vertical modifiers */
+.horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+/* Option wrapper styles */
+.radioOption {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Hide native radio input */
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Custom radio indicator */
+.customRadio {
+  width: 1rem;
+  height: 1rem;
+  border: 0.01rem solid #666;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.customRadio::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background-color: var(--black);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.1s ease-in-out;
+}
+
+/* Show indicator dot when checked */
+.radioInput:checked + .customRadio::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Label text */
+.labelText {
+  margin-left: 0;
+  line-height: 1;
+}
