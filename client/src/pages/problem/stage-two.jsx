@@ -27,6 +27,7 @@ import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import ButtonGroup from "@/components/button/button-group.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
+import Modal from "@/components/modal/modal.jsx";
 
 export default function StageTwo() {
   const {
@@ -45,6 +46,8 @@ export default function StageTwo() {
   const [showTestSuite, setShowTestSuite] = useState(false);
   const editorRef = useRef(null);
   const [selected, setSelected] = useState(0);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [numTestsPassed, setNumTestsPassed] = useState(0);
 
   const tabs = [
     {
@@ -86,6 +89,7 @@ export default function StageTwo() {
 
     const numberOfTestCasesPassed = `${passedCount}/${problem?.testSuite?.length}`;
     updateStudentScore(numberOfTestCasesPassed);
+    setNumTestsPassed(passedCount);
   };
 
   const handleExecution = () => {
@@ -93,7 +97,7 @@ export default function StageTwo() {
       studentCodeSubmission.length === 0 ||
       studentCodeSubmission.trim() === ""
     ) {
-      toast.error("Please write some code before submitting!");
+      toast.error("Please write some code before running!");
       return;
     }
 
@@ -111,6 +115,10 @@ export default function StageTwo() {
       },
       console.error,
     );
+  };
+
+  const confirmSubmission = () => {
+    setShowConfirmation(true);
   };
 
   return (
@@ -135,9 +143,12 @@ export default function StageTwo() {
             <section>
               {/*O(N) Here but we don't have that many problems -> O(1)*/}
               {profile?.problemsCompleted?.includes(problemId) && (
-                <span>
-                  <CompletedIcon />
-                </span>
+                <>
+                  <p>{problemAttempt?.score}</p>
+                  <span>
+                    <CompletedIcon />
+                  </span>
+                </>
               )}
 
               <ButtonV2
@@ -151,7 +162,7 @@ export default function StageTwo() {
               </ButtonV2>
             </section>
 
-            <Button onClick={saveStudentAttempt} disabled={isLoading}>
+            <Button onClick={confirmSubmission} disabled={isLoading}>
               <PlaneIcon size={12} /> Submit!
             </Button>
           </section>
@@ -183,6 +194,24 @@ export default function StageTwo() {
           </div>
         )}
       </div>
+      <Modal
+        title={"Are you sure you want to submit?"}
+        isOpen={showConfirmation}
+        setIsOpen={setShowConfirmation}
+      >
+        <p>
+          You have passed{" "}
+          <b>
+            {numTestsPassed} / {problem?.testSuite?.length}
+          </b>{" "}
+          test cases. Once you submit you will not be able to submit again!
+        </p>
+        <br />
+        <section className={styles.modalBtns}>
+          <Button onClick={() => setShowConfirmation(false)}>No</Button>
+          <Button onClick={saveStudentAttempt}>Yes</Button>
+        </section>
+      </Modal>
     </div>
   );
 }

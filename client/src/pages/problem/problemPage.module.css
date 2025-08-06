@@ -76,6 +76,14 @@
 .leftButtons {
   height: var(--editor-buttons-height);
   padding: var(--padding-025);
+
+  color: var(--white);
+  font-size: var(--font-size-08);
+  width: max-content;
+}
+
+.leftButtons section {
+  align-items: center;
 }
 
 .leftButtons span {
@@ -207,4 +215,9 @@
   font-size: 3rem;
   color: var(--white);
   background-color: var(--editor-colour);
+}
+
+.modalBtns {
+  display: flex;
+  gap: var(--padding-3);
 }

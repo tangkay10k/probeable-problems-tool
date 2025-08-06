@@ -5,7 +5,7 @@ import akl.p4p.uoa.models.person.Student;
 import akl.p4p.uoa.models.person.Teacher;
 import akl.p4p.uoa.repositories.StudentRepository;
 import akl.p4p.uoa.repositories.TeacherRepository;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -71,7 +71,12 @@ public class PersonService {
     var user = findPersonByEmail(userEmail);
 
     if (user.getProblemsCompleted() == null) {
-      user.setProblemsCompleted(new ArrayList<>());
+      user.setProblemsCompleted(new HashSet<>());
+    }
+
+    // Block multiple submissions of the same problem for data collection purposes
+    if (user.getProblemsCompleted().contains(problemId)) {
+      throw new RuntimeException("Student has already submitted their attempt!");
     }
 
     user.getProblemsCompleted().add(problemId);

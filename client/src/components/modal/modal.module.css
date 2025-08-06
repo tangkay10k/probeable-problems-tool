@@ -60,3 +60,16 @@
     transform: translate(-50%, -50%) translateY(0);
   }
 }
+
+.content button {
+  background-color: transparent;
+  border: 0.01rem solid var(--light-grey);
+
+  padding: var(--padding-2) var(--padding-1) !important;
+  border-radius: var(--border-radius-3);
+}
+
+.content button:hover {
+  background-color: var(--hover-light-grey);
+  color: var(--black);
+}
