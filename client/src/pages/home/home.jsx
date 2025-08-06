@@ -41,7 +41,10 @@ export default function Home() {
           onClick={() => setShowSurvey(true)}
           icon={<SurveyIcon size={20} />}
         />
-        <CircularIconButton icon={<InfoIcon size={20} />} />
+        <CircularIconButton
+          onClick={() => navigate("/about")}
+          icon={<InfoIcon size={20} />}
+        />
       </div>
     </div>
   );
