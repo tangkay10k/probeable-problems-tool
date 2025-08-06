@@ -24,3 +24,49 @@
   height: auto;
   max-width: 60%;
 }
+
+.survey {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  gap: var(--padding-1);
+
+  width: 100%;
+}
+
+.survey hr {
+  border: none !important;
+  height: 1px !important;
+  background-color: var(--dark-grey) !important;
+  margin: 0;
+}
+
+.survey h2 {
+  padding: 0;
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.survey h3 {
+  padding: 0;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.survey textarea {
+  border-radius: var(--border-radius-2);
+  background-color: transparent;
+
+  color: var(--white);
+  border: 0.01rem solid var(--dark-grey);
+}
+
+.survey textarea:focus {
+  box-shadow: none;
+}
+
+.survey p {
+  font-size: 1rem;
+}

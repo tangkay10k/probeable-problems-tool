@@ -14,41 +14,36 @@ const UserContext = createContext();
 
 export function UserProvider({ children }) {
   const navigate = useNavigate();
-  const [_, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [loginRole, setLoginRole] = useState(null);
-  const [profile, setProfileState] = useState(null);
+  const [profile, _setProfile] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
-  const setProfile = (profile) => {
-    if (profile) {
-      localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile));
+  const setProfile = (profileData) => {
+    if (profileData) {
+      localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profileData));
     } else {
       localStorage.removeItem(USER_PROFILE_KEY);
     }
-    setProfileState(profile);
+    _setProfile(profileData);
   };
 
   useEffect(() => {
     const saved = localStorage.getItem(USER_PROFILE_KEY);
-    if (saved) setProfile(JSON.parse(saved));
+    if (saved) _setProfile(JSON.parse(saved));
     setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    staticLogOut = logOut;
   }, []);
 
   const login = useGoogleLogin({
     scope: "openid profile email",
+    prompt: "select_account",
     onSuccess: async (tokenResponse) => {
       setUser(tokenResponse);
       setProfile(null);
-
       try {
         const googleUser = await getGoogleUser(tokenResponse);
         const person = await loginUser(googleUser, loginRole);
         setProfile(person);
-        localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(person));
         navigate("/problems");
       } catch (err) {
         console.error("Login or profile fetch failed:", err);
@@ -69,13 +64,19 @@ export function UserProvider({ children }) {
 
   const logOut = () => {
     googleLogout();
-    localStorage.removeItem(USER_PROFILE_KEY);
+
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+      window.google.accounts.id.disableAutoSelect();
+    }
+    setProfile(null);
     setUser(null);
     setLoginRole(null);
-    setProfile(null);
     logoutUser();
     navigate("/");
   };
+
+  // Expose static logout for external calls
+  staticLogOut = logOut;
 
   return (
     <UserContext.Provider

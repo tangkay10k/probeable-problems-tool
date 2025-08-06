@@ -1,0 +1,47 @@
+.switchLabel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.switchLabel input {
+  display: none;
+}
+
+.slider {
+  position: relative;
+  width: 2.25rem;
+  height: 1.125rem;
+  background-color: var(--very-light-grey);
+  border-radius: 2.125rem;
+  transition: background-color 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 0.875rem;
+  width: 0.875rem;
+  left: 0.125rem;
+  bottom: 0.125rem;
+  background-color: var(--white);
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+input:checked + .slider {
+  background-color: var(--selected-green);
+}
+
+input:checked + .slider::before {
+  transform: translateX(1.125rem);
+}
+
+.toggleText {
+  min-width: 3.75rem;
+  text-align: left;
+}

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 
 @Data
 @Builder
@@ -12,4 +13,8 @@ import lombok.NoArgsConstructor;
 public class Test {
   String code;
   String expectedStdOut;
+
+  @Transient String explanation;
+
+  @Builder.Default Boolean hidden = false;
 }

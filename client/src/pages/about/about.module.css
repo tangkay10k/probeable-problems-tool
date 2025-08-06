@@ -1,0 +1,58 @@
+.aboutPageContainer {
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  overflow: clip;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.aboutContent {
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  z-index: var(--layer-3);
+
+  background-image: radial-gradient(
+    circle at center,
+    var(--editor-colour) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+
+  backdrop-filter: blur(0.1rem);
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.aboutContent > p {
+  font-size: var(--font-size-4);
+  font-weight: 700;
+}
+
+.subheadingContainer {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.subheading {
+  font-size: var(--font-size-12);
+  font-weight: 600;
+}
+
+.aboutText {
+  width: 45%;
+  text-align: justify;
+}

@@ -20,7 +20,6 @@ export default function OracleCreation() {
     withLoading(
       () => generateOracle(problem),
       (problemWithOracle) => {
-        console.log(problemWithOracle);
         setOracle(problemWithOracle.defaultProbe);
       },
       (err) => toast.error(err),

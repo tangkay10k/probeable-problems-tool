@@ -13,6 +13,7 @@
   --black: #000000;
   --light-grey: #e5e5e5;
   --less-dark-grey: #757575;
+  --very-light-grey: #ccc;
   --dark-grey: #5b5b5b;
   --dark-dark-grey: #2f2f2f;
   --dark-3-grey: #212121;
@@ -21,6 +22,7 @@
   --grey: #d9d9d9;
   --light-white: #f5f5f5;
   --white: #ffffff;
+  --selected-green: #4caf50;
 
   --pass-green-light: #c3f3c7;
   --pass-green: #50c96d;
@@ -70,6 +72,13 @@
   --border-radius-3: 1.5rem;
   --border-radius-4: 2rem;
   --border-radius-5: 3rem;
+
+  --font-size-08: 0.8rem;
+  --font-size-1: 1rem;
+  --font-size-12: 1.2rem;
+  --font-size-2: 2rem;
+  --font-size-3: 3rem;
+  --font-size-4: 4rem;
 
   /* Duration of the collapse/expand animation */
   --acc-duration: 0.6s;
