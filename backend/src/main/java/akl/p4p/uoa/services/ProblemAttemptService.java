@@ -60,8 +60,8 @@ public class ProblemAttemptService {
       ChatHistory chatHistory = initialiseClientPersona(problem);
 
       attempt.setChatHistoryId(chatHistory.getSessionId());
+      attempt = problemAttemptRepository.save(attempt);
       attempt.setMessageList(chatHistory.getMessages());
-      problemAttemptRepository.save(attempt);
 
       // Return attempt that contains transient field (messages)
       return attempt;

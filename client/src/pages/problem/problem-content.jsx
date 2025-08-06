@@ -1,6 +1,6 @@
 import styles from "./problemPage.module.css";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import React, { useState } from "react";
+import { useState} from "react";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import StageTwo from "@/pages/problem/stage-two.jsx";
