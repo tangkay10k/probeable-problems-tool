@@ -17,8 +17,7 @@ public class StudentLogController {
 
   @PostMapping("/paste/{problemAttemptId}")
   public ResponseEntity<?> logPastedContent(
-      @PathVariable String problemAttemptId,
-      @RequestBody PastedContent pastedContent) {
+      @PathVariable String problemAttemptId, @RequestBody PastedContent pastedContent) {
     studentLogService.savePastedLog(problemAttemptId, pastedContent);
 
     return ResponseEntity.ok().build();

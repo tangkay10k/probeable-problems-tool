@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PastedContent {
-    private String pastedContent;
-    private String afterPastedContent;
+  private String pastedContent;
+  private String afterPastedContent;
 }
