@@ -77,18 +77,19 @@ export const TextEditor = forwardRef(
       editorRef.current = editor;
       monacoRef.current = monaco;
 
-      // Fires only when the user pastes (Ctrl/Cmd+V, context menu, etc.)
       editor.onDidPaste((e) => {
-        const pastedText =
-          e.clipboardEvent?.clipboardData?.getData("text/plain") ?? "";
-          console.log(pastedText)
-        // const fullText = editor.getValue();
-        // if (isLogging && pastedText) {
-        //   logPastedContent(problemAttempt.id, {
-        //     pastedContent: pastedText,
-        //     afterPastedContent: fullText,
-        //   });
-        // }
+        const model = editor.getModel();
+        const pastedRange = e.range;
+
+        const pastedText = model.getValueInRange(pastedRange);
+
+        const fullText = editor.getValue();
+        if (isLogging && pastedText) {
+          logPastedContent(problemAttempt.id, {
+            pastedContent: pastedText,
+            afterPastedContent: fullText,
+          });
+        }
       });
 
       if (isResizable) {
