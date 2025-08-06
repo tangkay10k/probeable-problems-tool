@@ -19,6 +19,7 @@ function App() {
         autoClose={2000}
         hideProgressBar={true}
         newestOnTop={false}
+        stacked
         closeOnClick={false}
         rtl={false}
         draggable

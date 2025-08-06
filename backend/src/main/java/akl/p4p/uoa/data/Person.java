@@ -3,7 +3,7 @@ package akl.p4p.uoa.data;
 import akl.p4p.uoa.enums.Role;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import java.util.List;
+import java.util.Set;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -18,5 +18,5 @@ public class Person {
   String name;
   String userImage;
   Role role;
-  List<String> problemsCompleted;
+  Set<String> problemsCompleted;
 }

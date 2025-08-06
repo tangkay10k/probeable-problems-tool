@@ -95,8 +95,6 @@ const ProblemAttemptProvider = ({ children }) => {
       return;
     }
 
-    // Are you sure modal:
-
     const toSave = {
       ...problemAttempt,
       notesTaken: studentNotes,
@@ -116,7 +114,7 @@ const ProblemAttemptProvider = ({ children }) => {
           .then((updatedProfile) => setProfile(updatedProfile))
           .catch(() => console.error);
       },
-      console.error,
+      () => toast.error("🚨You have already submitted your attempt!"),
     );
   };
 
