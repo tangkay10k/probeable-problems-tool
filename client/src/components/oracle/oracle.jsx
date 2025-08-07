@@ -90,18 +90,15 @@ export default function Oracle({
       (result) => {
         setExecutionOutput(result);
 
-        // Store history of valid probes
-        if (
-          executionOutput?.run?.output &&
-          executionOutput?.run?.stderr.length === 0
-        ) {
-          updateOracleHistory([
-            ...oracleExecutionHistory,
-            {
-              testCase: inputVariables,
-              expectedOutput: executionOutput.run.output,
-            },
-          ]);
+        const { run: { output, stderr } = {} } = result;
+        if (output && stderr.length === 0) {
+          const newEntry = {
+            testCase: inputVariables,
+            expectedOutput: output,
+            timestamp: Date.now(),
+          };
+
+          updateOracleHistory([...oracleExecutionHistory, newEntry]);
         }
       },
       console.error,

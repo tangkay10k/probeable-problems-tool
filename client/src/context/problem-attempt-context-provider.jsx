@@ -71,7 +71,7 @@ const ProblemAttemptProvider = ({ children }) => {
     saveStudentData("codeSubmission", newCode);
   const updateStudentScore = (score) => saveStudentData("score", score);
 
-  /* store [{testcase: X, output: Y}, ...]*/
+  /* store [{testcase: X, output: Y, timestamp: Z}, ...]*/
   const updateOracleHistory = (oracleExecutionHistory) =>
     saveStudentData("oracleExecutionHistory", oracleExecutionHistory);
 
