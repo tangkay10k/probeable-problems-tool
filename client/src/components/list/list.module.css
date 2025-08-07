@@ -5,8 +5,10 @@
   flex-direction: column;
 
   height: 100%;
+  max-height: 22rem;
   gap: 1rem;
 
+  width: var(--problem-list-max-width);
   max-width: var(--problem-list-max-width);
 
   border-radius: var(--border-radius-1);

@@ -18,7 +18,12 @@ export default function Oracle({
   resetOracle = false,
 }) {
   const { problemId } = useParams();
-  const { chatHistory, problemAttempt } = useProblemAttemptContext();
+  const {
+    chatHistory,
+    problemAttempt,
+    updateOracleHistory,
+    oracleExecutionHistory,
+  } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
   const [inputVariables, setInputVariables] = useState("");
@@ -84,8 +89,21 @@ export default function Oracle({
         ),
       (result) => {
         setExecutionOutput(result);
-      },
 
+        // Store history of valid probes
+        if (
+          executionOutput?.run?.output &&
+          executionOutput?.run?.stderr.length === 0
+        ) {
+          updateOracleHistory([
+            ...oracleExecutionHistory,
+            {
+              testCase: inputVariables,
+              expectedOutput: executionOutput.run.output,
+            },
+          ]);
+        }
+      },
       console.error,
     );
   }

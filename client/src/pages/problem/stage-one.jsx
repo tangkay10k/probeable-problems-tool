@@ -13,6 +13,7 @@ import {
 import Oracle from "@/components/oracle/oracle.jsx";
 import ChatApp from "@/components/ai/chatapp.jsx";
 import Modal from "@/components/modal/modal.jsx";
+import OracleHistory from "@/components/oracle/oracle-history.jsx";
 
 const TABS = [
   {
@@ -20,6 +21,7 @@ const TABS = [
     content: <StudentInstruction instruction={STAGE_ONE[0].content} />,
   },
   { label: "Notepad", content: <NotePad /> },
+  { label: "Oracle History", content: <OracleHistory /> },
 ];
 
 export default function StageOne() {
