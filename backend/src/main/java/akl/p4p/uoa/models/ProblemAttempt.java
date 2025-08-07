@@ -1,6 +1,7 @@
 package akl.p4p.uoa.models;
 
 import akl.p4p.uoa.data.ChatMessage;
+import akl.p4p.uoa.data.OracleExecution;
 import akl.p4p.uoa.enums.ProgramLanguage;
 import java.util.Date;
 import java.util.List;
@@ -24,4 +25,5 @@ public class ProblemAttempt {
   private String score;
   private String notesTaken;
   private String agentPrompt;
+  private List<OracleExecution> oracleExecutionHistory;
 }

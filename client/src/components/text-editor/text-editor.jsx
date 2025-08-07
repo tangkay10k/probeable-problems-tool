@@ -93,7 +93,9 @@ export const TextEditor = forwardRef(
       });
 
       if (isResizable) {
-        const lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
+        const lineHeight = editor.getOption(
+          monaco.editor.EditorOption.lineHeight,
+        );
         editor.onDidContentSizeChange((e) => {
           const newHeight = e.contentHeight + lineHeight;
           setEditorHeight(newHeight);
@@ -101,7 +103,6 @@ export const TextEditor = forwardRef(
         });
       }
     }
-
 
     useEffect(() => {
       if (!isResizable || !containerRef.current) return;

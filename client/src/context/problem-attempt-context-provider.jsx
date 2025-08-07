@@ -32,6 +32,7 @@ const ProblemAttemptProvider = ({ children }) => {
   const studentAgentPrompt = currentData.agentPrompt || "";
   const studentCodeSubmission = currentData.codeSubmission || "";
   const score = currentData.score || "";
+  const oracleExecutionHistory = currentData.oracleExecutionHistory || [];
 
   useEffect(() => {
     if (fetchedProblemIds.current.has(problemId)) return;
@@ -70,6 +71,10 @@ const ProblemAttemptProvider = ({ children }) => {
     saveStudentData("codeSubmission", newCode);
   const updateStudentScore = (score) => saveStudentData("score", score);
 
+  /* store [{testcase: X, output: Y, timestamp: Z}, ...]*/
+  const updateOracleHistory = (oracleExecutionHistory) =>
+    saveStudentData("oracleExecutionHistory", oracleExecutionHistory);
+
   /**
    * Deletes the entire stored data (notes, prompt, code, score) for this problem
    */
@@ -101,6 +106,7 @@ const ProblemAttemptProvider = ({ children }) => {
       agentPrompt: studentAgentPrompt,
       codeSubmission: studentCodeSubmission,
       score: score,
+      oracleExecutionHistory: oracleExecutionHistory,
     };
     withLoading(
       () => saveProblemAttempt(toSave),
@@ -133,6 +139,8 @@ const ProblemAttemptProvider = ({ children }) => {
         updateStudentCodeSubmission,
         deleteStudentAttempt,
         updateStudentScore,
+        updateOracleHistory,
+        oracleExecutionHistory,
         saveStudentAttempt,
       }}
     >

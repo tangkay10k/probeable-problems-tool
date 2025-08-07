@@ -66,3 +66,50 @@
   background-color: var(--less-dark-grey);
   transform: scale(1);
 }
+
+/*===Oracle History===*/
+
+.historyContainer {
+  background-color: var(--toggle-hover-editor);
+  border-radius: var(--border-radius-2);
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.executionBlock {
+  background-color: var(--editor-colour);
+  border-radius: var(--border-radius-2);
+  padding: var(--padding-2);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding-1);
+  height: max-content;
+
+  white-space: pre-wrap;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+.executionBlock hr {
+  border: none;
+  height: 1px;
+  background-color: var(--light-grey);
+  width: 100%;
+}
+
+.oracleList {
+  border-radius: var(--border-radius-2);
+  height: 100%;
+  overflow: clip;
+  box-shadow: none;
+}
+
+.listItem {
+  height: 100%;
+  border-radius: var(--border-radius-2);
+  overflow: clip;
+}

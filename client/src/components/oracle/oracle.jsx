@@ -18,7 +18,12 @@ export default function Oracle({
   resetOracle = false,
 }) {
   const { problemId } = useParams();
-  const { chatHistory, problemAttempt } = useProblemAttemptContext();
+  const {
+    chatHistory,
+    problemAttempt,
+    updateOracleHistory,
+    oracleExecutionHistory,
+  } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
   const [inputVariables, setInputVariables] = useState("");
@@ -84,8 +89,18 @@ export default function Oracle({
         ),
       (result) => {
         setExecutionOutput(result);
-      },
 
+        const { run: { output, stderr } = {} } = result;
+        if (output && stderr.length === 0) {
+          const newEntry = {
+            testCase: inputVariables,
+            expectedOutput: output,
+            timestamp: Date.now(),
+          };
+
+          updateOracleHistory([...oracleExecutionHistory, newEntry]);
+        }
+      },
       console.error,
     );
   }
