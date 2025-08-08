@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import { STAGE_ONE } from "@/pages/problem/data/instructions.js";
-import NotePad from "@/components/notes/notepad.jsx";
 import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";
 import ButtonGroup from "@/components/button/button-group.jsx";
@@ -20,7 +19,6 @@ const TABS = [
     label: "Task",
     content: <StudentInstruction instruction={STAGE_ONE[0].content} />,
   },
-  { label: "Notepad", content: <NotePad /> },
   { label: "Oracle History", content: <OracleHistory /> },
 ];
 
