@@ -20,7 +20,6 @@ const TABS = [
     label: "Task",
     content: <StudentInstruction instruction={STAGE_ONE[0].content} />,
   },
-  { label: "Notepad", content: <NotePad /> },
   { label: "Oracle History", content: <OracleHistory /> },
 ];
 

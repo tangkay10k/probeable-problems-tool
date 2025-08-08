@@ -54,7 +54,6 @@ export default function StageTwo() {
       label: "Task",
       content: <StudentInstruction instruction={STAGE_TWO[0].content} />,
     },
-    { label: "Notepad", content: <NotePad /> },
     { label: "Cogs", content: <AIAgent editorRef={editorRef} /> },
   ];
 
