@@ -10,7 +10,17 @@ import {
 import { useUserProfile } from "@/context/user-context.jsx";
 import { getUserProfileSilently } from "@/routes/person-route.js";
 
-const STUDENT_DATA_KEY = "studentProblemData";
+const STORAGE_NAMESPACE = "studentProblemData"; // base prefix
+
+// hash helper so the email isn't visible in LS keys
+async function sha256Hex(input) {
+  const enc = new TextEncoder().encode(input);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  const bytes = new Uint8Array(buf);
+  return Array.from(bytes)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
 
 const ProblemAttemptProvider = ({ children }) => {
   const { problemId } = useParams();
@@ -21,20 +31,53 @@ const ProblemAttemptProvider = ({ children }) => {
   const navigate = useNavigate();
   const fetchedProblemIds = useRef(new Set());
 
-  // Unified storage mapping: { [problemId]: { notes, agentPrompt, codeSubmission, score } }
-  const [studentDataMap, setStudentDataMap] = useState(() => {
-    const saved = localStorage.getItem(STUDENT_DATA_KEY);
-    return saved ? JSON.parse(saved) : {};
-  });
+  // Derived per-user storage key (hashed)
+  const [userStorageKey, setUserStorageKey] = useState(null);
 
-  const currentData = studentDataMap[problemId] || {};
+  // Per-user map: { [problemId]: { notes, agentPrompt, codeSubmission, score, oracleExecutionHistory } }
+  const [studentDataMap, setStudentDataMap] = useState({});
+
+  // Compute hashed storage key when profile email is available
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const email = profile?.email?.trim().toLowerCase();
+      if (!email) {
+        setUserStorageKey(null);
+        setStudentDataMap({});
+        return;
+      }
+      const hash = await sha256Hex(email);
+      if (!cancelled) setUserStorageKey(`${STORAGE_NAMESPACE}:${hash}`);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [profile?.email]);
+
+  // Load per-user map from localStorage once we have the key
+  useEffect(() => {
+    if (!userStorageKey) return;
+    const saved = localStorage.getItem(userStorageKey);
+    try {
+      setStudentDataMap(saved ? JSON.parse(saved) : {});
+    } catch {
+      // corrupt JSON? reset for safety
+      setStudentDataMap({});
+    }
+  }, [userStorageKey]);
+
+  const currentData =
+    studentDataMap && problemId ? studentDataMap[problemId] || {} : {};
   const studentNotes = currentData.notes || "";
   const studentAgentPrompt = currentData.agentPrompt || "";
   const studentCodeSubmission = currentData.codeSubmission || "";
   const score = currentData.score || "";
   const oracleExecutionHistory = currentData.oracleExecutionHistory || [];
 
+  // Guard: don’t fetch until we know who the user is
   useEffect(() => {
+    if (!profile?.email || !problemId) return;
     if (fetchedProblemIds.current.has(problemId)) return;
     fetchedProblemIds.current.add(problemId);
 
@@ -52,14 +95,20 @@ const ProblemAttemptProvider = ({ children }) => {
         toast.error("Something went wrong fetching that problem...");
       },
     );
-  }, [problemId, navigate, withLoading]);
+  }, [problemId, profile?.email, navigate, withLoading]);
 
-  // Helper to save any field into the unified map
+  // Helper to write back to per-user storage
+  const persist = (nextMap) => {
+    if (!userStorageKey) return; // if not ready, don't persist yet
+    localStorage.setItem(userStorageKey, JSON.stringify(nextMap));
+  };
+
   const saveStudentData = (field, value) => {
+    if (!problemId) return;
     setStudentDataMap((prev) => {
       const updatedEntry = { ...(prev[problemId] || {}), [field]: value };
       const updatedMap = { ...prev, [problemId]: updatedEntry };
-      localStorage.setItem(STUDENT_DATA_KEY, JSON.stringify(updatedMap));
+      persist(updatedMap);
       return updatedMap;
     });
   };
@@ -69,34 +118,38 @@ const ProblemAttemptProvider = ({ children }) => {
     saveStudentData("agentPrompt", newPrompt);
   const updateStudentCodeSubmission = (newCode) =>
     saveStudentData("codeSubmission", newCode);
-  const updateStudentScore = (score) => saveStudentData("score", score);
+  const updateStudentScore = (newScore) => saveStudentData("score", newScore);
 
   /* store [{testcase: X, output: Y, timestamp: Z}, ...]*/
-  const updateOracleHistory = (oracleExecutionHistory) =>
-    saveStudentData("oracleExecutionHistory", oracleExecutionHistory);
+  const updateOracleHistory = (newHistory) =>
+    saveStudentData("oracleExecutionHistory", newHistory);
 
   /**
-   * Deletes the entire stored data (notes, prompt, code, score) for this problem
+   * Deletes the entire stored data (notes, prompt, code, score) for THIS problem (for this user)
    */
   const deleteStudentAttempt = () => {
+    if (!problemId) return;
     setStudentDataMap((prev) => {
       const { [problemId]: _, ...rest } = prev;
-      localStorage.setItem(STUDENT_DATA_KEY, JSON.stringify(rest));
+      persist(rest);
       return rest;
     });
   };
 
   /*
    * We store notes, agent prompt locally, and only when we submit do we compile everything together to be submitted.
-   * */
+   */
   const saveStudentAttempt = () => {
-    if (score.length === 0) {
+    if (!score || String(score).length === 0) {
       toast.error("🚨 Please run your code before submitting! 🚨");
       return;
     }
-
-    if (studentCodeSubmission.length === 0) {
+    if (!studentCodeSubmission || studentCodeSubmission.length === 0) {
       toast.error("🚨 Write some code before submitting! 🚨");
+      return;
+    }
+    if (!problemAttempt) {
+      toast.error("🚨 Problem metadata not loaded yet. Try again. 🚨");
       return;
     }
 
@@ -108,6 +161,7 @@ const ProblemAttemptProvider = ({ children }) => {
       score: score,
       oracleExecutionHistory: oracleExecutionHistory,
     };
+
     withLoading(
       () => saveProblemAttempt(toSave),
       () => {

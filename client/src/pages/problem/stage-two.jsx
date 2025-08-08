@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
-import NotePad from "@/components/notes/notepad.jsx";
 import AIAgent from "@/components/ai/ai-agent.jsx";
 import { getProblem } from "@/routes/problem-route.js";
 import { getTestTemplate } from "@/routes/template-route.js";
