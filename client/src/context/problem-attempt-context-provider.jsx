@@ -9,6 +9,8 @@ import {
 } from "@/routes/problem-attempt-route.js";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { getUserProfileSilently } from "@/routes/person-route.js";
+import { getExecuteTemplate } from "@/routes/template-route.js";
+import { getProblem } from "@/routes/problem-route.js";
 
 const STORAGE_NAMESPACE = "studentProblemData"; // base prefix
 
@@ -27,7 +29,9 @@ const ProblemAttemptProvider = ({ children }) => {
   const { profile, setProfile } = useUserProfile();
   const [problemAttempt, setProblemAttempt] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
+  const [executeTemplate, setExecuteTemplate] = useState("");
   const [isLoading, withLoading] = useWithLoading();
+  const [problem, setProblem] = useState({});
   const navigate = useNavigate();
   const fetchedProblemIds = useRef(new Set());
 
@@ -96,6 +100,27 @@ const ProblemAttemptProvider = ({ children }) => {
       },
     );
   }, [problemId, profile?.email, navigate, withLoading]);
+
+  useEffect(() => {
+    withLoading(
+      () => getExecuteTemplate(problemAttempt?.problemLanguage),
+      (template) => {
+        setExecuteTemplate(template)
+      },
+      (err) => toast.error(err),
+    );
+
+    withLoading(
+      () => getProblem(problemId),
+      (fetchedProblem) => {
+        setProblem(fetchedProblem);
+        saveProbesToLocalStorage(problemId, fetchedProblem.defaultProbe);
+        setInputVariables(fetchedProblem.defaultProbe);
+      },
+      (err) => toast.error(err),
+    );
+  }, [problemId, problemAttempt?.problemLanguage]);
+
 
   // Helper to write back to per-user storage
   const persist = (nextMap) => {
@@ -196,6 +221,8 @@ const ProblemAttemptProvider = ({ children }) => {
         updateOracleHistory,
         oracleExecutionHistory,
         saveStudentAttempt,
+        executeTemplate,
+        problem
       }}
     >
       {children}

@@ -38,7 +38,7 @@ public class AIService {
    * Used for executing an LLM call one time, chat history is not maintained.
    *
    * @param systemPrompt is the system prompt to send to the LLM to execute request.
-   * @param responseSchema is the schema type of the response format which are defined in {@link
+   * @param responseSchema is the schema type of the response format which are defined in {@link 
    *     akl.p4p.uoa.data.JsonSchemaDefinition} if not supplied (null) the response format defaults
    *     to a string.
    */
@@ -63,13 +63,13 @@ public class AIService {
 
     List<Message> history = new ArrayList<>();
     history.add(new SystemMessage(systemPrompt));
-    OpenAiChatOptions options =
-        OpenAiChatOptions.builder()
-            .model(model)
-            .temperature(temperature)
-            .topP(topP)
-            .responseFormat(responseFormat)
-            .build();
+    OpenAiChatOptions options = 
+    OpenAiChatOptions.builder()
+        .model(model)
+        .temperature(temperature)
+        .topP(topP)
+        .responseFormat(responseFormat)
+        .build();
     return chatClient.prompt().options(options).messages(history).call().content();
   }
 
@@ -97,7 +97,8 @@ public class AIService {
       String sessionId,
       @Nullable String systemPrompt,
       @Nullable String userMessage,
-      @Nullable String responseSchema) {
+      @Nullable String responseSchema,
+      boolean isReplace) {
 
     ChatHistory sessionHistory = chatHistoryService.loadHistory(sessionId);
 
@@ -109,37 +110,39 @@ public class AIService {
 
     List<ChatMessage> history = sessionHistory.getMessages();
 
-    if (history.isEmpty()) {
+    if (history.isEmpty() || isReplace) {
       history.add(ChatMessageConverter.convertSystemPromptToChatMessage(systemPrompt));
-    }
-
-    if (userMessage != null) {
+    }else if (userMessage != null) {
       history.add(ChatMessageConverter.convertUserMessageToChatMessage(userMessage));
     }
 
-    List<Message> sdkMessages =
-        history.stream()
-            .map(
-                chatMsg -> {
-                  if ("user".equals(chatMsg.getRole())) {
-                    return new UserMessage(chatMsg.getContent());
-                  } else if ("assistant".equals(chatMsg.getRole())) {
-                    return new AssistantMessage(chatMsg.getContent());
-                  } else {
-                    return new SystemMessage(chatMsg.getContent());
-                  }
-                })
-            .collect(Collectors.toList());
+    List<Message> sdkMessages = 
+    history.stream()
+        .map(
+            chatMsg -> {
+              if ("user".equals(chatMsg.getRole())) {
+                return new UserMessage(chatMsg.getContent());
+              } else if ("assistant".equals(chatMsg.getRole())) {
+                return new AssistantMessage(chatMsg.getContent());
+              } else {
+                return new SystemMessage(chatMsg.getContent());
+              }
+            })
+        .collect(Collectors.toList());
 
-    OpenAiChatOptions options =
-        OpenAiChatOptions.builder()
-            .model(OpenAiApi.ChatModel.O4_MINI)
-            .temperature(1D)
-            .responseFormat(getResponseType(responseSchema))
-            .build();
+    OpenAiChatOptions options = 
+    OpenAiChatOptions.builder()
+        .model(OpenAiApi.ChatModel.O4_MINI)
+        .temperature(1D)
+        .responseFormat(getResponseType(responseSchema))
+        .build();
 
-    String assistantReply =
-        chatClient.prompt().options(options).messages(sdkMessages).call().content();
+    String assistantReply = 
+    chatClient.prompt().options(options).messages(sdkMessages).call().content();
+    
+    if (isReplace && history.size() >= 2) {
+      history.subList(history.size() - 2, history.size()).clear();
+    }
 
     history.add(ChatMessageConverter.convertLLMResponseToChatMessage(assistantReply));
 

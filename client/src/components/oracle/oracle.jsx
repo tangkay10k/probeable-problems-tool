@@ -7,9 +7,6 @@ import { useEffect, useState } from "react";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { useParams } from "react-router-dom";
-import { getExecuteTemplate } from "@/routes/template-route.js";
-import { getProblem } from "@/routes/problem-route.js";
-import { toast } from "react-toastify";
 
 const DEFAULT_PROBES_KEY = "problemInitialProbes";
 
@@ -23,36 +20,18 @@ export default function Oracle({
     problemAttempt,
     updateOracleHistory,
     oracleExecutionHistory,
+    executeTemplate,
+    problem
   } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
   const [inputVariables, setInputVariables] = useState("");
-  const [executeTemplate, setExecuteTemplate] = useState("");
-  const [problem, setProblem] = useState({});
 
   useEffect(() => {
     if (chatHistory) {
       handleLLMGeneratedTestCase(chatHistory.messages);
     }
   }, [problemAttempt, chatHistory]);
-
-  useEffect(() => {
-    withLoading(
-      () => getExecuteTemplate(problemAttempt?.problemLanguage),
-      (template) => setExecuteTemplate(template),
-      (err) => toast.error(err),
-    );
-
-    withLoading(
-      () => getProblem(problemId),
-      (fetchedProblem) => {
-        setProblem(fetchedProblem);
-        saveProbesToLocalStorage(problemId, fetchedProblem.defaultProbe);
-        setInputVariables(fetchedProblem.defaultProbe);
-      },
-      (err) => toast.error(err),
-    );
-  }, [problemId]);
 
   useEffect(() => {
     const defaultProbeMap = localStorage.getItem(DEFAULT_PROBES_KEY);

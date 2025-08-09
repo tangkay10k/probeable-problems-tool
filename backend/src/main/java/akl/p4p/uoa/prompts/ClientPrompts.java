@@ -9,8 +9,8 @@ public class ClientPrompts {
 
   private static final String PROMPT_RESOURCE_DIR = "prompts/";
   private static final String CLIENT_BASE_PROMPT_FILE = "client-base-prompt.txt";
-  private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS =
-      "c-sf-specific-instructions.txt";
+  private static final String CLIENT_EXPLANATION_PROMPT_FILE = "client-explanation-prompt.txt";
+  private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS = "c-sf-specific-instructions.txt";
 
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,
@@ -25,8 +25,8 @@ public class ClientPrompts {
       case C -> specificInstructions = getCSpecificInstructions();
       case JAVA -> specificInstructions = getJavaSpecificInstructions();
       default ->
-          throw new RuntimeException(
-              "Programming language: " + problemLanguage + " does not exist!");
+        throw new RuntimeException(
+            "Programming language: " + problemLanguage + " does not exist!");
     }
     return basePrompt.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions);
   }
@@ -38,6 +38,13 @@ public class ClientPrompts {
         .replace("//VAR_PROBLEM_STATEMENT", problemStatement)
         .replace("//VAR_MODEL_ANSWER", modelAnswer)
         .replace("//VAR_CONSTRAINTS", constraints);
+  }
+
+  public static String clientExplanationPrompt(
+      String output) throws IOException {
+    String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_EXPLANATION_PROMPT_FILE);
+    return basePrompt
+        .replace("//VAR_OUTPUT", output);
   }
 
   private static String getCSpecificInstructions() throws IOException {
