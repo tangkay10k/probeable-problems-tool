@@ -26,7 +26,7 @@ public class ProblemAttemptController {
   public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(
       @RequestParam String problemId, @RequestParam String studentEmail) throws IOException {
 
-    ProblemAttempt attempt = 
+    ProblemAttempt attempt =
         problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
     return ResponseEntity.ok(attempt);
   }
@@ -35,19 +35,21 @@ public class ProblemAttemptController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) {
 
-    ChatHistory attempt = 
-    problemAttemptService.chatWithClientWithSessionHistory(
-        message.getSessionId(), message.getChatMessage().getContent());
+    ChatHistory attempt =
+        problemAttemptService.chatWithClientWithSessionHistory(
+            message.getSessionId(), message.getChatMessage().getContent());
     return ResponseEntity.ok(attempt);
   }
 
   @PostMapping("chat/outputResponse")
   @PreAuthorize(IS_AUTHENTICATED)
-  public ResponseEntity<ChatHistory> requestActualOutputResponse(@RequestBody MessageDTO message) throws IOException {
+  public ResponseEntity<ChatHistory> requestActualOutputResponse(@RequestBody MessageDTO message)
+      throws IOException {
     String sysPrompt = ClientPrompts.clientExplanationPrompt(message.getOutput());
-    ChatHistory attempt = problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
-        message.getSessionId(), sysPrompt);
-        
+    ChatHistory attempt =
+        problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
+            message.getSessionId(), sysPrompt);
+
     return ResponseEntity.ok(attempt);
   }
 

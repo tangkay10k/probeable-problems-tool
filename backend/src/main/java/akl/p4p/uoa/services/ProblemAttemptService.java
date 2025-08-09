@@ -41,15 +41,15 @@ public class ProblemAttemptService {
 
   public ProblemAttempt retrieveLatestOrCreateProblemAttempt(String problemId, String studentEmail)
       throws IOException {
-    List<ProblemAttempt> attempts = 
-    problemAttemptRepository.findAllByProblemIdAndStudentEmailOrderByCreatedDateDesc(
-        problemId, studentEmail);
+    List<ProblemAttempt> attempts =
+        problemAttemptRepository.findAllByProblemIdAndStudentEmailOrderByCreatedDateDesc(
+            problemId, studentEmail);
 
     if (attempts.isEmpty()) {
-      Problem problem = 
-      problemRepository
-          .findById(problemId)
-          .orElseThrow(() -> new RuntimeException("Problem not " + "found: " + problemId));
+      Problem problem =
+          problemRepository
+              .findById(problemId)
+              .orElseThrow(() -> new RuntimeException("Problem not " + "found: " + problemId));
 
       var attempt = new ProblemAttempt();
       attempt.setProblemId(problem.getId());
@@ -68,13 +68,13 @@ public class ProblemAttemptService {
     } else { // For now: Always return latest problem attempt.
       ProblemAttempt latest = attempts.get(0);
       String chatHistoryId = latest.getChatHistoryId();
-      ChatHistory history = 
-      chatHistoryRepository
-          .findById(chatHistoryId)
-          .orElseThrow(
-              () ->
-               new RuntimeException(
-                  "Chat with id: " + chatHistoryId + " could not be found."));
+      ChatHistory history =
+          chatHistoryRepository
+              .findById(chatHistoryId)
+              .orElseThrow(
+                  () ->
+                      new RuntimeException(
+                          "Chat with id: " + chatHistoryId + " could not be found."));
 
       latest.setMessageList(history.getMessages());
       return latest;
@@ -86,7 +86,8 @@ public class ProblemAttemptService {
         sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema(), false);
   }
 
-  public ChatHistory chatWithClientWithSessionHistoryAndReplace(String sessionId, String systemPrompt) {
+  public ChatHistory chatWithClientWithSessionHistoryAndReplace(
+      String sessionId, String systemPrompt) {
     return aiService.chatWithClient(
         sessionId, systemPrompt, null, JsonSchemaDefinition.getClientProbeSchema(), true);
   }
@@ -100,12 +101,12 @@ public class ProblemAttemptService {
   }
 
   private ChatHistory initialiseClientPersona(Problem problem) throws IOException {
-    String systemPrompt = 
-    ClientPrompts.getClientInitialisationPrompt(
-        problem.getProgramLanguage(),
-        problem.getProblemStatement(),
-        problem.getModelAnswer(),
-        problem.getConstraints());
+    String systemPrompt =
+        ClientPrompts.getClientInitialisationPrompt(
+            problem.getProgramLanguage(),
+            problem.getProblemStatement(),
+            problem.getModelAnswer(),
+            problem.getConstraints());
 
     String newSessionId = UUID.randomUUID().toString();
 
