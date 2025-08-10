@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class ChatMessage {
   private String role;
-  private String content;
+  private ChatContent content;
   private Instant timestamp;
 }

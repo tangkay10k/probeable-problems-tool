@@ -10,7 +10,7 @@ public class ChatMessageConverter {
    * @param userContent the text the user sent
    * @return a ChatMessage with role="user", the given content, and a timestamp of now
    */
-  public static ChatMessage convertUserMessageToChatMessage(String userContent) {
+  public static ChatMessage convertUserMessageToChatMessage(ChatContent userContent) {
     ChatMessage chatMsg = new ChatMessage();
     chatMsg.setRole("user");
     chatMsg.setContent(userContent);
@@ -24,7 +24,7 @@ public class ChatMessageConverter {
    * @param assistantMessage the message the received by the LLM
    * @return a ChatMessage with role="assistant", the given content, and a timestamp of now
    */
-  public static ChatMessage convertLLMResponseToChatMessage(String assistantMessage) {
+  public static ChatMessage convertLLMResponseToChatMessage(ChatContent assistantMessage) {
     ChatMessage chatMsg = new ChatMessage();
     chatMsg.setRole("assistant");
     chatMsg.setContent(assistantMessage);
@@ -41,7 +41,7 @@ public class ChatMessageConverter {
   public static ChatMessage convertSystemPromptToChatMessage(String systemPrompt) {
     ChatMessage chatMsg = new ChatMessage();
     chatMsg.setRole("system");
-    chatMsg.setContent(systemPrompt);
+    chatMsg.setContent(new ChatContent(systemPrompt));
     chatMsg.setTimestamp(Instant.now());
     return chatMsg;
   }

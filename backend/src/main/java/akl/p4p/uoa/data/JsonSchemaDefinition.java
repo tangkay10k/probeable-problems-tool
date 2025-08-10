@@ -24,7 +24,7 @@ public class JsonSchemaDefinition {
 					},
 					"test_case": {
 						"type": "string",
-						"description": "The test case generated if the question has been asked before or if the user requests. If the student asked about what should happen relating to the function behaviour we should also create a test case. Variable names MUST match the function signatures. Test cases should print the result unless the function returns void."
+						"description": "The test case generated if the question has been asked before or if the user requests. Variable names MUST match the function signatures. Test cases should print the result unless the function returns void."
 					},
 					"is_constraint": {
 						"type": "number",
@@ -32,7 +32,7 @@ public class JsonSchemaDefinition {
 					},
 					"asked_expected_output": {
 						"type": "boolean",
-						"description": "True if the student asked about what should happen relating to the function behaviour. If true we should also generate test_case."
+						"description": "True if the user asked about what should happen relating to the function behaviour."
 					}
 				},
 				"required": ["message", "can_answer", "has_asked", "is_constraint", "test_case", "asked_expected_output"],

@@ -1,5 +1,6 @@
 package akl.p4p.uoa.services;
 
+import akl.p4p.uoa.data.ChatContent;
 import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.Problem;
@@ -13,6 +14,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @Service
 public class ProblemAttemptService {
@@ -81,13 +85,13 @@ public class ProblemAttemptService {
     }
   }
 
-  public ChatHistory chatWithClientWithSessionHistory(String sessionId, String userMessage) {
+  public ChatHistory chatWithClientWithSessionHistory(String sessionId, ChatContent userMessage) throws JsonMappingException, JsonProcessingException {
     return aiService.chatWithClient(
         sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema(), false);
   }
 
   public ChatHistory chatWithClientWithSessionHistoryAndReplace(
-      String sessionId, String systemPrompt) {
+      String sessionId, String systemPrompt) throws JsonMappingException, JsonProcessingException {
     return aiService.chatWithClient(
         sessionId, systemPrompt, null, JsonSchemaDefinition.getClientProbeSchema(), true);
   }

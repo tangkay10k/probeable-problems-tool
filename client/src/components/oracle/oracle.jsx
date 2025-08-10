@@ -46,7 +46,7 @@ export default function Oracle({
     const latestMessage = messageList[messageList.length - 1];
     if ("user" === latestMessage.role) return;
 
-    const responseSchema = JSON.parse(latestMessage.content);
+    const responseSchema = latestMessage.content;
     if (responseSchema.test_case) {
       setInputVariables(responseSchema.test_case);
 

@@ -62,7 +62,7 @@ export default function ChatApp() {
         );
 
         const newMessages = newHistory.messages;
-        const content = JSON.parse(newMessages[newMessages.length - 1].content);
+        const content = newMessages[newMessages.length - 1].content;
 
         if (content.asked_expected_output && content.test_case) {
           const executionResult = await executeOraclePistonDirect(
@@ -140,14 +140,12 @@ function ChatBubble({ chatMessage }) {
   const { profile } = useUserProfile();
   const userImage = profile?.userImage || "/default-avatar.jpg";
   const isAssistant = chatMessage.role === "assistant";
-  let msg;
+
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
-  if (chatMessage.role === "assistant") {
-    const responseSchema = JSON.parse(chatMessage.content);
-    msg = responseSchema.message;
-  } else {
-    msg = chatMessage.content;
-  }
+
+  const responseSchema = chatMessage.content;
+  const msg = responseSchema.message;
+
 
   return (
     <div className={styles.bubbleContainer}>
