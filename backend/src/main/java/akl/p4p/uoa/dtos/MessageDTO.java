@@ -7,5 +7,4 @@ import lombok.Data;
 public class MessageDTO {
   private String sessionId;
   private ChatMessage chatMessage;
-  private String output;
 }

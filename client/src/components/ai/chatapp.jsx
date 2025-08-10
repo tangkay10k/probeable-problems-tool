@@ -67,18 +67,19 @@ export default function ChatApp() {
         const content = newMessages[newMessages.length - 1].content;
 
         if (content.asked_expected_output && content.test_case) {
-          console.log(content.test_case)
           const executionResult = await executeOraclePistonDirect(
             problemAttempt?.problemLanguage,
             executeTemplate.template,
             content.test_case,
             problem.modelAnswer,
           );
+
           const output = executionResult.run.output;
-          console.log(output)
+
           newHistory = await replaceWithOutputReponse(
             chatHistory.sessionId,
             output,
+            content.test_case,
           );
         }
 

@@ -41,9 +41,9 @@ public class ClientPrompts {
         .replace("//VAR_CONSTRAINTS", constraints);
   }
 
-  public static String clientExplanationPrompt(String output) throws IOException {
+  public static String clientExplanationPrompt(String output, String testCase) throws IOException {
     String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_EXPLANATION_PROMPT_FILE);
-    return basePrompt.replace("//VAR_OUTPUT", output);
+    return basePrompt.replace("//VAR_OUTPUT", output).replace("//VAR_TEST_CASE", testCase);
   }
 
   public static String clientTestCasePrompt() throws IOException {

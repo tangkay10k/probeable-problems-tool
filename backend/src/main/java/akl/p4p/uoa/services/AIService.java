@@ -103,7 +103,7 @@ public class AIService {
    * @param userMessage    the new user message to send
    * @param responseSchema the response schema to follow, defaults to text if null
    * @return the assistant’s reply
-   * @throws IOException 
+   * @throws IOException
    */
   public ChatHistory chatWithClient(
       String sessionId,
@@ -153,7 +153,7 @@ public class AIService {
 
     ChatContent chatContent = objectMapper.readValue(assistantReply, ChatContent.class);
 
-    if (chatContent.isAsked_expected_output()) {
+    if (!isReplace && chatContent.isAsked_expected_output()) {
       List<Message> filteredMessages = Arrays.asList(
           sdkMessages.get(0),
           sdkMessages.get(1),
@@ -180,7 +180,7 @@ public class AIService {
         .build();
 
     String assistantReply = chatClient.prompt().options(options).messages(messages).call().content();
-    System.out.println(assistantReply);
+
     return assistantReply;
   }
 }

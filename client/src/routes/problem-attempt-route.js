@@ -22,10 +22,11 @@ export const submitUserMessage = async (sessionId, message) => {
   return res.data;
 };
 
-export const replaceWithOutputReponse = async (sessionId, output) => {
+export const replaceWithOutputReponse = async (sessionId, output, testCase) => {
   const payload = {
     sessionId: sessionId,
     output,
+    testCase
   };
 
   const res = await axiosClient.post(
