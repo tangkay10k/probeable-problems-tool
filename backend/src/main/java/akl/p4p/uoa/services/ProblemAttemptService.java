@@ -82,7 +82,8 @@ public class ProblemAttemptService {
     }
   }
 
-  public ChatHistory chatWithClientWithSessionHistory(String sessionId, ChatContent userMessage) throws IOException {
+  public ChatHistory chatWithClientWithSessionHistory(String sessionId, ChatContent userMessage)
+      throws IOException {
     return aiService.chatWithClient(
         sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema(), false);
   }

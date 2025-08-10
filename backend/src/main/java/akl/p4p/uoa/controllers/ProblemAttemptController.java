@@ -34,7 +34,8 @@ public class ProblemAttemptController {
 
   @PostMapping("chat")
   @PreAuthorize(IS_AUTHENTICATED)
-  public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) throws IOException {
+  public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message)
+      throws IOException {
 
     ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistory(
@@ -44,9 +45,10 @@ public class ProblemAttemptController {
 
   @PostMapping("chat/outputResponse")
   @PreAuthorize(IS_AUTHENTICATED)
-  public ResponseEntity<ChatHistory> requestActualOutputResponse(@RequestBody TestCaseOutputDTO message)
-      throws IOException {
-    String sysPrompt = ClientPrompts.clientExplanationPrompt(message.getOutput(), message.getTestCase());
+  public ResponseEntity<ChatHistory> requestActualOutputResponse(
+      @RequestBody TestCaseOutputDTO message) throws IOException {
+    String sysPrompt =
+        ClientPrompts.clientExplanationPrompt(message.getOutput(), message.getTestCase());
     ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
             message.getSessionId(), sysPrompt);

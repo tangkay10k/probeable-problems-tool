@@ -5,10 +5,8 @@ import akl.p4p.uoa.data.ChatMessage;
 import akl.p4p.uoa.data.ChatMessageConverter;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.prompts.ClientPrompts;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.lang.Nullable;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,13 +42,10 @@ public class AIService {
   /**
    * Used for executing an LLM call one time, chat history is not maintained.
    *
-   * @param systemPrompt   is the system prompt to send to the LLM to execute
-   *                       request.
-   * @param responseSchema is the schema type of the response format which are
-   *                       defined in {@link
-   *                       akl.p4p.uoa.data.JsonSchemaDefinition} if not supplied
-   *                       (null) the response format defaults
-   *                       to a string.
+   * @param systemPrompt is the system prompt to send to the LLM to execute request.
+   * @param responseSchema is the schema type of the response format which are defined in {@link
+   *     akl.p4p.uoa.data.JsonSchemaDefinition} if not supplied (null) the response format defaults
+   *     to a string.
    */
   public String executeOneTimeLLMCall(String systemPrompt, @Nullable String responseSchema) {
     // 03 does not support temperature tuning
@@ -73,12 +68,13 @@ public class AIService {
 
     List<Message> history = new ArrayList<>();
     history.add(new SystemMessage(systemPrompt));
-    OpenAiChatOptions options = OpenAiChatOptions.builder()
-        .model(model)
-        .temperature(temperature)
-        .topP(topP)
-        .responseFormat(responseFormat)
-        .build();
+    OpenAiChatOptions options =
+        OpenAiChatOptions.builder()
+            .model(model)
+            .temperature(temperature)
+            .topP(topP)
+            .responseFormat(responseFormat)
+            .build();
     return chatClient.prompt().options(options).messages(history).call().content();
   }
 
@@ -96,11 +92,9 @@ public class AIService {
   /**
    * Send a user message within a session, maintaining the chat history.
    *
-   * @param sessionId      a unique key for this conversation (e.g. user ID or
-   *                       UUID)
-   * @param systemPrompt   only applied on session‐start; ignored for subsequent
-   *                       messages
-   * @param userMessage    the new user message to send
+   * @param sessionId a unique key for this conversation (e.g. user ID or UUID)
+   * @param systemPrompt only applied on session‐start; ignored for subsequent messages
+   * @param userMessage the new user message to send
    * @param responseSchema the response schema to follow, defaults to text if null
    * @return the assistant’s reply
    * @throws IOException
@@ -110,7 +104,8 @@ public class AIService {
       @Nullable String systemPrompt,
       @Nullable ChatContent userMessage,
       @Nullable String responseSchema,
-      boolean isReplace) throws IOException {
+      boolean isReplace)
+      throws IOException {
 
     ChatHistory sessionHistory = chatHistoryService.loadHistory(sessionId);
 
@@ -128,37 +123,41 @@ public class AIService {
       history.add(ChatMessageConverter.convertUserMessageToChatMessage(userMessage));
     }
 
-    List<Message> sdkMessages = history.stream()
-        .map(
-            chatMsg -> {
-              if ("user".equals(chatMsg.getRole())) {
-                return new UserMessage(chatMsg.getContent().getMessage());
-              } else if ("assistant".equals(chatMsg.getRole())) {
-                return new AssistantMessage(chatMsg.getContent().getMessage());
-              } else {
-                return new SystemMessage(chatMsg.getContent().getMessage());
-              }
-            })
-        .collect(Collectors.toList());
+    List<Message> sdkMessages =
+        history.stream()
+            .map(
+                chatMsg -> {
+                  if ("user".equals(chatMsg.getRole())) {
+                    return new UserMessage(chatMsg.getContent().getMessage());
+                  } else if ("assistant".equals(chatMsg.getRole())) {
+                    return new AssistantMessage(chatMsg.getContent().getMessage());
+                  } else {
+                    return new SystemMessage(chatMsg.getContent().getMessage());
+                  }
+                })
+            .collect(Collectors.toList());
 
-    OpenAiChatOptions options = OpenAiChatOptions.builder()
-        .model(OpenAiApi.ChatModel.O4_MINI)
-        .temperature(1D)
-        .responseFormat(getResponseType(responseSchema))
-        .build();
+    OpenAiChatOptions options =
+        OpenAiChatOptions.builder()
+            .model(OpenAiApi.ChatModel.O4_MINI)
+            .temperature(1D)
+            .responseFormat(getResponseType(responseSchema))
+            .build();
 
-    String assistantReply = chatClient.prompt().options(options).messages(sdkMessages).call().content();
+    String assistantReply =
+        chatClient.prompt().options(options).messages(sdkMessages).call().content();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     ChatContent chatContent = objectMapper.readValue(assistantReply, ChatContent.class);
 
     if (!isReplace && chatContent.isAsked_expected_output()) {
-      List<Message> filteredMessages = Arrays.asList(
-          sdkMessages.get(0),
-          sdkMessages.get(1),
-          sdkMessages.get(sdkMessages.size() - 1),
-          new SystemMessage(ClientPrompts.clientTestCasePrompt()));
+      List<Message> filteredMessages =
+          Arrays.asList(
+              sdkMessages.get(0),
+              sdkMessages.get(1),
+              sdkMessages.get(sdkMessages.size() - 1),
+              new SystemMessage(ClientPrompts.clientTestCasePrompt()));
 
       String testCase = generateTestCase(filteredMessages);
       chatContent.setTest_case(testCase);
@@ -174,12 +173,11 @@ public class AIService {
   }
 
   public String generateTestCase(List<Message> messages) {
-    OpenAiChatOptions options = OpenAiChatOptions.builder()
-        .model(OpenAiApi.ChatModel.O4_MINI)
-        .temperature(1D)
-        .build();
+    OpenAiChatOptions options =
+        OpenAiChatOptions.builder().model(OpenAiApi.ChatModel.O4_MINI).temperature(1D).build();
 
-    String assistantReply = chatClient.prompt().options(options).messages(messages).call().content();
+    String assistantReply =
+        chatClient.prompt().options(options).messages(messages).call().content();
 
     return assistantReply;
   }
