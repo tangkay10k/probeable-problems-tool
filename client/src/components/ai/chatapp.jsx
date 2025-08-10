@@ -6,7 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { submitUserMessage, replaceWithOutputReponse } from "@/routes/problem-attempt-route.js";
+import {
+  submitUserMessage,
+  replaceWithOutputReponse,
+} from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
@@ -15,7 +18,13 @@ import rehypeSanitize from "rehype-sanitize";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 
 export default function ChatApp() {
-  const { chatHistory, setChatHistory, executeTemplate, problemAttempt, problem } = useProblemAttemptContext();
+  const {
+    chatHistory,
+    setChatHistory,
+    executeTemplate,
+    problemAttempt,
+    problem,
+  } = useProblemAttemptContext();
   const [userMessage, setUserMessage] = useState("");
   const [isLoading, withLoading] = useWithLoading();
   const containerRef = useRef(null);
@@ -47,18 +56,26 @@ export default function ChatApp() {
 
     withLoading(
       async () => {
-        let newHistory = await submitUserMessage(chatHistory.sessionId, message);
+        let newHistory = await submitUserMessage(
+          chatHistory.sessionId,
+          message,
+        );
 
         const newMessages = newHistory.messages;
         const content = JSON.parse(newMessages[newMessages.length - 1].content);
 
         if (content.asked_expected_output && content.test_case) {
-          const executionResult = await executeOraclePistonDirect(problemAttempt?.problemLanguage, executeTemplate.template, content.test_case, problem.modelAnswer)
+          const executionResult = await executeOraclePistonDirect(
+            problemAttempt?.problemLanguage,
+            executeTemplate.template,
+            content.test_case,
+            problem.modelAnswer,
+          );
           const output = executionResult.run.output;
 
           newHistory = await replaceWithOutputReponse(
             chatHistory.sessionId,
-            output
+            output,
           );
         }
 

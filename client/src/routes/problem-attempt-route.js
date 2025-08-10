@@ -25,10 +25,13 @@ export const submitUserMessage = async (sessionId, message) => {
 export const replaceWithOutputReponse = async (sessionId, output) => {
   const payload = {
     sessionId: sessionId,
-    output
+    output,
   };
 
-  const res = await axiosClient.post(`/api/problemAttempt/chat/outputResponse`, payload);
+  const res = await axiosClient.post(
+    `/api/problemAttempt/chat/outputResponse`,
+    payload,
+  );
   return res.data;
 };
 

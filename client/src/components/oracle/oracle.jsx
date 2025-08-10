@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { useParams } from "react-router-dom";
-
-const DEFAULT_PROBES_KEY = "problemInitialProbes";
+import { DEFAULT_PROBES_KEY } from "@/context/context-utils.js";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -21,7 +20,7 @@ export default function Oracle({
     updateOracleHistory,
     oracleExecutionHistory,
     executeTemplate,
-    problem
+    problem,
   } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
@@ -111,23 +110,5 @@ export default function Oracle({
         </Button>
       </div>
     </div>
-  );
-}
-
-function saveProbesToLocalStorage(problemId, probe) {
-  let storedData = localStorage.getItem(DEFAULT_PROBES_KEY);
-
-  let probeMap;
-  if (!storedData) {
-    probeMap = new Map();
-  } else {
-    let parsedObject = JSON.parse(storedData);
-    probeMap = new Map(Object.entries(parsedObject));
-  }
-
-  probeMap.set(problemId, probe);
-  localStorage.setItem(
-    DEFAULT_PROBES_KEY,
-    JSON.stringify(Object.fromEntries(probeMap)),
   );
 }

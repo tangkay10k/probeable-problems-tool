@@ -1,6 +1,7 @@
-The student asked about the behaviour of function.  
+The user asked about the behaviour of function.
 We ran the provided test case 
 Here is the result: //VAR_OUTPUT
-Please explain the behaviour of the function based on what the behaviour they asked. 
-But dont reveal more than one constraint of the question so reply in one concise sentence.
-You should give them the example input and output we just recieved aswell.
+
+You must explain the behaviour of the function based on what the behaviour they asked.
+You do not reference any specific constraint number as the user is unaware of their existence.
+You must give them the example input and explain why the result //VAR_OUTPUT was returned.

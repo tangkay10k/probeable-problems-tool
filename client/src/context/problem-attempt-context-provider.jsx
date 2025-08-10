@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import ProblemAttemptContext from "./problem-attempt-context.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import useWithLoading from "@/hooks/useWithLoading.js";
 import {
   getLatestProblemAttemptForStudent,
   saveProblemAttempt,
@@ -11,26 +10,20 @@ import { useUserProfile } from "@/context/user-context.jsx";
 import { getUserProfileSilently } from "@/routes/person-route.js";
 import { getExecuteTemplate } from "@/routes/template-route.js";
 import { getProblem } from "@/routes/problem-route.js";
+import {
+  saveProbesToLocalStorage,
+  sha256Hex,
+} from "@/context/context-utils.js";
 
-const STORAGE_NAMESPACE = "studentProblemData"; // base prefix
-
-// hash helper so the email isn't visible in LS keys
-async function sha256Hex(input) {
-  const enc = new TextEncoder().encode(input);
-  const buf = await crypto.subtle.digest("SHA-256", enc);
-  const bytes = new Uint8Array(buf);
-  return Array.from(bytes)
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
+const STORAGE_NAMESPACE = "studentProblemData";
 
 const ProblemAttemptProvider = ({ children }) => {
   const { problemId } = useParams();
   const { profile, setProfile } = useUserProfile();
   const [problemAttempt, setProblemAttempt] = useState(null);
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState(null);
   const [executeTemplate, setExecuteTemplate] = useState("");
-  const [isLoading, withLoading] = useWithLoading();
+  const [isProblemReady, setIsProblemReady] = useState(false);
   const [problem, setProblem] = useState({});
   const navigate = useNavigate();
   const fetchedProblemIds = useRef(new Set());
@@ -79,48 +72,71 @@ const ProblemAttemptProvider = ({ children }) => {
   const score = currentData.score || "";
   const oracleExecutionHistory = currentData.oracleExecutionHistory || [];
 
-  // Guard: don’t fetch until we know who the user is
+  // Fetch attempt + chat, then chain execute template once we know the language.
+  // Fetch problem in parallel.
   useEffect(() => {
     if (!profile?.email || !problemId) return;
     if (fetchedProblemIds.current.has(problemId)) return;
     fetchedProblemIds.current.add(problemId);
 
-    withLoading(
-      () => getLatestProblemAttemptForStudent(problemId, profile.email),
-      (attempt) => {
+    // Attempt + chat -> template
+    getLatestProblemAttemptForStudent(problemId, profile.email)
+      .then((attempt) => {
         setProblemAttempt(attempt);
         setChatHistory({
           sessionId: attempt.chatHistoryId,
           messages: attempt.messageList,
         });
-      },
-      () => {
+
+        const lang = attempt.problemLanguage ?? attempt.programLanguage;
+        if (!lang) {
+          toast.error("Could not determine problem language for template.");
+          return;
+        }
+
+        return getExecuteTemplate(lang)
+          .then((template) => setExecuteTemplate(template))
+          .catch((err) => {
+            console.error(err);
+            toast.error("Failed to load execute template.");
+          });
+      })
+      .catch((err) => {
+        console.error(err);
         navigate("/");
         toast.error("Something went wrong fetching that problem...");
-      },
-    );
-  }, [problemId, profile?.email, navigate, withLoading]);
+      });
 
-  useEffect(() => {
-    withLoading(
-      () => getExecuteTemplate(problemAttempt?.problemLanguage),
-      (template) => {
-        setExecuteTemplate(template)
-      },
-      (err) => toast.error(err),
-    );
-
-    withLoading(
-      () => getProblem(problemId),
-      (fetchedProblem) => {
+    // Problem
+    getProblem(problemId)
+      .then((fetchedProblem) => {
         setProblem(fetchedProblem);
         saveProbesToLocalStorage(problemId, fetchedProblem.defaultProbe);
-        setInputVariables(fetchedProblem.defaultProbe);
-      },
-      (err) => toast.error(err),
-    );
-  }, [problemId, problemAttempt?.problemLanguage]);
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to load problem details.");
+      });
+  }, [problemId, profile?.email, navigate]);
 
+  // Derive readiness
+  useEffect(() => {
+    const ready =
+      !!problemAttempt &&
+      !!problem?.id &&
+      !!executeTemplate &&
+      !!chatHistory?.sessionId &&
+      Array.isArray(chatHistory?.messages) &&
+      chatHistory.messages.length > 0;
+
+    setIsProblemReady(ready);
+  }, [
+    problemAttempt,
+    problem?.id,
+    executeTemplate,
+    chatHistory?.sessionId,
+    chatHistory?.messages?.length,
+  ]);
 
   // Helper to write back to per-user storage
   const persist = (nextMap) => {
@@ -155,14 +171,15 @@ const ProblemAttemptProvider = ({ children }) => {
   const deleteStudentAttempt = () => {
     if (!problemId) return;
     setStudentDataMap((prev) => {
-      const { [problemId]: _, ...rest } = prev;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [problemId]: _omit, ...rest } = prev;
       persist(rest);
       return rest;
     });
   };
 
   /*
-   * We store notes, agent prompt locally, and only when we submit do we compile everything together to be submitted.
+   * Compile and submit attempt
    */
   const saveStudentAttempt = () => {
     if (!score || String(score).length === 0) {
@@ -187,20 +204,22 @@ const ProblemAttemptProvider = ({ children }) => {
       oracleExecutionHistory: oracleExecutionHistory,
     };
 
-    withLoading(
-      () => saveProblemAttempt(toSave),
-      () => {
+    saveProblemAttempt(toSave)
+      .then(() => {
         toast.success("Your submission was saved successfully!");
         // clear score in case they update their code.
         updateStudentScore("");
 
-        // Update profile showing that problem is completed.
-        getUserProfileSilently(profile.email)
+        return getUserProfileSilently(profile.email)
           .then((updatedProfile) => setProfile(updatedProfile))
-          .catch(() => console.error);
-      },
-      () => toast.error("🚨You have already submitted your attempt!"),
-    );
+          .catch((e) => {
+            console.error(e);
+            // non-fatal
+          });
+      })
+      .catch(() => {
+        toast.error("🚨You have already submitted your attempt!");
+      });
   };
 
   return (
@@ -209,7 +228,7 @@ const ProblemAttemptProvider = ({ children }) => {
         problemAttempt,
         chatHistory,
         setChatHistory,
-        isLoading,
+        isProblemReady,
         studentNotes,
         updateStudentNotes,
         studentAgentPrompt,
@@ -222,7 +241,7 @@ const ProblemAttemptProvider = ({ children }) => {
         oracleExecutionHistory,
         saveStudentAttempt,
         executeTemplate,
-        problem
+        problem,
       }}
     >
       {children}
