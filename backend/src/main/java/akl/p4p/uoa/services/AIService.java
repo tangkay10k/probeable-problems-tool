@@ -4,12 +4,14 @@ import akl.p4p.uoa.data.ChatContent;
 import akl.p4p.uoa.data.ChatMessage;
 import akl.p4p.uoa.data.ChatMessageConverter;
 import akl.p4p.uoa.models.ChatHistory;
+import akl.p4p.uoa.prompts.ClientPrompts;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.lang.Nullable;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.ai.chat.client.ChatClient;
@@ -101,15 +103,14 @@ public class AIService {
    * @param userMessage    the new user message to send
    * @param responseSchema the response schema to follow, defaults to text if null
    * @return the assistant’s reply
-   * @throws JsonProcessingException 
-   * @throws JsonMappingException 
+   * @throws IOException 
    */
   public ChatHistory chatWithClient(
       String sessionId,
       @Nullable String systemPrompt,
       @Nullable ChatContent userMessage,
       @Nullable String responseSchema,
-      boolean isReplace) throws JsonMappingException, JsonProcessingException {
+      boolean isReplace) throws IOException {
 
     ChatHistory sessionHistory = chatHistoryService.loadHistory(sessionId);
 
@@ -152,6 +153,17 @@ public class AIService {
 
     ChatContent chatContent = objectMapper.readValue(assistantReply, ChatContent.class);
 
+    if (chatContent.isAsked_expected_output()) {
+      List<Message> filteredMessages = Arrays.asList(
+          sdkMessages.get(0),
+          sdkMessages.get(1),
+          sdkMessages.get(sdkMessages.size() - 1),
+          new SystemMessage(ClientPrompts.clientTestCasePrompt()));
+
+      String testCase = generateTestCase(filteredMessages);
+      chatContent.setTest_case(testCase);
+    }
+
     if (isReplace && history.size() >= 2) {
       history.subList(history.size() - 2, history.size()).clear();
     }
@@ -159,5 +171,16 @@ public class AIService {
     history.add(ChatMessageConverter.convertLLMResponseToChatMessage(chatContent));
 
     return chatHistoryService.saveHistory(sessionHistory);
+  }
+
+  public String generateTestCase(List<Message> messages) {
+    OpenAiChatOptions options = OpenAiChatOptions.builder()
+        .model(OpenAiApi.ChatModel.O4_MINI)
+        .temperature(1D)
+        .build();
+
+    String assistantReply = chatClient.prompt().options(options).messages(messages).call().content();
+    System.out.println(assistantReply);
+    return assistantReply;
   }
 }

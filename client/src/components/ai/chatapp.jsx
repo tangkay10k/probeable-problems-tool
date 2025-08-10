@@ -47,7 +47,9 @@ export default function ChatApp() {
         ...chatHistory.messages,
         {
           role: "user",
-          content: message,
+          content: {
+            message
+          },
           timestamp: new Date().toISOString(),
         },
       ],
@@ -65,6 +67,7 @@ export default function ChatApp() {
         const content = newMessages[newMessages.length - 1].content;
 
         if (content.asked_expected_output && content.test_case) {
+          console.log(content.test_case)
           const executionResult = await executeOraclePistonDirect(
             problemAttempt?.problemLanguage,
             executeTemplate.template,
@@ -72,7 +75,7 @@ export default function ChatApp() {
             problem.modelAnswer,
           );
           const output = executionResult.run.output;
-
+          console.log(output)
           newHistory = await replaceWithOutputReponse(
             chatHistory.sessionId,
             output,

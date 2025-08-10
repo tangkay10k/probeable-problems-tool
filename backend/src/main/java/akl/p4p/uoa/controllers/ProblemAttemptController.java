@@ -12,9 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 @RestController
 @RequestMapping("/api/problemAttempt")
 public class ProblemAttemptController {
@@ -36,7 +33,7 @@ public class ProblemAttemptController {
 
   @PostMapping("chat")
   @PreAuthorize(IS_AUTHENTICATED)
-  public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) throws JsonMappingException, JsonProcessingException {
+  public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) throws IOException {
 
     ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistory(

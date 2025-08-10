@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 @Service
 public class ProblemAttemptService {
   private final AIService aiService;
@@ -85,13 +82,13 @@ public class ProblemAttemptService {
     }
   }
 
-  public ChatHistory chatWithClientWithSessionHistory(String sessionId, ChatContent userMessage) throws JsonMappingException, JsonProcessingException {
+  public ChatHistory chatWithClientWithSessionHistory(String sessionId, ChatContent userMessage) throws IOException {
     return aiService.chatWithClient(
         sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema(), false);
   }
 
   public ChatHistory chatWithClientWithSessionHistoryAndReplace(
-      String sessionId, String systemPrompt) throws JsonMappingException, JsonProcessingException {
+      String sessionId, String systemPrompt) throws IOException {
     return aiService.chatWithClient(
         sessionId, systemPrompt, null, JsonSchemaDefinition.getClientProbeSchema(), true);
   }

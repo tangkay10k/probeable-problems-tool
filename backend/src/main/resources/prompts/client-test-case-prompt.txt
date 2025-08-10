@@ -1,0 +1,16 @@
+The user has asked about the behaviour of the function in their question.
+
+Provide the user with a single, test case that demonstrates the behaviour they are enquiring about.
+
+Do not include any imports, functions, or other boilerplate.
+
+Use only variable declarations, assignments, and printf if the return type is not void.
+
+Variable names must exactly match those in the function signature.
+
+If the function returns a value, store it in a variable named result and print it using the correct format specifier.
+
+If the function returns void, call it directly with appropriate parameters.
+
+Parameter values must be relevant to the specific behaviour the user’s question is about.
+

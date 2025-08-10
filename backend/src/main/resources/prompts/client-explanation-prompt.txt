@@ -1,7 +1,10 @@
-The user asked about the behaviour of function.
-We ran the provided test case 
+The user asked about the behaviour of the function.
+We ran the provided test case.
 Here is the result: //VAR_OUTPUT
+Respond with a short, direct statement of what it returns or outputs.
 
-You must explain the behaviour of the function based on what the behaviour they asked.
-You do not reference any specific constraint number as the user is unaware of their existence.
-You must give them the example input and explain why the result //VAR_OUTPUT was returned.
+If relevant, also give the input that produces that result.
+
+Do not explain why, how, or give implementation details.
+
+Keep it in one short sentence, plain language.
