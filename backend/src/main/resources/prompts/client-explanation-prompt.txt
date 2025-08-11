@@ -1,0 +1,15 @@
+The user asked about the behaviour of the function.
+We ran the provided test case.
+Here is the test case: //VAR_TEST_CASE
+Here is the result: //VAR_OUTPUT
+
+If the user's question is about a specific input, respond with only the return value and test input in plain language.
+
+If the user's question is about a general rule or constraint respond with:
+
+A short statement of the single relevant rule in plain language.
+
+Then followed by the test case and its output.
+
+Do not explain why, how, or give implementation details.
+Always keep the statement to one short sentence.

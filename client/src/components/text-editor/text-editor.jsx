@@ -30,7 +30,7 @@ export const TextEditor = forwardRef(
     },
     ref,
   ) => {
-    const { problemAttempt } = useProblemAttemptContext();
+    // const { problemAttempt } = useProblemAttemptContext();
     const [editorHeight, setEditorHeight] = useState(fixedHeight);
     const containerRef = useRef(null);
     const editorRef = useRef(null);
@@ -77,20 +77,20 @@ export const TextEditor = forwardRef(
       editorRef.current = editor;
       monacoRef.current = monaco;
 
-      editor.onDidPaste((e) => {
-        const model = editor.getModel();
-        const pastedRange = e.range;
-
-        const pastedText = model.getValueInRange(pastedRange);
-
-        const fullText = editor.getValue();
-        if (isLogging && pastedText) {
-          logPastedContent(problemAttempt.id, {
-            pastedContent: pastedText,
-            afterPastedContent: fullText,
-          });
-        }
-      });
+      // editor.onDidPaste((e) => {
+      //   const model = editor.getModel();
+      //   const pastedRange = e.range;
+      //
+      //   const pastedText = model.getValueInRange(pastedRange);
+      //
+      //   const fullText = editor.getValue();
+      //   if (problemAttempt && isLogging && pastedText) {
+      //     logPastedContent(problemAttempt.id, {
+      //       pastedContent: pastedText,
+      //       afterPastedContent: fullText,
+      //     });
+      //   }
+      // });
 
       if (isResizable) {
         const lineHeight = editor.getOption(

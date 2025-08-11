@@ -1,20 +1,20 @@
 import styles from "./problemPage.module.css";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import StageTwo from "@/pages/problem/stage-two.jsx";
 import StageOne from "@/pages/problem/stage-one.jsx";
 
 export default function ProblemContent() {
-  const { isLoading } = useProblemAttemptContext();
+  const { isProblemReady } = useProblemAttemptContext();
   const [stage, setStage] = useState(1);
 
   function handleStageChange() {
     stage === 1 ? setStage(2) : setStage(1);
   }
 
-  if (isLoading) {
+  if (!isProblemReady) {
     return (
       <div className={styles.loadingContainer}>
         <SplitText text={"Loading..."} />

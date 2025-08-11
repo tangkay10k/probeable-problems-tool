@@ -7,11 +7,7 @@ import { useEffect, useState } from "react";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { useParams } from "react-router-dom";
-import { getExecuteTemplate } from "@/routes/template-route.js";
-import { getProblem } from "@/routes/problem-route.js";
-import { toast } from "react-toastify";
-
-const DEFAULT_PROBES_KEY = "problemInitialProbes";
+import { DEFAULT_PROBES_KEY } from "@/context/context-utils.js";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -23,36 +19,18 @@ export default function Oracle({
     problemAttempt,
     updateOracleHistory,
     oracleExecutionHistory,
+    executeTemplate,
+    problem,
   } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
   const [executionOutput, setExecutionOutput] = useState({});
   const [inputVariables, setInputVariables] = useState("");
-  const [executeTemplate, setExecuteTemplate] = useState("");
-  const [problem, setProblem] = useState({});
 
   useEffect(() => {
     if (chatHistory) {
       handleLLMGeneratedTestCase(chatHistory.messages);
     }
   }, [problemAttempt, chatHistory]);
-
-  useEffect(() => {
-    withLoading(
-      () => getExecuteTemplate(problemAttempt?.problemLanguage),
-      (template) => setExecuteTemplate(template),
-      (err) => toast.error(err),
-    );
-
-    withLoading(
-      () => getProblem(problemId),
-      (fetchedProblem) => {
-        setProblem(fetchedProblem);
-        saveProbesToLocalStorage(problemId, fetchedProblem.defaultProbe);
-        setInputVariables(fetchedProblem.defaultProbe);
-      },
-      (err) => toast.error(err),
-    );
-  }, [problemId]);
 
   useEffect(() => {
     const defaultProbeMap = localStorage.getItem(DEFAULT_PROBES_KEY);
@@ -68,7 +46,7 @@ export default function Oracle({
     const latestMessage = messageList[messageList.length - 1];
     if ("user" === latestMessage.role) return;
 
-    const responseSchema = JSON.parse(latestMessage.content);
+    const responseSchema = latestMessage.content;
     if (responseSchema.test_case) {
       setInputVariables(responseSchema.test_case);
 
@@ -132,23 +110,5 @@ export default function Oracle({
         </Button>
       </div>
     </div>
-  );
-}
-
-function saveProbesToLocalStorage(problemId, probe) {
-  let storedData = localStorage.getItem(DEFAULT_PROBES_KEY);
-
-  let probeMap;
-  if (!storedData) {
-    probeMap = new Map();
-  } else {
-    let parsedObject = JSON.parse(storedData);
-    probeMap = new Map(Object.entries(parsedObject));
-  }
-
-  probeMap.set(problemId, probe);
-  localStorage.setItem(
-    DEFAULT_PROBES_KEY,
-    JSON.stringify(Object.fromEntries(probeMap)),
   );
 }

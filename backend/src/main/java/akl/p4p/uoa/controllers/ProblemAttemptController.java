@@ -3,8 +3,10 @@ package akl.p4p.uoa.controllers;
 import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
 
 import akl.p4p.uoa.dtos.MessageDTO;
+import akl.p4p.uoa.dtos.TestCaseOutputDTO;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.ProblemAttempt;
+import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.services.ProblemAttemptService;
 import java.io.IOException;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +34,25 @@ public class ProblemAttemptController {
 
   @PostMapping("chat")
   @PreAuthorize(IS_AUTHENTICATED)
-  public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message) {
+  public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message)
+      throws IOException {
 
     ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistory(
             message.getSessionId(), message.getChatMessage().getContent());
+    return ResponseEntity.ok(attempt);
+  }
+
+  @PostMapping("chat/outputResponse")
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<ChatHistory> requestActualOutputResponse(
+      @RequestBody TestCaseOutputDTO message) throws IOException {
+    String sysPrompt =
+        ClientPrompts.clientExplanationPrompt(message.getOutput(), message.getTestCase());
+    ChatHistory attempt =
+        problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
+            message.getSessionId(), sysPrompt);
+
     return ResponseEntity.ok(attempt);
   }
 

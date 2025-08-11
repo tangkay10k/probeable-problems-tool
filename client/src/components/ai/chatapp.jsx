@@ -6,15 +6,25 @@ import { useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
-import { submitUserMessage } from "@/routes/problem-attempt-route.js";
+import {
+  submitUserMessage,
+  replaceWithOutputReponse,
+} from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
+import { executeOraclePistonDirect } from "@/routes/code-route.js";
 
 export default function ChatApp() {
-  const { chatHistory, setChatHistory } = useProblemAttemptContext();
+  const {
+    chatHistory,
+    setChatHistory,
+    executeTemplate,
+    problemAttempt,
+    problem,
+  } = useProblemAttemptContext();
   const [userMessage, setUserMessage] = useState("");
   const [isLoading, withLoading] = useWithLoading();
   const containerRef = useRef(null);
@@ -37,7 +47,9 @@ export default function ChatApp() {
         ...chatHistory.messages,
         {
           role: "user",
-          content: message,
+          content: {
+            message,
+          },
           timestamp: new Date().toISOString(),
         },
       ],
@@ -45,7 +57,34 @@ export default function ChatApp() {
     setUserMessage("");
 
     withLoading(
-      () => submitUserMessage(chatHistory.sessionId, message),
+      async () => {
+        let newHistory = await submitUserMessage(
+          chatHistory.sessionId,
+          message,
+        );
+
+        const newMessages = newHistory.messages;
+        const content = newMessages[newMessages.length - 1].content;
+
+        if (content.asked_expected_output && content.test_case) {
+          const executionResult = await executeOraclePistonDirect(
+            problemAttempt?.problemLanguage,
+            executeTemplate.template,
+            content.test_case,
+            problem.modelAnswer,
+          );
+
+          const output = executionResult.run.output;
+
+          newHistory = await replaceWithOutputReponse(
+            chatHistory.sessionId,
+            output,
+            content.test_case,
+          );
+        }
+
+        return newHistory;
+      },
       (newHistory) => setChatHistory(newHistory),
       console.error,
     );
@@ -105,14 +144,11 @@ function ChatBubble({ chatMessage }) {
   const { profile } = useUserProfile();
   const userImage = profile?.userImage || "/default-avatar.jpg";
   const isAssistant = chatMessage.role === "assistant";
-  let msg;
+
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
-  if (chatMessage.role === "assistant") {
-    const responseSchema = JSON.parse(chatMessage.content);
-    msg = responseSchema.message;
-  } else {
-    msg = chatMessage.content;
-  }
+
+  const responseSchema = chatMessage.content;
+  const msg = responseSchema.message;
 
   return (
     <div className={styles.bubbleContainer}>
