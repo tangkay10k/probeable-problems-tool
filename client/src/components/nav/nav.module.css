@@ -86,12 +86,12 @@
 }
 
 .bottomNavContainer button {
-  border: 0.01rem solid var(--dark-dark-grey);
-  background-color: var(--editor-colour);
+  border: 0.01rem solid var(--purple);
+  background-color: var(--hover-purple);
 }
 
 .bottomNavContainer button:hover {
-  background-color: var(--toggle-hover-editor);
+  background-color: var(--hover-purple);
 }
 
 .nextContainer {

@@ -169,14 +169,22 @@ export default function StageTwo() {
         {showTestSuite ? (
           <div className={styles.testSuiteContainer}>
             <section className={styles.listWrapper}>
-              <TestSuiteList
-                tests={problem.testSuite}
-                language={problem.programLanguage}
-                isEditable={false}
-                results={results}
-                setResults={setResults}
-              />
-              <div className={styles.gradient} />
+              {results.length > 0 ? (
+                <>
+                  <TestSuiteList
+                    tests={problem.testSuite}
+                    language={problem.programLanguage}
+                    isEditable={false}
+                    results={results}
+                    setResults={setResults}
+                  />
+                  <div className={styles.gradient} />
+                </>
+              ) : (
+                <div className={styles.testSuiteEmpty}>
+                  Please run your code first!
+                </div>
+              )}
             </section>
           </div>
         ) : (

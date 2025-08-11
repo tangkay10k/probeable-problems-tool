@@ -19,7 +19,7 @@ const TABS = [
     label: "Task",
     content: <StudentInstruction instruction={STAGE_ONE[0].content} />,
   },
-  { label: "Oracle History", content: <OracleHistory /> },
+  { label: "Binary History", content: <OracleHistory /> },
 ];
 
 export default function StageOne() {
@@ -29,9 +29,13 @@ export default function StageOne() {
   const [resetOracle, setResetOracle] = useState(false);
   const [showOracleHelp, setShowOracleHelp] = useState(false);
 
-  const handleButtonClick = () => {
-    setShowOracle((prev) => !prev);
+  const handleOracleClick = () => {
+    setShowOracle(true);
     setShiny(null);
+  };
+
+  const handleClientClick = () => {
+    setShowOracle(false);
   };
 
   return (
@@ -46,8 +50,8 @@ export default function StageOne() {
             selectedIndex={selected}
             onSelectedIndexChange={setSelected}
             shinyIndex={shiny}
-            labels={["Client", "Oracle"]}
-            onClickHandlers={[handleButtonClick, handleButtonClick]}
+            labels={["Client", "Binary"]}
+            onClickHandlers={[handleClientClick, handleOracleClick]}
           />
           {showOracle && (
             <section className={styles.leftButtons}>

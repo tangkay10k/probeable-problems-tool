@@ -26,7 +26,7 @@ export const replaceWithOutputReponse = async (sessionId, output, testCase) => {
   const payload = {
     sessionId: sessionId,
     output,
-    testCase
+    testCase,
   };
 
   const res = await axiosClient.post(

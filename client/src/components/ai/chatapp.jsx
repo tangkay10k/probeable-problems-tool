@@ -48,7 +48,7 @@ export default function ChatApp() {
         {
           role: "user",
           content: {
-            message
+            message,
           },
           timestamp: new Date().toISOString(),
         },
@@ -149,7 +149,6 @@ function ChatBubble({ chatMessage }) {
 
   const responseSchema = chatMessage.content;
   const msg = responseSchema.message;
-
 
   return (
     <div className={styles.bubbleContainer}>
