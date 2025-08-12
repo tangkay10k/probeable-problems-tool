@@ -60,6 +60,7 @@ export default function ChatApp() {
       async () => {
         let newHistory = await submitUserMessage(
           chatHistory.sessionId,
+          problemAttempt.id,
           message,
         );
 

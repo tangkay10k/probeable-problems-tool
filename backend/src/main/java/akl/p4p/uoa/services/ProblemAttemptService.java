@@ -102,6 +102,19 @@ public class ProblemAttemptService {
     return saved;
   }
 
+  public ProblemAttempt findProblemAttemptById(String problemAttemptId) {
+    return problemAttemptRepository
+        .findById(problemAttemptId)
+        .orElseThrow(
+            () ->
+                new RuntimeException(
+                    "Problem " + "Attempt with id: " + problemAttemptId + " does not exist!"));
+  }
+
+  public ProblemAttempt saveProblemAttempt(ProblemAttempt attempt) {
+    return problemAttemptRepository.save(attempt);
+  }
+
   private ChatHistory initialiseClientPersona(Problem problem) throws IOException {
     String systemPrompt =
         ClientPrompts.getClientInitialisationPrompt(

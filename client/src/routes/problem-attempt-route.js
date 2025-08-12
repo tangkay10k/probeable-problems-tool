@@ -10,9 +10,14 @@ export const getLatestProblemAttemptForStudent = async (
   return res.data;
 };
 
-export const submitUserMessage = async (sessionId, message) => {
+export const submitUserMessage = async (
+  sessionId,
+  problemAttemptId,
+  message,
+) => {
   const payload = {
     sessionId: sessionId,
+    problemAttemptId: problemAttemptId,
     chatMessage: {
       content: message,
     },
