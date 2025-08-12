@@ -2,6 +2,7 @@ package akl.p4p.uoa.controllers;
 
 import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
 
+import akl.p4p.uoa.data.ChatMessage.Role;
 import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.dtos.TestCaseOutputDTO;
 import akl.p4p.uoa.models.ChatHistory;
@@ -40,6 +41,27 @@ public class ProblemAttemptController {
     ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistory(
             message.getSessionId(), message.getChatMessage().getContent());
+
+    // Update Equivalence class map:
+    var messages = attempt.getMessages();
+    var lastMsg = messages.get(messages.size() - 1);
+    if (lastMsg.getRole().equals(Role.ASSISTANT)) {
+      var problemAttempt =
+          problemAttemptService.findProblemAttemptById(message.getProblemAttemptId());
+
+      var content = lastMsg.getContent();
+      int constraint = content.getConstraint_targeting();
+
+      if (constraint != -1) {
+        var eqClasses = problemAttempt.getClientEquivalenceMap();
+        eqClasses.putIfAbsent(constraint, 0);
+        eqClasses.put(constraint, eqClasses.get(constraint) + 1);
+
+        problemAttempt.setClientEquivalenceMap(eqClasses);
+        problemAttemptService.saveProblemAttempt(problemAttempt);
+      }
+    }
+
     return ResponseEntity.ok(attempt);
   }
 

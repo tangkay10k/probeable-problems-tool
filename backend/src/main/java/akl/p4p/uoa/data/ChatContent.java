@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatContent {
-  public ChatContent(String message) {
-    this.message = message;
-  }
-
   private String message;
   private boolean can_answer;
   private boolean has_asked;
   private String test_case;
-  private int is_constraint;
+  private int constraint_targeting;
   private boolean asked_expected_output;
+
+  public ChatContent(String message) {
+    this.message = message;
+  }
 }

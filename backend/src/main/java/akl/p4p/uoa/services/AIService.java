@@ -2,6 +2,7 @@ package akl.p4p.uoa.services;
 
 import akl.p4p.uoa.data.ChatContent;
 import akl.p4p.uoa.data.ChatMessage;
+import akl.p4p.uoa.data.ChatMessage.Role;
 import akl.p4p.uoa.data.ChatMessageConverter;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.prompts.ClientPrompts;
@@ -127,9 +128,9 @@ public class AIService {
         history.stream()
             .map(
                 chatMsg -> {
-                  if ("user".equals(chatMsg.getRole())) {
+                  if (Role.USER.equals(chatMsg.getRole())) {
                     return new UserMessage(chatMsg.getContent().getMessage());
-                  } else if ("assistant".equals(chatMsg.getRole())) {
+                  } else if (Role.ASSISTANT.equals(chatMsg.getRole())) {
                     return new AssistantMessage(chatMsg.getContent().getMessage());
                   } else {
                     return new SystemMessage(chatMsg.getContent().getMessage());
@@ -176,9 +177,6 @@ public class AIService {
     OpenAiChatOptions options =
         OpenAiChatOptions.builder().model(OpenAiApi.ChatModel.O4_MINI).temperature(1D).build();
 
-    String assistantReply =
-        chatClient.prompt().options(options).messages(messages).call().content();
-
-    return assistantReply;
+    return chatClient.prompt().options(options).messages(messages).call().content();
   }
 }

@@ -4,7 +4,9 @@ import akl.p4p.uoa.data.ChatMessage;
 import akl.p4p.uoa.data.OracleExecution;
 import akl.p4p.uoa.enums.ProgramLanguage;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -26,4 +28,8 @@ public class ProblemAttempt {
   private String notesTaken;
   private String agentPrompt;
   private List<OracleExecution> oracleExecutionHistory;
+
+  // Used to store frequency of eq class targeted by student: [constraintNum, freq]
+  private Map<Integer, Integer> clientEquivalenceMap = new HashMap<>();
+  private Map<Integer, Integer> oracleEquivalenceMap = new HashMap<>();
 }

@@ -26,7 +26,7 @@ public class JsonSchemaDefinition {
 						"type": "string",
 						"description": "The test case generated if the question has been asked before or if the user requests. Variable names MUST match the function signatures. Test cases should print the result unless the function returns void."
 					},
-					"is_constraint": {
+					"constraint_targeting": {
 						"type": "number",
 						"description": "number indicating which constraint the user is aiming to find with their question, if their question doesn't apply to any constraint return -1"
 					},
@@ -35,7 +35,7 @@ public class JsonSchemaDefinition {
 						"description": "True if the user asked about what should happen relating to the function behaviour."
 					}
 				},
-				"required": ["message", "can_answer", "has_asked", "is_constraint", "test_case", "asked_expected_output"],
+				"required": ["message", "can_answer", "has_asked", "constraint_targeting", "test_case", "asked_expected_output"],
 				"additionalProperties": false
 			}
 			 """;
@@ -135,10 +135,6 @@ public class JsonSchemaDefinition {
 
   public static String getTestCaseSchema() {
     return TEST_CASE_SCHEMA;
-  }
-
-  public static String getExecutionPayload() {
-    return EXECUTION_PAYLOAD;
   }
 
   public static String getOracleGenerationSchema() {

@@ -1,5 +1,6 @@
 package akl.p4p.uoa.data;
 
+import akl.p4p.uoa.data.ChatMessage.Role;
 import java.time.Instant;
 
 public class ChatMessageConverter {
@@ -12,7 +13,7 @@ public class ChatMessageConverter {
    */
   public static ChatMessage convertUserMessageToChatMessage(ChatContent userContent) {
     ChatMessage chatMsg = new ChatMessage();
-    chatMsg.setRole("user");
+    chatMsg.setRole(Role.USER);
     chatMsg.setContent(userContent);
     chatMsg.setTimestamp(Instant.now());
     return chatMsg;
@@ -26,7 +27,7 @@ public class ChatMessageConverter {
    */
   public static ChatMessage convertLLMResponseToChatMessage(ChatContent assistantMessage) {
     ChatMessage chatMsg = new ChatMessage();
-    chatMsg.setRole("assistant");
+    chatMsg.setRole(Role.ASSISTANT);
     chatMsg.setContent(assistantMessage);
     chatMsg.setTimestamp(Instant.now());
     return chatMsg;
@@ -40,7 +41,7 @@ public class ChatMessageConverter {
    */
   public static ChatMessage convertSystemPromptToChatMessage(String systemPrompt) {
     ChatMessage chatMsg = new ChatMessage();
-    chatMsg.setRole("system");
+    chatMsg.setRole(Role.SYSTEM);
     chatMsg.setContent(new ChatContent(systemPrompt));
     chatMsg.setTimestamp(Instant.now());
     return chatMsg;

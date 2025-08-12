@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 public class MessageDTO {
   private String sessionId;
+  private String problemAttemptId;
   private ChatMessage chatMessage;
 }
