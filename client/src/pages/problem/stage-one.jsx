@@ -76,7 +76,7 @@ export default function StageOne() {
       <Modal
         isOpen={showOracleHelp}
         setIsOpen={setShowOracleHelp}
-        title={"What's the Oracle?"}
+        title={"What's the Binary?"}
       >
         You can play around with the inputs and click the run button to see the
         expected output of the function(s)!

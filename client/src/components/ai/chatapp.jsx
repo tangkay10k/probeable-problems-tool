@@ -39,6 +39,7 @@ export default function ChatApp() {
 
   const handleSend = () => {
     if (!userMessage) return;
+    if (isLoading) return;
 
     const message = userMessage;
     setChatHistory({
@@ -127,6 +128,7 @@ export default function ChatApp() {
 
         <div className={styles.inputContainer}>
           <Input
+            disabled={isLoading}
             onEnter={handleSend}
             placeholder={"Ask the client a question!"}
             onChange={(e) => setUserMessage(e.target.value)}

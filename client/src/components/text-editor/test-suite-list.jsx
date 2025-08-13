@@ -82,12 +82,33 @@ function TestCase({
   const hasRun = Boolean(result?.actual);
   const passed = hasRun && result.actual === test.expectedStdOut;
 
+  // Prevent <details> from toggling open when hasRun is false.
+  const preventToggleIfLocked = (e) => {
+    if (!hasRun) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
+  // Also catch keyboard activation on <summary> (Space/Enter)
+  const handleSummaryKeyDown = (e) => {
+    if (!hasRun && (e.key === " " || e.key === "Enter")) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
   if (!isEditable) {
     return (
       <details
         className={`${styles.testDetail} ${test.hidden ? styles.hidden : ""}`}
       >
-        <summary>
+        <summary
+          onClick={preventToggleIfLocked}
+          onKeyDown={handleSummaryKeyDown}
+          aria-disabled={!hasRun}
+          title={!hasRun ? "Run the test to view details" : undefined}
+        >
           {test.hidden ? (
             <>
               <section className={styles.locked}>
@@ -98,11 +119,15 @@ function TestCase({
             </>
           ) : (
             <>
-              <h1>Test {index + 1}</h1>
+              <section className={styles.locked}>
+                {!passed && !hasRun && <LockedIcon />}
+                <h1>Test {index + 1}</h1>
+              </section>
               <StatusPill hasRun={hasRun} passed={passed} />
             </>
           )}
         </summary>
+
         {!test.hidden && (
           <div className={styles.detailContent}>
             <p>

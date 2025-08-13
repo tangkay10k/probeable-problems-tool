@@ -76,12 +76,19 @@ export default function StageTwo() {
     const output = execution.run.output;
     const lines = output.split(SPLIT_STRING);
     let passedCount = 0;
+    const updatedResults = [];
 
-    const updatedResults = lines.map((line, i) => {
+    for (let i = 0; i < lines.length; i++) {
       const expected = problem?.testSuite[i]?.expectedStdOut ?? "";
-      if (line === expected) passedCount += 1;
-      return { actual: line, expected };
-    });
+      const actual = lines[i];
+      if (actual === expected) {
+        passedCount += 1;
+        updatedResults.push({ actual, expected });
+      } else {
+        updatedResults.push({ actual, expected });
+        break; // stop processing further lines on first mismatch
+      }
+    }
 
     setResults(updatedResults);
 
