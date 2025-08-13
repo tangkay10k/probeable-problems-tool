@@ -8,15 +8,13 @@ import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.repositories.ProblemRepository;
 import akl.p4p.uoa.utils.StringUtils;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProblemService {
@@ -40,10 +38,11 @@ public class ProblemService {
   }
 
   public Problem createProblem(Problem problem) throws IOException {
-    String assistantReply = aiService.executeOneTimeLLMCallStudent(
-        ClientPrompts.faultySolutionPrompt(problem.getModelAnswer(), problem.getConstraints()),
-        JsonSchemaDefinition.getFaultySolutionSchema());
-        
+    String assistantReply =
+        aiService.executeOneTimeLLMCallStudent(
+            ClientPrompts.faultySolutionPrompt(problem.getModelAnswer(), problem.getConstraints()),
+            JsonSchemaDefinition.getFaultySolutionSchema());
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     BuggyCodes buggyCodes = objectMapper.readValue(assistantReply, BuggyCodes.class);
@@ -77,9 +76,9 @@ public class ProblemService {
 
   public Problem updateProblem(Problem incoming) {
     Problem existing =
-     problemRepository
-        .findById(incoming.getId())
-        .orElseThrow(() -> new RuntimeException("Problem not found: " + incoming.getId()));
+        problemRepository
+            .findById(incoming.getId())
+            .orElseThrow(() -> new RuntimeException("Problem not found: " + incoming.getId()));
 
     BeanUtils.copyProperties(incoming, existing, getNullPropertyNames(incoming));
 

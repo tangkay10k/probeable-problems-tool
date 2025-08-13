@@ -51,8 +51,9 @@ public class ClientPrompts {
   public static String clientTestCasePrompt() throws IOException {
     return readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_TEST_CASE_PROMPT_FILE);
   }
-  
-    public static String faultySolutionPrompt(String modelAnswer, String constraints) throws IOException {
+
+  public static String faultySolutionPrompt(String modelAnswer, String constraints)
+      throws IOException {
     String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + FAULTY_SOLUTION_PROMPT_FILE);
     return basePrompt
         .replace("//VAR_MODEL_SOLUTION", modelAnswer)

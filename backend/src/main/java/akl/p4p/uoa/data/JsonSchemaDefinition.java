@@ -130,7 +130,7 @@ public class JsonSchemaDefinition {
 			 """;
 
   private static final String FAULTY_SOLUTION_SCHEMA =
-    """
+      """
 		{
 			"type": "object",
 			"properties": {
@@ -175,7 +175,7 @@ public class JsonSchemaDefinition {
     return CODE_GENERATION_SCHEMA;
   }
 
-    public static String getFaultySolutionSchema() {
+  public static String getFaultySolutionSchema() {
     return FAULTY_SOLUTION_SCHEMA;
   }
 }
