@@ -3,11 +3,7 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
-import {
-  STAGE_ONE_CONCISE,
-  STAGE_TWO,
-  STAGE_TWO_CONCISE,
-} from "@/pages/problem/data/instructions.js";
+import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
 import AIAgent from "@/components/ai/ai-agent.jsx";
 import { getProblem } from "@/routes/problem-route.js";
 import { getTestTemplate } from "@/routes/template-route.js";
@@ -52,28 +48,33 @@ export default function StageTwo() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [numTestsPassed, setNumTestsPassed] = useState(0);
 
+  const handleAgentBuildRequest = () => {
+    setSelected(0);
+    setShowTestSuite(false);
+  };
+
   const tabs = [
     {
       label: "Task",
       content: <StudentInstruction instruction={STAGE_TWO.content} />,
     },
-    { label: "Cogs", content: <AIAgent editorRef={editorRef} /> },
+    {
+      label: "Cogs",
+      content: (
+        <AIAgent editorRef={editorRef} runCallback={handleAgentBuildRequest} />
+      ),
+    },
   ];
 
   useEffect(() => {
-    withLoading(
-      () => getProblem(problemId),
-      (fetchedProblem) => {
+    getProblem(problemId)
+      .then((fetchedProblem) => {
         setProblem(fetchedProblem);
-
-        withLoading(
-          () => getTestTemplate(fetchedProblem.programLanguage),
-          (template) => setTestTemplate(template),
-          (err) => toast.error(err),
-        );
-      },
-      (err) => toast.error(err),
-    );
+        getTestTemplate(fetchedProblem.programLanguage)
+          .then((template) => setTestTemplate(template))
+          .catch((err) => toast.error(err));
+      })
+      .catch((err) => toast.error(err));
   }, [problemId]);
 
   const updateResults = (execution) => {

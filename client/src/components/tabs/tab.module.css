@@ -39,8 +39,8 @@
 }
 
 .activeTab {
-  border-bottom: 0.1rem solid var(--purple);
-  color: var(--purple);
+  border-bottom: 0.1rem solid var(--accent);
+  color: var(--accent);
 
   height: auto;
   width: auto;

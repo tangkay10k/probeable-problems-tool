@@ -30,8 +30,8 @@ Your company has leased you an AI agent named Cogs that you can use to help writ
 
 export const STAGE_TWO_CONCISE = {
   title: "Tasks",
-  content: `Its time for you to deliver a solution that meets your client's requirements!
+  content: `It's time for you to deliver a solution that meets your client's requirements!
 
-Your company has leased you an AI agent named **Cogs** that can help write code for you!
+**Cogs** is an AI Agent that can help write code for you.
 `,
 };

@@ -92,12 +92,6 @@ export default function ChatApp() {
     );
   };
 
-  const leftIcon = (
-    <div className={styles.icon}>
-      <ChatIcon size={35} color={"white"} />
-    </div>
-  );
-
   const rightIcon = (
     <>
       <div className={styles.status} />
@@ -112,7 +106,6 @@ export default function ChatApp() {
       <Banner
         header={"My Client"}
         subtext={"online now"}
-        leftIcon={leftIcon}
         rightIcon={rightIcon}
       />
 

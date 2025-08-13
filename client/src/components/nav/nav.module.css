@@ -86,12 +86,12 @@
 }
 
 .bottomNavContainer button {
-  border: 0.01rem solid var(--purple);
-  background-color: var(--purple);
+  border: 0.01rem solid var(--accent);
+  background-color: var(--accent);
 }
 
 .bottomNavContainer button:hover {
-  background-color: var(--hover-purple);
+  background-color: var(--accent-light);
 }
 
 .nextContainer {

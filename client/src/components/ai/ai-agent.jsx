@@ -1,13 +1,13 @@
 import styles from "./ai.module.css";
-import { IoChatbubbleEllipsesOutline as ChatIcon } from "react-icons/io5";
 import Banner from "@/components/banner/banner.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import Button from "@/components/button/button.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { generateSolutionAttempt } from "@/routes/ai-route.js";
+import { toast } from "react-toastify";
 
-export default function AIAgent({ editorRef }) {
+export default function AIAgent({ editorRef, runCallback }) {
   const {
     studentAgentPrompt,
     updateStudentAgentPrompt,
@@ -16,6 +16,13 @@ export default function AIAgent({ editorRef }) {
   const [isLoading, withLoading] = useWithLoading();
 
   const handleSubmit = () => {
+    runCallback?.();
+
+    if (studentAgentPrompt.trim().length === 0) {
+      toast.error("Please give Cogs some instructions!");
+      return;
+    }
+
     updateStudentCodeSubmission(""); // clear
 
     withLoading(
@@ -39,29 +46,18 @@ export default function AIAgent({ editorRef }) {
     );
   };
 
-  const leftIcon = (
-    <div className={styles.icon}>
-      <ChatIcon size={35} color={"white"} />
-    </div>
-  );
-
   const rightIcon = (
     <>
       <div className={styles.status} />
       <div className={styles.clientAvatar}>
-        <img src={"/default-avatar.jpg"} alt={"Client"} />
+        <img src={"/cogs.png"} alt={"Cogs"} />
       </div>
     </>
   );
 
   return (
     <div className={styles.agentContainer}>
-      <Banner
-        leftIcon={leftIcon}
-        rightIcon={rightIcon}
-        header={"Cogs"}
-        subtext={"online now"}
-      />
+      <Banner rightIcon={rightIcon} header={"Cogs"} subtext={"online now"} />
       <div className={styles.agentBody}>
         <TextArea
           placeholder={"Ask cogs to write code for you!"}
