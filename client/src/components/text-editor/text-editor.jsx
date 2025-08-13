@@ -9,8 +9,6 @@ import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./language-selector.jsx";
 import { CODE_SNIPPETS } from "./data/constants.js";
 import styles from "./text-editor.module.css";
-import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { logPastedContent } from "@/routes/log-route.js";
 
 export const TextEditor = forwardRef(
   (
