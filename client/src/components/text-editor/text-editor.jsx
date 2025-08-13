@@ -29,7 +29,6 @@ export const TextEditor = forwardRef(
     },
     ref,
   ) => {
-    // const { problemAttempt } = useProblemAttemptContext();
     const [editorHeight, setEditorHeight] = useState(fixedHeight);
     const containerRef = useRef(null);
     const editorRef = useRef(null);

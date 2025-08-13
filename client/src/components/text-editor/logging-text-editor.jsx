@@ -5,6 +5,7 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { logPastedContent } from "@/routes/log-route.js";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 
+//NOTE only use this component as a child of problemAttemptProvider
 export const LoggingTextEditor = forwardRef(
   (
     {
@@ -55,7 +56,7 @@ export const LoggingTextEditor = forwardRef(
         fixedHeight={fixedHeight}
         minHeight={minHeight}
         disableLanguageSelect={disableLanguageSelect}
-        isLogging={true}
+        isLogging
         ref={ref}
         handleLogPaste={handleLogPaste}
         />
