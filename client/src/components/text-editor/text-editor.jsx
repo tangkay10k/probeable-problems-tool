@@ -9,8 +9,6 @@ import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./language-selector.jsx";
 import { CODE_SNIPPETS } from "./data/constants.js";
 import styles from "./text-editor.module.css";
-import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { logPastedContent } from "@/routes/log-route.js";
 
 export const TextEditor = forwardRef(
   (
@@ -27,10 +25,10 @@ export const TextEditor = forwardRef(
       minHeight = 100,
       disableLanguageSelect = false,
       isLogging = false,
+      handleLogPaste,
     },
     ref,
   ) => {
-    // const { problemAttempt } = useProblemAttemptContext();
     const [editorHeight, setEditorHeight] = useState(fixedHeight);
     const containerRef = useRef(null);
     const editorRef = useRef(null);
@@ -77,20 +75,9 @@ export const TextEditor = forwardRef(
       editorRef.current = editor;
       monacoRef.current = monaco;
 
-      // editor.onDidPaste((e) => {
-      //   const model = editor.getModel();
-      //   const pastedRange = e.range;
-      //
-      //   const pastedText = model.getValueInRange(pastedRange);
-      //
-      //   const fullText = editor.getValue();
-      //   if (problemAttempt && isLogging && pastedText) {
-      //     logPastedContent(problemAttempt.id, {
-      //       pastedContent: pastedText,
-      //       afterPastedContent: fullText,
-      //     });
-      //   }
-      // });
+      if(isLogging){
+        handleLogPaste(editor)
+      }
 
       if (isResizable) {
         const lineHeight = editor.getOption(
