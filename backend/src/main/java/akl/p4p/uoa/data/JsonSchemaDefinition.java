@@ -121,7 +121,7 @@ public class JsonSchemaDefinition {
 				"properties": {
 					"source_code": {
 					  "type": "string",
-					  "description": "The source code of the function requested to be built"
+					  "description": "Only source code. No backticks, no comments, no markdown, no explanations — output must be pure code only."
 					}
 				},
 				"required": ["source_code"],

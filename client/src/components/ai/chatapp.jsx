@@ -39,6 +39,7 @@ export default function ChatApp() {
 
   const handleSend = () => {
     if (!userMessage) return;
+    if (isLoading) return;
 
     const message = userMessage;
     setChatHistory({
@@ -91,12 +92,6 @@ export default function ChatApp() {
     );
   };
 
-  const leftIcon = (
-    <div className={styles.icon}>
-      <ChatIcon size={35} color={"white"} />
-    </div>
-  );
-
   const rightIcon = (
     <>
       <div className={styles.status} />
@@ -111,7 +106,6 @@ export default function ChatApp() {
       <Banner
         header={"My Client"}
         subtext={"online now"}
-        leftIcon={leftIcon}
         rightIcon={rightIcon}
       />
 
@@ -127,6 +121,7 @@ export default function ChatApp() {
 
         <div className={styles.inputContainer}>
           <Input
+            disabled={isLoading}
             onEnter={handleSend}
             placeholder={"Ask the client a question!"}
             onChange={(e) => setUserMessage(e.target.value)}

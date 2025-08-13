@@ -1,18 +1,39 @@
 import styles from "./problemPage.module.css";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SplitText from "@/components/text/split-text/split-text.jsx";
 import BottomNav from "@/components/nav/bottom-nav.jsx";
 import StageTwo from "@/pages/problem/stage-two.jsx";
 import StageOne from "@/pages/problem/stage-one.jsx";
+import Modal from "@/components/modal/modal.jsx";
+import {
+  STAGE_ONE_CONCISE,
+  STAGE_TWO_CONCISE,
+} from "@/pages/problem/data/instructions.js";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
 
 export default function ProblemContent() {
   const { isProblemReady } = useProblemAttemptContext();
   const [stage, setStage] = useState(1);
+  const [tutorialStep, setTutorialStep] = useState(1); // which stage tutorial to show
+  const [showTutorial, setShowTutorial] = useState(true);
 
   function handleStageChange() {
-    stage === 1 ? setStage(2) : setStage(1);
+    if (stage === 1) {
+      setStage(2);
+
+      if (tutorialStep === 1) {
+        setTutorialStep(2);
+        setShowTutorial(true);
+      }
+      return;
+    }
+    setStage(1);
   }
+
+  const hideTutorial = () => {
+    setShowTutorial(false);
+  };
 
   if (!isProblemReady) {
     return (
@@ -33,6 +54,12 @@ export default function ProblemContent() {
         </div>
         <BottomNav handleStageChange={handleStageChange} stage={stage} />
       </div>
+      <Modal isOpen={showTutorial} setIsOpen={setShowTutorial} title={"Task: "}>
+        {tutorialStep === 1
+          ? STAGE_ONE_CONCISE.content
+          : STAGE_TWO_CONCISE.content}
+        <ButtonV2 onClick={hideTutorial}>I Understand!</ButtonV2>
+      </Modal>
     </div>
   );
 }

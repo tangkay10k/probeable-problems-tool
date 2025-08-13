@@ -1,6 +1,4 @@
-import {
-  forwardRef,
-} from "react";
+import { forwardRef } from "react";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { logPastedContent } from "@/routes/log-route.js";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
@@ -29,9 +27,9 @@ export const LoggingTextEditor = forwardRef(
       editor.onDidPaste((e) => {
         const model = editor.getModel();
         const pastedRange = e.range;
-      
+
         const pastedText = model.getValueInRange(pastedRange);
-      
+
         const fullText = editor.getValue();
         if (problemAttempt && pastedText) {
           logPastedContent(problemAttempt.id, {
@@ -42,13 +40,12 @@ export const LoggingTextEditor = forwardRef(
       });
     }
 
-
     return (
-        <TextEditor 
-        setLanguage={setLanguage} 
-        language={language} 
-        src={src} 
-        setSource={setSource} 
+      <TextEditor
+        setLanguage={setLanguage}
+        language={language}
+        src={src}
+        setSource={setSource}
         showLanguageSelect={showLanguageSelect}
         lineNumbers={lineNumbers}
         fontSize={fontSize}
@@ -59,7 +56,7 @@ export const LoggingTextEditor = forwardRef(
         isLogging
         ref={ref}
         handleLogPaste={handleLogPaste}
-        />
+      />
     );
   },
 );

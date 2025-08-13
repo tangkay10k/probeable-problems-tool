@@ -75,8 +75,8 @@ export const TextEditor = forwardRef(
       editorRef.current = editor;
       monacoRef.current = monaco;
 
-      if(isLogging){
-        handleLogPaste(editor)
+      if (isLogging) {
+        handleLogPaste(editor);
       }
 
       if (isResizable) {

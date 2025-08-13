@@ -37,10 +37,10 @@ export default function Home() {
         </div>
       )}
       <div className={styles.stickyButtonContainer}>
-        <CircularIconButton
-          onClick={() => setShowSurvey(true)}
-          icon={<SurveyIcon size={20} />}
-        />
+        {/*<CircularIconButton*/}
+        {/*  onClick={() => setShowSurvey(true)}*/}
+        {/*  icon={<SurveyIcon size={20} />}*/}
+        {/*/>*/}
         <CircularIconButton
           onClick={() => navigate("/about")}
           icon={<InfoIcon size={20} />}

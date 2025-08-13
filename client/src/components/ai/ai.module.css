@@ -191,7 +191,7 @@
 }
 
 .assistant {
-  background: linear-gradient(to right, #bb94ff, #ca43ff);
+  background: linear-gradient(to right, var(--accent-light), var(--accent));
   justify-self: start;
   padding-left: var(--padding-25);
 }
@@ -250,7 +250,7 @@
   height: 3rem;
   border-radius: var(--border-radius-2);
 
-  background-color: var(--dark-dark-grey);
+  background-color: var(--accent);
 
   font-size: 1.2rem;
   font-family: "Poppins", sans-serif;
@@ -258,6 +258,6 @@
 }
 
 .agentBody button:hover {
-  background-color: var(--less-dark-grey);
+  background-color: var(--accent-light);
   transform: scale(1);
 }
