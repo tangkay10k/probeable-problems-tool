@@ -23,6 +23,7 @@ import Button from "@/components/button/button.jsx";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
 import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
+import { LoggingTextEditor } from "@/components/text-editor/logging-text-editor.jsx";
 import ButtonGroup from "@/components/button/button-group.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
@@ -189,7 +190,7 @@ export default function StageTwo() {
           </div>
         ) : (
           <div className={styles.editorWrapper}>
-            <TextEditor
+            <LoggingTextEditor
               ref={editorRef}
               fixedHeight={"100%"}
               language={problemAttempt?.problemLanguage}
