@@ -1,5 +1,6 @@
 package akl.p4p.uoa.models;
 
+import akl.p4p.uoa.data.BuggyCodes.BuggyCode;
 import akl.p4p.uoa.data.Test;
 import akl.p4p.uoa.enums.ProblemType;
 import akl.p4p.uoa.enums.ProgramLanguage;
@@ -28,4 +29,8 @@ public class Problem {
   private ProblemType problemType;
 
   private String defaultProbe;
+
+  private List<BuggyCode> buggy_codes;
+
+  private String functionName;
 }

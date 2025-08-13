@@ -3,6 +3,8 @@ package akl.p4p.uoa.controllers;
 import akl.p4p.uoa.constants.AuthConstants;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.ProblemService;
+
+import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,8 +25,6 @@ public class ProblemController {
   public ResponseEntity<List<Problem>> getAllProblems(
       @RequestParam(required = false, defaultValue = "false") boolean isStudent) {
 
-    // TO DO: add authentication logic.
-
     return ResponseEntity.ok(problemService.getAllProblems(isStudent));
   }
 
@@ -32,7 +32,6 @@ public class ProblemController {
   @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<Problem> getProblem(@PathVariable String problemId) {
 
-    // TO DO: add authentication logic.
     return ResponseEntity.ok(problemService.getProblemById(problemId));
   }
 
@@ -40,17 +39,13 @@ public class ProblemController {
   @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
   public ResponseEntity<Problem> getProblemTestSuiteById(@RequestParam String problemId) {
 
-    // TO DO: add authentication logic.
-
     Problem problem = problemService.getProblemTestSuite(problemId);
     return ResponseEntity.ok(problem);
   }
 
   @PostMapping
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
-  public ResponseEntity<Problem> createNewProblem(@RequestBody Problem problem) {
-
-    // TO DO: add authentication logic.
+  public ResponseEntity<Problem> createNewProblem(@RequestBody Problem problem) throws IOException {
 
     Problem savedProblem = problemService.createProblem(problem);
     return ResponseEntity.ok(savedProblem);

@@ -8,6 +8,7 @@ import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { useParams } from "react-router-dom";
 import { DEFAULT_PROBES_KEY } from "@/context/context-utils.js";
+import { handleBuggyProbeExecution } from "../../pages/question-setup/utils/buggy-solutions-setup-utils";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -81,6 +82,16 @@ export default function Oracle({
       },
       console.error,
     );
+
+    withLoading(
+      () =>
+        handleBuggyProbeExecution(problem, problem.defaultProbe),
+      (result) => {
+        console.log("Execution:", result);
+      },
+      console.error,
+    );
+
   }
 
   return (

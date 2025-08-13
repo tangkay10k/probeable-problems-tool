@@ -1,11 +1,12 @@
 import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { toast } from "react-toastify";
 
+import { SPLIT_STRING } from "../../../constants/setup-constants";
+
 const inputCVariables = (
   problem,
   implementation,
   testTemplate,
-  splitString,
 ) => {
   const generatedTests = problem.testSuite
     .map(
@@ -29,7 +30,7 @@ const inputCVariables = (
 
   return testTemplate.template
     .replace("//VAR_IMPLEMENTATION", implementation)
-    .replace("//VAR_SPLIT", splitString)
+    .replace("//VAR_SPLIT", SPLIT_STRING)
     .replace("//VAR_NUM_TESTS", numTests)
     .replace("//VAR_TESTS", generatedTests)
     .replace("//VAR_SWITCH_TESTS", switchTests);
@@ -39,7 +40,6 @@ const createTestSuiteFromFile = (
   problem,
   implementation,
   testTemplate,
-  splitString,
 ) => {
   let testSuiteFromFile;
   switch (problem.programLanguage) {
@@ -48,7 +48,6 @@ const createTestSuiteFromFile = (
         problem,
         implementation,
         testTemplate,
-        splitString,
       );
       break;
     case "java":
@@ -71,7 +70,6 @@ export const handleTestSuiteExecution = async (
     problem,
     implementation,
     testTemplate,
-    SPLIT_STRING,
   );
 
   await executeCodePistonDirect(problem.programLanguage, testSuiteFromFile)
@@ -79,4 +77,3 @@ export const handleTestSuiteExecution = async (
     .catch((err) => toast.error(err));
 };
 
-export const SPLIT_STRING = "$_@_BBJ_SPL1T_@_$";

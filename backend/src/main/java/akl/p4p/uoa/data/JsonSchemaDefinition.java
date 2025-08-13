@@ -129,6 +129,36 @@ public class JsonSchemaDefinition {
 			}
 			 """;
 
+  private static final String FAULTY_SOLUTION_SCHEMA =
+    """
+		{
+			"type": "object",
+			"properties": {
+				"buggy_codes": {
+					"type": "array",
+					"description": "Array of buggy code snippets, each violating exactly one constraint",
+					"items": {
+						"type": "object",
+						"properties": {
+							"code": {
+								"type": "string",
+								"description": "A buggy version of the code"
+							},
+							"violated_constraint": {
+								"type": "number",
+								"description": "The specific constraint number this buggy version violates"
+							}
+						},
+						"required": ["code", "violated_constraint"],
+						"additionalProperties": false
+					}
+				}
+			},
+			"required": ["buggy_codes"],
+			"additionalProperties": false
+		}
+	""";
+
   public static String getClientProbeSchema() {
     return CLIENT_PROBE_SCHEMA;
   }
@@ -143,5 +173,9 @@ public class JsonSchemaDefinition {
 
   public static String getCodeGenerationSchema() {
     return CODE_GENERATION_SCHEMA;
+  }
+
+    public static String getFaultySolutionSchema() {
+    return FAULTY_SOLUTION_SCHEMA;
   }
 }
