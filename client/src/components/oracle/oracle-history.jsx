@@ -26,7 +26,7 @@ export default function OracleHistory() {
         />
       ) : (
         <div className={styles.emptyHistory}>
-          Execute the binary to see history!
+          Execute the Binary to see history!
         </div>
       )}
     </div>

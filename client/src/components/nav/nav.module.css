@@ -43,7 +43,7 @@
 
 .icon {
   height: var(--nav-image-height);
-  box-shadow: 0 0 1rem 0.01rem rgba(255, 255, 255, 0.5);
+  /*box-shadow: 0 0 1rem 0.01rem rgba(255, 255, 255, 0.5);*/
 }
 
 .heading h1 {
@@ -87,7 +87,7 @@
 
 .bottomNavContainer button {
   border: 0.01rem solid var(--purple);
-  background-color: var(--hover-purple);
+  background-color: var(--purple);
 }
 
 .bottomNavContainer button:hover {

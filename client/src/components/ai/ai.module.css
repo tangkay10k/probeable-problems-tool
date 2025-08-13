@@ -191,7 +191,7 @@
 }
 
 .assistant {
-  background: linear-gradient(to right, #bb94ff, #ca43ff);
+  background: linear-gradient(to right, var(--hover-purple), var(--purple));
   justify-self: start;
   padding-left: var(--padding-25);
 }

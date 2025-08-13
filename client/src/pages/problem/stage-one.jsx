@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
-import { STAGE_ONE } from "@/pages/problem/data/instructions.js";
+import {
+  STAGE_ONE,
+  STAGE_ONE_CONCISE,
+} from "@/pages/problem/data/instructions.js";
 import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";
 import ButtonGroup from "@/components/button/button-group.jsx";
@@ -17,7 +20,7 @@ import OracleHistory from "@/components/oracle/oracle-history.jsx";
 const TABS = [
   {
     label: "Task",
-    content: <StudentInstruction instruction={STAGE_ONE[0].content} />,
+    content: <StudentInstruction instruction={STAGE_ONE.content} />,
   },
   { label: "Binary History", content: <OracleHistory /> },
 ];
@@ -41,7 +44,7 @@ export default function StageOne() {
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.leftContainer}>
-        <Tabs tabs={TABS} defaultIndex={0} />
+        <Tabs tabs={TABS} defaultIndex={1} />
       </div>
 
       <div className={styles.rightContainer}>
@@ -78,8 +81,8 @@ export default function StageOne() {
         setIsOpen={setShowOracleHelp}
         title={"What's the Binary?"}
       >
-        You can play around with the inputs and click the run button to see the
-        expected output of the function(s)!
+        You can play around with the inputs and click the **Run** button to see
+        the expected output of the function(s)!
       </Modal>
     </div>
   );

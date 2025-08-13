@@ -1,9 +1,13 @@
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
-import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
+import {
+  STAGE_ONE_CONCISE,
+  STAGE_TWO,
+  STAGE_TWO_CONCISE,
+} from "@/pages/problem/data/instructions.js";
 import AIAgent from "@/components/ai/ai-agent.jsx";
 import { getProblem } from "@/routes/problem-route.js";
 import { getTestTemplate } from "@/routes/template-route.js";
@@ -51,7 +55,7 @@ export default function StageTwo() {
   const tabs = [
     {
       label: "Task",
-      content: <StudentInstruction instruction={STAGE_TWO[0].content} />,
+      content: <StudentInstruction instruction={STAGE_TWO.content} />,
     },
     { label: "Cogs", content: <AIAgent editorRef={editorRef} /> },
   ];
@@ -98,6 +102,7 @@ export default function StageTwo() {
   };
 
   const handleExecution = () => {
+    showEditor();
     if (
       studentCodeSubmission.length === 0 ||
       studentCodeSubmission.trim() === ""
@@ -126,10 +131,25 @@ export default function StageTwo() {
     setShowConfirmation(true);
   };
 
+  const handleSubmission = () => {
+    saveStudentAttempt();
+    setShowConfirmation(false);
+  };
+
+  const handleReset = () => {
+    updateStudentCodeSubmission("");
+    showEditor();
+  };
+
+  function showEditor() {
+    setSelected(0);
+    setShowTestSuite(false);
+  }
+
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.leftContainer}>
-        <Tabs tabs={tabs} defaultIndex={0} />
+        <Tabs tabs={tabs} defaultIndex={1} />
       </div>
 
       <div className={styles.rightContainer}>
@@ -156,10 +176,7 @@ export default function StageTwo() {
                 </>
               )}
 
-              <ButtonV2
-                onClick={() => updateStudentCodeSubmission("")}
-                disabled={isLoading}
-              >
+              <ButtonV2 onClick={handleReset} disabled={isLoading}>
                 <RestartIcon size={18} />
               </ButtonV2>
               <ButtonV2 onClick={handleExecution} disabled={isLoading}>
@@ -223,7 +240,7 @@ export default function StageTwo() {
         <br />
         <section className={styles.modalBtns}>
           <Button onClick={() => setShowConfirmation(false)}>No</Button>
-          <Button onClick={saveStudentAttempt}>Yes</Button>
+          <Button onClick={handleSubmission}>Yes</Button>
         </section>
       </Modal>
     </div>
