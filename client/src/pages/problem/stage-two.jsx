@@ -67,9 +67,8 @@ export default function StageTwo() {
   ];
 
   useEffect(() => {
-    withLoading(
-      () => getProblem(problemId),
-       (fetchedProblem) => {
+    getProblem(problemId)
+      .then((fetchedProblem) => {
         setProblem(fetchedProblem);
         getTestTemplate(fetchedProblem.programLanguage)
           .then((template) => setTestTemplate(template))
