@@ -5,6 +5,7 @@ import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
 
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.services.ProblemService;
+import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,7 +43,7 @@ public class ProblemController {
 
   @PostMapping
   @PreAuthorize(HAS_ROLE_TEACHER)
-  public ResponseEntity<Problem> createNewProblem(@RequestBody Problem problem) {
+  public ResponseEntity<Problem> createNewProblem(@RequestBody Problem problem) throws IOException {
     Problem savedProblem = problemService.createProblem(problem);
     return ResponseEntity.ok(savedProblem);
   }

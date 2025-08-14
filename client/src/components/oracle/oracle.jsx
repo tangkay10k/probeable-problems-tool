@@ -8,6 +8,8 @@ import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { useParams } from "react-router-dom";
 import { DEFAULT_PROBES_KEY } from "@/context/context-utils.js";
+import { handleBuggyProbeExecution } from "@/pages/question-setup/utils/buggy-solutions-setup-utils";
+import { sendEquivalenceClass } from "@/routes/problem-attempt-route";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -27,56 +29,73 @@ export default function Oracle({
   const [inputVariables, setInputVariables] = useState("");
 
   useEffect(() => {
-    if (chatHistory) {
-      handleLLMGeneratedTestCase(chatHistory.messages);
+    if (!chatHistory?.messages?.length) return;
+    const latestMessage = chatHistory.messages[chatHistory.messages.length - 1];
+    if (latestMessage?.role === "user") return;
+
+    const responseSchema = latestMessage?.content;
+    if (responseSchema?.test_case) {
+      setInputVariables(responseSchema.test_case);
+      llmGeneratedTestCaseCallback?.(1);
     }
-  }, [problemAttempt, chatHistory]);
+  }, [problemAttempt, chatHistory, llmGeneratedTestCaseCallback]);
 
   useEffect(() => {
     const defaultProbeMap = localStorage.getItem(DEFAULT_PROBES_KEY);
-    if (defaultProbeMap) {
+    if (!defaultProbeMap) return;
+    try {
       const obj = JSON.parse(defaultProbeMap);
-      setInputVariables(obj[problemId]);
-    }
-  }, [resetOracle]);
+      if (obj?.[problemId]) {
+        setInputVariables(obj[problemId]);
+      }
+    } catch {}
+  }, [resetOracle, problemId]);
 
-  function handleLLMGeneratedTestCase(messageList) {
-    if (!messageList) return;
-
-    const latestMessage = messageList[messageList.length - 1];
-    if ("user" === latestMessage.role) return;
-
-    const responseSchema = latestMessage.content;
-    if (responseSchema.test_case) {
-      setInputVariables(responseSchema.test_case);
-
-      // Add shine effect on oracle button
-      llmGeneratedTestCaseCallback?.(1);
-    }
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  function executeOracle() {
+  async function executeOracle() {
     setExecutionOutput({});
-    withLoading(
+
+    let oracleResult = null;
+
+    await withLoading(
       () =>
         executeOraclePistonDirect(
           problemAttempt?.problemLanguage,
-          executeTemplate.template,
+          executeTemplate?.template,
           inputVariables,
-          problem.modelAnswer,
+          problem?.modelAnswer,
         ),
       (result) => {
+        oracleResult = result;
         setExecutionOutput(result);
 
-        const { run: { output, stderr } = {} } = result;
-        if (output && stderr.length === 0) {
+        const { run: { output, stderr } = {} } = result || {};
+        if (output && (!stderr || stderr.length === 0)) {
           const newEntry = {
             testCase: inputVariables,
             expectedOutput: output,
             timestamp: Date.now(),
           };
+          updateOracleHistory([...(oracleExecutionHistory || []), newEntry]);
+        }
+      },
+      console.error,
+    );
 
-          updateOracleHistory([...oracleExecutionHistory, newEntry]);
+    await delay(1000);
+
+    await withLoading(
+      () => handleBuggyProbeExecution(problem, inputVariables),
+      (buggyResult) => {
+        if (!oracleResult?.run?.stderr) {
+          sendEquivalenceClass(
+            problemAttempt.id,
+            oracleResult?.run?.output,
+            buggyResult,
+          );
         }
       },
       console.error,
@@ -102,9 +121,10 @@ export default function Oracle({
           placeholder={"Output: "}
           disabled={true}
           resizable={false}
-          value={executionOutput?.run?.output || executionOutput?.run?.stderr}
-        ></TextArea>
-
+          value={
+            executionOutput?.run?.output || executionOutput?.run?.stderr || ""
+          }
+        />
         <Button onClick={executeOracle} disabled={isLoading}>
           Run
         </Button>

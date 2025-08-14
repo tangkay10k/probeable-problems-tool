@@ -21,6 +21,7 @@ export function ProblemProvider({ children }) {
             programLanguage: "c",
             problemType: null,
             defaultProbe: null,
+            buggy_codes: [],
           },
         };
   });

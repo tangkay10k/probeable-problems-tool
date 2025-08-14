@@ -1,8 +1,6 @@
 import useWithLoading from "@/hooks/useWithLoading.js";
-import {
-  handleTestSuiteExecution,
-  SPLIT_STRING,
-} from "@/pages/question-setup/utils/test-setup-utils.js";
+import { handleTestSuiteExecution } from "@/pages/question-setup/utils/test-setup-utils.js";
+import { SPLIT_STRING } from "@/constants/setup-constants";
 import { toast } from "react-toastify";
 import styles from "@/pages/question-setup/question-setup.module.css";
 import Instruction from "@/components/instruction/instruction.jsx";

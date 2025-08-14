@@ -45,3 +45,17 @@ export const saveProblemAttempt = async (problemAttempt) => {
   const res = await axiosClient.post(`/api/problemAttempt`, problemAttempt);
   return res.data;
 };
+
+export const sendEquivalenceClass = async (
+  problemAttemptId,
+  result,
+  buggyOutputs,
+) => {
+  await axiosClient.post(
+    `/api/problemAttempt/${problemAttemptId}/equivalenceClass`,
+    {
+      result,
+      buggyOutputs,
+    },
+  );
+};

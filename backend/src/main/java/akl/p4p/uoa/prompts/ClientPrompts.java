@@ -13,6 +13,7 @@ public class ClientPrompts {
   private static final String CLIENT_TEST_CASE_PROMPT_FILE = "client-test-case-prompt.txt";
   private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS =
       "c-sf-specific-instructions.txt";
+  private static final String FAULTY_SOLUTION_PROMPT_FILE = "faulty-solution-prompt.txt";
 
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,
@@ -49,6 +50,14 @@ public class ClientPrompts {
 
   public static String clientTestCasePrompt() throws IOException {
     return readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_TEST_CASE_PROMPT_FILE);
+  }
+
+  public static String faultySolutionPrompt(String modelAnswer, String constraints)
+      throws IOException {
+    String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + FAULTY_SOLUTION_PROMPT_FILE);
+    return basePrompt
+        .replace("//VAR_MODEL_SOLUTION", modelAnswer)
+        .replace("//VAR_CONSTRAINTS", constraints);
   }
 
   private static String getCSpecificInstructions() throws IOException {
