@@ -11,3 +11,9 @@ export const getExecuteTemplate = async (language) => {
   const res = await axiosClient.get(`/api/template/${language}/execute`);
   return res.data;
 };
+
+export const getBuggySolutionTemplate = async (language) => {
+  if (!language) return;
+  const res = await axiosClient.get(`/api/template/${language}/buggy_solution`);
+  return res.data;
+};

@@ -1,6 +1,7 @@
 import { executeCodePistonDirect } from "@/routes/code-route.js";
 import { toast } from "react-toastify";
 import { SPLIT_STRING } from "@/constants/setup-constants";
+import { getBuggySolutionTemplate } from "../../../routes/template-route";
 
 async function fetchPublicText(path) {
     const res = await fetch(path);
@@ -45,7 +46,7 @@ function buildSwitchCasesC(problem, codeToRun, baseName) {
 }
 
 async function buildFilledTemplateC(problem, probe) {
-    const template = await fetchPublicText("/template.txt");
+    const buggyTemplate = await getBuggySolutionTemplate(problem.programLanguage);
 
     const fnName = extractFunctionName(problem.functionName, problem.modelAnswer);
     const buggyBlock = buildBuggyBlock(problem);
@@ -57,7 +58,7 @@ async function buildFilledTemplateC(problem, probe) {
         : 0
     ).toString();
 
-    return template
+    return buggyTemplate.template
         .replace("//VAR_BUGGY_IMPLEMENTATION", buggyBlock)
         .replace("//VAR_SWITCH_BUGGY_IMPLEMENTATIONS", switchCases)
         .replace("//VAR_NUM_BUGGY_IMPLEMENTATIONS", num)

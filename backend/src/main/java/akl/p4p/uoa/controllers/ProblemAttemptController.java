@@ -102,7 +102,7 @@ public class ProblemAttemptController {
       String buggyOutput = buggyOutputs.get(i);
 
       if (!buggyOutput.equals(equivalenceClassRequest.getResult())) {
-        int currentCount = oracleEquivalenceMap.getOrDefault(i, 0);
+        int currentCount = oracleEquivalenceMap.getOrDefault(i+1, 0);
 
         oracleEquivalenceMap.put(i+1, currentCount + 1);
 
