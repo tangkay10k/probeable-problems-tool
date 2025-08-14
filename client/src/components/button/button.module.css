@@ -164,16 +164,16 @@
 }
 
 .shiny {
-  border-color: var(--purple);
+  border-color: var(--accent);
   animation: shine 1s infinite alternate;
 }
 
 @keyframes shine {
   from {
-    box-shadow: 0 0 0.1rem var(--purple);
+    box-shadow: 0 0 0.1rem var(--accent);
   }
   to {
-    box-shadow: 0 0 0.4rem var(--hover-purple);
+    box-shadow: 0 0 0.4rem var(--accent-light);
   }
 }
 

@@ -7,8 +7,8 @@
   -moz-osx-font-smoothing: grayscale;
 
   /*===Global Variables===*/
-  --purple: rgb(188, 124, 241);
-  --hover-purple: rgb(201, 149, 246);
+  --accent: #2563eb;
+  --accent-light: #3b82f6;
 
   --black: #000000;
   --light-grey: #e5e5e5;

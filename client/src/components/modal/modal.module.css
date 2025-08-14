@@ -28,7 +28,7 @@
 
   background-color: rgba(178, 178, 178, 0.5);
   border: 0.05rem solid var(--light-grey);
-  backdrop-filter: blur(0.1rem);
+  backdrop-filter: blur(0.8rem);
 
   padding: var(--padding-3);
   border-radius: var(--border-radius-3);
@@ -48,6 +48,11 @@
 
 .content {
   margin-top: var(--padding-025);
+
+  display: flex;
+  flex-direction: column;
+  white-space: pre-wrap;
+  gap: var(--padding-2);
 }
 
 @keyframes fadeIn {

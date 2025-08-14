@@ -7,6 +7,7 @@ import styles from "./input.module.css";
  * @param disabled is a boolean flag indicating if the input is currently disabled
  * @param placeholder is a prompt given to users about what the field is supposed to contain
  * @param onEnter is a callback function which when supplied will be triggered on enter key press
+ * @param props is additional properties to pass down to the base input tag.
  *
  * */
 export default function Input({
@@ -16,6 +17,7 @@ export default function Input({
   disabled = false,
   placeholder = "Default Placeholder",
   onEnter,
+  ...props
 }) {
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && onEnter) {
@@ -32,6 +34,7 @@ export default function Input({
       value={value}
       onChange={onChange}
       onKeyDown={handleKeyDown}
+      {...props}
     />
   );
 }

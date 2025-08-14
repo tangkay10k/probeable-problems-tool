@@ -31,7 +31,7 @@
   border-radius: inherit;
 
   white-space: pre-wrap;
-  text-align: justify;
+  text-wrap: initial;
   color: var(--white);
 
   width: 100%;
