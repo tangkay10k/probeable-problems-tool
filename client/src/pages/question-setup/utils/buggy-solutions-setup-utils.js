@@ -38,8 +38,8 @@ function buildSwitchCasesC(problem, codeToRun, baseName) {
     if (arr.length === 0) return "// (no buggy solutions available)";
     return arr
         .map((_, i) => {
-            const mutated = renameFunctionCalls(codeToRun, baseName, i).trim();
-            return `case ${i}: {\n${mutated}\n    break;\n}`;
+            const mutated = renameFunctionCalls(codeToRun, baseName, i+1).trim();
+            return `case ${i+1}: {\n${mutated}\n    break;\n}`;
         })
         .join("\n\n");
 }

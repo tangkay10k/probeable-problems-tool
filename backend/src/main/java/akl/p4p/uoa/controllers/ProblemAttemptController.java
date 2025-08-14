@@ -3,6 +3,7 @@ package akl.p4p.uoa.controllers;
 import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
 
 import akl.p4p.uoa.data.ChatMessage.Role;
+import akl.p4p.uoa.data.EquivalenceClassRequest;
 import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.dtos.TestCaseOutputDTO;
 import akl.p4p.uoa.models.ChatHistory;
@@ -10,6 +11,9 @@ import akl.p4p.uoa.models.ProblemAttempt;
 import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.services.ProblemAttemptService;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +33,7 @@ public class ProblemAttemptController {
       @RequestParam String problemId, @RequestParam String studentEmail) throws IOException {
 
     ProblemAttempt attempt =
-        problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
+     problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
     return ResponseEntity.ok(attempt);
   }
 
@@ -38,16 +42,16 @@ public class ProblemAttemptController {
   public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message)
       throws IOException {
 
-    ChatHistory attempt =
-        problemAttemptService.chatWithClientWithSessionHistory(
-            message.getSessionId(), message.getChatMessage().getContent());
+    ChatHistory attempt = 
+    problemAttemptService.chatWithClientWithSessionHistory(
+        message.getSessionId(), message.getChatMessage().getContent());
 
     // Update Equivalence class map:
     var messages = attempt.getMessages();
     var lastMsg = messages.get(messages.size() - 1);
     if (lastMsg.getRole().equals(Role.ASSISTANT)) {
-      var problemAttempt =
-          problemAttemptService.findProblemAttemptById(message.getProblemAttemptId());
+      var problemAttempt = 
+      problemAttemptService.findProblemAttemptById(message.getProblemAttemptId());
 
       var content = lastMsg.getContent();
       int constraint = content.getConstraint_targeting();
@@ -69,11 +73,11 @@ public class ProblemAttemptController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> requestActualOutputResponse(
       @RequestBody TestCaseOutputDTO message) throws IOException {
-    String sysPrompt =
-        ClientPrompts.clientExplanationPrompt(message.getOutput(), message.getTestCase());
-    ChatHistory attempt =
-        problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
-            message.getSessionId(), sysPrompt);
+    String sysPrompt = 
+    ClientPrompts.clientExplanationPrompt(message.getOutput(), message.getTestCase());
+    ChatHistory attempt = 
+    problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
+        message.getSessionId(), sysPrompt);
 
     return ResponseEntity.ok(attempt);
   }
@@ -83,5 +87,29 @@ public class ProblemAttemptController {
   public ResponseEntity<ProblemAttempt> saveProblemAttempt(@RequestBody ProblemAttempt attempt) {
     return ResponseEntity.ok(
         problemAttemptService.saveProblemAttemptAndUpdateProblemsCompleted(attempt));
+  }
+
+  @PostMapping("{id}/equivalenceClass")
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<Void> recordEquivalenceClass(@PathVariable String id,
+      @RequestBody EquivalenceClassRequest equivalenceClassRequest) {
+    ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
+    Map<Integer, Integer> oracleEquivalenceMap = problemAttempt.getOracleEquivalenceMap();
+
+    List<String> buggyOutputs = equivalenceClassRequest.getBuggyOutputs();
+
+    for (int i = 0; i < buggyOutputs.size(); i++) {
+      String buggyOutput = buggyOutputs.get(i);
+
+      if (!buggyOutput.equals(equivalenceClassRequest.getResult())) {
+        int currentCount = oracleEquivalenceMap.getOrDefault(i, 0);
+
+        oracleEquivalenceMap.put(i+1, currentCount + 1);
+
+        problemAttemptService.saveProblemAttempt(problemAttempt);
+      }
+    }
+
+    return ResponseEntity.noContent().build();
   }
 }
