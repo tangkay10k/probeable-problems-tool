@@ -137,10 +137,10 @@ export default function StageTwo() {
     setShowConfirmation(false);
   };
 
-  const handleReset = () => {
-    updateStudentCodeSubmission("");
-    showEditor();
-  };
+  // const handleReset = () => {
+  //   updateStudentCodeSubmission("");
+  //   showEditor();
+  // };
 
   function showEditor() {
     setSelected(0);
@@ -177,9 +177,9 @@ export default function StageTwo() {
                 </>
               )}
 
-              <ButtonV2 onClick={handleReset} disabled={isLoading}>
-                <RestartIcon size={18} />
-              </ButtonV2>
+              {/*<ButtonV2 onClick={handleReset} disabled={isLoading}>*/}
+              {/*  <RestartIcon size={18} />*/}
+              {/*</ButtonV2>*/}
               <ButtonV2 onClick={handleExecution} disabled={isLoading}>
                 <PlayIcon size={18} />
               </ButtonV2>

@@ -28,4 +28,8 @@ public class Problem {
   private ProblemType problemType;
 
   private String defaultProbe;
+
+  private String methodSignature = "REPLACE ME IN MONGO"; // TODO: How for OOP
+
+  private String editorDefaultComment = "REPLACE ME IN MONGO";
 }

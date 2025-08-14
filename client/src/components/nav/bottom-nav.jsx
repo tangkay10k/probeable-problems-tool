@@ -5,11 +5,13 @@ export default function BottomNav({ handleStageChange, stage }) {
   return (
     <div className={styles.bottomNavContainer}>
       <div className={styles.prevContainer}>
-        {stage === 2 && <Button onClick={handleStageChange}>Prev</Button>}
+        {stage === 2 && <Button onClick={handleStageChange}>Go Back</Button>}
       </div>
 
       <div className={styles.nextContainer}>
-        {stage === 1 && <Button onClick={handleStageChange}>Next</Button>}
+        {stage === 1 && (
+          <Button onClick={handleStageChange}>I'm ready to write code!</Button>
+        )}
       </div>
     </div>
   );
