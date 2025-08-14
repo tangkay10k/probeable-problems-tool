@@ -3,6 +3,7 @@ package akl.p4p.uoa.controllers;
 import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
 
 import akl.p4p.uoa.data.ChatMessage.Role;
+import akl.p4p.uoa.data.EquivalenceClassRequest;
 import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.dtos.TestCaseOutputDTO;
 import akl.p4p.uoa.models.ChatHistory;
@@ -10,6 +11,8 @@ import akl.p4p.uoa.models.ProblemAttempt;
 import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.services.ProblemAttemptService;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -83,5 +86,29 @@ public class ProblemAttemptController {
   public ResponseEntity<ProblemAttempt> saveProblemAttempt(@RequestBody ProblemAttempt attempt) {
     return ResponseEntity.ok(
         problemAttemptService.saveProblemAttemptAndUpdateProblemsCompleted(attempt));
+  }
+
+  @PostMapping("{id}/equivalenceClass")
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<Void> recordEquivalenceClass(
+      @PathVariable String id, @RequestBody EquivalenceClassRequest equivalenceClassRequest) {
+    ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
+    Map<Integer, Integer> oracleEquivalenceMap = problemAttempt.getOracleEquivalenceMap();
+
+    List<String> buggyOutputs = equivalenceClassRequest.getBuggyOutputs();
+
+    for (int i = 0; i < buggyOutputs.size(); i++) {
+      String buggyOutput = buggyOutputs.get(i);
+
+      if (!buggyOutput.equals(equivalenceClassRequest.getResult())) {
+        int currentCount = oracleEquivalenceMap.getOrDefault(i + 1, 0);
+
+        oracleEquivalenceMap.put(i + 1, currentCount + 1);
+
+        problemAttemptService.saveProblemAttempt(problemAttempt);
+      }
+    }
+
+    return ResponseEntity.noContent().build();
   }
 }

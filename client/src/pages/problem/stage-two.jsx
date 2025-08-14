@@ -4,13 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
+import { SPLIT_STRING } from "@/constants/setup-constants";
 import AIAgent from "@/components/ai/ai-agent.jsx";
 import { getProblem } from "@/routes/problem-route.js";
 import { getTestTemplate } from "@/routes/template-route.js";
 import { toast } from "react-toastify";
 import {
   handleTestSuiteExecution,
-  SPLIT_STRING,
 } from "@/pages/question-setup/utils/test-setup-utils.js";
 import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";
