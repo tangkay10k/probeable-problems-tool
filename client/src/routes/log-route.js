@@ -12,3 +12,17 @@ export const logPastedContent = async (problemAttemptId, pastedContent) => {
   );
   return res.data;
 };
+
+
+export const logActivity = async (problemAttemptId, activities) => {
+  const res = await axiosClient.post(
+    `/log/activity/${problemAttemptId}`,
+    activities,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  return res.data;
+};

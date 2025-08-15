@@ -1,7 +1,8 @@
-import React, { Children, useRef } from "react";
+import React, { Children, useRef, useEffect } from "react";
 import styles from "./modal.module.css";
 import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 import ReactMarkdown from "react-markdown";
+import { useLogging } from "@/context/logging-context-provider.jsx";
 
 export default function Modal({
   isOpen,
@@ -13,6 +14,19 @@ export default function Modal({
 }) {
   if (!isOpen) return null;
   const modalRef = useRef(null);
+  const { addLog } = useLogging();
+
+  useEffect(() => {
+    if (isOpen) {
+      addLog({
+        component: "modal",
+        action: "opened",
+        name: `${title}`,
+        timestamp: new Date().toISOString(),
+      });
+    } 
+  }, [isOpen, title]);
+
   useOnClickOutside(modalRef, () => setIsOpen(false));
 
   return (

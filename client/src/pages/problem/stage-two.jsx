@@ -1,6 +1,6 @@
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useParams } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
@@ -25,6 +25,7 @@ import { useUserProfile } from "@/context/user-context.jsx";
 import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import Modal from "@/components/modal/modal.jsx";
 import { sleep } from "@/utils/utils.js";
+import { useLogging } from "@/context/logging-context-provider.jsx";
 
 export default function StageTwo() {
   const {
@@ -45,6 +46,7 @@ export default function StageTwo() {
   const [selected, setSelected] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [numTestsPassed, setNumTestsPassed] = useState(0);
+  const { addLog } = useLogging();
 
   const handleAgentBuildRequest = () => {
     setSelected(0);
@@ -75,7 +77,7 @@ export default function StageTwo() {
       .catch((err) => toast.error(err));
   }, [problemId]);
 
-  const updateResults = (execution) => {
+  const updateResults = (execution, implementation) => {
     const output = execution.run.output;
     const lines = output.split(SPLIT_STRING);
     let passedCount = 0;
@@ -99,6 +101,14 @@ export default function StageTwo() {
     const numberOfTestCasesPassed = `${passedCount}/${problem?.testSuite?.length}`;
     updateStudentScore(numberOfTestCasesPassed);
     setNumTestsPassed(passedCount);
+
+    addLog({
+      component: "tests",
+      action: "execute",
+      input: `${implementation}`,
+      output: `${passedCount}/${problem?.testSuite?.length}`,
+      timestamp: new Date().toISOString(),
+    });
   };
 
   const handleExecution = async () => {
@@ -139,9 +149,20 @@ export default function StageTwo() {
   const handleSubmission = () => {
     saveStudentAttempt();
     setShowConfirmation(false);
+    addLog({
+      component: "button",
+      action: "submit",
+      content: `${numTestsPassed}/${problem?.testSuite?.length}`,
+      timestamp: new Date().toISOString(),
+    });
   };
 
   const handleReset = () => {
+    addLog({
+      component: "code-editor",
+      action: "reset",
+      timestamp: new Date().toISOString(),
+    });
     updateStudentCodeSubmission(problem.editorDefaultComment);
     showEditor();
   };

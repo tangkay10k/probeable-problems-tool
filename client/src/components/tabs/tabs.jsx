@@ -1,16 +1,17 @@
-import React, {
+import {
   memo,
   useState,
-  useEffect,
   forwardRef,
   useImperativeHandle,
 } from "react";
 import styles from "./tab.module.css";
+import { useLogging } from "@/context/logging-context-provider.jsx";
 
 const Tabs = forwardRef(function Tabs(
   { tabs, defaultIndex = 0, index: controlledIndex, onTabChange },
   ref,
 ) {
+  const { addLog } = useLogging();
   const isControlled = controlledIndex !== undefined;
 
   const [uncontrolledIndex, setUncontrolledIndex] = useState(defaultIndex);
@@ -40,6 +41,14 @@ const Tabs = forwardRef(function Tabs(
       setUncontrolledIndex(i);
       onTabChange?.(i);
     }
+
+    const tabName = tabs[i]?.label ?? i;
+    addLog({
+      component: "tab",
+      action: "clicked",
+      name: `${tabName}`,
+      timestamp: new Date().toISOString(),
+    });
   };
 
   return (

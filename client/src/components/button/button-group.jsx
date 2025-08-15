@@ -1,4 +1,5 @@
 import styles from "./button.module.css";
+import { useLogging } from "@/context/logging-context-provider.jsx";
 
 export default function ButtonGroup({
   labels = [],
@@ -7,7 +8,17 @@ export default function ButtonGroup({
   onSelectedIndexChange,
   shinyIndex = null,
 }) {
+  const { addLog } = useLogging();
   const handleClick = (idx) => {
+    const label = labels[idx] ?? `Button ${idx}`;
+
+    addLog({
+      component: "button",
+      action: "clicked",
+      name: `${label}`,
+      timestamp: new Date().toISOString(),
+    });
+
     onSelectedIndexChange(idx);
     if (onClickHandlers[idx]) onClickHandlers[idx]();
   };

@@ -11,8 +11,9 @@ import {
   STAGE_TWO_CONCISE,
 } from "@/pages/problem/data/instructions.js";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
-
+import { useLogging } from "@/context/logging-context-provider.jsx";
 export default function ProblemContent() {
+  const { addLog } = useLogging();
   const { isProblemReady } = useProblemAttemptContext();
   const [stage, setStage] = useState(1);
   const [tutorialStep, setTutorialStep] = useState(1); // which stage tutorial to show
@@ -21,7 +22,12 @@ export default function ProblemContent() {
   function handleStageChange() {
     if (stage === 1) {
       setStage(2);
-
+      addLog({
+        component: "button",
+        action: "clicked",
+        name: "I'm ready to code!",
+        timestamp: new Date().toISOString(),
+      })
       if (tutorialStep === 1) {
         setTutorialStep(2);
         setShowTutorial(true);
@@ -29,6 +35,14 @@ export default function ProblemContent() {
       return;
     }
     setStage(1);
+    addLog(
+      {
+        component: "button",
+        action: "clicked",
+        name: "Go back",
+        timestamp: new Date().toISOString(),
+      }
+    )
   }
 
   const hideTutorial = () => {
