@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class TestCaseOutputDTO {
   private String sessionId;
+  private String questionAsked;
   private String output;
   private String testCase;
 }

@@ -39,7 +39,7 @@ export default function Oracle({
     if (latestMessage?.role === "user") return;
 
     const responseSchema = latestMessage?.content;
-    if (responseSchema?.test_case) {
+    if (responseSchema.test_case) {
       setInputVariables(responseSchema.test_case);
       llmGeneratedTestCaseCallback?.(1);
     }

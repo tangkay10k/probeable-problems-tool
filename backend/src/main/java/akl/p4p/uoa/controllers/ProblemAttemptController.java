@@ -73,7 +73,8 @@ public class ProblemAttemptController {
   public ResponseEntity<ChatHistory> requestActualOutputResponse(
       @RequestBody TestCaseOutputDTO message) throws IOException {
     String sysPrompt =
-        ClientPrompts.clientExplanationPrompt(message.getOutput(), message.getTestCase());
+        ClientPrompts.clientExplanationPrompt(
+            message.getQuestionAsked(), message.getOutput(), message.getTestCase());
     ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
             message.getSessionId(), sysPrompt);

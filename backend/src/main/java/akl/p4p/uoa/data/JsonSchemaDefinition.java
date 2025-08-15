@@ -32,7 +32,7 @@ public class JsonSchemaDefinition {
 					},
 					"asked_expected_output": {
 						"type": "boolean",
-						"description": "True if the user asked about what should happen relating to the function behaviour."
+						"description": "True if the user asked explicitly about ."
 					}
 				},
 				"required": ["message", "can_answer", "has_asked", "constraint_targeting", "test_case", "asked_expected_output"],
@@ -131,33 +131,33 @@ public class JsonSchemaDefinition {
 
   private static final String FAULTY_SOLUTION_SCHEMA =
       """
-		{
-			"type": "object",
-			"properties": {
-				"buggy_codes": {
-					"type": "array",
-					"description": "Array of buggy code snippets, each violating exactly one constraint",
-					"items": {
-						"type": "object",
-						"properties": {
-							"code": {
-								"type": "string",
-								"description": "A buggy version of the code"
-							},
-							"violated_constraint": {
-								"type": "number",
-								"description": "The specific constraint number this buggy version violates"
+				{
+					"type": "object",
+					"properties": {
+						"buggy_codes": {
+							"type": "array",
+							"description": "Array of buggy code snippets, each violating exactly one constraint",
+							"items": {
+								"type": "object",
+								"properties": {
+									"code": {
+										"type": "string",
+										"description": "A buggy version of the code"
+									},
+									"violated_constraint": {
+										"type": "number",
+										"description": "The specific constraint number this buggy version violates"
+									}
+								},
+								"required": ["code", "violated_constraint"],
+								"additionalProperties": false
 							}
-						},
-						"required": ["code", "violated_constraint"],
-						"additionalProperties": false
-					}
+						}
+					},
+					"required": ["buggy_codes"],
+					"additionalProperties": false
 				}
-			},
-			"required": ["buggy_codes"],
-			"additionalProperties": false
-		}
-	""";
+			""";
 
   public static String getClientProbeSchema() {
     return CLIENT_PROBE_SCHEMA;

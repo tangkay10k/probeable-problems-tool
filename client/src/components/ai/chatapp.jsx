@@ -1,14 +1,12 @@
 import styles from "./ai.module.css";
-import { IoChatbubbleEllipsesOutline as ChatIcon } from "react-icons/io5";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
-import Input from "@/components/inputs/text-input.jsx";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import {
   submitUserMessage,
-  replaceWithOutputReponse,
+  replaceWithOutputResponse,
 } from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
@@ -81,9 +79,11 @@ export default function ChatApp() {
           );
 
           const output = executionResult.run.output;
+          const userQuestion = newMessages[newMessages.length - 2].content;
 
-          newHistory = await replaceWithOutputReponse(
+          newHistory = await replaceWithOutputResponse(
             chatHistory.sessionId,
+            userQuestion,
             output,
             content.test_case,
           );
@@ -150,7 +150,7 @@ function ChatBubble({ chatMessage }) {
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
 
   const responseSchema = chatMessage.content;
-  const msg = responseSchema.message;
+  const msg = responseSchema.message || responseSchema.test_case;
 
   return (
     <div className={styles.bubbleContainer}>
