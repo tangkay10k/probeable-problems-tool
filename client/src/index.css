@@ -7,8 +7,8 @@
   -moz-osx-font-smoothing: grayscale;
 
   /*===Global Variables===*/
-  --accent: #2563eb;
-  --accent-light: #3b82f6;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
 
   --black: #000000;
   --light-grey: #e5e5e5;
@@ -59,6 +59,8 @@
   --padding-01: 0.1rem;
   --padding-025: 0.25rem;
   --padding-1: 0.5rem;
+  --padding-12: 1.2em;
+  --padding-15: 1.5rem;
   --padding-175: 0.75rem;
   --padding-2: 1rem;
   --padding-25: 1.5rem;
@@ -102,6 +104,7 @@
   --problem-list-max-width: 70vw;
 
   --editor-buttons-height: 2.5rem;
+  --bottom-nav-height: 100%;
 
   --stage-one-button-container-height: 3rem;
   --banner-height: 3rem;

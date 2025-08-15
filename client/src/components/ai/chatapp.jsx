@@ -16,6 +16,10 @@ import { useUserProfile } from "@/context/user-context.jsx";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
+import TextArea from "@/components/inputs/text-area.jsx";
+
+const CLIENT_AVATAR = "/client.png";
+const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
 
 export default function ChatApp() {
   const {
@@ -38,7 +42,7 @@ export default function ChatApp() {
   }, [chatHistory]);
 
   const handleSend = () => {
-    if (!userMessage) return;
+    if (!userMessage || userMessage.trim().length === 0) return;
     if (isLoading) return;
 
     const message = userMessage;
@@ -96,7 +100,7 @@ export default function ChatApp() {
     <>
       <div className={styles.status} />
       <div className={styles.clientAvatar}>
-        <img src={"/default-avatar.jpg"} alt={"Client"} />
+        <img src={CLIENT_AVATAR} alt={"Client"} />
       </div>
     </>
   );
@@ -120,7 +124,9 @@ export default function ChatApp() {
         </div>
 
         <div className={styles.inputContainer}>
-          <Input
+          <TextArea
+            rows={1}
+            resizable={false}
             disabled={isLoading}
             onEnter={handleSend}
             placeholder={"Ask the client a question!"}
@@ -138,7 +144,7 @@ export default function ChatApp() {
 
 function ChatBubble({ chatMessage }) {
   const { profile } = useUserProfile();
-  const userImage = profile?.userImage || "/default-avatar.jpg";
+  const userImage = profile?.userImage || USER_FALLBACK_AVATAR;
   const isAssistant = chatMessage.role === "assistant";
 
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
@@ -150,7 +156,7 @@ function ChatBubble({ chatMessage }) {
     <div className={styles.bubbleContainer}>
       {isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={"/default-avatar.jpg"} alt="Client Logo"></img>
+          <img src={CLIENT_AVATAR} alt="Client"></img>
         </div>
       )}
 
@@ -187,7 +193,7 @@ function LoadingBubble() {
   return (
     <div className={styles.bubbleContainer}>
       <div className={styles.avatarContainer}>
-        <img src={"/default-avatar.jpg"} alt="Client Logo" />
+        <img src={CLIENT_AVATAR} alt="Client Logo" />
       </div>
 
       <section className={styles.chatBubble}>

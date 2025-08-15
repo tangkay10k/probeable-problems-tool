@@ -33,4 +33,6 @@ public class Problem {
   private List<BuggyCode> buggy_codes;
 
   private String functionName;
+
+  private String editorDefaultComment = "REPLACE ME IN MONGO";
 }

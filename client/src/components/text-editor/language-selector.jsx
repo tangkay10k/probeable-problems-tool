@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { LANGUAGE_VERSIONS, LANGUAGE_DISPLAY_NAMES } from "./data/constants.js";
 import { useEffect } from "react";
 import { getRuntimes } from "@/routes/code-route.js";
-import { RxCaretDown } from "react-icons/rx";
+import { RxCaretDown as CaretIcon } from "react-icons/rx";
 import styles from "./text-editor.module.css";
 
 export default function LanguageSelector({
@@ -71,9 +71,10 @@ function LanguageDropDown({
         onClick={handleToggle}
         disabled={!clickable}
       >
+        {!clickable && <p>LANGUAGE: </p>}
         <p>{languageLabel}</p>
         <div className={styles.arrow}>
-          <RxCaretDown className={styles.caret} />
+          {clickable && <CaretIcon className={styles.caret} />}
         </div>
       </button>
 

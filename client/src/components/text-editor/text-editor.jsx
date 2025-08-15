@@ -19,7 +19,7 @@ export const TextEditor = forwardRef(
       setSource,
       showLanguageSelect = true,
       lineNumbers = true,
-      fontSize = 13,
+      fontSize = 15,
       isResizable = false,
       fixedHeight = 200,
       minHeight = 100,

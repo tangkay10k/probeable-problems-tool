@@ -9,9 +9,7 @@ import AIAgent from "@/components/ai/ai-agent.jsx";
 import { getProblem } from "@/routes/problem-route.js";
 import { getTestTemplate } from "@/routes/template-route.js";
 import { toast } from "react-toastify";
-import {
-  handleTestSuiteExecution,
-} from "@/pages/question-setup/utils/test-setup-utils.js";
+import { handleTestSuiteExecution } from "@/pages/question-setup/utils/test-setup-utils.js";
 import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
@@ -19,14 +17,14 @@ import {
   MdRestartAlt as RestartIcon,
   MdOutlinePlayArrow as PlayIcon,
 } from "react-icons/md";
-import Button from "@/components/button/button.jsx";
-import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
+import { IoMdPaperPlane as PlaneIcon } from "react-icons/io";
 import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
 import { LoggingTextEditor } from "@/components/text-editor/logging-text-editor.jsx";
 import ButtonGroup from "@/components/button/button-group.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import Modal from "@/components/modal/modal.jsx";
+import { sleep } from "@/utils/utils.js";
 
 export default function StageTwo() {
   const {
@@ -85,7 +83,9 @@ export default function StageTwo() {
 
     for (let i = 0; i < lines.length; i++) {
       const expected = problem?.testSuite[i]?.expectedStdOut ?? "";
-      const actual = lines[i];
+      const actual =
+        execution.compile.code === 0 ? lines[i] : "[COMPILATION ERROR]";
+
       if (actual === expected) {
         passedCount += 1;
         updatedResults.push({ actual, expected });
@@ -94,7 +94,6 @@ export default function StageTwo() {
         break; // stop processing further lines on first mismatch
       }
     }
-
     setResults(updatedResults);
 
     const numberOfTestCasesPassed = `${passedCount}/${problem?.testSuite?.length}`;
@@ -102,7 +101,7 @@ export default function StageTwo() {
     setNumTestsPassed(passedCount);
   };
 
-  const handleExecution = () => {
+  const handleExecution = async () => {
     showEditor();
     if (
       studentCodeSubmission.length === 0 ||
@@ -126,10 +125,15 @@ export default function StageTwo() {
       },
       console.error,
     );
+    await sleep();
   };
 
-  const confirmSubmission = () => {
-    setShowConfirmation(true);
+  const confirmSubmissionIfFailedElseSubmit = () => {
+    if (numTestsPassed !== problem?.testSuite?.length) {
+      setShowConfirmation(true);
+      return;
+    }
+    handleSubmission();
   };
 
   const handleSubmission = () => {
@@ -138,7 +142,7 @@ export default function StageTwo() {
   };
 
   const handleReset = () => {
-    updateStudentCodeSubmission("");
+    updateStudentCodeSubmission(problem.editorDefaultComment);
     showEditor();
   };
 
@@ -177,17 +181,28 @@ export default function StageTwo() {
                 </>
               )}
 
-              <ButtonV2 onClick={handleReset} disabled={isLoading}>
+              <ButtonV2
+                onClick={handleReset}
+                disabled={isLoading}
+                className={styles.resetBtn}
+              >
                 <RestartIcon size={18} />
               </ButtonV2>
-              <ButtonV2 onClick={handleExecution} disabled={isLoading}>
-                <PlayIcon size={18} />
+              <ButtonV2
+                onClick={handleExecution}
+                disabled={isLoading}
+                className={styles.runBtn}
+              >
+                <PlayIcon size={18} /> Run
               </ButtonV2>
             </section>
 
-            <Button onClick={confirmSubmission} disabled={isLoading}>
-              <PlaneIcon size={12} /> Submit!
-            </Button>
+            <ButtonV2
+              onClick={confirmSubmissionIfFailedElseSubmit}
+              disabled={isLoading}
+            >
+              <PlaneIcon size={15} /> Submit!
+            </ButtonV2>
           </section>
         </div>
 
@@ -216,12 +231,9 @@ export default function StageTwo() {
           <div className={styles.editorWrapper}>
             <LoggingTextEditor
               ref={editorRef}
-              fixedHeight={"100%"}
               language={problemAttempt?.problemLanguage}
               src={studentCodeSubmission}
               setSource={updateStudentCodeSubmission}
-              disableLanguageSelect={true}
-              isLogging={true}
             />
           </div>
         )}
@@ -230,18 +242,26 @@ export default function StageTwo() {
         title={"Are you sure you want to submit?"}
         isOpen={showConfirmation}
         setIsOpen={setShowConfirmation}
+        className={styles.confirmModal}
       >
-        <p>
+        <p
+          className={
+            numTestsPassed === problem?.testSuite?.length
+              ? styles.success
+              : styles.error
+          }
+        >
           You have passed{" "}
           <b>
             {numTestsPassed} / {problem?.testSuite?.length}
           </b>{" "}
-          test cases. Once you submit you will not be able to submit again!
+          test cases. <br />
         </p>
+        <p>YOU WILL NOT BE ABLE TO RESUBMIT!</p>
         <br />
         <section className={styles.modalBtns}>
-          <Button onClick={() => setShowConfirmation(false)}>No</Button>
-          <Button onClick={handleSubmission}>Yes</Button>
+          <ButtonV2 onClick={() => setShowConfirmation(false)}>No</ButtonV2>
+          <ButtonV2 onClick={handleSubmission}>Yes</ButtonV2>
         </section>
       </Modal>
     </div>

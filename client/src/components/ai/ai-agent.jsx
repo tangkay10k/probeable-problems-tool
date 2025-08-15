@@ -1,11 +1,13 @@
 import styles from "./ai.module.css";
 import Banner from "@/components/banner/banner.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
-import Button from "@/components/button/button.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { generateSolutionAttempt } from "@/routes/ai-route.js";
 import { toast } from "react-toastify";
+import { MdBuild as BuildIcon } from "react-icons/md";
+import React from "react";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
 
 export default function AIAgent({ editorRef, runCallback }) {
   const {
@@ -60,15 +62,17 @@ export default function AIAgent({ editorRef, runCallback }) {
       <Banner rightIcon={rightIcon} header={"Cogs"} subtext={"online now"} />
       <div className={styles.agentBody}>
         <TextArea
-          placeholder={"Ask cogs to write code for you!"}
+          placeholder={
+            "Hello, I write exactly as what I'm told 😊 Please give me instructions on what to code!"
+          }
           resizable={false}
           value={studentAgentPrompt}
           onChange={(e) => updateStudentAgentPrompt(e.target.value)}
         ></TextArea>
         <div className={styles.buttonContainer}>
-          <Button onClick={handleSubmit} disabled={isLoading}>
-            Build!
-          </Button>
+          <ButtonV2 onClick={handleSubmit} disabled={isLoading}>
+            <BuildIcon size={18} /> Build
+          </ButtonV2>
         </div>
       </div>
     </div>

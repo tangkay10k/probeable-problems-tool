@@ -22,7 +22,7 @@ export default function Login() {
 
       <div className={styles.background}>
         <Particles
-          particleColors={["#606060", "#ffffff"]} // ["#c59ce5", "#a715ff"]
+          particleColors={["#6366f1", "#818cf8"]} // ["#c59ce5", "#a715ff"]
           particleCount={500}
           particleSpread={10}
           speed={0.1}

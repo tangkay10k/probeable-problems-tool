@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import {
+  CLIENT_HELP,
+  ORACLE_HELP,
   STAGE_ONE,
   STAGE_ONE_CONCISE,
 } from "@/pages/problem/data/instructions.js";
@@ -22,7 +24,7 @@ const TABS = [
     label: "Task",
     content: <StudentInstruction instruction={STAGE_ONE.content} />,
   },
-  { label: "Binary History", content: <OracleHistory /> },
+  { label: "Run History", content: <OracleHistory /> },
 ];
 
 export default function StageOne() {
@@ -30,21 +32,28 @@ export default function StageOne() {
   const [selected, setSelected] = useState(0);
   const [shiny, setShiny] = useState(null);
   const [resetOracle, setResetOracle] = useState(false);
-  const [showOracleHelp, setShowOracleHelp] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const tabsRef = useRef(null);
+
+  const switchToTab = (index) => {
+    tabsRef.current?.setIndex(index);
+  };
 
   const handleOracleClick = () => {
     setShowOracle(true);
+    setSelected(1);
     setShiny(null);
   };
 
   const handleClientClick = () => {
     setShowOracle(false);
+    setSelected(0);
   };
 
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.leftContainer}>
-        <Tabs tabs={TABS} defaultIndex={1} />
+        <Tabs ref={tabsRef} tabs={TABS} defaultIndex={1} />
       </div>
 
       <div className={styles.rightContainer}>
@@ -53,36 +62,40 @@ export default function StageOne() {
             selectedIndex={selected}
             onSelectedIndexChange={setSelected}
             shinyIndex={shiny}
-            labels={["Client", "Binary"]}
+            labels={["Client", "Run"]}
             onClickHandlers={[handleClientClick, handleOracleClick]}
           />
-          {showOracle && (
-            <section className={styles.leftButtons}>
-              <ButtonV2 onClick={() => setResetOracle((prev) => !prev)}>
+
+          <section className={styles.leftButtons}>
+            {showOracle && (
+              <ButtonV2
+                onClick={() => setResetOracle((prev) => !prev)}
+                className={styles.resetBtn}
+              >
                 <RestartIcon size={18} />
               </ButtonV2>
-              <ButtonV2 onClick={() => setShowOracleHelp(true)}>
-                <InfoIcon size={18} />
-              </ButtonV2>
-            </section>
-          )}
+            )}
+            <ButtonV2 onClick={() => setShowHelp(true)}>
+              <InfoIcon size={18} />
+            </ButtonV2>
+          </section>
         </div>
 
         <div style={{ display: showOracle ? "block" : "none", height: "100%" }}>
           <Oracle
             llmGeneratedTestCaseCallback={setShiny}
             resetOracle={resetOracle}
+            runCallback={() => switchToTab(1)}
           />
         </div>
         {!showOracle && <ChatApp />}
       </div>
       <Modal
-        isOpen={showOracleHelp}
-        setIsOpen={setShowOracleHelp}
-        title={"What's the Binary?"}
+        isOpen={showHelp}
+        setIsOpen={setShowHelp}
+        title={"What do I do here?"}
       >
-        You can play around with the inputs and click the **Run** button to see
-        the expected output of the function(s)!
+        {selected === 0 ? CLIENT_HELP : ORACLE_HELP}
       </Modal>
     </div>
   );

@@ -3,11 +3,7 @@ import { toast } from "react-toastify";
 
 import { SPLIT_STRING } from "../../../constants/setup-constants";
 
-const inputCVariables = (
-  problem,
-  implementation,
-  testTemplate,
-) => {
+const inputCVariables = (problem, implementation, testTemplate) => {
   const generatedTests = problem.testSuite
     .map(
       (test, i) => `
@@ -36,11 +32,7 @@ const inputCVariables = (
     .replace("//VAR_SWITCH_TESTS", switchTests);
 };
 
-const createTestSuiteFromFile = (
-  problem,
-  implementation,
-  testTemplate,
-) => {
+const createTestSuiteFromFile = (problem, implementation, testTemplate) => {
   let testSuiteFromFile;
   switch (problem.programLanguage) {
     case "c":
@@ -76,4 +68,3 @@ export const handleTestSuiteExecution = async (
     .then((execution) => resultsCallback(execution))
     .catch((err) => toast.error(err));
 };
-

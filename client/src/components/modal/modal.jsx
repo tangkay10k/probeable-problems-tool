@@ -3,7 +3,14 @@ import styles from "./modal.module.css";
 import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 import ReactMarkdown from "react-markdown";
 
-export default function Modal({ isOpen, setIsOpen, onClose, title, children }) {
+export default function Modal({
+  isOpen,
+  setIsOpen,
+  onClose,
+  title,
+  className,
+  children,
+}) {
   if (!isOpen) return null;
   const modalRef = useRef(null);
   useOnClickOutside(modalRef, () => setIsOpen(false));
@@ -12,7 +19,7 @@ export default function Modal({ isOpen, setIsOpen, onClose, title, children }) {
     <div className={styles.container} onClick={onClose}>
       <div
         ref={modalRef}
-        className={styles.modal}
+        className={`${styles.modal} ${className ? className : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.header}>

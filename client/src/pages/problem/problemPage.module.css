@@ -28,8 +28,7 @@
   display: flex;
   flex-direction: column;
 
-  justify-content: space-between;
-
+  gap: var(--padding-2);
   /*Adjust next and prev buttons from bottom*/
   padding-bottom: var(--padding-2);
 }
@@ -73,6 +72,16 @@
   justify-content: space-between;
 }
 
+.resetBtn {
+  background-color: var(--fail-red) !important;
+  border: 0.01rem solid var(--fail-red-light) !important;
+}
+
+.resetBtn:hover {
+  background-color: var(--fail-red-light) !important;
+  color: var(--fail-red) !important;
+}
+
 .leftButtons {
   height: var(--editor-buttons-height);
   padding: var(--padding-025);
@@ -84,6 +93,16 @@
 
 .leftButtons section {
   align-items: center;
+}
+
+.runBtn {
+  background-color: var(--pass-green) !important;
+  border: 0.01rem solid var(--pass-green-light) !important;
+}
+
+.runBtn:hover {
+  background-color: var(--pass-green-light) !important;
+  color: var(--pass-green) !important;
 }
 
 .leftButtons span {
@@ -107,12 +126,14 @@
 }
 
 .leftButtons button {
-  background-color: var(--editor-colour);
-  border: 0.01rem solid var(--dark-dark-grey);
+  background-color: var(--accent);
+  border: 0.01rem solid var(--accent-light);
+  gap: var(--padding-025);
 }
 
 .leftButtons button:hover {
-  background-color: var(--dark-dark-grey);
+  background-color: var(--accent-light);
+  color: var(--accent);
 }
 
 .testSuiteContainer {
@@ -231,4 +252,16 @@
 .modalBtns {
   display: flex;
   gap: var(--padding-3);
+}
+
+.confirmModal {
+  text-align: center;
+}
+
+.success {
+  color: var(--pass-green) !important;
+}
+
+.error {
+  color: var(--fail-red) !important;
 }

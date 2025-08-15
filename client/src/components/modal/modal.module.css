@@ -7,6 +7,12 @@
   z-index: var(--layer-1);
 }
 
+.container button {
+  border-radius: var(--border-radius-2) !important;
+  font-size: var(--font-size-1);
+  font-weight: 700;
+}
+
 .backdrop {
   position: absolute;
   inset: 0;

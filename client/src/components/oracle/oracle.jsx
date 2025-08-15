@@ -3,28 +3,33 @@ import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import Button from "@/components/button/button.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
-import useWithLoading from "@/hooks/useWithLoading.js";
 import { useParams } from "react-router-dom";
 import { DEFAULT_PROBES_KEY } from "@/context/context-utils.js";
 import { handleBuggyProbeExecution } from "@/pages/question-setup/utils/buggy-solutions-setup-utils";
-import { sendEquivalenceClass } from "@/routes/problem-attempt-route";
+import { saveEquivalenceClass } from "@/routes/problem-attempt-route";
+import { toast } from "react-toastify";
+import { sleep } from "@/utils/utils.js";
+import { MdOutlinePlayArrow as PlayIcon } from "react-icons/md";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
   resetOracle = false,
+  runCallback = null,
 }) {
   const { problemId } = useParams();
   const {
     chatHistory,
     problemAttempt,
-    updateOracleHistory,
-    oracleExecutionHistory,
     executeTemplate,
     problem,
+    updateOracleHistory,
+    oracleExecutionHistory,
   } = useProblemAttemptContext();
-  const [isLoading, withLoading] = useWithLoading();
+
+  const [isExecuting, setIsExecuting] = useState(false);
   const [executionOutput, setExecutionOutput] = useState({});
   const [inputVariables, setInputVariables] = useState("");
 
@@ -48,60 +53,58 @@ export default function Oracle({
       if (obj?.[problemId]) {
         setInputVariables(obj[problemId]);
       }
-    } catch {
-
-    }
+    } catch {}
   }, [resetOracle, problemId]);
-
-  function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
 
   async function executeOracle() {
     setExecutionOutput({});
+    setIsExecuting(true);
+    runCallback?.();
 
-    let oracleResult = null;
+    try {
+      const oracleResult = await executeOraclePistonDirect(
+        problemAttempt?.problemLanguage,
+        executeTemplate?.template,
+        inputVariables,
+        problem?.modelAnswer,
+      );
 
-    await withLoading(
-      () =>
-        executeOraclePistonDirect(
-          problemAttempt?.problemLanguage,
-          executeTemplate?.template,
-          inputVariables,
-          problem?.modelAnswer,
-        ),
-      (result) => {
-        oracleResult = result;
-        setExecutionOutput(result);
+      if (oracleResult?.run?.stderr) {
+        toast.error("Compile error, please check your input!");
+        return;
+      }
 
-        const { run: { output, stderr } = {} } = result || {};
-        if (output && (!stderr || stderr.length === 0)) {
-          const newEntry = {
-            testCase: inputVariables,
-            expectedOutput: output,
-            timestamp: Date.now(),
-          };
-          updateOracleHistory([...(oracleExecutionHistory || []), newEntry]);
-        }
-      },
-      console.error,
-    );
+      setExecutionOutput(oracleResult);
+      addToExecutionHistory(oracleResult);
 
-    await delay(1000);
+      const buggyResult = await handleBuggyProbeExecution(
+        problem,
+        inputVariables,
+      );
 
-    await withLoading(
-      () => handleBuggyProbeExecution(problem, inputVariables),
-      (buggyResult) => {
-        if (!oracleResult?.run?.stderr) {
-          sendEquivalenceClass(
-            problemAttempt.id,
-            oracleResult?.run?.output,
-            buggyResult,
-          );
-        }
-      },
-      console.error,
-    );
+      await saveEquivalenceClass(
+        problemAttempt.id,
+        oracleResult?.run?.output,
+        buggyResult,
+      );
+    } catch (err) {
+      console.error(err);
+    } finally {
+      await sleep();
+      setIsExecuting(false);
+    }
+  }
+
+  function addToExecutionHistory(oracleResult) {
+    const { run: { output, stderr } = {} } = oracleResult || {};
+    if (output && (!stderr || stderr.length === 0)) {
+      const newEntry = {
+        testCase: inputVariables,
+        expectedOutput: output,
+        timestamp: Date.now(),
+      };
+      updateOracleHistory([newEntry, ...(oracleExecutionHistory || [])]);
+    }
   }
 
   return (
@@ -112,22 +115,29 @@ export default function Oracle({
           showLanguageSelect={false}
           lineNumbers={false}
           isResizable={false}
-          fixedHeight={350}
-          fontSize={13}
+          fixedHeight={"100%"}
           src={inputVariables}
           setSource={setInputVariables}
         />
       </div>
       <div className={styles.outputContainer}>
+        <div className={styles.outputHeader}>
+          <h3>Output: </h3>
+        </div>
         <TextArea
-          placeholder={"Output: "}
+          placeholder="Click run to see output "
           disabled={true}
           resizable={false}
-          value={executionOutput?.run?.output || executionOutput?.run?.stderr || ""}
+          value={
+            executionOutput?.run?.output ??
+            (executionOutput?.run?.stderr
+              ? "COMPILE ERROR"
+              : executionOutput?.run?.output)
+          }
         />
-        <Button onClick={executeOracle} disabled={isLoading}>
-          Run
-        </Button>
+        <ButtonV2 onClick={executeOracle} disabled={isExecuting}>
+          <PlayIcon size={18} /> Run
+        </ButtonV2>
       </div>
     </div>
   );
