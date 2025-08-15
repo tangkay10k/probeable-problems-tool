@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { logActivity } from "@/routes/log-route.js";
+import { useUserProfile } from "@/context/user-context.jsx";
 
 const LoggingContext = createContext();
 
 export function LoggingProvider({ children }) {
   const [logs, setLogs] = useState([]);
+    const { profile } = useUserProfile();
   const { problemAttempt } = useProblemAttemptContext();
 
   const addLog = useCallback((entry) => {
@@ -14,7 +16,7 @@ export function LoggingProvider({ children }) {
       timestamp: new Date().toISOString(),
     };
 
-    const email = JSON.parse(localStorage.getItem("user_profile")).email
+    const email = profile.email
 
     setLogs((prev) => {
       const next = [...prev, stampedEntry];
