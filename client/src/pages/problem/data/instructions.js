@@ -15,9 +15,10 @@ export const STAGE_ONE = {
 export const STAGE_ONE_CONCISE = {
   title: "Tasks",
   content:
-    "Your client is non-technical. Ask precise questions to clarify requirements.\n\n" +
+    "You have been approached by a non-technical client. \n\n**Ask precise questions to clarify" +
+    " requirements.**\n\n" +
     "You can test the function(s) behaviour with different inputs using the **Run** tab.\n\n" +
-    "Once you’re confident in the requirements, go to the next page.",
+    "Once you’re confident in the requirements, proceed to implement your solution.",
 };
 
 export const STAGE_TWO = {
@@ -30,9 +31,9 @@ Your company has leased you an AI agent named Cogs that you can use to help writ
 
 export const STAGE_TWO_CONCISE = {
   title: "Tasks",
-  content: `It's time for you to deliver a solution that meets your client's requirements!
+  content: `It's time for you to implement a solution that meets your client's requirements!
 
-**Cogs** is an AI Agent that can help write code for you.
+**Cogs** is an AI agent that can help you write code.
 `,
 };
 

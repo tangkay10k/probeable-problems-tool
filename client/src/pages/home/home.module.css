@@ -41,6 +41,16 @@
   opacity: 1;
 }
 
+.stickyButtonContainer button {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+.stickyButtonContainer button:hover {
+  background-color: var(--accent-light);
+  color: var(--accent);
+}
+
 .stickyButtonContainerLeft,
 .stickyButtonContainer {
   position: fixed;

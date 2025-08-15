@@ -2,12 +2,13 @@
   position: relative;
   width: 100%;
 
-  /*box-shadow: 0 -19px 100px rgba(175, 175, 175, 0.4),*/
-  /*0 -0.8px 4px rgba(255, 255, 255, 0.02),*/
-  /*0 -2.4px 12px #8c45ff0d,*/
-  /*0 -6.4px 32px rgba(115, 114, 115, 0.13),*/
-  /*0 -20px 400px var(--white);*/
-  box-shadow: 0 0 20rem 0.1rem rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 -19px 100px rgba(206, 137, 222, 0.4),
+    0 -0.8px 4px rgba(183, 42, 225, 0.02),
+    0 -2.4px 12px #8c45ff0d,
+    0 -6.4px 32px rgba(115, 114, 115, 0.13),
+    0 -20px 400px var(--accent);
+  /*box-shadow: 0 0 20rem 0.1rem rgba(255, 255, 255, 0.5);*/
 }
 
 .scroll-list {

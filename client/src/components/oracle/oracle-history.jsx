@@ -10,6 +10,7 @@ export default function OracleHistory() {
     <div className={styles.historyContainer}>
       {oracleExecutionHistory.length > 0 ? (
         <AnimatedList
+          insertDirection={"head"}
           items={oracleExecutionHistory}
           renderItem={({ testCase, expectedOutput }) => (
             <div className={styles.executionBlock}>
@@ -26,7 +27,7 @@ export default function OracleHistory() {
         />
       ) : (
         <div className={styles.emptyHistory}>
-          Execute the Binary to see history!
+          Execute code in the Run tab to see history!
         </div>
       )}
     </div>

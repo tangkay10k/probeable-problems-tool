@@ -7,8 +7,15 @@ export default function TextArea({
   rows = 10,
   placeholder = "Default Placeholder",
   resizable = true,
+  onEnter,
   ...props
 }) {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && onEnter) {
+      onEnter(e);
+    }
+  };
+
   return (
     <textarea
       className={styles.textArea}
@@ -18,6 +25,7 @@ export default function TextArea({
       disabled={disabled}
       value={value}
       onChange={onChange}
+      onKeyDown={handleKeyDown}
       {...props}
     />
   );

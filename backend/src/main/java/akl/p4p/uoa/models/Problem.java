@@ -34,7 +34,5 @@ public class Problem {
 
   private String functionName;
 
-  private String methodSignature = "REPLACE ME IN MONGO"; // TODO: How for OOP
-
   private String editorDefaultComment = "REPLACE ME IN MONGO";
 }

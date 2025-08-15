@@ -112,6 +112,10 @@ const ProblemAttemptProvider = ({ children }) => {
       .then((fetchedProblem) => {
         setProblem(fetchedProblem);
         saveProbesToLocalStorage(problemId, fetchedProblem.defaultProbe);
+
+        if (studentCodeSubmission.length === 0) {
+          updateStudentCodeSubmission(fetchedProblem?.editorDefaultComment);
+        }
       })
       .catch((err) => {
         console.error(err);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import {
   CLIENT_HELP,
@@ -33,6 +33,11 @@ export default function StageOne() {
   const [shiny, setShiny] = useState(null);
   const [resetOracle, setResetOracle] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const tabsRef = useRef(null);
+
+  const switchToTab = (index) => {
+    tabsRef.current?.setIndex(index);
+  };
 
   const handleOracleClick = () => {
     setShowOracle(true);
@@ -48,7 +53,7 @@ export default function StageOne() {
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.leftContainer}>
-        <Tabs tabs={TABS} defaultIndex={1} />
+        <Tabs ref={tabsRef} tabs={TABS} defaultIndex={1} />
       </div>
 
       <div className={styles.rightContainer}>
@@ -63,7 +68,10 @@ export default function StageOne() {
 
           <section className={styles.leftButtons}>
             {showOracle && (
-              <ButtonV2 onClick={() => setResetOracle((prev) => !prev)}>
+              <ButtonV2
+                onClick={() => setResetOracle((prev) => !prev)}
+                className={styles.resetBtn}
+              >
                 <RestartIcon size={18} />
               </ButtonV2>
             )}
@@ -77,6 +85,7 @@ export default function StageOne() {
           <Oracle
             llmGeneratedTestCaseCallback={setShiny}
             resetOracle={resetOracle}
+            runCallback={() => switchToTab(1)}
           />
         </div>
         {!showOracle && <ChatApp />}

@@ -123,9 +123,21 @@
   height: 3rem;
 }
 
-.inputContainer input {
+.inputContainer textarea {
   flex: 8;
   border-radius: var(--border-radius-2);
+
+  background-color: var(--toggle-hover-editor);
+  border: 0.08rem solid var(--white);
+  color: var(--white);
+
+  padding-left: var(--padding-1);
+  padding-top: var(--padding-1);
+}
+
+.inputContainer textarea:focus {
+  flex: 8;
+  box-shadow: none;
 
   background-color: var(--toggle-hover-editor);
   color: var(--white);
@@ -140,6 +152,7 @@
 
 .inputContainer button:hover {
   background-color: var(--dark-dark-grey);
+  color: var(--editor-colour);
 }
 
 /*===CHAT BUBBLE===*/
@@ -176,6 +189,7 @@
   max-width: 75%;
 
   white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .chatBubble {
@@ -211,25 +225,26 @@
 }
 
 .agentBody {
-  padding: var(--padding-2);
-  height: 100%;
   display: flex;
+  flex-direction: column;
 
-  gap: var(--padding-2);
+  padding: var(--padding-1);
+  height: 100%;
 
   background-color: var(--editor-colour);
   border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
 }
 
 .agentBody textarea {
-  flex: 4;
-
-  border-radius: var(--border-radius-3);
+  border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
   padding: var(--padding-2);
   background-color: var(--toggle-hover-editor);
   color: var(--white);
 
   height: 100%;
+  width: 100%;
+
+  font-size: var(--font-size-1);
 }
 
 .agentBody textarea:focus {
@@ -239,25 +254,31 @@
 }
 
 .buttonContainer {
-  flex: 1;
-
   display: flex;
-  flex-direction: column;
   justify-content: end;
+  padding: var(--padding-2);
+
+  background-color: var(--toggle-hover-editor);
+  border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
 }
 
-.agentBody button {
-  height: 3rem;
+.buttonContainer button {
+  width: auto;
+  height: auto;
+  min-width: 6rem;
+  min-height: 3rem;
+
   border-radius: var(--border-radius-2);
 
-  background-color: var(--accent);
+  background-color: var(--pass-green);
+  border: 0.01rem solid var(--pass-green-light);
 
   font-size: 1.2rem;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
 }
 
-.agentBody button:hover {
-  background-color: var(--accent-light);
-  transform: scale(1);
+.buttonContainer button:hover {
+  background-color: var(--pass-green-light);
+  color: var(--pass-green);
 }

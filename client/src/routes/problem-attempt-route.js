@@ -46,7 +46,7 @@ export const saveProblemAttempt = async (problemAttempt) => {
   return res.data;
 };
 
-export const sendEquivalenceClass = async (
+export const saveEquivalenceClass = async (
   problemAttemptId,
   result,
   buggyOutputs,

@@ -10,6 +10,7 @@ export function getRandomSubheading() {
     "Roll up your sleeves—let’s get solving!",
     "Challenge accepted. Let’s solve!",
     "Your next problem awaits!",
+    "Have you heard of AI-Assist Problems?",
   ];
 
   const randomIndex = Math.floor(Math.random() * messages.length);

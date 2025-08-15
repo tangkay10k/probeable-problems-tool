@@ -37,10 +37,13 @@ public class ClientPrompts {
   public static String clientBasePrompt(
       String problemStatement, String modelAnswer, String constraints) throws IOException {
     String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_BASE_PROMPT_FILE);
+    String functionSignature = modelAnswer.split("\\{")[0].trim();
+
     return basePrompt
-        .replace("//VAR_PROBLEM_STATEMENT", problemStatement)
+        .replace("//VAR_PROBLEM_STATEMENT", problemStatement.toLowerCase())
         .replace("//VAR_MODEL_ANSWER", modelAnswer)
-        .replace("//VAR_CONSTRAINTS", constraints);
+        .replace("//VAR_CONSTRAINTS", constraints)
+        .replace("//VAR_FUNCTION_SIGNATURE", functionSignature);
   }
 
   public static String clientExplanationPrompt(String output, String testCase) throws IOException {
