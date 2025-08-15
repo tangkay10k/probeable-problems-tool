@@ -17,7 +17,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "activityLog")
 public class ActivityLog {
-  @Id private String problemAttemptId;
+  public ActivityLog(String problemAttemptId) {
+    this.problemAttemptId = problemAttemptId;
+  }
+
+  @Id
+  private String problemAttemptId;
 
   private List<Activity> activities = new ArrayList<>();
 }

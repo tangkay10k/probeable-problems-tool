@@ -3,7 +3,6 @@ package akl.p4p.uoa.services;
 import akl.p4p.uoa.data.Activity;
 import akl.p4p.uoa.models.ActivityLog;
 import akl.p4p.uoa.repositories.ActivityLogRepository;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class ActivityLogService {
                 .findById(problemAttemptId)
                 .orElseGet(
                         () -> {
-                            ActivityLog newLog = new ActivityLog(problemAttemptId, new ArrayList<>());
+                            ActivityLog newLog = new ActivityLog(problemAttemptId);
                             return newLog;
                         });
 
