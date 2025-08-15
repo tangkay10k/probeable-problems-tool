@@ -27,7 +27,6 @@ export default function AIAgent({ editorRef, runCallback }) {
         component: "ai-agent",
         action: "typed",
         content: `${studentAgentPrompt}`,
-        timestamp: new Date().toISOString(),
       });
     }, 2000);
 
@@ -66,7 +65,6 @@ export default function AIAgent({ editorRef, runCallback }) {
           action: "execute",
           input: `${studentAgentPrompt}`,
           output: `${response.source_code}`,
-          timestamp: new Date().toISOString(),
         });
       },
       console.error,

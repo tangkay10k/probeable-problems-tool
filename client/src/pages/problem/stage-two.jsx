@@ -107,7 +107,6 @@ export default function StageTwo() {
       action: "execute",
       input: `${implementation}`,
       output: `${passedCount}/${problem?.testSuite?.length}`,
-      timestamp: new Date().toISOString(),
     });
   };
 
@@ -153,7 +152,6 @@ export default function StageTwo() {
       component: "button",
       action: "submit",
       content: `${numTestsPassed}/${problem?.testSuite?.length}`,
-      timestamp: new Date().toISOString(),
     });
   };
 
@@ -161,7 +159,6 @@ export default function StageTwo() {
     addLog({
       component: "code-editor",
       action: "reset",
-      timestamp: new Date().toISOString(),
     });
     updateStudentCodeSubmission(problem.editorDefaultComment);
     showEditor();

@@ -53,7 +53,6 @@ export default function ChatApp() {
       component: "chatapp",
       action: "typed",
       content: value,
-      timestamp: new Date().toISOString(),
     });
   }, TYPING_DEBOUNCE_MS);
 };
@@ -118,7 +117,6 @@ export default function ChatApp() {
           action: "send",
           input: messages[messages.length - 2].content.message,
           output: messages[messages.length - 1].content.message,
-          timestamp: new Date().toISOString(),
         });
       },
       console.error,

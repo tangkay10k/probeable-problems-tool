@@ -52,7 +52,6 @@ export default function Oracle({
     addLog({
       component: "oracle",
       action: "reset",
-      timestamp: new Date().toISOString(),
     });
 
     const defaultProbeMap = localStorage.getItem(DEFAULT_PROBES_KEY);
@@ -74,7 +73,6 @@ export default function Oracle({
           component: "oracle",
           action: "typed",
           content: value,
-          timestamp: new Date().toISOString(),
         });
       }, TYPING_DEBOUNCE_MS);
     });
@@ -106,7 +104,6 @@ export default function Oracle({
         action: "execute",
         input: inputVariables,
         output: oracleResult.run.output,
-        timestamp: new Date().toISOString(),
       });
 
       const buggyResult = await handleBuggyProbeExecution(

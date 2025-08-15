@@ -47,7 +47,6 @@ const Tabs = forwardRef(function Tabs(
       component: "tab",
       action: "clicked",
       name: `${tabName}`,
-      timestamp: new Date().toISOString(),
     });
   };
 

@@ -26,7 +26,6 @@ export default function ProblemContent() {
         component: "button",
         action: "clicked",
         name: "I'm ready to code!",
-        timestamp: new Date().toISOString(),
       })
       if (tutorialStep === 1) {
         setTutorialStep(2);
@@ -40,7 +39,6 @@ export default function ProblemContent() {
         component: "button",
         action: "clicked",
         name: "Go back",
-        timestamp: new Date().toISOString(),
       }
     )
   }

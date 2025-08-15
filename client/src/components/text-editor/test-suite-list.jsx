@@ -101,7 +101,6 @@ export function NonEditableTestCase({ index, test, result }) {
       action: isOpen ? "opened" : "closed",
       name: `Test ${index + 1}`,
       content: contentStr,
-      timestamp: new Date().toISOString(),
     });
   };
 

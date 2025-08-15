@@ -16,7 +16,6 @@ export default function ButtonGroup({
       component: "button",
       action: "clicked",
       name: `${label}`,
-      timestamp: new Date().toISOString(),
     });
 
     onSelectedIndexChange(idx);

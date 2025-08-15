@@ -48,7 +48,6 @@ export const LoggingTextEditor = forwardRef(function LoggingTextEditor(
           component: "code-editor",
           action: "typed",
           content: `${value}`,
-          timestamp: new Date().toISOString(),
         });
       }, TYPING_DEBOUNCE_MS);
     });

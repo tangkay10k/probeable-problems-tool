@@ -22,7 +22,6 @@ export default function Modal({
         component: "modal",
         action: "opened",
         name: `${title}`,
-        timestamp: new Date().toISOString(),
       });
     } 
   }, [isOpen, title]);

@@ -9,11 +9,16 @@ export function LoggingProvider({ children }) {
   const { problemAttempt } = useProblemAttemptContext();
 
   const addLog = useCallback((entry) => {
-    setLogs((prev) => {
-      const next = [...prev, entry];
+    const stampedEntry = {
+      ...entry,
+      timestamp: new Date().toISOString(),
+    };
 
-      logActivity(problemAttempt?.id, entry);
-      
+    setLogs((prev) => {
+      const next = [...prev, stampedEntry];
+
+      logActivity(problemAttempt?.id, stampedEntry);
+
       return next;
     });
   }, [problemAttempt?.id]);
