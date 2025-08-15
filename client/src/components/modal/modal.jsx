@@ -1,8 +1,9 @@
-import React, { Children, useRef, useEffect } from "react";
+import { Children, useRef, useEffect } from "react";
 import styles from "./modal.module.css";
 import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 import ReactMarkdown from "react-markdown";
 import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export default function Modal({
   isOpen,
@@ -19,8 +20,8 @@ export default function Modal({
   useEffect(() => {
     if (isOpen) {
       addLog({
-        component: "modal",
-        action: "opened",
+        component: Component.MODAL,
+        action: Action.CLICKED,
         name: `${title}`,
       });
     } 

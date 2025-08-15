@@ -9,6 +9,7 @@ import { MdBuild as BuildIcon } from "react-icons/md";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { useEffect } from "react";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export default function AIAgent({ editorRef, runCallback }) {
   const {
@@ -24,8 +25,8 @@ export default function AIAgent({ editorRef, runCallback }) {
 
     const timeout = setTimeout(() => {
       addLog({
-        component: "ai-agent",
-        action: "typed",
+        component: Component.AI_AGENT,
+        action: Action.TYPED,
         content: `${studentAgentPrompt}`,
       });
     }, 2000);
@@ -61,8 +62,8 @@ export default function AIAgent({ editorRef, runCallback }) {
         });
 
         addLog({
-          component: "ai-agent",
-          action: "execute",
+          component: Component.AI_AGENT,
+          action: Action.EXECUTE,
           input: `${studentAgentPrompt}`,
           output: `${response.source_code}`,
         });

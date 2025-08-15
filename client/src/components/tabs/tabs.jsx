@@ -6,6 +6,7 @@ import {
 } from "react";
 import styles from "./tab.module.css";
 import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 const Tabs = forwardRef(function Tabs(
   { tabs, defaultIndex = 0, index: controlledIndex, onTabChange },
@@ -44,8 +45,8 @@ const Tabs = forwardRef(function Tabs(
 
     const tabName = tabs[i]?.label ?? i;
     addLog({
-      component: "tab",
-      action: "clicked",
+      component: Component.TAB,
+      action: Action.CLICKED,
       name: `${tabName}`,
     });
   };

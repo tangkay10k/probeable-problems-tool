@@ -26,6 +26,7 @@ import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import Modal from "@/components/modal/modal.jsx";
 import { sleep } from "@/utils/utils.js";
 import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export default function StageTwo() {
   const {
@@ -103,8 +104,8 @@ export default function StageTwo() {
     setNumTestsPassed(passedCount);
 
     addLog({
-      component: "tests",
-      action: "execute",
+      component: Component.TESTS,
+      action: Action.EXECUTE,
       input: `${implementation}`,
       output: `${passedCount}/${problem?.testSuite?.length}`,
     });
@@ -149,16 +150,16 @@ export default function StageTwo() {
     saveStudentAttempt();
     setShowConfirmation(false);
     addLog({
-      component: "button",
-      action: "submit",
+      component: Component.BUTTON,
+      action: Action.SUBMIT,
       content: `${numTestsPassed}/${problem?.testSuite?.length}`,
     });
   };
 
   const handleReset = () => {
     addLog({
-      component: "code-editor",
-      action: "reset",
+      component: Component.CODE_EDITOR,
+      action: Action.RESET,
     });
     updateStudentCodeSubmission(problem.editorDefaultComment);
     showEditor();

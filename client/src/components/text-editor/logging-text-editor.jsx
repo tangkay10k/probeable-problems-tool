@@ -3,6 +3,7 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { logPastedContent } from "@/routes/log-route.js";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export const LoggingTextEditor = forwardRef(function LoggingTextEditor(
   {
@@ -45,8 +46,8 @@ export const LoggingTextEditor = forwardRef(function LoggingTextEditor(
       typingTimerRef.current = setTimeout(() => {
         const value = editor.getValue();
         addLog({
-          component: "code-editor",
-          action: "typed",
+          component: Component.CODE_EDITOR,
+          action: Action.TYPED,
           content: `${value}`,
         });
       }, TYPING_DEBOUNCE_MS);

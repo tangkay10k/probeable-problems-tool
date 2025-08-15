@@ -7,6 +7,7 @@ import DeleteButton from "@/components/button/delete-button";
 import ToggleButton from "@/components/button/toggle-button";
 import { FaLock as LockedIcon } from "react-icons/fa";
 import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export function TestSuiteList({
   tests = [],
@@ -97,8 +98,8 @@ export function NonEditableTestCase({ index, test, result }) {
       } | Passed: ${passed ? "yes" : "no"}`;
 
     addLog({
-      component: "testcase",
-      action: isOpen ? "opened" : "closed",
+      component: Component.TEST_CASE,
+      action: isOpen ? Aciton.OPENED : Action.CLOSED,
       name: `Test ${index + 1}`,
       content: contentStr,
     });

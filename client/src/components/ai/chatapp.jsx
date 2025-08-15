@@ -16,6 +16,7 @@ import rehypeSanitize from "rehype-sanitize";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 const CLIENT_AVATAR = "/client.png";
 const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
@@ -50,8 +51,8 @@ export default function ChatApp() {
   if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
   typingTimerRef.current = setTimeout(() => {
     addLog({
-      component: "chatapp",
-      action: "typed",
+      component: Component.CHAT_APP,
+      action: Action.TYPED,
       content: value,
     });
   }, TYPING_DEBOUNCE_MS);
@@ -113,8 +114,8 @@ export default function ChatApp() {
         const messages = newHistory.messages;
 
         addLog({
-          component: "chatapp",
-          action: "send",
+          component: Component.CHAT_APP,
+          action: Action.SEND,
           input: messages[messages.length - 2].content.message,
           output: messages[messages.length - 1].content.message,
         });

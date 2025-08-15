@@ -13,6 +13,7 @@ import { sleep } from "@/utils/utils.js";
 import { MdOutlinePlayArrow as PlayIcon } from "react-icons/md";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -50,8 +51,8 @@ export default function Oracle({
 
   useEffect(() => {
     addLog({
-      component: "oracle",
-      action: "reset",
+      component: Component.ORACLE,
+      action: Action.RESET,
     });
 
     const defaultProbeMap = localStorage.getItem(DEFAULT_PROBES_KEY);
@@ -70,8 +71,8 @@ export default function Oracle({
       typingTimerRef.current = setTimeout(() => {
         const value = editor.getValue();
         addLog({
-          component: "oracle",
-          action: "typed",
+          component: Component.Oracle,
+          action: Action.TYPED,
           content: value,
         });
       }, TYPING_DEBOUNCE_MS);
@@ -100,8 +101,8 @@ export default function Oracle({
       addToExecutionHistory(oracleResult);
 
       addLog({
-        component: "oracle",
-        action: "execute",
+        component: Component.ORACLE,
+        action: Action.EXECUTE,
         input: inputVariables,
         output: oracleResult.run.output,
       });
