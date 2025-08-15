@@ -6,8 +6,10 @@ import useWithLoading from "@/hooks/useWithLoading.js";
 import { generateSolutionAttempt } from "@/routes/ai-route.js";
 import { toast } from "react-toastify";
 import { MdBuild as BuildIcon } from "react-icons/md";
-import React from "react";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+import { useEffect } from "react";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export default function AIAgent({ editorRef, runCallback }) {
   const {
@@ -16,6 +18,21 @@ export default function AIAgent({ editorRef, runCallback }) {
     updateStudentCodeSubmission,
   } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
+  const { addLog } = useLogging();
+
+  useEffect(() => {
+    if (!studentAgentPrompt) return;
+
+    const timeout = setTimeout(() => {
+      addLog({
+        component: Component.AI_AGENT,
+        action: Action.TYPED,
+        content: `${studentAgentPrompt}`,
+      });
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [studentAgentPrompt, addLog]);
 
   const handleSubmit = () => {
     runCallback?.();
@@ -42,6 +59,13 @@ export default function AIAgent({ editorRef, runCallback }) {
               editorRef.current.highlightLine(idx + 1);
             }
           }, idx * 100); // 100ms per line
+        });
+
+        addLog({
+          component: Component.AI_AGENT,
+          action: Action.EXECUTE,
+          input: `${studentAgentPrompt}`,
+          output: `${response.source_code}`,
         });
       },
       console.error,
