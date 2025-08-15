@@ -3,7 +3,6 @@ package akl.p4p.uoa.services;
 import akl.p4p.uoa.data.Activity;
 import akl.p4p.uoa.models.ActivityLog;
 import akl.p4p.uoa.repositories.ActivityLogRepository;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -15,16 +14,16 @@ public class ActivityLogService {
         this.activityLogRepository = activityLogRepository;
     }
 
-    public ActivityLog saveActivityLog(String problemAttemptId, List<Activity> activities) {
+    public ActivityLog saveActivityLog(String problemAttemptId, Activity activities, String email) {
         ActivityLog activityLog = activityLogRepository
                 .findById(problemAttemptId)
                 .orElseGet(
                         () -> {
-                            ActivityLog newLog = new ActivityLog(problemAttemptId);
+                            ActivityLog newLog = new ActivityLog(problemAttemptId, email);
                             return newLog;
                         });
 
-        activityLog.getActivities().addAll(activities);
+        activityLog.getActivities().add(activities);
 
         return activityLogRepository.save(activityLog);
     }

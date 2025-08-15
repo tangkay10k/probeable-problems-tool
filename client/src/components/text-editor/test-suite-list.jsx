@@ -99,7 +99,7 @@ export function NonEditableTestCase({ index, test, result }) {
 
     addLog({
       component: Component.TEST_CASE,
-      action: isOpen ? Aciton.OPENED : Action.CLOSED,
+      action: isOpen ? Action.OPENED : Action.CLOSED,
       name: `Test ${index + 1}`,
       content: contentStr,
     });

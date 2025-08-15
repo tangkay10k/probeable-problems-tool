@@ -1,11 +1,9 @@
 package akl.p4p.uoa.controllers;
 
 import akl.p4p.uoa.data.PastedContent;
-import akl.p4p.uoa.data.Activity;
+import akl.p4p.uoa.data.ActivityLogRequest;
 import akl.p4p.uoa.services.ActivityLogService;
 import akl.p4p.uoa.services.StudentLogService;
-
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +30,8 @@ public class LogController {
 
   @PostMapping("/activity/{problemAttemptId}")
   public ResponseEntity<?> logActivity(
-      @PathVariable String problemAttemptId, @RequestBody List<Activity> activities) {
-    activityLogService.saveActivityLog(problemAttemptId, activities);
+      @PathVariable String problemAttemptId, @RequestBody ActivityLogRequest activitiesRequest) {
+    activityLogService.saveActivityLog(problemAttemptId, activitiesRequest.getActivities(), activitiesRequest.getEmail());
 
     return ResponseEntity.ok().build();
   }

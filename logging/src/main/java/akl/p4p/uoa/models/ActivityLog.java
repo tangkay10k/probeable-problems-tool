@@ -17,12 +17,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "activityLog")
 public class ActivityLog {
-  public ActivityLog(String problemAttemptId) {
+  public ActivityLog(String problemAttemptId, String email) {
     this.problemAttemptId = problemAttemptId;
+    this.email = email;
   }
 
   @Id
   private String problemAttemptId;
+
+  private String email;
 
   private List<Activity> activities = new ArrayList<>();
 }

@@ -14,10 +14,12 @@ export function LoggingProvider({ children }) {
       timestamp: new Date().toISOString(),
     };
 
+    const email = JSON.parse(localStorage.getItem("user_profile")).email
+
     setLogs((prev) => {
       const next = [...prev, stampedEntry];
 
-      logActivity(problemAttempt?.id, stampedEntry);
+      logActivity(problemAttempt?.id, stampedEntry, email);
 
       return next;
     });

@@ -14,10 +14,13 @@ export const logPastedContent = async (problemAttemptId, pastedContent) => {
 };
 
 
-export const logActivity = async (problemAttemptId, activities) => {
+export const logActivity = async (problemAttemptId, activities, email) => {
   const res = await axiosClient.post(
     `/log/activity/${problemAttemptId}`,
-    activities,
+    {
+      activities,
+      email
+    },
     {
       headers: {
         "Content-Type": "application/json",
