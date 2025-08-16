@@ -46,9 +46,13 @@ public class ClientPrompts {
         .replace("//VAR_FUNCTION_SIGNATURE", functionSignature);
   }
 
-  public static String clientExplanationPrompt(String output, String testCase) throws IOException {
+  public static String clientExplanationPrompt(String questionAsked, String output, String testCase)
+      throws IOException {
     String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_EXPLANATION_PROMPT_FILE);
-    return basePrompt.replace("//VAR_OUTPUT", output).replace("//VAR_TEST_CASE", testCase);
+    return basePrompt
+        .replace("//VAR_USER_QUESTION", questionAsked)
+        .replace("//VAR_OUTPUT", output)
+        .replace("//VAR_TEST_CASE", testCase);
   }
 
   public static String clientTestCasePrompt() throws IOException {

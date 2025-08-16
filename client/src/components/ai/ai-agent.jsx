@@ -5,17 +5,49 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { generateSolutionAttempt } from "@/routes/ai-route.js";
 import { toast } from "react-toastify";
-import { MdBuild as BuildIcon } from "react-icons/md";
-import React from "react";
+import { MdBuild as BuildIcon, MdWarning as InfoIcon } from "react-icons/md";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+import { useEffect, useState } from "react";
+import { Action, Component } from "@/constants/logConstants.js";
+import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 
-export default function AIAgent({ editorRef, runCallback }) {
+export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
   const {
     studentAgentPrompt,
     updateStudentAgentPrompt,
     updateStudentCodeSubmission,
+    studentCodeSubmission,
   } = useProblemAttemptContext();
   const [isLoading, withLoading] = useWithLoading();
+  const { addLog } = useLogging();
+  const [resetWarning, setResetWarning] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    if (
+      studentCodeSubmission.trim().length > 0 &&
+      studentCodeSubmission !== editorDefaultSrc
+    ) {
+      setResetWarning(true);
+      return;
+    }
+    setResetWarning(false);
+  }, [studentCodeSubmission, editorDefaultSrc]);
+
+  useEffect(() => {
+    if (!studentAgentPrompt) return;
+
+    const timeout = setTimeout(() => {
+      addLog({
+        component: Component.AI_AGENT,
+        action: Action.TYPED,
+        content: `${studentAgentPrompt}`,
+      });
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [studentAgentPrompt, addLog]);
 
   const handleSubmit = () => {
     runCallback?.();
@@ -25,11 +57,11 @@ export default function AIAgent({ editorRef, runCallback }) {
       return;
     }
 
-    updateStudentCodeSubmission(""); // clear
-
     withLoading(
       () => generateSolutionAttempt({ prompt: studentAgentPrompt }),
       (response) => {
+        updateStudentCodeSubmission(response.source_code);
+
         const lines = response.source_code.split("\n");
         let buffer = "";
 
@@ -42,6 +74,13 @@ export default function AIAgent({ editorRef, runCallback }) {
               editorRef.current.highlightLine(idx + 1);
             }
           }, idx * 100); // 100ms per line
+        });
+
+        addLog({
+          component: Component.AI_AGENT,
+          action: Action.EXECUTE,
+          input: `${studentAgentPrompt}`,
+          output: `${response.source_code}`,
         });
       },
       console.error,
@@ -63,13 +102,20 @@ export default function AIAgent({ editorRef, runCallback }) {
       <div className={styles.agentBody}>
         <TextArea
           placeholder={
-            "Hello, I write exactly as what I'm told 😊 Please give me instructions on what to code!"
+            "Greetings beep boop, I write exactly as what I'm told. \nPlease give me instructions on what to code!"
           }
           resizable={false}
           value={studentAgentPrompt}
           onChange={(e) => updateStudentAgentPrompt(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         ></TextArea>
         <div className={styles.buttonContainer}>
+          <section style={{ opacity: resetWarning && isFocused ? "1" : "0" }}>
+            <InfoIcon />
+            <ShinyText text={"COGS WILL RESET THE EDITOR ON BUILD"} />
+          </section>
+
           <ButtonV2 onClick={handleSubmit} disabled={isLoading}>
             <BuildIcon size={18} /> Build
           </ButtonV2>

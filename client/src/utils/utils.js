@@ -5,3 +5,13 @@
 export function sleep(ms = 1000) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function stripCommentsFromCode(code) {
+  return (
+    code
+      // remove block comments
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      // remove line comments
+      .replace(/\/\/.*$/gm, "")
+  );
+}

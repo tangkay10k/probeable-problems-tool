@@ -1,14 +1,12 @@
 import styles from "./ai.module.css";
-import { IoChatbubbleEllipsesOutline as ChatIcon } from "react-icons/io5";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
-import Input from "@/components/inputs/text-input.jsx";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import {
   submitUserMessage,
-  replaceWithOutputReponse,
+  replaceWithOutputResponse,
 } from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
@@ -17,6 +15,8 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js";
 
 const CLIENT_AVATAR = "/client.png";
 const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
@@ -31,7 +31,10 @@ export default function ChatApp() {
   } = useProblemAttemptContext();
   const [userMessage, setUserMessage] = useState("");
   const [isLoading, withLoading] = useWithLoading();
+  const { addLog } = useLogging();
   const containerRef = useRef(null);
+  const typingTimerRef = useRef(null);
+  const TYPING_DEBOUNCE_MS = 2000;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -40,6 +43,20 @@ export default function ChatApp() {
       el.scrollTop = el.scrollHeight;
     }
   }, [chatHistory]);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setUserMessage(value);
+
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = setTimeout(() => {
+      addLog({
+        component: Component.CHAT_APP,
+        action: Action.TYPED,
+        content: value,
+      });
+    }, TYPING_DEBOUNCE_MS);
+  };
 
   const handleSend = () => {
     if (!userMessage || userMessage.trim().length === 0) return;
@@ -71,6 +88,7 @@ export default function ChatApp() {
 
         const newMessages = newHistory.messages;
         const content = newMessages[newMessages.length - 1].content;
+        console.log("Whats the content of latest msg?", content);
 
         if (content.asked_expected_output && content.test_case) {
           const executionResult = await executeOraclePistonDirect(
@@ -81,9 +99,12 @@ export default function ChatApp() {
           );
 
           const output = executionResult.run.output;
+          const userQuestion =
+            newMessages[newMessages.length - 2].content.message;
 
-          newHistory = await replaceWithOutputReponse(
+          newHistory = await replaceWithOutputResponse(
             chatHistory.sessionId,
+            userQuestion,
             output,
             content.test_case,
           );
@@ -91,7 +112,18 @@ export default function ChatApp() {
 
         return newHistory;
       },
-      (newHistory) => setChatHistory(newHistory),
+      (newHistory) => {
+        setChatHistory(newHistory);
+
+        const messages = newHistory.messages;
+
+        addLog({
+          component: Component.CHAT_APP,
+          action: Action.SEND,
+          input: messages[messages.length - 2].content.message,
+          output: messages[messages.length - 1].content.message,
+        });
+      },
       console.error,
     );
   };
@@ -130,7 +162,7 @@ export default function ChatApp() {
             disabled={isLoading}
             onEnter={handleSend}
             placeholder={"Ask the client a question!"}
-            onChange={(e) => setUserMessage(e.target.value)}
+            onChange={handleInputChange}
             value={userMessage}
           />
           <Button onClick={handleSend} disabled={isLoading}>
@@ -150,7 +182,12 @@ function ChatBubble({ chatMessage }) {
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
 
   const responseSchema = chatMessage.content;
-  const msg = responseSchema.message;
+  const message = responseSchema.message;
+  const testCase = responseSchema.test_case;
+  const msg = testCase
+    ? `${message}
+        ${testCase}`
+    : message;
 
   return (
     <div className={styles.bubbleContainer}>
@@ -182,7 +219,7 @@ function ChatBubble({ chatMessage }) {
 
       {!isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={userImage} alt="Client Logo"></img>
+          <img src={userImage} alt="You"></img>
         </div>
       )}
     </div>

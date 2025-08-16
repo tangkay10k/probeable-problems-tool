@@ -26,6 +26,7 @@ export const TextEditor = forwardRef(
       disableLanguageSelect = false,
       isLogging = false,
       handleLogPaste,
+      handleLogTyping,
     },
     ref,
   ) => {
@@ -66,7 +67,7 @@ export const TextEditor = forwardRef(
       fontSize,
       lineNumbers,
       wordWrap: "on",
-      fontLigatures: true,
+      fontLigatures: false, //😭😭😭
       fontFamily: "JetBrains Mono, monospace",
       scrollBeyondLastLine: false,
     };
@@ -76,7 +77,8 @@ export const TextEditor = forwardRef(
       monacoRef.current = monaco;
 
       if (isLogging) {
-        handleLogPaste(editor);
+        if (handleLogPaste) handleLogPaste(editor);
+        if (handleLogTyping) handleLogTyping(editor);
       }
 
       if (isResizable) {

@@ -11,7 +11,7 @@ export default function AboutPage() {
         <SplitText text={"Probeable Problems"} />
         <Delayed delay={2000} className={styles.subheadingContainer}>
           <ShinyText
-            text={"By Kay Tang & Hosea Ngyuen Tong-Ho"}
+            text={"By Kay Tang & Hoanh Ngyuen Hosea Tong-Ho"}
             className={styles.subheading}
           />
           <br />

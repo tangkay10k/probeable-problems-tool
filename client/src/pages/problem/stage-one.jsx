@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import {
   CLIENT_HELP,
   ORACLE_HELP,
   STAGE_ONE,
-  STAGE_ONE_CONCISE,
 } from "@/pages/problem/data/instructions.js";
 import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";

@@ -255,11 +255,20 @@
 
 .buttonContainer {
   display: flex;
-  justify-content: end;
   padding: var(--padding-2);
+  justify-content: space-between;
 
   background-color: var(--toggle-hover-editor);
   border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
+}
+
+.buttonContainer section {
+  color: var(--caution-yellow);
+  display: flex;
+  align-items: center;
+  gap: var(--padding-025);
+
+  transition: opacity 0.5s ease-in-out;
 }
 
 .buttonContainer button {

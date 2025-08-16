@@ -1,9 +1,11 @@
-import React, { Children, useRef } from "react";
+import { Children, useRef, useEffect } from "react";
 import styles from "./modal.module.css";
 import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 import ReactMarkdown from "react-markdown";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js";
 
-export default function Modal({
+export default function wModal({
   isOpen,
   setIsOpen,
   onClose,
@@ -13,6 +15,18 @@ export default function Modal({
 }) {
   if (!isOpen) return null;
   const modalRef = useRef(null);
+  const { addLog } = useLogging();
+
+  useEffect(() => {
+    if (isOpen) {
+      addLog({
+        component: Component.MODAL,
+        action: Action.CLICKED,
+        name: `${title}`,
+      });
+    }
+  }, [isOpen, title]);
+
   useOnClickOutside(modalRef, () => setIsOpen(false));
 
   return (
