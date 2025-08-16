@@ -15,6 +15,8 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 const CLIENT_AVATAR = "/client.png";
 const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
@@ -29,8 +31,11 @@ export default function ChatApp() {
   } = useProblemAttemptContext();
   const [userMessage, setUserMessage] = useState("");
   const [isLoading, withLoading] = useWithLoading();
+  const { addLog } = useLogging();
   const containerRef = useRef(null);
-
+  const typingTimerRef = useRef(null);
+  const TYPING_DEBOUNCE_MS = 2000;
+  
   useEffect(() => {
     const el = containerRef.current;
     if (el && el.scrollHeight > el.clientHeight) {
@@ -38,6 +43,20 @@ export default function ChatApp() {
       el.scrollTop = el.scrollHeight;
     }
   }, [chatHistory]);
+
+  const handleInputChange = (e) => {
+  const value = e.target.value;
+  setUserMessage(value);
+
+  if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+  typingTimerRef.current = setTimeout(() => {
+    addLog({
+      component: Component.CHAT_APP,
+      action: Action.TYPED,
+      content: value,
+    });
+  }, TYPING_DEBOUNCE_MS);
+};
 
   const handleSend = () => {
     if (!userMessage || userMessage.trim().length === 0) return;
@@ -93,7 +112,18 @@ export default function ChatApp() {
 
         return newHistory;
       },
-      (newHistory) => setChatHistory(newHistory),
+      (newHistory) => {
+        setChatHistory(newHistory)
+
+        const messages = newHistory.messages;
+
+        addLog({
+          component: Component.CHAT_APP,
+          action: Action.SEND,
+          input: messages[messages.length - 2].content.message,
+          output: messages[messages.length - 1].content.message,
+        });
+      },
       console.error,
     );
   };
@@ -132,7 +162,7 @@ export default function ChatApp() {
             disabled={isLoading}
             onEnter={handleSend}
             placeholder={"Ask the client a question!"}
-            onChange={(e) => setUserMessage(e.target.value)}
+            onChange={handleInputChange}
             value={userMessage}
           />
           <Button onClick={handleSend} disabled={isLoading}>

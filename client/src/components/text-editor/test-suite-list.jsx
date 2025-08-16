@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { TestCaseEditor } from "@/components/text-editor/test-case-editor.jsx";
 import TextArea from "@/components/inputs/text-area.jsx";
 import styles from "./test-suite.module.css";
@@ -6,6 +6,8 @@ import Button from "@/components/button/button.jsx";
 import DeleteButton from "@/components/button/delete-button";
 import ToggleButton from "@/components/button/toggle-button";
 import { FaLock as LockedIcon } from "react-icons/fa";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js"
 
 export function TestSuiteList({
   tests = [],
@@ -70,19 +72,11 @@ const StatusPill = ({ hasRun, passed }) =>
     </span>
   ) : null;
 
-function TestCase({
-  index,
-  test,
-  result,
-  language,
-  isEditable,
-  onUpdate,
-  onDelete,
-}) {
+export function NonEditableTestCase({ index, test, result }) {
+  const { addLog } = useLogging();
   const hasRun = Boolean(result?.actual);
   const passed = hasRun && result.actual === test.expectedStdOut;
 
-  // Prevent <details> from toggling open when hasRun is false.
   const preventToggleIfLocked = (e) => {
     if (!hasRun) {
       e.preventDefault();
@@ -90,7 +84,6 @@ function TestCase({
     }
   };
 
-  // Also catch keyboard activation on <summary> (Space/Enter)
   const handleSummaryKeyDown = (e) => {
     if (!hasRun && (e.key === " " || e.key === "Enter")) {
       e.preventDefault();
@@ -98,55 +91,79 @@ function TestCase({
     }
   };
 
-  if (!isEditable) {
-    return (
-      <details
-        className={`${styles.testDetail} ${test.hidden ? styles.hidden : ""}`}
-      >
-        <summary
-          onClick={preventToggleIfLocked}
-          onKeyDown={handleSummaryKeyDown}
-          aria-disabled={!hasRun}
-          title={!hasRun ? "Run the test to view details" : undefined}
-        >
-          {test.hidden ? (
-            <>
-              <section className={styles.locked}>
-                <LockedIcon />
-                <h1>Hidden Test</h1>
-              </section>
-              <StatusPill hasRun={hasRun} passed={passed} />
-            </>
-          ) : (
-            <>
-              <section className={styles.locked}>
-                {!passed && !hasRun && <LockedIcon />}
-                <h1>Test {index + 1}</h1>
-              </section>
-              <StatusPill hasRun={hasRun} passed={passed} />
-            </>
-          )}
-        </summary>
+  const handleToggle = (e) => {
+    const isOpen = e.currentTarget.open;
+    const contentStr = `Input: ${test.code || "<empty>"} | Expected: ${test.expectedStdOut || "<empty>"
+      } | Actual: ${result?.actual ?? "<not run>"} | Hidden: ${test.hidden ? "yes" : "no"
+      } | Passed: ${passed ? "yes" : "no"}`;
 
-        {!test.hidden && (
-          <div className={styles.detailContent}>
-            <p>
-              <strong>Input:</strong>
-            </p>
-            <pre>{test.code}</pre>
-            <p>Expected: {test.expectedStdOut}</p>
-            {hasRun && <p>Actual: {result.actual}</p>}
-          </div>
+    addLog({
+      component: Component.TEST_CASE,
+      action: isOpen ? Action.OPENED : Action.CLOSED,
+      name: `Test ${index + 1}`,
+      content: contentStr,
+    });
+  };
+
+  return (
+    <details
+      className={`${styles.testDetail} ${test.hidden ? styles.hidden : ""}`}
+      onToggle={handleToggle}
+    >
+      <summary
+        onClick={preventToggleIfLocked}
+        onKeyDown={handleSummaryKeyDown}
+        aria-disabled={!hasRun}
+        title={!hasRun ? "Run the test to view details" : undefined}
+      >
+        {test.hidden ? (
+          <>
+            <section className={styles.locked}>
+              <LockedIcon />
+              <h1>Hidden Test</h1>
+            </section>
+            <StatusPill hasRun={hasRun} passed={passed} />
+          </>
+        ) : (
+          <>
+            <section className={styles.locked}>
+              {!passed && !hasRun && <LockedIcon />}
+              <h1>Test {index + 1}</h1>
+            </section>
+            <StatusPill hasRun={hasRun} passed={passed} />
+          </>
         )}
-      </details>
-    );
-  }
+      </summary>
+
+      {!test.hidden && (
+        <div className={styles.detailContent}>
+          <p>
+            <strong>Input:</strong>
+          </p>
+          <pre>{test.code}</pre>
+          <p>Expected: {test.expectedStdOut}</p>
+          {hasRun && <p>Actual: {result.actual}</p>}
+        </div>
+      )}
+    </details>
+  );
+}
+
+export function EditableTestCase({
+  index,
+  test,
+  result,
+  language,
+  onUpdate,
+  onDelete,
+}) {
+  const hasRun = Boolean(result?.actual);
+  const passed = hasRun && result.actual === test.expectedStdOut;
 
   return (
     <div
-      className={`${styles.testCase} ${
-        passed ? styles.passLight : result ? styles.failLight : ""
-      }`}
+      className={`${styles.testCase} ${passed ? styles.passLight : result ? styles.failLight : ""
+        }`}
     >
       <div className={styles.testHeader}>
         <section>
@@ -188,5 +205,14 @@ function TestCase({
         </div>
       )}
     </div>
+  );
+}
+
+export default function TestCase(props) {
+  const { isEditable, ...rest } = props;
+  return isEditable ? (
+    <EditableTestCase {...rest} />
+  ) : (
+    <NonEditableTestCase {...rest} />
   );
 }

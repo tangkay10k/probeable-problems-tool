@@ -1,0 +1,22 @@
+export const Action = {
+  TYPED: "TYPED",
+  EXECUTE: "EXECUTE",
+  SEND: "SEND",
+  CLICKED: "CLICKED",
+  OPENED: "OPENED",
+  CLOSED: "CLOSED",
+  RESET: "RESET",
+  SUBMIT: "SUBMIT",
+};
+
+export const Component = {
+  AI_AGENT: "AI_AGENT",
+  CHAT_APP: "CHAT_APP",
+  BUTTON: "BUTTON",
+  MODAL: "MODAL",
+  ORACLE: "ORACLE",
+  TAB: "TAB",
+  CODE_EDITOR: "CODE_EDITOR",
+  TEST_CASE: "TEST_CASE",
+  TESTS: "TESTS",
+};
