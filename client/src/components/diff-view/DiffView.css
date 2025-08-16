@@ -1,0 +1,82 @@
+.diff {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--white);
+}
+
+.diff .code {
+  margin: 0;
+  padding: var(--padding-1);
+  background: transparent;
+
+  border: 1px solid var(--white);
+  border-radius: var(--border-radius-1);
+
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  tab-size: 2;
+}
+
+.diff.sxs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.diff .panel-title {
+  color: var(--accent-light);
+  margin: var(--padding-1) 0 var(--padding-025) 0;
+}
+
+.diff-empty {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.diff-same {
+  background: transparent;
+}
+
+.diff-ins {
+  outline: 0.01rem solid var(--pass-green);
+}
+
+.diff-del {
+  outline: 0.01rem solid var(--fail-red);
+}
+
+.diff.merged .diff-ins + .diff-del,
+.diff.merged .diff-del + .diff-ins {
+  background: #fffbeb;
+  outline-color: #f59e0b44;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.chip.del::before {
+  content: "−";
+  color: #ef4444;
+}
+
+.chip.ins::before {
+  content: "+";
+  color: #10b981;
+}
+
+.chip.sub::before {
+  content: "≈";
+  color: #f59e0b;
+}
+
+.chip.inv {
+  color: #374151;
+}

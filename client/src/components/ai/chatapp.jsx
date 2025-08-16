@@ -16,7 +16,7 @@ import rehypeSanitize from "rehype-sanitize";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
 
 const CLIENT_AVATAR = "/client.png";
 const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
@@ -35,7 +35,7 @@ export default function ChatApp() {
   const containerRef = useRef(null);
   const typingTimerRef = useRef(null);
   const TYPING_DEBOUNCE_MS = 2000;
-  
+
   useEffect(() => {
     const el = containerRef.current;
     if (el && el.scrollHeight > el.clientHeight) {
@@ -45,18 +45,18 @@ export default function ChatApp() {
   }, [chatHistory]);
 
   const handleInputChange = (e) => {
-  const value = e.target.value;
-  setUserMessage(value);
+    const value = e.target.value;
+    setUserMessage(value);
 
-  if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
-  typingTimerRef.current = setTimeout(() => {
-    addLog({
-      component: Component.CHAT_APP,
-      action: Action.TYPED,
-      content: value,
-    });
-  }, TYPING_DEBOUNCE_MS);
-};
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = setTimeout(() => {
+      addLog({
+        component: Component.CHAT_APP,
+        action: Action.TYPED,
+        content: value,
+      });
+    }, TYPING_DEBOUNCE_MS);
+  };
 
   const handleSend = () => {
     if (!userMessage || userMessage.trim().length === 0) return;
@@ -113,7 +113,7 @@ export default function ChatApp() {
         return newHistory;
       },
       (newHistory) => {
-        setChatHistory(newHistory)
+        setChatHistory(newHistory);
 
         const messages = newHistory.messages;
 

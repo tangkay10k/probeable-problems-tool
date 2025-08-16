@@ -7,7 +7,8 @@ import DeleteButton from "@/components/button/delete-button";
 import ToggleButton from "@/components/button/toggle-button";
 import { FaLock as LockedIcon } from "react-icons/fa";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
+import DiffView from "@/components/diff-view/diff-view.jsx";
 
 export function TestSuiteList({
   tests = [],
@@ -65,37 +66,66 @@ export function TestSuiteList({
   );
 }
 
-const StatusPill = ({ hasRun, passed }) =>
-  hasRun ? (
-    <span className={`${styles.pill} ${passed ? styles.pass : styles.fail}`}>
-      {passed ? "✓ Passed" : "✗ Failed"}
-    </span>
-  ) : null;
+const StatusPill = ({ status }) => {
+  if (!status) return null;
+
+  const map = {
+    passed: { cls: styles.pass, label: "✓ Passed" },
+    failed: { cls: styles.fail, label: "✗ Failed" },
+    compile: { cls: styles.compile, label: "⚠ Compilation Error" },
+  };
+
+  const { cls, label } = map[status] ?? map.failed;
+  return <span className={`${styles.pill} ${cls}`}>{label}</span>;
+};
 
 export function NonEditableTestCase({ index, test, result }) {
   const { addLog } = useLogging();
-  const hasRun = Boolean(result?.actual);
-  const passed = hasRun && result.actual === test.expectedStdOut;
+
+  const hasRun = result?.actual !== undefined; // true even for "", false only if never ran
+  const isCompilationError = result?.actual === "[COMPILATION ERROR]";
+  const passed =
+    hasRun && !isCompilationError && result.actual === test.expectedStdOut;
+
+  const status = hasRun
+    ? isCompilationError
+      ? "compile"
+      : passed
+        ? "passed"
+        : "failed"
+    : null;
 
   const preventToggleIfLocked = (e) => {
-    if (!hasRun) {
+    if (!hasRun || isCompilationError) {
       e.preventDefault();
       e.stopPropagation();
     }
   };
 
   const handleSummaryKeyDown = (e) => {
-    if (!hasRun && (e.key === " " || e.key === "Enter")) {
+    if (
+      (!hasRun || isCompilationError) &&
+      (e.key === " " || e.key === "Enter")
+    ) {
       e.preventDefault();
       e.stopPropagation();
     }
   };
 
   const handleToggle = (e) => {
+    // safety: if it somehow toggled, immediately close when locked
+    if (!hasRun || isCompilationError) {
+      e.preventDefault();
+      e.currentTarget.open = false;
+      return;
+    }
+
     const isOpen = e.currentTarget.open;
-    const contentStr = `Input: ${test.code || "<empty>"} | Expected: ${test.expectedStdOut || "<empty>"
-      } | Actual: ${result?.actual ?? "<not run>"} | Hidden: ${test.hidden ? "yes" : "no"
-      } | Passed: ${passed ? "yes" : "no"}`;
+    const contentStr = `Input: ${test.code || "<empty>"} | Expected: ${
+      test.expectedStdOut || "<empty>"
+    } | Actual: ${result.actual ?? "<not run>"} | Hidden: ${
+      test.hidden ? "yes" : "no"
+    } | Passed: ${passed ? "yes" : "no"}`;
 
     addLog({
       component: Component.TEST_CASE,
@@ -109,12 +139,19 @@ export function NonEditableTestCase({ index, test, result }) {
     <details
       className={`${styles.testDetail} ${test.hidden ? styles.hidden : ""}`}
       onToggle={handleToggle}
+      aria-disabled={!hasRun || isCompilationError}
     >
       <summary
         onClick={preventToggleIfLocked}
         onKeyDown={handleSummaryKeyDown}
-        aria-disabled={!hasRun}
-        title={!hasRun ? "Run the test to view details" : undefined}
+        aria-disabled={!hasRun || isCompilationError}
+        title={
+          !hasRun
+            ? "Run the test to view details"
+            : isCompilationError
+              ? "Fix compilation errors to view details"
+              : undefined
+        }
       >
         {test.hidden ? (
           <>
@@ -122,27 +159,26 @@ export function NonEditableTestCase({ index, test, result }) {
               <LockedIcon />
               <h1>Hidden Test</h1>
             </section>
-            <StatusPill hasRun={hasRun} passed={passed} />
+            <StatusPill status={status} />
           </>
         ) : (
           <>
             <section className={styles.locked}>
-              {!passed && !hasRun && <LockedIcon />}
+              {(!hasRun || isCompilationError || !passed) && <LockedIcon />}
               <h1>Test {index + 1}</h1>
             </section>
-            <StatusPill hasRun={hasRun} passed={passed} />
+            <StatusPill status={status} />
           </>
         )}
       </summary>
 
-      {!test.hidden && (
+      {!test.hidden && !isCompilationError && (
         <div className={styles.detailContent}>
           <p>
             <strong>Input:</strong>
           </p>
           <pre>{test.code}</pre>
-          <p>Expected: {test.expectedStdOut}</p>
-          {hasRun && <p>Actual: {result.actual}</p>}
+          <DiffView actual={result?.actual} expected={test.expectedStdOut} />
         </div>
       )}
     </details>
@@ -162,8 +198,9 @@ export function EditableTestCase({
 
   return (
     <div
-      className={`${styles.testCase} ${passed ? styles.passLight : result ? styles.failLight : ""
-        }`}
+      className={`${styles.testCase} ${
+        passed ? styles.passLight : result ? styles.failLight : ""
+      }`}
     >
       <div className={styles.testHeader}>
         <section>

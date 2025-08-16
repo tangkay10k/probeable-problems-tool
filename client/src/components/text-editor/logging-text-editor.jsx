@@ -3,7 +3,7 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { logPastedContent } from "@/routes/log-route.js";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
 
 export const LoggingTextEditor = forwardRef(function LoggingTextEditor(
   {
@@ -19,7 +19,7 @@ export const LoggingTextEditor = forwardRef(function LoggingTextEditor(
     minHeight = 100,
     disableLanguageSelect = true,
   },
-  ref
+  ref,
 ) {
   const { problemAttempt } = useProblemAttemptContext();
   const { addLog } = useLogging();

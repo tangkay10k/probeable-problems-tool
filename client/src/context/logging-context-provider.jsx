@@ -5,27 +5,37 @@ import { useUserProfile } from "@/context/user-context.jsx";
 
 const LoggingContext = createContext();
 
+const LOGGING_ENABLED =
+  String(import.meta.env.VITE_LOGGING_ENABLED).toLowerCase() === "true";
+
 export function LoggingProvider({ children }) {
   const [logs, setLogs] = useState([]);
-    const { profile } = useUserProfile();
+  const { profile } = useUserProfile();
   const { problemAttempt } = useProblemAttemptContext();
 
-  const addLog = useCallback((entry) => {
-    const stampedEntry = {
-      ...entry,
-      timestamp: new Date().toISOString(),
-    };
+  const addLog = useCallback(
+    (entry) => {
+      if (!LOGGING_ENABLED) {
+        return;
+      }
 
-    const email = profile.email
+      const stampedEntry = {
+        ...entry,
+        timestamp: new Date().toISOString(),
+      };
 
-    setLogs((prev) => {
-      const next = [...prev, stampedEntry];
+      const email = profile.email;
 
-      logActivity(problemAttempt?.id, stampedEntry, email);
+      setLogs((prev) => {
+        const next = [...prev, stampedEntry];
 
-      return next;
-    });
-  }, [problemAttempt?.id]);
+        logActivity(problemAttempt?.id, stampedEntry, email);
+
+        return next;
+      });
+    },
+    [problemAttempt?.id],
+  );
 
   return (
     <LoggingContext.Provider value={{ logs, addLog }}>

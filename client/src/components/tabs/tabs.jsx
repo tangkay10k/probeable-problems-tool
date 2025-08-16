@@ -1,12 +1,7 @@
-import {
-  memo,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { memo, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./tab.module.css";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
 
 const Tabs = forwardRef(function Tabs(
   { tabs, defaultIndex = 0, index: controlledIndex, onTabChange },

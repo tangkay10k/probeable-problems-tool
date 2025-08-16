@@ -1,34 +1,35 @@
-import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+import { useUserProfile } from "@/context/user-context.jsx";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+
 import useWithLoading from "@/hooks/useWithLoading.js";
+import useProblemData from "./hooks/useProblemData.js";
+import useTestRunner from "./hooks/useTestRunner.js";
+
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
-import { SPLIT_STRING } from "@/constants/setup-constants";
 import AIAgent from "@/components/ai/ai-agent.jsx";
-import { getProblem } from "@/routes/problem-route.js";
-import { getTestTemplate } from "@/routes/template-route.js";
-import { toast } from "react-toastify";
-import { handleTestSuiteExecution } from "@/pages/question-setup/utils/test-setup-utils.js";
-import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";
-import ButtonV2 from "@/components/button/buttonV2.jsx";
-import {
-  MdRestartAlt as RestartIcon,
-  MdOutlinePlayArrow as PlayIcon,
-} from "react-icons/md";
-import { IoMdPaperPlane as PlaneIcon } from "react-icons/io";
-import { TestSuiteList } from "@/components/text-editor/test-suite-list.jsx";
-import { LoggingTextEditor } from "@/components/text-editor/logging-text-editor.jsx";
-import ButtonGroup from "@/components/button/button-group.jsx";
-import { useUserProfile } from "@/context/user-context.jsx";
-import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
-import Modal from "@/components/modal/modal.jsx";
+import styles from "@/pages/problem/problemPage.module.css";
+import { toast } from "react-toastify";
 import { sleep } from "@/utils/utils.js";
-import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
+
+import TopToolbar from "./ui/top-tool-bar.jsx";
+import EditorPanel from "./ui/editor-panel.jsx";
+import TestSuitePanel from "./ui/test-suite-panel.jsx";
+import SubmitConfirmModal from "./ui/confirmation-modal.jsx";
+import Modal from "@/components/modal/modal.jsx";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
 
 export default function StageTwo() {
+  const { problemId } = useParams();
+  const { profile } = useUserProfile();
+  const { addLog } = useLogging();
+
   const {
     problemAttempt,
     studentCodeSubmission,
@@ -36,24 +37,28 @@ export default function StageTwo() {
     saveStudentAttempt,
     updateStudentScore,
   } = useProblemAttemptContext();
-  const { problemId } = useParams();
-  const { profile } = useUserProfile();
-  const [problem, setProblem] = useState([]);
+
   const [isLoading, withLoading] = useWithLoading();
-  const [results, setResults] = useState([]);
-  const [template, setTestTemplate] = useState("");
-  const [showTestSuite, setShowTestSuite] = useState(false);
   const editorRef = useRef(null);
-  const [selected, setSelected] = useState(0);
+
+  const [selected, setSelected] = useState(0); // [0=Code, 1=Tests]
+  const [showTestSuite, setShowTestSuite] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [numTestsPassed, setNumTestsPassed] = useState(0);
-  const { addLog } = useLogging();
+  const [showRunConfirmation, setShowRunConfirmation] = useState(false);
+
+  const { problem, template, defaultEditorSrc } = useProblemData(problemId);
+
+  const { results, setResults, numPassed, run } = useTestRunner({
+    problem,
+    template,
+    addLog,
+    updateStudentScore,
+  });
 
   const handleAgentBuildRequest = () => {
     setSelected(0);
     setShowTestSuite(false);
   };
-
   const tabs = [
     {
       label: "Task",
@@ -62,73 +67,36 @@ export default function StageTwo() {
     {
       label: "Cogs",
       content: (
-        <AIAgent editorRef={editorRef} runCallback={handleAgentBuildRequest} />
+        <AIAgent
+          editorRef={editorRef}
+          runCallback={handleAgentBuildRequest}
+          editorDefaultSrc={defaultEditorSrc}
+        />
       ),
     },
   ];
 
-  useEffect(() => {
-    getProblem(problemId)
-      .then((fetchedProblem) => {
-        setProblem(fetchedProblem);
-        getTestTemplate(fetchedProblem.programLanguage)
-          .then((template) => setTestTemplate(template))
-          .catch((err) => toast.error(err));
-      })
-      .catch((err) => toast.error(err));
-  }, [problemId]);
-
-  const updateResults = (execution, implementation) => {
-    const output = execution.run.output;
-    const lines = output.split(SPLIT_STRING);
-    let passedCount = 0;
-    const updatedResults = [];
-
-    for (let i = 0; i < lines.length; i++) {
-      const expected = problem?.testSuite[i]?.expectedStdOut ?? "";
-      const actual =
-        execution.compile.code === 0 ? lines[i] : "[COMPILATION ERROR]";
-
-      if (actual === expected) {
-        passedCount += 1;
-        updatedResults.push({ actual, expected });
-      } else {
-        updatedResults.push({ actual, expected });
-        break; // stop processing further lines on first mismatch
-      }
-    }
-    setResults(updatedResults);
-
-    const numberOfTestCasesPassed = `${passedCount}/${problem?.testSuite?.length}`;
-    updateStudentScore(numberOfTestCasesPassed);
-    setNumTestsPassed(passedCount);
-
-    addLog({
-      component: Component.TESTS,
-      action: Action.EXECUTE,
-      input: `${implementation}`,
-      output: `${passedCount}/${problem?.testSuite?.length}`,
-    });
+  const showEditor = () => {
+    setSelected(0);
+    setShowTestSuite(false);
   };
 
-  const handleExecution = async () => {
+  const confirmRun = () => {
     showEditor();
-    if (
-      studentCodeSubmission.length === 0 ||
-      studentCodeSubmission.trim() === ""
-    ) {
+    const src = (studentCodeSubmission ?? "").trim();
+    if (!src || src === defaultEditorSrc) {
       toast.error("Please write some code before running!");
       return;
     }
 
-    withLoading(
-      () =>
-        handleTestSuiteExecution(
-          problem,
-          studentCodeSubmission,
-          template,
-          updateResults,
-        ),
+    setShowRunConfirmation(true);
+  };
+
+  const handleExecution = async () => {
+    setShowRunConfirmation(false);
+
+    await withLoading(
+      () => run(studentCodeSubmission),
       () => {
         setShowTestSuite(true);
         setSelected(1);
@@ -138,12 +106,10 @@ export default function StageTwo() {
     await sleep();
   };
 
-  const confirmSubmissionIfFailedElseSubmit = () => {
-    if (numTestsPassed !== problem?.testSuite?.length) {
-      setShowConfirmation(true);
-      return;
-    }
-    handleSubmission();
+  const handleReset = () => {
+    addLog({ component: Component.CODE_EDITOR, action: Action.RESET });
+    updateStudentCodeSubmission(defaultEditorSrc);
+    showEditor();
   };
 
   const handleSubmission = () => {
@@ -152,23 +118,20 @@ export default function StageTwo() {
     addLog({
       component: Component.BUTTON,
       action: Action.SUBMIT,
-      content: `${numTestsPassed}/${problem?.testSuite?.length}`,
+      content: `${numPassed}/${problem?.testSuite?.length ?? 0}`,
     });
   };
 
-  const handleReset = () => {
-    addLog({
-      component: Component.CODE_EDITOR,
-      action: Action.RESET,
-    });
-    updateStudentCodeSubmission(problem.editorDefaultComment);
-    showEditor();
+  const confirmSubmissionIfFailedElseSubmit = () => {
+    if (numPassed !== (problem?.testSuite?.length ?? 0)) {
+      setShowConfirmation(true);
+    } else {
+      handleSubmission();
+    }
   };
 
-  function showEditor() {
-    setSelected(0);
-    setShowTestSuite(false);
-  }
+  const hasCompleted = profile?.problemsCompleted?.includes(problemId);
+  const scoreText = problemAttempt?.score;
 
   return (
     <div className={styles.containerWrapper}>
@@ -177,110 +140,54 @@ export default function StageTwo() {
       </div>
 
       <div className={styles.rightContainer}>
-        <div className={styles.toggleButtonContainer}>
-          <ButtonGroup
-            selectedIndex={selected}
-            onSelectedIndexChange={setSelected}
-            labels={["Code", "Tests"]}
-            onClickHandlers={[
-              () => setShowTestSuite(false),
-              () => setShowTestSuite(true),
-            ]}
-          />
-
-          <section className={styles.leftButtons}>
-            <section>
-              {/*O(N) Here but we don't have that many problems -> O(1)*/}
-              {profile?.problemsCompleted?.includes(problemId) && (
-                <>
-                  <p>{problemAttempt?.score}</p>
-                  <span>
-                    <CompletedIcon />
-                  </span>
-                </>
-              )}
-
-              <ButtonV2
-                onClick={handleReset}
-                disabled={isLoading}
-                className={styles.resetBtn}
-              >
-                <RestartIcon size={18} />
-              </ButtonV2>
-              <ButtonV2
-                onClick={handleExecution}
-                disabled={isLoading}
-                className={styles.runBtn}
-              >
-                <PlayIcon size={18} /> Run
-              </ButtonV2>
-            </section>
-
-            <ButtonV2
-              onClick={confirmSubmissionIfFailedElseSubmit}
-              disabled={isLoading}
-            >
-              <PlaneIcon size={15} /> Submit!
-            </ButtonV2>
-          </section>
-        </div>
+        <TopToolbar
+          selectedIndex={selected}
+          onSelectIndex={setSelected}
+          onToggleCode={() => setShowTestSuite(false)}
+          onToggleTests={() => setShowTestSuite(true)}
+          isLoading={isLoading}
+          hasCompleted={hasCompleted}
+          scoreText={scoreText}
+          onReset={handleReset}
+          onRun={confirmRun}
+          onSubmit={confirmSubmissionIfFailedElseSubmit}
+        />
 
         {showTestSuite ? (
-          <div className={styles.testSuiteContainer}>
-            <section className={styles.listWrapper}>
-              {results.length > 0 ? (
-                <>
-                  <TestSuiteList
-                    tests={problem.testSuite}
-                    language={problem.programLanguage}
-                    isEditable={false}
-                    results={results}
-                    setResults={setResults}
-                  />
-                  <div className={styles.gradient} />
-                </>
-              ) : (
-                <div className={styles.testSuiteEmpty}>
-                  Please run your code first!
-                </div>
-              )}
-            </section>
-          </div>
+          <TestSuitePanel
+            tests={problem?.testSuite}
+            language={problem?.programLanguage}
+            results={results}
+            setResults={setResults}
+          />
         ) : (
-          <div className={styles.editorWrapper}>
-            <LoggingTextEditor
-              ref={editorRef}
-              language={problemAttempt?.problemLanguage}
-              src={studentCodeSubmission}
-              setSource={updateStudentCodeSubmission}
-            />
-          </div>
+          <EditorPanel
+            ref={editorRef}
+            language={problemAttempt?.problemLanguage}
+            src={studentCodeSubmission}
+            setSource={updateStudentCodeSubmission}
+          />
         )}
       </div>
-      <Modal
-        title={"Are you sure you want to submit?"}
+
+      <SubmitConfirmModal
         isOpen={showConfirmation}
-        setIsOpen={setShowConfirmation}
-        className={styles.confirmModal}
+        onClose={() => setShowConfirmation(false)}
+        onConfirm={handleSubmission}
+        numPassed={numPassed}
+        total={problem?.testSuite?.length ?? 0}
+      />
+      <Modal
+        title={"Have you met all your client's requirements?"}
+        isOpen={showRunConfirmation}
+        onClose={() => setShowRunConfirmation(false)}
       >
-        <p
-          className={
-            numTestsPassed === problem?.testSuite?.length
-              ? styles.success
-              : styles.error
-          }
-        >
-          You have passed{" "}
-          <b>
-            {numTestsPassed} / {problem?.testSuite?.length}
-          </b>{" "}
-          test cases. <br />
-        </p>
-        <p>YOU WILL NOT BE ABLE TO RESUBMIT!</p>
-        <br />
+        {`Each unsuccessful run will incur a **1% penalty** on your final score unless you receive a compilation error. \n\n Your current penalty is: **${problemAttempt?.failedAttempts ?? 0}%** \n\n *\*Penalties are capped at 15%*`}
         <section className={styles.modalBtns}>
-          <ButtonV2 onClick={() => setShowConfirmation(false)}>No</ButtonV2>
-          <ButtonV2 onClick={handleSubmission}>Yes</ButtonV2>
+          <ButtonV2 onClick={() => setShowRunConfirmation(false)}>
+            Cancel
+          </ButtonV2>
+          <ButtonV2 onClick={handleExecution}>Run</ButtonV2>
         </section>
       </Modal>
     </div>
