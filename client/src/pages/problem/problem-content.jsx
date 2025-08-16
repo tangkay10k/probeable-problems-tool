@@ -12,7 +12,7 @@ import {
 } from "@/pages/problem/data/instructions.js";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
 
 export default function ProblemContent() {
   const { addLog } = useLogging();
@@ -28,7 +28,7 @@ export default function ProblemContent() {
         component: Component.BUTTON,
         action: Action.CLICKED,
         name: "I'm ready to code!",
-      })
+      });
       if (tutorialStep === 1) {
         setTutorialStep(2);
         setShowTutorial(true);
@@ -36,13 +36,11 @@ export default function ProblemContent() {
       return;
     }
     setStage(1);
-    addLog(
-      {
-        component: Component.BUTTON,
-        action: Action.CLICKED,
-        name: "Go back",
-      }
-    )
+    addLog({
+      component: Component.BUTTON,
+      action: Action.CLICKED,
+      name: "Go back",
+    });
   }
 
   const hideTutorial = () => {

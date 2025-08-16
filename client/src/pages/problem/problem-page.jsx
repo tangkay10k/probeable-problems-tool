@@ -6,7 +6,7 @@ export default function ProblemPage() {
   return (
     <ProblemAttemptProvider>
       <LoggingProvider>
-      <ProblemContent />
+        <ProblemContent />
       </LoggingProvider>
     </ProblemAttemptProvider>
   );

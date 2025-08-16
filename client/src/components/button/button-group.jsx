@@ -1,6 +1,6 @@
 import styles from "./button.module.css";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
 
 export default function ButtonGroup({
   labels = [],

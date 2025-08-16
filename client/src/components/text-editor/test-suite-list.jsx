@@ -7,7 +7,8 @@ import DeleteButton from "@/components/button/delete-button";
 import ToggleButton from "@/components/button/toggle-button";
 import { FaLock as LockedIcon } from "react-icons/fa";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
+import DiffView from "@/components/diff-view/diff-view.jsx";
 
 export function TestSuiteList({
   tests = [],
@@ -93,9 +94,12 @@ export function NonEditableTestCase({ index, test, result }) {
 
   const handleToggle = (e) => {
     const isOpen = e.currentTarget.open;
-    const contentStr = `Input: ${test.code || "<empty>"} | Expected: ${test.expectedStdOut || "<empty>"
-      } | Actual: ${result?.actual ?? "<not run>"} | Hidden: ${test.hidden ? "yes" : "no"
-      } | Passed: ${passed ? "yes" : "no"}`;
+
+    const contentStr = `Input: ${test.code || "<empty>"} | Expected: ${
+      test.expectedStdOut || "<empty>"
+    } | Actual: ${rawResult ?? "<not run>"} | Hidden: ${
+      test.hidden ? "yes" : "no"
+    } | Passed: ${passed ? "yes" : "no"}`;
 
     addLog({
       component: Component.TEST_CASE,
@@ -141,8 +145,11 @@ export function NonEditableTestCase({ index, test, result }) {
             <strong>Input:</strong>
           </p>
           <pre>{test.code}</pre>
-          <p>Expected: {test.expectedStdOut}</p>
-          {hasRun && <p>Actual: {result.actual}</p>}
+          {result?.actual && (
+            <DiffView actual={result?.actual} expected={test.expectedStdOut} />
+          )}
+          {/*<p>Expected: {test.expectedStdOut}</p>*/}
+          {/*{hasRun && <p>Actual: {rawResult}</p>}*/}
         </div>
       )}
     </details>
@@ -162,8 +169,9 @@ export function EditableTestCase({
 
   return (
     <div
-      className={`${styles.testCase} ${passed ? styles.passLight : result ? styles.failLight : ""
-        }`}
+      className={`${styles.testCase} ${
+        passed ? styles.passLight : result ? styles.failLight : ""
+      }`}
     >
       <div className={styles.testHeader}>
         <section>

@@ -13,7 +13,7 @@ import { sleep, stripCommentsFromCode } from "@/utils/utils.js";
 import { MdOutlinePlayArrow as PlayIcon } from "react-icons/md";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js"
+import { Action, Component } from "@/constants/logConstants.js";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -62,7 +62,7 @@ export default function Oracle({
       if (obj?.[problemId]) {
         setInputVariables(obj[problemId]);
       }
-    } catch { }
+    } catch {}
   }, [resetOracle, problemId]);
 
   const handleLogTyping = (editor) => {

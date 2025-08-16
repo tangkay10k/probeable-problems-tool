@@ -41,5 +41,5 @@ export const CLIENT_HELP =
   "Talk with the client to find out more about what they want you to write!";
 
 export const ORACLE_HELP =
-  "You can play around with the inputs and click the **Run** button to see the expected" +
-  " output of the function(s)!";
+  "You can play around with the inputs and click the **Run** button to see the expected output of the" +
+  " function(s)!\n\nClicking **⟲** will reset inputs back to default values.";

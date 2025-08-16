@@ -31,7 +31,6 @@ const ProblemAttemptProvider = ({ children }) => {
   // Derived per-user storage key (hashed)
   const [userStorageKey, setUserStorageKey] = useState(null);
 
-  // Per-user map: { [problemId]: { notes, agentPrompt, codeSubmission, score, oracleExecutionHistory } }
   const [studentDataMap, setStudentDataMap] = useState({});
 
   // Compute hashed storage key when profile email is available
@@ -112,16 +111,21 @@ const ProblemAttemptProvider = ({ children }) => {
       .then((fetchedProblem) => {
         setProblem(fetchedProblem);
         saveProbesToLocalStorage(problemId, fetchedProblem.defaultProbe);
-
-        if (studentCodeSubmission.length === 0) {
-          updateStudentCodeSubmission(fetchedProblem?.editorDefaultComment);
-        }
       })
       .catch((err) => {
         console.error(err);
         toast.error("Failed to load problem details.");
       });
   }, [problemId, profile?.email, navigate]);
+
+  useEffect(() => {
+    if (
+      problem?.id &&
+      (!studentCodeSubmission || studentCodeSubmission.length === 0)
+    ) {
+      updateStudentCodeSubmission(problem?.editorDefaultComment);
+    }
+  }, [problem, studentCodeSubmission]);
 
   // Derive readiness
   useEffect(() => {
@@ -142,9 +146,8 @@ const ProblemAttemptProvider = ({ children }) => {
     chatHistory?.messages?.length,
   ]);
 
-  // Helper to write back to per-user storage
   const persist = (nextMap) => {
-    if (!userStorageKey) return; // if not ready, don't persist yet
+    if (!userStorageKey) return;
     localStorage.setItem(userStorageKey, JSON.stringify(nextMap));
   };
 
@@ -182,9 +185,6 @@ const ProblemAttemptProvider = ({ children }) => {
     });
   };
 
-  /*
-   * Compile and submit attempt
-   */
   const saveStudentAttempt = () => {
     if (!score || String(score).length === 0) {
       toast.error("🚨 Please run your code before submitting! 🚨");
@@ -210,6 +210,10 @@ const ProblemAttemptProvider = ({ children }) => {
 
     saveProblemAttempt(toSave)
       .then(() => {
+        getLatestProblemAttemptForStudent(problemId, profile.email).then(
+          (attempt) => setProblemAttempt(attempt),
+        );
+
         toast.success("Your submission was saved successfully!");
         // clear score in case they update their code.
         updateStudentScore("");
