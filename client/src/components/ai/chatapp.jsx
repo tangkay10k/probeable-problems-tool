@@ -69,6 +69,7 @@ export default function ChatApp() {
 
         const newMessages = newHistory.messages;
         const content = newMessages[newMessages.length - 1].content;
+        console.log("Whats the content of latest msg?", content);
 
         if (content.asked_expected_output && content.test_case) {
           const executionResult = await executeOraclePistonDirect(
@@ -79,7 +80,8 @@ export default function ChatApp() {
           );
 
           const output = executionResult.run.output;
-          const userQuestion = newMessages[newMessages.length - 2].content;
+          const userQuestion =
+            newMessages[newMessages.length - 2].content.message;
 
           newHistory = await replaceWithOutputResponse(
             chatHistory.sessionId,
@@ -150,7 +152,12 @@ function ChatBubble({ chatMessage }) {
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
 
   const responseSchema = chatMessage.content;
-  const msg = responseSchema.message || responseSchema.test_case;
+  const message = responseSchema.message;
+  const testCase = responseSchema.test_case;
+  const msg = testCase
+    ? `${message}
+        ${testCase}`
+    : message;
 
   return (
     <div className={styles.bubbleContainer}>
@@ -182,7 +189,7 @@ function ChatBubble({ chatMessage }) {
 
       {!isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={userImage} alt="Client Logo"></img>
+          <img src={userImage} alt="You"></img>
         </div>
       )}
     </div>

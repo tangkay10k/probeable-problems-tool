@@ -1,11 +1,10 @@
 package akl.p4p.uoa.services;
 
-import akl.p4p.uoa.data.ChatContent;
-import akl.p4p.uoa.data.ChatMessage;
+import akl.p4p.uoa.data.*;
 import akl.p4p.uoa.data.ChatMessage.Role;
-import akl.p4p.uoa.data.ChatMessageConverter;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.prompts.ClientPrompts;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.lang.Nullable;
 import java.io.IOException;
@@ -33,6 +32,8 @@ public class AIService {
   private final ChatClient chatClient;
 
   private final ChatHistoryService chatHistoryService;
+
+  private final String TEST_ATTRIBUTE_NAME = "test_case";
 
   public AIService(ChatClient.Builder chatClientBuilder, ChatHistoryService chatHistoryService) {
 
@@ -155,12 +156,13 @@ public class AIService {
     if (!isReplace && chatContent.isAsked_expected_output()) {
       List<Message> filteredMessages =
           Arrays.asList(
-              sdkMessages.get(0),
+              //					sdkMessages.get(0),
               sdkMessages.get(1),
               sdkMessages.get(sdkMessages.size() - 1),
               new SystemMessage(ClientPrompts.clientTestCasePrompt()));
 
-      String testCase = generateTestCase(filteredMessages);
+      String rawRes = generateTestCase(filteredMessages);
+      String testCase = sanitizeLLMTestCaseResponse(rawRes);
       chatContent.setTest_case(testCase);
     }
 
@@ -176,7 +178,19 @@ public class AIService {
   public String generateTestCase(List<Message> messages) {
     OpenAiChatOptions options =
         OpenAiChatOptions.builder().model(OpenAiApi.ChatModel.O4_MINI).temperature(1D).build();
-
     return chatClient.prompt().options(options).messages(messages).call().content();
+  }
+
+  private String sanitizeLLMTestCaseResponse(String raw) {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      JsonNode root = mapper.readTree(raw);
+      if (root.has(TEST_ATTRIBUTE_NAME)) {
+        return root.get(TEST_ATTRIBUTE_NAME).asText();
+      }
+    } catch (Exception e) {
+      // Not JSON, just return as-is
+    }
+    return raw;
   }
 }

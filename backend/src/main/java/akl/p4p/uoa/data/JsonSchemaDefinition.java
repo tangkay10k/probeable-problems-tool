@@ -8,37 +8,45 @@ public class JsonSchemaDefinition {
   private static final String CLIENT_PROBE_SCHEMA =
       """
 			{
-				"type": "object",
-				"properties": {
-					"message": {
-					  "type": "string",
-					  "description": "The response of the client with the persona of a non-technical person"
-					},
-					"can_answer": {
-						"type": "boolean",
-						"description": "If the client is able to answer the question without executing the code"
-					},
-					"has_asked": {
-						"type": "boolean",
-						"description": "Flag indicating if the user has asked a similar or identical question"
-					},
-					"test_case": {
-						"type": "string",
-						"description": "The test case generated if the question has been asked before or if the user requests. Variable names MUST match the function signatures. Test cases should print the result unless the function returns void."
-					},
-					"constraint_targeting": {
-						"type": "number",
-						"description": "number indicating which constraint the user is aiming to find with their question, if their question doesn't apply to any constraint return -1"
-					},
-					"asked_expected_output": {
-						"type": "boolean",
-						"description": "True if the user asked explicitly about ."
-					}
-				},
-				"required": ["message", "can_answer", "has_asked", "constraint_targeting", "test_case", "asked_expected_output"],
-				"additionalProperties": false
+			  "type": "object",
+			  "properties": {
+			    "message": {
+			      "type": "string",
+			      "description": "The response of the client with the persona of a non-technical person"
+			    },
+			    "can_answer": {
+			      "type": "boolean",
+			      "description": "If the client is able to answer the question without executing the code"
+			    },
+			    "has_asked": {
+			      "type": "boolean",
+			      "description": "Flag indicating if the user has asked a similar or identical question"
+			    },
+			    "test_case": {
+			      "type": ["string", "null"],
+			      "default": null,
+			      "description": "Raw C snippet ONLY when TC triggers; otherwise null. Must declare variables, make one function call, and end with a single printf of the result; no comments/backticks/JSON/labels."
+			    },
+			    "constraint_targeting": {
+			      "type": "number",
+			      "description": "number indicating which constraint the user is aiming to find with their question, if their question doesn't apply to any constraint return -1"
+			    },
+			    "asked_expected_output": {
+			      "type": "boolean",
+			      "description": "True iff (1) the user explicitly asks for the expected result/behavior/output for a specific input or condition (including edge cases). A 'code test case' is a C snippet that uses the function signature’s variable names and ends with a single printf of the result. Examples that set this to true: 'If the input is empty, what happens?', 'For n = 5, what should it return?', 'Given [2,4,4], what is the output?'. False for general/open-ended requests like 'What do the inputs mean?', 'Give an example', or 'Provide a test case' (without specific values), and when `test_case` is null."
+			    }
+			  },
+			  "required": [
+			    "message",
+			    "can_answer",
+			    "has_asked",
+			    "constraint_targeting",
+			    "test_case",
+			    "asked_expected_output"
+			  ],
+			  "additionalProperties": false
 			}
-			 """;
+			""";
 
   private static final String DUPLICATE_QUESTION_SCHEMA =
       """

@@ -8,3 +8,13 @@ If the function returns void, call it directly with appropriate parameters.
 Parameter values must be relevant to the specific behaviour the user’s question is about.
 You must respond with code in the respective language do not respond with a message.
 
+Example test case format:
+int values[] = {1,2,3,4,5};
+int n = 5;
+int a = 0;
+int b = 5;
+int result = CountBetween(values, n, a, b);
+printf("%d", result);
+
+
+
