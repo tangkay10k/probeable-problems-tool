@@ -22,6 +22,8 @@ import TopToolbar from "./ui/top-tool-bar.jsx";
 import EditorPanel from "./ui/editor-panel.jsx";
 import TestSuitePanel from "./ui/test-suite-panel.jsx";
 import SubmitConfirmModal from "./ui/confirmation-modal.jsx";
+import Modal from "@/components/modal/modal.jsx";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
 
 export default function StageTwo() {
   const { problemId } = useParams();
@@ -42,6 +44,7 @@ export default function StageTwo() {
   const [selected, setSelected] = useState(0); // [0=Code, 1=Tests]
   const [showTestSuite, setShowTestSuite] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showRunConfirmation, setShowRunConfirmation] = useState(false);
 
   const { problem, template, defaultEditorSrc } = useProblemData(problemId);
 
@@ -78,13 +81,19 @@ export default function StageTwo() {
     setShowTestSuite(false);
   };
 
-  const handleExecution = async () => {
+  const confirmRun = () => {
     showEditor();
     const src = (studentCodeSubmission ?? "").trim();
     if (!src || src === defaultEditorSrc) {
       toast.error("Please write some code before running!");
       return;
     }
+
+    setShowRunConfirmation(true);
+  };
+
+  const handleExecution = async () => {
+    setShowRunConfirmation(false);
 
     await withLoading(
       () => run(studentCodeSubmission),
@@ -140,7 +149,7 @@ export default function StageTwo() {
           hasCompleted={hasCompleted}
           scoreText={scoreText}
           onReset={handleReset}
-          onRun={handleExecution}
+          onRun={confirmRun}
           onSubmit={confirmSubmissionIfFailedElseSubmit}
         />
 
@@ -168,6 +177,19 @@ export default function StageTwo() {
         numPassed={numPassed}
         total={problem?.testSuite?.length ?? 0}
       />
+      <Modal
+        title={"Have you met all your client's requirements?"}
+        isOpen={showRunConfirmation}
+        onClose={() => setShowRunConfirmation(false)}
+      >
+        {`Each unsuccessful run will incur a **1% penalty** on your final score unless you receive a compilation error. \n\n Your current penalty is: **${problemAttempt?.failedAttempts ?? 0}%** \n\n *\*Penalties are capped at 15%*`}
+        <section className={styles.modalBtns}>
+          <ButtonV2 onClick={() => setShowRunConfirmation(false)}>
+            Cancel
+          </ButtonV2>
+          <ButtonV2 onClick={handleExecution}>Run</ButtonV2>
+        </section>
+      </Modal>
     </div>
   );
 }

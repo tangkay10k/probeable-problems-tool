@@ -17,10 +17,23 @@ export default function DiffView({
   showInvisible = true,
   sideBySide = true,
 }) {
-  const parts = makeDiff(expected, actual, granularity);
+  // Normalize inputs so we never pass null/undefined to JsDiff
+  const safeExpected = String(expected ?? "");
+  const safeActual = String(actual ?? "");
+
+  const parts = makeDiff(safeExpected, safeActual, granularity);
 
   if (!sideBySide) {
-    return <div className="diff merged">{toSpans(parts, showInvisible)}</div>;
+    const isMergedEmpty = parts.length === 0;
+    return (
+      <div className="diff merged">
+        {isMergedEmpty ? (
+          <EmptyPlaceholder showInvisible={showInvisible} />
+        ) : (
+          toSpans(parts, showInvisible)
+        )}
+      </div>
+    );
   }
 
   // Side-by-side: derive left/right streams from a common diff
@@ -33,15 +46,30 @@ export default function DiffView({
     value: p.added || !p.removed ? p.value : "",
   }));
 
+  const leftIsEmpty = left.every((p) => !p.value);
+  const rightIsEmpty = right.every((p) => !p.value);
+
   return (
     <div className="diff sxs">
       <div className="panel">
         <div className="panel-title">Expected</div>
-        <pre className="code">{toSpans(left, showInvisible)}</pre>
+        <pre className="code">
+          {leftIsEmpty ? (
+            <EmptyPlaceholder showInvisible={showInvisible} />
+          ) : (
+            toSpans(left, showInvisible)
+          )}
+        </pre>
       </div>
       <div className="panel">
         <div className="panel-title">Actual</div>
-        <pre className="code">{toSpans(right, showInvisible)}</pre>
+        <pre className="code">
+          {rightIsEmpty ? (
+            <EmptyPlaceholder showInvisible={showInvisible} />
+          ) : (
+            toSpans(right, showInvisible)
+          )}
+        </pre>
       </div>
     </div>
   );
@@ -49,12 +77,21 @@ export default function DiffView({
 
 // ---- helpers ----
 
+function EmptyPlaceholder({ showInvisible }) {
+  // Use ∅ (empty set) when invisibles are shown, otherwise a subtle label
+  return (
+    <span className="diff-empty">
+      {showInvisible ? "∅ (empty string)" : "(empty)"}
+    </span>
+  );
+}
+
 function visualizeInvisibles(s) {
   return s
-    .replace(/ /g, " ") // space
+    .replace(/ /g, " ") // visualize spaces as middle dots
     .replace(/\t/g, "→\t") // tab (arrow marker, keep width)
     .replace(/\r/g, "␍") // carriage return
-    .replace(/\n/g, "\\n"); // newline marker + real line break
+    .replace(/\n/g, "\\n\n"); // show \n + keep real line break
 }
 
 function toSpans(parts, showInvis) {
@@ -62,11 +99,11 @@ function toSpans(parts, showInvis) {
     const cls = p.added ? "diff-ins" : p.removed ? "diff-del" : "diff-same";
     const text = showInvis ? visualizeInvisibles(p.value) : p.value;
 
-    // Preserve line breaks for wrapping while keeping markers visible
     const nodes = text.split("\n").flatMap((line, j, arr) => {
       const chunk = (
         <span key={`${i}-${j}`} className={cls}>
-          {line}
+          {line.length === 0 ? "\u00A0" : line}{" "}
+          {/* keep height for blank lines */}
         </span>
       );
       return j < arr.length - 1

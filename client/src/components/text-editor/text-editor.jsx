@@ -67,7 +67,7 @@ export const TextEditor = forwardRef(
       fontSize,
       lineNumbers,
       wordWrap: "on",
-      fontLigatures: true,
+      fontLigatures: false, //😭😭😭
       fontFamily: "JetBrains Mono, monospace",
       scrollBeyondLastLine: false,
     };

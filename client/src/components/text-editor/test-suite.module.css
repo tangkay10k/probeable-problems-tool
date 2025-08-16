@@ -50,6 +50,12 @@
   background-color: var(--fail-red-light);
 }
 
+.pill.compile {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid var(--caution-yellow);
+}
+
 .expectedBlock {
   display: flex;
   align-items: center;

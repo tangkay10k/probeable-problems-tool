@@ -43,3 +43,5 @@ export const CLIENT_HELP =
 export const ORACLE_HELP =
   "You can play around with the inputs and click the **Run** button to see the expected output of the" +
   " function(s)!\n\nClicking **⟲** will reset inputs back to default values.";
+
+export const EXECUTION__CONFIRMATION = ``;
