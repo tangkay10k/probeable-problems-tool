@@ -27,9 +27,15 @@ export const submitUserMessage = async (
   return res.data;
 };
 
-export const replaceWithOutputReponse = async (sessionId, output, testCase) => {
+export const replaceWithOutputResponse = async (
+  sessionId,
+  question,
+  output,
+  testCase,
+) => {
   const payload = {
     sessionId: sessionId,
+    questionAsked: question,
     output,
     testCase,
   };

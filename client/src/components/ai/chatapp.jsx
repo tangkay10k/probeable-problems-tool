@@ -6,7 +6,7 @@ import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import {
   submitUserMessage,
-  replaceWithOutputReponse,
+  replaceWithOutputResponse,
 } from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
@@ -88,6 +88,7 @@ export default function ChatApp() {
 
         const newMessages = newHistory.messages;
         const content = newMessages[newMessages.length - 1].content;
+        console.log("Whats the content of latest msg?", content);
 
         if (content.asked_expected_output && content.test_case) {
           const executionResult = await executeOraclePistonDirect(
@@ -98,9 +99,12 @@ export default function ChatApp() {
           );
 
           const output = executionResult.run.output;
+          const userQuestion =
+            newMessages[newMessages.length - 2].content.message;
 
-          newHistory = await replaceWithOutputReponse(
+          newHistory = await replaceWithOutputResponse(
             chatHistory.sessionId,
+            userQuestion,
             output,
             content.test_case,
           );
@@ -178,7 +182,12 @@ function ChatBubble({ chatMessage }) {
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
 
   const responseSchema = chatMessage.content;
-  const msg = responseSchema.message;
+  const message = responseSchema.message;
+  const testCase = responseSchema.test_case;
+  const msg = testCase
+    ? `${message}
+        ${testCase}`
+    : message;
 
   return (
     <div className={styles.bubbleContainer}>
@@ -210,7 +219,7 @@ function ChatBubble({ chatMessage }) {
 
       {!isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={userImage} alt="Client Logo"></img>
+          <img src={userImage} alt="You"></img>
         </div>
       )}
     </div>

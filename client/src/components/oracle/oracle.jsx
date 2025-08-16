@@ -9,7 +9,7 @@ import { DEFAULT_PROBES_KEY } from "@/context/context-utils.js";
 import { handleBuggyProbeExecution } from "@/pages/question-setup/utils/buggy-solutions-setup-utils";
 import { saveEquivalenceClass } from "@/routes/problem-attempt-route";
 import { toast } from "react-toastify";
-import { sleep } from "@/utils/utils.js";
+import { sleep, stripCommentsFromCode } from "@/utils/utils.js";
 import { MdOutlinePlayArrow as PlayIcon } from "react-icons/md";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
@@ -43,8 +43,8 @@ export default function Oracle({
     if (latestMessage?.role === "user") return;
 
     const responseSchema = latestMessage?.content;
-    if (responseSchema?.test_case) {
-      setInputVariables(responseSchema.test_case);
+    if (responseSchema.test_case) {
+      setInputVariables(stripCommentsFromCode(responseSchema.test_case));
       llmGeneratedTestCaseCallback?.(1);
     }
   }, [problemAttempt, chatHistory, llmGeneratedTestCaseCallback]);
