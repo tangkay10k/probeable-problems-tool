@@ -1,5 +1,14 @@
 void SmallestEven(int values[], int length) {
 
+    if (length <= 0) {
+        printf("%s", "No evens");
+        return;
+    }
+
+    if (length > sizeOf(values)) {
+        length = sizeOf(values);
+    }
+
     int *smallest = malloc(length * sizeof(int));
     int smolNum = 100000;
 

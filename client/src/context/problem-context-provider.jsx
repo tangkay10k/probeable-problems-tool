@@ -75,11 +75,21 @@ export function ProblemProvider({ children }) {
       problem: { ...prev.problem, modelAnswer },
     }));
   };
-  const setTestSuite = (testSuite) => {
-    setCreationState((prev) => ({
-      ...prev,
-      problem: { ...prev.problem, testSuite },
-    }));
+  const setTestSuite = (updater) => {
+    setCreationState((prev) => {
+      const current = Array.isArray(prev.problem?.testSuite)
+        ? prev.problem.testSuite
+        : [];
+      const next =
+        typeof updater === "function" ? updater(current) : (updater ?? []);
+      return {
+        ...prev,
+        problem: {
+          ...prev.problem,
+          testSuite: next,
+        },
+      };
+    });
   };
 
   const setOracle = (defaultProbe) => {

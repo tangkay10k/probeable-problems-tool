@@ -23,6 +23,7 @@ export function TestSuiteList({
       const next = Array.isArray(tests)
         ? tests.map((t, i) => (i === index ? { ...t, [field]: value } : t))
         : [];
+      console.log(next);
 
       setTests(next);
     },
@@ -44,18 +45,19 @@ export function TestSuiteList({
 
   return (
     <div className={styles.testContainer}>
-      {tests.map((test, idx) => (
-        <TestCase
-          key={idx}
-          index={idx}
-          test={test}
-          result={results[idx]}
-          language={language}
-          isEditable={isEditable}
-          onUpdate={(field, value) => updateTest(idx, field, value)}
-          onDelete={() => deleteTest(idx)}
-        />
-      ))}
+      {tests &&
+        tests.map((test, idx) => (
+          <TestCase
+            key={idx}
+            index={idx}
+            test={test}
+            result={results[idx]}
+            language={language}
+            isEditable={isEditable}
+            onUpdate={(field, value) => updateTest(idx, field, value)}
+            onDelete={() => deleteTest(idx)}
+          />
+        ))}
 
       {isEditable && (
         <div className={styles.addButtonContainer}>
@@ -212,8 +214,8 @@ export function EditableTestCase({
           <ToggleButton
             checked={test.hidden}
             onChange={() => onUpdate("hidden", !test.hidden)}
-            leftText="Hidden"
-            rightText="Visible"
+            leftText="Visible"
+            rightText="Hidden"
           />
           <DeleteButton onClick={onDelete}>X</DeleteButton>
         </div>

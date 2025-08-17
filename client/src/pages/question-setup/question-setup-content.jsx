@@ -12,7 +12,7 @@ import { createProblem } from "@/routes/problem-route.js";
 
 export default function QuestionSetupContent() {
   const [isLoading, withLoading] = useWithLoading();
-  const { problem, oracle } = useProblemContext();
+  const { problem } = useProblemContext();
   const saveQuestion = () => {
     if (
       !problem.problemStatement ||
