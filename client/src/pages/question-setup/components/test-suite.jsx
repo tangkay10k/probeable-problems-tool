@@ -12,7 +12,7 @@ import { useProblemContext } from "@/context/problem-context-provider.jsx";
 import { useState } from "react";
 
 export default function TestSuite() {
-  const { problem, setProblem, testTemplate, setLanguage, setTestSuite } =
+  const { problem, testTemplate, setLanguage, setTestSuite } =
     useProblemContext();
 
   const [isLoading, withLoading] = useWithLoading();
