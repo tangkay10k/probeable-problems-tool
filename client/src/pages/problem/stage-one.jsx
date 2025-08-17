@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import {
+  STAGE_ONE_FULL,
+  STAGE_ONE_ORACLE,
+  STAGE_ONE_NATURAL_LANGUAGE,
   CLIENT_HELP,
   ORACLE_HELP,
-  STAGE_ONE,
 } from "@/pages/problem/data/instructions.js";
 import styles from "@/pages/problem/problemPage.module.css";
 import Tabs from "@/components/tabs/tabs.jsx";
@@ -20,20 +22,32 @@ import OracleHistory from "@/components/oracle/oracle-history.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { NATURAL_LANGUAGE, ORACLE as ORACLE_VARIANT, FULL } from "@/constants/problem-constants.js";
 
-const TABS = [
-  {
-    label: "Task",
-    content: <StudentInstruction instruction={STAGE_ONE.content} />,
-  },
-  { label: "Run History", content: <OracleHistory /> },
-];
-
 export default function StageOne() {
   const { problem } = useProblemAttemptContext();
   const variant = problem?.problemVariant;
 
   const showClient = variant === FULL || variant === NATURAL_LANGUAGE;
   const showRun = variant === FULL || variant === ORACLE_VARIANT;
+
+  const instruction =
+    variant === FULL
+      ? STAGE_ONE_FULL
+      : variant === ORACLE_VARIANT
+      ? STAGE_ONE_ORACLE
+      : STAGE_ONE_NATURAL_LANGUAGE;
+
+  const TABS = useMemo(() => {
+    const tabs = [
+      {
+        label: "Task",
+        content: <StudentInstruction instruction={instruction.content} />,
+      },
+    ];
+    if (showRun) {
+      tabs.push({ label: "Run History", content: <OracleHistory /> });
+    }
+    return tabs;
+  }, [showRun]);
 
   const panels = useMemo(() => {
     const arr = [];
@@ -75,7 +89,7 @@ export default function StageOne() {
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.leftContainer}>
-        <Tabs ref={tabsRef} tabs={TABS} defaultIndex={1} />
+        <Tabs ref={tabsRef} tabs={TABS} defaultIndex={0} />
       </div>
 
       <div className={styles.rightContainer}>

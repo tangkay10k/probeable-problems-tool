@@ -1,4 +1,4 @@
-export const STAGE_ONE = {
+export const STAGE_ONE_FULL = {
   title: "Tasks",
   content:
     "You are a software engineer. \n" +
@@ -12,7 +12,17 @@ export const STAGE_ONE = {
     "Once you fully understand what the client wants, proceed to the next page.",
 };
 
-export const STAGE_ONE_CONCISE = {
+export const STAGE_ONE_ORACLE = {
+  title: "Tasks",
+  content: "KAY TO UPDATE"
+};
+
+export const STAGE_ONE_NATURAL_LANGUAGE = {
+  title: "Tasks",
+  content: "KAY TO UPDATE"
+};
+
+export const STAGE_ONE_CONCISE_FULL = {
   title: "Tasks",
   content:
     "You have been approached by a non-technical client. \n\n**Ask precise questions to clarify" +
@@ -21,6 +31,17 @@ export const STAGE_ONE_CONCISE = {
     "Once you’re confident in the requirements, proceed to implement your solution.",
 };
 
+
+export const STAGE_ONE_CONCISE_ORACLE = {
+  title: "Tasks",
+  content: "KAY TO UPDATE"
+};
+
+
+export const STAGE_ONE_CONCISE_NATURAL_LANGUAGE = {
+  title: "Tasks",
+  content: "KAY TO UPDATE"
+};
 export const STAGE_TWO = {
   title: "Tasks",
   content: `Now that you understand what your client is looking for, its time for you to deliver a solution that meets their requirements!
