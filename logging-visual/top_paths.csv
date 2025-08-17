@@ -1,0 +1,16 @@
+path,length,count
+Modal Click → Ran Tests,2,4
+Button Click → Modal Click,2,3
+Ran Tests → Button Click,2,3
+Oracle Run → TYPED,2,2
+Oracle Run → TYPED → Oracle Run,3,2
+TYPED → Oracle Run,2,2
+Ready to Code → Viewed Task,2,2
+AI Execute → Modal Click,2,2
+AI Execute → Modal Click → Code Edit,3,2
+AI Execute → Modal Click → Code Edit → Ran Tests,4,2
+Modal Click → Code Edit,2,2
+Modal Click → Code Edit → Ran Tests,3,2
+Code Edit → Ran Tests,2,2
+Button Click → Modal Click → Ran Tests,3,2
+Button Click → Modal Click → Ran Tests → Button Click,4,2
