@@ -234,6 +234,7 @@ const ProblemAttemptProvider = ({ children }) => {
     <ProblemAttemptContext.Provider
       value={{
         problemAttempt,
+        setProblemAttempt,
         chatHistory,
         setChatHistory,
         isProblemReady,

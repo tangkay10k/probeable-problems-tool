@@ -28,6 +28,7 @@ public class ProblemAttempt {
   private String notesTaken;
   private String agentPrompt;
   private List<OracleExecution> oracleExecutionHistory;
+  private int failedAttempts;
 
   // Used to store frequency of eq class targeted by student: [constraintNum, freq]
   private Map<Integer, Integer> clientEquivalenceMap = new HashMap<>();

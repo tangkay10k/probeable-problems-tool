@@ -65,3 +65,8 @@ export const saveEquivalenceClass = async (
     },
   );
 };
+
+export const updateFailedAttempts = async (problemAttemptId) => {
+  const res = await axiosClient.put(`/api/problemAttempt/${problemAttemptId}/failedAttempts`);
+  return res.data;
+};
