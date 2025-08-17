@@ -20,9 +20,11 @@ read_default() { # read_default "Prompt" "default" -> echoes value
 }
 
 confirm() {
-  local msg="$1"
+  local msg="$1" resp resp_lc
   read -r -p "$msg [y/N]: " resp || true
-  [[ "${resp,,}" == "y" || "${resp,,}" == "yes" ]]
+  # Bash 3.2 on macOS doesn't support ${var,,}; use tr instead
+  resp_lc="$(printf '%s' "${resp:-}" | tr '[:upper:]' '[:lower:]')"
+  [[ "$resp_lc" == "y" || "$resp_lc" == "yes" ]]
 }
 
 echo "=== Source (local) MongoDB collection ==="
@@ -43,7 +45,6 @@ if [[ "$SRC_URI" == "$DST_URI" && "$SRC_DB" == "$DST_DB" && "$SRC_COLL" == "$DST
 fi
 
 # Optional extra args (set via env if you need TLS, auth db, etc.)
-# Example:
 #   export EXTRA_DUMP_ARGS="--readPreference=primary"
 #   export EXTRA_RESTORE_ARGS="--writeConcern=majority"
 EXTRA_DUMP_ARGS="${EXTRA_DUMP_ARGS:-}"
@@ -62,8 +63,6 @@ case "${CHOICE}" in
     echo "Note: --upsert means matching _id documents will be updated; new docs inserted."
     if ! confirm "Proceed?"; then echo "Cancelled."; exit 0; fi
 
-    # Dump only the source collection to an archive stream, restore into target with ns mapping.
-    # --upsert avoids duplicate key errors on _id and updates existing docs.
     set -o pipefail
     mongodump \
       --uri="$SRC_URI" \
@@ -92,4 +91,21 @@ case "${CHOICE}" in
     mongodump \
       --uri="$SRC_URI" \
       --db="$SRC_DB" \
-      --collection="$SRC_C_
+      --collection="$SRC_COLL" \
+      --archive \
+      $EXTRA_DUMP_ARGS \
+    | mongorestore \
+        --uri="$DST_URI" \
+        --archive \
+        --nsFrom="${SRC_DB}.${SRC_COLL}" \
+        --nsTo="${DST_DB}.${DST_COLL}" \
+        --drop \
+        $EXTRA_RESTORE_ARGS
+
+    echo "Done: replaced ${DST_DB}.${DST_COLL} with data from ${SRC_DB}.${SRC_COLL}."
+    ;;
+
+  *)
+    die "Invalid choice. Enter 1 or 2."
+    ;;
+esac
