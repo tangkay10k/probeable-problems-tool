@@ -88,7 +88,6 @@ export default function ChatApp() {
 
         const newMessages = newHistory.messages;
         const content = newMessages[newMessages.length - 1].content;
-        console.log("Whats the content of latest msg?", content);
 
         if (content.asked_expected_output && content.test_case) {
           const executionResult = await executeOraclePistonDirect(

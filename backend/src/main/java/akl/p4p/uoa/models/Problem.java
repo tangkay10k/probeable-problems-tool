@@ -3,7 +3,9 @@ package akl.p4p.uoa.models;
 import akl.p4p.uoa.data.BuggyCodes.BuggyCode;
 import akl.p4p.uoa.data.Test;
 import akl.p4p.uoa.enums.ProblemType;
+import akl.p4p.uoa.enums.ProblemVariant;
 import akl.p4p.uoa.enums.ProgramLanguage;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -22,7 +24,7 @@ public class Problem {
 
   private String constraints;
 
-  private List<Test> testSuite;
+  private List<Test> testSuite = new ArrayList<>();
 
   private ProgramLanguage programLanguage;
 
@@ -30,9 +32,12 @@ public class Problem {
 
   private String defaultProbe;
 
-  private List<BuggyCode> buggy_codes;
+  private List<BuggyCode> buggy_codes = new ArrayList<>();
 
   private String functionName;
 
   private String editorDefaultComment = "REPLACE ME IN MONGO";
+
+  private ProblemVariant problemVariant =
+      ProblemVariant.FULL; // Default to having both client and oracle.
 }
