@@ -35,6 +35,8 @@ public class AIService {
 
   private final String TEST_ATTRIBUTE_NAME = "test_case";
 
+  private final String CLIENT_RESPONSE_SCHEMA_NAME = "CLIENT_PROBE_SCHEMA";
+
   public AIService(ChatClient.Builder chatClientBuilder, ChatHistoryService chatHistoryService) {
 
     this.chatClient = chatClientBuilder.build();
@@ -91,6 +93,25 @@ public class AIService {
     return responseFormat;
   }
 
+  public ResponseFormat getResponseType(String responseSchema, String schemaName) {
+    ResponseFormat rf = new ResponseFormat();
+    if (responseSchema != null) {
+      rf.setType(ResponseFormat.Type.JSON_SCHEMA);
+
+      ResponseFormat.JsonSchema js =
+          ResponseFormat.JsonSchema.builder()
+              .name(schemaName)
+              .schema(responseSchema)
+              .strict(Boolean.TRUE)
+              .build();
+
+      rf.setJsonSchema(js);
+    } else {
+      rf.setType(ResponseFormat.Type.TEXT);
+    }
+    return rf;
+  }
+
   /**
    * Send a user message within a session, maintaining the chat history.
    *
@@ -143,7 +164,7 @@ public class AIService {
         OpenAiChatOptions.builder()
             .model(OpenAiApi.ChatModel.O4_MINI)
             .temperature(1D)
-            .responseFormat(getResponseType(responseSchema))
+            .responseFormat(getResponseType(responseSchema, CLIENT_RESPONSE_SCHEMA_NAME))
             .build();
 
     String assistantReply =
@@ -153,11 +174,14 @@ public class AIService {
 
     ChatContent chatContent = objectMapper.readValue(assistantReply, ChatContent.class);
 
-    if (!isReplace && chatContent.isAsked_expected_output()) {
+    // Only replace IFF user has submitted a message. if isAsked_expected_output is accidentally
+    // true
+    // No index out of bounds.
+    if (!isReplace && chatContent.isAsked_expected_output() && sdkMessages.size() > 2) {
       List<Message> filteredMessages =
           Arrays.asList(
               //				sdkMessages.get(0),
-              //              sdkMessages.get(1),
+              sdkMessages.get(1),
               sdkMessages.get(sdkMessages.size() - 1),
               new SystemMessage(ClientPrompts.clientTestCasePrompt()));
 

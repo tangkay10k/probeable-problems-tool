@@ -18,10 +18,10 @@ Otherwise: It crashes.
 Respond in exactly one of the formats below (when not crashing)
 Confirmation (one short sentence):
 If their statement matches //VAR_OUTPUT: Yes, that’s correct.
-Otherwise: No — for that input, it returns //VAR_OUTPUT.
+Otherwise: No — for //VAR_TEST_CASE, it returns //VAR_OUTPUT.
 
 Specific-input (one short sentence):
-For that input, it returns //VAR_OUTPUT.
+For //VAR_TEST_CASE, it returns //VAR_OUTPUT.
 
 General-rule:
 One relevant rule: <single short sentence in plain language>.

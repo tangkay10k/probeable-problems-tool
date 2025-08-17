@@ -22,7 +22,8 @@ public class ClientPrompts {
       String constraints)
       throws IOException {
 
-    String basePrompt = clientBasePrompt(problemStatement, modelAnswer, constraints);
+    String basePrompt =
+        clientBasePrompt(problemLanguage.toString(), problemStatement, modelAnswer, constraints);
     String specificInstructions;
     switch (problemLanguage) {
       case C -> specificInstructions = getCSpecificInstructions();
@@ -35,7 +36,8 @@ public class ClientPrompts {
   }
 
   public static String clientBasePrompt(
-      String problemStatement, String modelAnswer, String constraints) throws IOException {
+      String problemLanguage, String problemStatement, String modelAnswer, String constraints)
+      throws IOException {
     String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_BASE_PROMPT_FILE);
     String functionSignature = modelAnswer.split("\\{")[0].trim();
 
@@ -43,7 +45,10 @@ public class ClientPrompts {
         .replace("//VAR_PROBLEM_STATEMENT", problemStatement.toLowerCase())
         .replace("//VAR_MODEL_ANSWER", modelAnswer)
         .replace("//VAR_CONSTRAINTS", constraints)
-        .replace("//VAR_FUNCTION_SIGNATURE", functionSignature);
+        .replace("//VAR_FUNCTION_SIGNATURE", functionSignature)
+        .replace("//VAR_PROGRAM_LANGUAGE", problemLanguage)
+        .replace("//VAR_IS_NEW_SESSION", "true")
+        .replace("//VAR_TURN_INDEX", "0");
   }
 
   public static String clientExplanationPrompt(String questionAsked, String output, String testCase)

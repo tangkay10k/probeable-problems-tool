@@ -48,19 +48,6 @@ public class JsonSchemaDefinition {
 			}
 			""";
 
-  private static final String DUPLICATE_QUESTION_SCHEMA =
-      """
-			{
-			  "type": "object",
-			  "properties": {
-			    "suggestion":{ "type": "string"  },
-			    "isDuplicateQuestion":{ "type": "boolean"  }
-			  },
-			  "required": ["suggestion","isDuplicateQuestion"],
-			  "additionalProperties": false
-			}
-			""";
-
   private static final String TEST_CASE_SCHEMA =
       """
 			{

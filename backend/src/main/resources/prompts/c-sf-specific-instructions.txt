@@ -4,6 +4,7 @@ Language Rules:
 single `printf` output line; no prose.
 
 Example test case format:
+[INTERNAL REFERENCE — DO NOT OUTPUT UNLESS TC TRIGGERS]
 int values[] = {1,2,3,4,5};
 int n = 5;
 int a = 0;
