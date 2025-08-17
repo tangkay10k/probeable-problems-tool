@@ -156,8 +156,8 @@ public class AIService {
     if (!isReplace && chatContent.isAsked_expected_output()) {
       List<Message> filteredMessages =
           Arrays.asList(
-              //					sdkMessages.get(0),
-              sdkMessages.get(1),
+              //				sdkMessages.get(0),
+              //              sdkMessages.get(1),
               sdkMessages.get(sdkMessages.size() - 1),
               new SystemMessage(ClientPrompts.clientTestCasePrompt()));
 
