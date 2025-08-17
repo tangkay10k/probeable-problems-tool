@@ -2,6 +2,9 @@ import { useCallback, useState } from "react";
 import { SPLIT_STRING } from "@/constants/setup-constants";
 import { handleTestSuiteExecution } from "@/pages/question-setup/utils/test-setup-utils.js";
 import { Action, Component } from "@/constants/logConstants.js";
+import useWithLoading from "@/hooks/useWithLoading.js";
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+import { updateFailedAttempts } from "@/routes/problem-attempt-route";
 
 export default function useTestRunner({
   problem,
@@ -9,6 +12,8 @@ export default function useTestRunner({
   addLog,
   updateStudentScore,
 }) {
+  const { problemAttempt, setProblemAttempt } = useProblemAttemptContext();
+  const [_, withLoading] = useWithLoading();
   const [results, setResults] = useState([]);
   const [numPassed, setNumPassed] = useState(0);
 
@@ -16,7 +21,7 @@ export default function useTestRunner({
     async (implementation) => {
       if (!problem || !template) return null;
 
-      const updateResults = (execution) => {
+      const updateResults = async (execution) => {
         const output = execution.run.output ?? "";
         const lines = output.split(SPLIT_STRING);
         let passedCount = 0;
@@ -35,6 +40,17 @@ export default function useTestRunner({
         setResults(next);
         setNumPassed(passedCount);
         const score = `${passedCount}/${problem?.testSuite?.length ?? 0}`;
+
+        if (passedCount !== problem?.testSuite?.length) {
+          await withLoading(
+            () => updateFailedAttempts(problemAttempt.id),
+            (updatedProblemAttempt) => {
+              setProblemAttempt(updatedProblemAttempt);
+            },
+            console.error,
+          );
+        }
+
         updateStudentScore(score);
 
         addLog({
