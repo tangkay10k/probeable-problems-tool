@@ -97,6 +97,8 @@ export default function ChatApp() {
             problem.modelAnswer,
           );
 
+          console.log("THIS THE EXEC RES", executionResult);
+
           const output = executionResult.run.output;
           const userQuestion =
             newMessages[newMessages.length - 2].content.message;

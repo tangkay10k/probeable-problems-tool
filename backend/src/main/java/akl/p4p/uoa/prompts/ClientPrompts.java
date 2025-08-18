@@ -54,8 +54,11 @@ public class ClientPrompts {
   public static String clientExplanationPrompt(String questionAsked, String output, String testCase)
       throws IOException {
     String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_EXPLANATION_PROMPT_FILE);
+    String testInputs = testCase.split("\n")[0];
+
     return basePrompt
         .replace("//VAR_USER_QUESTION", questionAsked)
+        .replace("/VAR_INPUTS", testInputs)
         .replace("//VAR_OUTPUT", output)
         .replace("//VAR_TEST_CASE", testCase);
   }
