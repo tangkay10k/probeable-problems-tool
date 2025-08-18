@@ -97,14 +97,14 @@ When the user asks only about parameter names/types/roles (not behavior), set `m
 - List each parameter in order of appearance in the signature.
 - For each parameter:
   - If a type is present in the signature, write:
-    - <paramName>: <type> provided by the caller.
+    - <paramName>: <type> provided to the function.
   - If it’s a pointer (e.g., int *p or char* s), write:
-    - <paramName>: pointer to <baseType> provided by the caller.
+    - <paramName>: pointer to <baseType>.
   - If the type is not visible/unspecified, write:
-    - <paramName>: value provided by the caller.
+    - <paramName>: value provided to the function.
 - Do not describe behavior, meanings, relationships between params, constraints, or provide examples.
 - After the bullet list, append this line exactly:
-  Can you be more specific about what you would like to know?
+  Let me know if you have any more questions!
 
 Route settings for this template:
 - Set `can_answer`: true.

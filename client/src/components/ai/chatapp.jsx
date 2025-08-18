@@ -14,7 +14,7 @@ import Banner from "@/components/banner/banner.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
-import { executeCodePistonDirectSilently } from "@/routes/code-route.js";
+import { executeChatTestCaseSilently } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
@@ -94,7 +94,7 @@ export default function ChatApp() {
           return newHistory;
         }
 
-        const res = await executeCodePistonDirectSilently(
+        const res = await executeChatTestCaseSilently(
           problemAttempt?.problemLanguage,
           executeTemplate.template,
           content.test_case,
