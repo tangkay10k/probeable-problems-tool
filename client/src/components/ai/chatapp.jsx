@@ -5,15 +5,16 @@ import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import {
-  submitUserMessage,
+  replaceAssistantMessage,
   replaceWithOutputResponse,
+  submitUserMessage,
 } from "@/routes/problem-attempt-route.js";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import Banner from "@/components/banner/banner.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
-import { executeOraclePistonDirect } from "@/routes/code-route.js";
+import { executeCodePistonDirectSilently } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
@@ -89,27 +90,37 @@ export default function ChatApp() {
         const newMessages = newHistory.messages;
         const content = newMessages[newMessages.length - 1].content;
 
-        if (content.asked_expected_output && content.test_case) {
-          const executionResult = await executeOraclePistonDirect(
-            problemAttempt?.problemLanguage,
-            executeTemplate.template,
-            content.test_case,
-            problem.modelAnswer,
-          );
-
-          const output = executionResult.run.output;
-          const userQuestion =
-            newMessages[newMessages.length - 2].content.message;
-
-          newHistory = await replaceWithOutputResponse(
-            chatHistory.sessionId,
-            userQuestion,
-            output,
-            content.test_case,
-          );
+        if (!(content.asked_expected_output && content.test_case)) {
+          return newHistory;
         }
 
-        return newHistory;
+        const res = await executeCodePistonDirectSilently(
+          problemAttempt?.problemLanguage,
+          executeTemplate.template,
+          content.test_case,
+          problem.modelAnswer,
+        );
+
+        if (res.status === 429) {
+          // If we get rate limited.
+          return clientTemporarilyUnavailable();
+        }
+
+        const execRes = res.data;
+        if (!validateTestExecuted(execRes)) {
+          return clientTemporarilyUnavailable();
+        }
+
+        const output = execRes.run.output;
+        const userQuestion =
+          newMessages[newMessages.length - 2].content.message;
+
+        return await replaceWithOutputResponse(
+          chatHistory.sessionId,
+          userQuestion,
+          output,
+          content.test_case,
+        );
       },
       (newHistory) => {
         setChatHistory(newHistory);
@@ -126,6 +137,18 @@ export default function ChatApp() {
       console.error,
     );
   };
+
+  function validateTestExecuted(execution) {
+    return !(execution.compile.code !== 0 || execution.run.code !== 0);
+  }
+
+  async function clientTemporarilyUnavailable() {
+    return await replaceAssistantMessage(chatHistory.sessionId, {
+      content: {
+        message: `I'm out for coffee atm. Can you ask me again later!?`,
+      },
+    });
+  }
 
   const rightIcon = (
     <>
@@ -218,7 +241,7 @@ function ChatBubble({ chatMessage }) {
 
       {!isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={userImage} alt="You"></img>
+          <img src={userImage} referrerPolicy="no-referrer" alt="You"></img>
         </div>
       )}
     </div>

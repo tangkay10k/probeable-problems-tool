@@ -35,6 +35,8 @@ public class AIService {
 
   private final String TEST_ATTRIBUTE_NAME = "test_case";
 
+  private final String CLIENT_RESPONSE_SCHEMA_NAME = "CLIENT_PROBE_SCHEMA";
+
   public AIService(ChatClient.Builder chatClientBuilder, ChatHistoryService chatHistoryService) {
 
     this.chatClient = chatClientBuilder.build();
@@ -57,6 +59,15 @@ public class AIService {
   public String executeOneTimeLLMCallStudent(String systemPrompt, @Nullable String responseSchema) {
     return executeOneTimeLLMCall(
         systemPrompt, responseSchema, TOP_P_VAL, TEMP_VAL, OpenAiApi.ChatModel.GPT_4_O);
+  }
+
+  public String executeOneTimeLLMCall(
+      String systemPrompt,
+      @Nullable String responseSchema,
+      OpenAiApi.ChatModel model,
+      double topP,
+      double temperature) {
+    return executeOneTimeLLMCall(systemPrompt, responseSchema, topP, temperature, model);
   }
 
   public String executeOneTimeLLMCall(
@@ -89,6 +100,25 @@ public class AIService {
       responseFormat.setType(ResponseFormat.Type.TEXT);
     }
     return responseFormat;
+  }
+
+  public ResponseFormat getResponseType(String responseSchema, String schemaName) {
+    ResponseFormat rf = new ResponseFormat();
+    if (responseSchema != null) {
+      rf.setType(ResponseFormat.Type.JSON_SCHEMA);
+
+      ResponseFormat.JsonSchema js =
+          ResponseFormat.JsonSchema.builder()
+              .name(schemaName)
+              .schema(responseSchema)
+              .strict(Boolean.TRUE)
+              .build();
+
+      rf.setJsonSchema(js);
+    } else {
+      rf.setType(ResponseFormat.Type.TEXT);
+    }
+    return rf;
   }
 
   /**
@@ -143,7 +173,7 @@ public class AIService {
         OpenAiChatOptions.builder()
             .model(OpenAiApi.ChatModel.O4_MINI)
             .temperature(1D)
-            .responseFormat(getResponseType(responseSchema))
+            .responseFormat(getResponseType(responseSchema, CLIENT_RESPONSE_SCHEMA_NAME))
             .build();
 
     String assistantReply =
@@ -153,10 +183,11 @@ public class AIService {
 
     ChatContent chatContent = objectMapper.readValue(assistantReply, ChatContent.class);
 
-    if (!isReplace && chatContent.isAsked_expected_output()) {
+    // Only replace IFF user has submitted a message. No index out of bounds.
+    if (!isReplace && chatContent.isAsked_expected_output() && sdkMessages.size() > 2) {
       List<Message> filteredMessages =
           Arrays.asList(
-              //					sdkMessages.get(0),
+              // sdkMessages.get(0),
               sdkMessages.get(1),
               sdkMessages.get(sdkMessages.size() - 1),
               new SystemMessage(ClientPrompts.clientTestCasePrompt()));
@@ -179,6 +210,67 @@ public class AIService {
     OpenAiChatOptions options =
         OpenAiChatOptions.builder().model(OpenAiApi.ChatModel.O4_MINI).temperature(1D).build();
     return chatClient.prompt().options(options).messages(messages).call().content();
+  }
+
+  /**
+   * Overwrite the most recent ASSISTANT message in a session's history.
+   *
+   * @param sessionId the chat session id
+   * @param replacement the ChatMessage to store (role will be forced to ASSISTANT)
+   * @param appendIfMissing if true and no assistant message exists, append instead of throwing
+   * @return the updated ChatHistory
+   * @throws IllegalStateException if no history exists or no assistant message and
+   *     appendIfMissing=false
+   */
+  public ChatHistory overwriteLastAssistantMessage(
+      String sessionId, ChatMessage replacement, boolean appendIfMissing) {
+    ChatHistory sessionHistory = chatHistoryService.loadHistory(sessionId);
+    if (sessionHistory == null || sessionHistory.getMessages() == null) {
+      throw new IllegalStateException("No chat history found for sessionId=" + sessionId);
+    }
+
+    List<ChatMessage> history = sessionHistory.getMessages();
+
+    // Find last ASSISTANT message
+    int idx = -1;
+    for (int i = history.size() - 1; i >= 0; i--) {
+      ChatMessage m = history.get(i);
+      if (m.getRole() == Role.ASSISTANT) {
+        idx = i;
+        break;
+      }
+    }
+
+    // Normalize role to ASSISTANT no matter what came in
+    replacement.setRole(Role.ASSISTANT);
+
+    if (idx >= 0) {
+      history.set(idx, replacement);
+    } else if (appendIfMissing) {
+      history.add(replacement);
+    } else {
+      throw new IllegalStateException(
+          "No assistant message to overwrite for sessionId=" + sessionId);
+    }
+
+    return chatHistoryService.saveHistory(sessionHistory);
+  }
+
+  /** Convenience overload: pass a ChatContent and wrap it as an ASSISTANT ChatMessage. */
+  public ChatHistory overwriteLastAssistantMessage(
+      String sessionId, ChatContent content, boolean appendIfMissing) {
+    ChatMessage msg = ChatMessageConverter.convertLLMResponseToChatMessage(content);
+    // Just in case the converter doesn't set role to ASSISTANT:
+    msg.setRole(Role.ASSISTANT);
+    return overwriteLastAssistantMessage(sessionId, msg, appendIfMissing);
+  }
+
+  /** Convenience overload: overwrite using a plain string. */
+  public ChatHistory overwriteLastAssistantMessage(
+      String sessionId, String assistantText, boolean appendIfMissing) {
+    ChatContent content = new ChatContent();
+    content.setMessage(assistantText);
+    return overwriteLastAssistantMessage(sessionId, content, appendIfMissing);
   }
 
   private String sanitizeLLMTestCaseResponse(String raw) {

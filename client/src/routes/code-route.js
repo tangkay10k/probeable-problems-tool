@@ -30,12 +30,22 @@ export const executeCodePistonDirect = async (language, sourceCode) => {
   return response.data;
 };
 
+/*
+ * Completely similar to executeCodePistonDirect, but it returns the response, so we can check if there's a 429 response.
+ * */
+export const executeCodePistonDirectSilently = async (language, sourceCode) => {
+  return await PISTON_API.post("/execute", {
+    language: language,
+    version: LANGUAGE_VERSIONS[language],
+    files: [
+      {
+        content: sourceCode,
+      },
+    ],
+  });
+};
+
 export const getRuntimes = async () => {
   const response = await PISTON_API.get("/runtimes");
   return response.data;
-};
-
-export const executeProbe = async (payload) => {
-  const res = await axiosClient.post("/api/execution/probe", payload);
-  return res.data;
 };

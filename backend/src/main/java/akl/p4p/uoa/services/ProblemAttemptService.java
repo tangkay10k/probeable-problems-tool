@@ -102,6 +102,10 @@ public class ProblemAttemptService {
     return saved;
   }
 
+  public ChatHistory overwriteAssistantMessage(String sessionId, String replacementAssistantText) {
+    return aiService.overwriteLastAssistantMessage(sessionId, replacementAssistantText, true);
+  }
+
   public ProblemAttempt findProblemAttemptById(String problemAttemptId) {
     return problemAttemptRepository
         .findById(problemAttemptId)

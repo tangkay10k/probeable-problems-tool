@@ -3,6 +3,7 @@ package akl.p4p.uoa.controllers;
 import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
 
 import akl.p4p.uoa.constants.ProblemAttemptConstants;
+import akl.p4p.uoa.data.ChatMessage;
 import akl.p4p.uoa.data.ChatMessage.Role;
 import akl.p4p.uoa.data.EquivalenceClassRequest;
 import akl.p4p.uoa.dtos.MessageDTO;
@@ -32,7 +33,7 @@ public class ProblemAttemptController {
   public ResponseEntity<ProblemAttempt> startOrRetrieveLatestProblemAttempt(
       @RequestParam String problemId, @RequestParam String studentEmail) throws IOException {
 
-    ProblemAttempt attempt = 
+    ProblemAttempt attempt =
         problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
     return ResponseEntity.ok(attempt);
   }
@@ -42,15 +43,15 @@ public class ProblemAttemptController {
   public ResponseEntity<ChatHistory> chatWithClient(@RequestBody MessageDTO message)
       throws IOException {
 
-    ChatHistory attempt = 
+    ChatHistory attempt =
         problemAttemptService.chatWithClientWithSessionHistory(
-          message.getSessionId(), message.getChatMessage().getContent());
+            message.getSessionId(), message.getChatMessage().getContent());
 
     // Update Equivalence class map:
     var messages = attempt.getMessages();
     var lastMsg = messages.get(messages.size() - 1);
     if (lastMsg.getRole().equals(Role.ASSISTANT)) {
-      var problemAttempt = 
+      var problemAttempt =
           problemAttemptService.findProblemAttemptById(message.getProblemAttemptId());
 
       var content = lastMsg.getContent();
@@ -73,14 +74,27 @@ public class ProblemAttemptController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> requestActualOutputResponse(
       @RequestBody TestCaseOutputDTO message) throws IOException {
-    String sysPrompt = 
+
+    // FE Validation that PISTON executed testcase successfully (exit code 0) MUST have occurred.
+    String sysPrompt =
         ClientPrompts.clientExplanationPrompt(
-        message.getQuestionAsked(), message.getOutput(), message.getTestCase());
-    ChatHistory attempt = 
+            message.getQuestionAsked(), message.getOutput(), message.getTestCase());
+
+    ChatHistory history =
         problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
             message.getSessionId(), sysPrompt);
 
-    return ResponseEntity.ok(attempt);
+    return ResponseEntity.ok(history);
+  }
+
+  @PostMapping("chat/replace")
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<ChatHistory> replaceAssistantMessageInChatHistory(
+      @RequestParam String sessionId, @RequestBody ChatMessage message) {
+    ChatHistory history =
+        problemAttemptService.overwriteAssistantMessage(
+            sessionId, message.getContent().getMessage());
+    return ResponseEntity.ok(history);
   }
 
   @PostMapping
@@ -118,7 +132,10 @@ public class ProblemAttemptController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ProblemAttempt> updateFailedAttempts(@PathVariable String id) {
     ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
-    int newFailedAttempts = Math.min(problemAttempt.getFailedAttempts() + 1,  ProblemAttemptConstants.CAPPED_PENALTY_PERCENTAGE);
+    int newFailedAttempts =
+        Math.min(
+            problemAttempt.getFailedAttempts() + 1,
+            ProblemAttemptConstants.CAPPED_PENALTY_PERCENTAGE);
 
     problemAttempt.setFailedAttempts(newFailedAttempts);
 

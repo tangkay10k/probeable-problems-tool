@@ -14,12 +14,12 @@ export const STAGE_ONE_FULL = {
 
 export const STAGE_ONE_ORACLE = {
   title: "Tasks",
-  content: "KAY TO UPDATE"
+  content: "KAY TO UPDATE",
 };
 
 export const STAGE_ONE_NATURAL_LANGUAGE = {
   title: "Tasks",
-  content: "KAY TO UPDATE"
+  content: "KAY TO UPDATE",
 };
 
 export const STAGE_ONE_CONCISE_FULL = {
@@ -31,16 +31,14 @@ export const STAGE_ONE_CONCISE_FULL = {
     "Once you’re confident in the requirements, proceed to implement your solution.",
 };
 
-
 export const STAGE_ONE_CONCISE_ORACLE = {
   title: "Tasks",
-  content: "KAY TO UPDATE"
+  content: "KAY TO UPDATE",
 };
-
 
 export const STAGE_ONE_CONCISE_NATURAL_LANGUAGE = {
   title: "Tasks",
-  content: "KAY TO UPDATE"
+  content: "KAY TO UPDATE",
 };
 export const STAGE_TWO = {
   title: "Tasks",

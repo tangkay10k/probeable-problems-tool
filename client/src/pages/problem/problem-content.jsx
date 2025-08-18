@@ -15,7 +15,10 @@ import {
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
-import { ORACLE as ORACLE_VARIANT, FULL } from "@/constants/problem-constants.js";
+import {
+  ORACLE as ORACLE_VARIANT,
+  FULL,
+} from "@/constants/problem-constants.js";
 
 export default function ProblemContent() {
   const { addLog } = useLogging();

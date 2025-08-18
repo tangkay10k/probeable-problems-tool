@@ -47,6 +47,14 @@ export const replaceWithOutputResponse = async (
   return res.data;
 };
 
+export const replaceAssistantMessage = async (sessionId, chatMessage) => {
+  const res = await axiosClient.post(
+    `/api/problemAttempt/chat/replace?sessionId=${sessionId}`,
+    chatMessage,
+  );
+  return res.data;
+};
+
 export const saveProblemAttempt = async (problemAttempt) => {
   const res = await axiosClient.post(`/api/problemAttempt`, problemAttempt);
   return res.data;
@@ -67,6 +75,8 @@ export const saveEquivalenceClass = async (
 };
 
 export const updateFailedAttempts = async (problemAttemptId) => {
-  const res = await axiosClient.put(`/api/problemAttempt/${problemAttemptId}/failedAttempts`);
+  const res = await axiosClient.put(
+    `/api/problemAttempt/${problemAttemptId}/failedAttempts`,
+  );
   return res.data;
 };

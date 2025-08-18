@@ -20,7 +20,11 @@ import ChatApp from "@/components/ai/chatapp.jsx";
 import Modal from "@/components/modal/modal.jsx";
 import OracleHistory from "@/components/oracle/oracle-history.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { NATURAL_LANGUAGE, ORACLE as ORACLE_VARIANT, FULL } from "@/constants/problem-constants.js";
+import {
+  NATURAL_LANGUAGE,
+  ORACLE as ORACLE_VARIANT,
+  FULL,
+} from "@/constants/problem-constants.js";
 
 export default function StageOne() {
   const { problem } = useProblemAttemptContext();
@@ -33,8 +37,8 @@ export default function StageOne() {
     variant === FULL
       ? STAGE_ONE_FULL
       : variant === ORACLE_VARIANT
-      ? STAGE_ONE_ORACLE
-      : STAGE_ONE_NATURAL_LANGUAGE;
+        ? STAGE_ONE_ORACLE
+        : STAGE_ONE_NATURAL_LANGUAGE;
 
   const TABS = useMemo(() => {
     const tabs = [

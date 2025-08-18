@@ -11,8 +11,18 @@ export default function TextArea({
   ...props
 }) {
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && onEnter) {
-      onEnter(e);
+    // Don't interfere with IME composition (e.g., Chinese/Japanese input)
+    if (e.isComposing) return;
+
+    if (e.key === "Enter") {
+      if (e.shiftKey) {
+        return;
+      }
+
+      if (onEnter) {
+        e.preventDefault();
+        onEnter(e);
+      }
     }
   };
 
