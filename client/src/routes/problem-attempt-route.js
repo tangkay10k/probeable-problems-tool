@@ -32,12 +32,14 @@ export const replaceWithOutputResponse = async (
   question,
   output,
   testCase,
+  functionName,
 ) => {
   const payload = {
     sessionId: sessionId,
     questionAsked: question,
     output,
     testCase,
+    functionName,
   };
 
   const res = await axiosClient.post(

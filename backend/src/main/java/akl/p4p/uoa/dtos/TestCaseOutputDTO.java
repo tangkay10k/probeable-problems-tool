@@ -8,4 +8,5 @@ public class TestCaseOutputDTO {
   private String questionAsked;
   private String output;
   private String testCase;
+  private String functionName;
 }

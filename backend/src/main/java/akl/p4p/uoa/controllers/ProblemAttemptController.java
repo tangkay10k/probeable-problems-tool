@@ -10,7 +10,7 @@ import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.dtos.TestCaseOutputDTO;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.ProblemAttempt;
-import akl.p4p.uoa.prompts.ClientPrompts;
+import akl.p4p.uoa.prompts.TestExplanation;
 import akl.p4p.uoa.services.ProblemAttemptService;
 import java.io.IOException;
 import java.util.List;
@@ -73,16 +73,12 @@ public class ProblemAttemptController {
   @PostMapping("chat/outputResponse")
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> requestActualOutputResponse(
-      @RequestBody TestCaseOutputDTO message) throws IOException {
+      @RequestBody TestCaseOutputDTO message) {
 
     // FE Validation that PISTON executed testcase successfully (exit code 0) MUST have occurred.
-    String sysPrompt =
-        ClientPrompts.clientExplanationPrompt(
-            message.getQuestionAsked(), message.getOutput(), message.getTestCase());
-
-    ChatHistory history =
-        problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
-            message.getSessionId(), sysPrompt);
+    var explanation = TestExplanation.getTestCaseExplanation(message);
+    var history =
+        problemAttemptService.overwriteAssistantMessage(message.getSessionId(), explanation);
 
     return ResponseEntity.ok(history);
   }

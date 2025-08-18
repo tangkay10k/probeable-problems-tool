@@ -30,6 +30,18 @@ export const executeCodePistonDirect = async (language, sourceCode) => {
   return response.data;
 };
 
+export const executeChatTestCaseSilently = async (
+  language,
+  template,
+  inputVariables,
+  modelAnswer,
+) => {
+  const src = template
+    .replace("//VAR_INPUTS", inputVariables)
+    .replace("//VAR_MODEL_SOLUTION", modelAnswer);
+  return await executeCodePistonDirectSilently(language, src);
+};
+
 /*
  * Completely similar to executeCodePistonDirect, but it returns the response, so we can check if there's a 429 response.
  * */
