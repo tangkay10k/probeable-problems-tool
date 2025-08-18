@@ -51,14 +51,28 @@ public class ClientPrompts {
         .replace("//VAR_TURN_INDEX", "0");
   }
 
+  /**
+   * This prompt assumes that the testCase supplied is in the correct format:
+   * <pre/>
+   * inputs
+   * functionCall
+   * print()
+   */
   public static String clientExplanationPrompt(String questionAsked, String output, String testCase)
       throws IOException {
     String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_EXPLANATION_PROMPT_FILE);
-    String testInputs = testCase.split("\n")[0];
+
+    String[] lines = testCase.split("\n");
+
+    StringBuilder inputs = new StringBuilder();
+    // Skip function call & print statement (CHEESE)
+    for (int i = 0; i < lines.length - 2; i++) {
+      inputs.append(lines[i]).append(System.getProperty("line.separator"));
+    }
 
     return basePrompt
         .replace("//VAR_USER_QUESTION", questionAsked)
-        .replace("/VAR_INPUTS", testInputs)
+        .replace("//VAR_INPUTS", inputs.toString())
         .replace("//VAR_OUTPUT", output)
         .replace("//VAR_TEST_CASE", testCase);
   }

@@ -3,6 +3,7 @@ package akl.p4p.uoa.controllers;
 import static akl.p4p.uoa.constants.AuthConstants.IS_AUTHENTICATED;
 
 import akl.p4p.uoa.constants.ProblemAttemptConstants;
+import akl.p4p.uoa.data.ChatMessage;
 import akl.p4p.uoa.data.ChatMessage.Role;
 import akl.p4p.uoa.data.EquivalenceClassRequest;
 import akl.p4p.uoa.dtos.MessageDTO;
@@ -73,14 +74,27 @@ public class ProblemAttemptController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> requestActualOutputResponse(
       @RequestBody TestCaseOutputDTO message) throws IOException {
+
+    // FE Validation that PISTON executed testcase successfully (exit code 0) MUST have occurred.
     String sysPrompt =
         ClientPrompts.clientExplanationPrompt(
             message.getQuestionAsked(), message.getOutput(), message.getTestCase());
-    ChatHistory attempt =
+
+    ChatHistory history =
         problemAttemptService.chatWithClientWithSessionHistoryAndReplace(
             message.getSessionId(), sysPrompt);
 
-    return ResponseEntity.ok(attempt);
+    return ResponseEntity.ok(history);
+  }
+
+  @PostMapping("chat/replace")
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<ChatHistory> replaceAssistantMessageInChatHistory(
+      @RequestParam String sessionId, @RequestBody ChatMessage message) {
+    ChatHistory history =
+        problemAttemptService.overwriteAssistantMessage(
+            sessionId, message.getContent().getMessage());
+    return ResponseEntity.ok(history);
   }
 
   @PostMapping

@@ -87,7 +87,9 @@ export default function StageOne() {
             runCallback={() => switchToTab(1)}
           />
         </div>
-        {!showOracle && <ChatApp />}
+        <div style={{ display: showOracle ? "none" : "block", height: "100%" }}>
+          <ChatApp />
+        </div>
       </div>
       <Modal
         isOpen={showHelp}

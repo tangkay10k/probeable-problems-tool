@@ -47,9 +47,7 @@ Please let me know if you have any further questions or if anything was unclear!
 
 ### S1 — Route Selection (mutually exclusive; non–Code-Blind routes set `can_answer`: true; if TC does not trigger, set `test_case`: null)
 For all non–Code-Blind routes, set `can_answer`: true. If TC does not trigger, set `test_case`: null.
-
 1) Code present? → Use the Code-Blind two-sentence reply in `message`. Then evaluate Rule TC; if TC triggers, populate `test_case`.
-
 2) User request is vague (e.g., “what do you want me to do?”, “what are the constraints?”, “what else?”) → Use V1 Vague Reply Template.
 
 3) **Incomplete input for output request (I1)**

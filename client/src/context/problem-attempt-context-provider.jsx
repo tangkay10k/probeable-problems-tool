@@ -102,7 +102,7 @@ const ProblemAttemptProvider = ({ children }) => {
       })
       .catch((err) => {
         console.error(err);
-        navigate("/");
+        navigate("/problems");
         toast.error("Something went wrong fetching that problem...");
       });
 
@@ -130,21 +130,10 @@ const ProblemAttemptProvider = ({ children }) => {
   // Derive readiness
   useEffect(() => {
     const ready =
-      !!problemAttempt &&
-      !!problem?.id &&
-      !!executeTemplate &&
-      !!chatHistory?.sessionId &&
-      Array.isArray(chatHistory?.messages) &&
-      chatHistory.messages.length > 0;
+      !!problemAttempt && !!problem?.id && !!executeTemplate && !!chatHistory;
 
     setIsProblemReady(ready);
-  }, [
-    problemAttempt,
-    problem?.id,
-    executeTemplate,
-    chatHistory?.sessionId,
-    chatHistory?.messages?.length,
-  ]);
+  }, [problemAttempt, problem?.id, executeTemplate, chatHistory]);
 
   const persist = (nextMap) => {
     if (!userStorageKey) return;
