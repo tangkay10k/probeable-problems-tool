@@ -120,6 +120,7 @@ export default function ChatApp() {
           userQuestion,
           output,
           content.test_case,
+          problem.functionName,
         );
       },
       (newHistory) => {

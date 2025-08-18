@@ -50,41 +50,44 @@ public class TestExplanation {
   };
 
   public static String getTestCaseExplanation(TestCaseOutputDTO message) {
-    String inputs = parseInputsFromGeneratedTestCase(message.getTestCase());
-    String responseTemplate = getRandomResponse(isSingleInputTestCase(message.getTestCase()));
+    String inputs =
+        parseInputsFromGeneratedTestCase(message.getTestCase(), message.getFunctionName());
+    String responseTemplate =
+        getRandomResponse(isSingleInputTestCase(message.getTestCase(), message.getFunctionName()));
 
     return responseTemplate
         .replace(INPUTS_PLACEHOLDER, inputs)
         .replace(OUTPUTS_PLACEHOLDER, message.getOutput());
   }
 
-  /**
-   * Helper function to extract the inputs from a generated test case. Assumes the format:
-   * <pre/>
-   * inputs
-   * functionCall
-   * print()
-   */
-  private static String parseInputsFromGeneratedTestCase(String testCase) {
+  /** Helper function to extract the inputs from a generated test case. */
+  private static String parseInputsFromGeneratedTestCase(String testCase, String functionName) {
     String[] lines = testCase.split("\n");
     StringBuilder inputs = new StringBuilder();
 
-    for (int i = 0; i < lines.length - 2; i++) {
-      inputs.append(lines[i]).append(" ");
+    for (String line : lines) {
+      if (line.contains(functionName)) {
+        break;
+      }
+
+      inputs.append(line).append(" ");
     }
     return inputs.toString();
   }
 
-  /**
-   * Helper function to determine if the generated test takes in a single parameter. Assumes the format:
-   * <pre/>
-   * inputs
-   * functionCall
-   * print()
-   */
-  private static boolean isSingleInputTestCase(String testCase) {
+  /** Helper function to determine if the generated test takes in a single parameter. */
+  private static boolean isSingleInputTestCase(String testCase, String functionName) {
     String[] lines = testCase.split("\n");
-    return lines.length <= 3;
+
+    int numInputs = 0;
+    for (String line : lines) {
+      if (line.contains(functionName)) {
+        break;
+      }
+      numInputs++;
+    }
+
+    return numInputs == 1;
   }
 
   private static String getRandomResponse(Boolean isSingleInput) {

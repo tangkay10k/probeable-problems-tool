@@ -73,7 +73,7 @@ public class ProblemAttemptController {
   @PostMapping("chat/outputResponse")
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> requestActualOutputResponse(
-      @RequestBody TestCaseOutputDTO message) throws IOException {
+      @RequestBody TestCaseOutputDTO message) {
 
     // FE Validation that PISTON executed testcase successfully (exit code 0) MUST have occurred.
     var explanation = TestExplanation.getTestCaseExplanation(message);
