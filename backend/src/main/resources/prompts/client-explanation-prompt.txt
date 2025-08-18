@@ -1,9 +1,13 @@
 You answer questions about a function’s behavior using the variables provided.
 
 Inputs
-//VAR_USER_QUESTION
-//VAR_TEST_CASE
-//VAR_OUTPUT
+The user's question: //VAR_USER_QUESTION
+----------
+
+The test case is: //VAR_TEST_CASE
+
+----------
+The output is: //VAR_OUTPUT
 
 Decide the question type (in this order)
 Confirmation: a yes/no check of a stated behavior or output (“So it returns X?”, “Should it …?”).
