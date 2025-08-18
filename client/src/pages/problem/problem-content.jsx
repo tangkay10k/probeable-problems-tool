@@ -7,12 +7,18 @@ import StageTwo from "@/pages/problem/stage-two.jsx";
 import StageOne from "@/pages/problem/stage-one.jsx";
 import Modal from "@/components/modal/modal.jsx";
 import {
-  STAGE_ONE_CONCISE,
+  STAGE_ONE_CONCISE_FULL,
+  STAGE_ONE_CONCISE_NATURAL_LANGUAGE,
+  STAGE_ONE_CONCISE_ORACLE,
   STAGE_TWO_CONCISE,
 } from "@/pages/problem/data/instructions.js";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
+import {
+  ORACLE as ORACLE_VARIANT,
+  FULL,
+} from "@/constants/problem-constants.js";
 
 export default function ProblemContent() {
   const { addLog } = useLogging();
@@ -20,6 +26,14 @@ export default function ProblemContent() {
   const [stage, setStage] = useState(1);
   const [tutorialStep, setTutorialStep] = useState(1); // which stage tutorial to show
   const [showTutorial, setShowTutorial] = useState(true);
+  const { problem } = useProblemAttemptContext();
+
+  const stageOneInstruction =
+    problem.problemVariant === FULL
+      ? STAGE_ONE_CONCISE_FULL
+      : problem.problemVariant === ORACLE_VARIANT
+        ? STAGE_ONE_CONCISE_ORACLE
+        : STAGE_ONE_CONCISE_NATURAL_LANGUAGE;
 
   function handleStageChange() {
     if (stage === 1) {
@@ -68,7 +82,7 @@ export default function ProblemContent() {
       </div>
       <Modal isOpen={showTutorial} setIsOpen={setShowTutorial} title={"Task: "}>
         {tutorialStep === 1
-          ? STAGE_ONE_CONCISE.content
+          ? stageOneInstruction.content
           : STAGE_TWO_CONCISE.content}
         <ButtonV2 onClick={hideTutorial}>I Understand!</ButtonV2>
       </Modal>
