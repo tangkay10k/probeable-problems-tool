@@ -15,7 +15,7 @@
   overflow-y: scroll;
 
   /*Hide scroll bar track*/
-  scrollbar-width: thin;
+  scrollbar-width: none;
 
   gap: var(--padding-025);
 }

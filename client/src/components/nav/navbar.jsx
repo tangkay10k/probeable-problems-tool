@@ -1,20 +1,38 @@
 import styles from "./nav.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { useEffect, useRef, useState } from "react";
 
 export default function NavBar() {
   const navigate = useNavigate();
+  const { profile } = useUserProfile();
+
+  const links = profile ? ["problems", "about"] : [];
 
   return (
     <nav className={styles.navbar}>
-      <section onClick={() => navigate("/problems")}>
-        <img className={styles.icon} src={"/favicon.png"} alt="Logo" />
-        <div className={styles.heading}>
-          <h1>Probeable Problems</h1>
-          <p>Developing Critical Thinking</p>
-        </div>
-      </section>
+      <span className={styles.leftSection}>
+        <section onClick={() => navigate("/problems")}>
+          <img className={styles.icon} src={"/favicon.png"} alt="Logo" />
+          <div className={styles.heading}>
+            <h1>Probeable Problems</h1>
+            <p>Developing Critical Thinking</p>
+          </div>
+        </section>
+        <span className={styles.links}>
+          {links.map((link) => (
+            <NavLink
+              to={"/" + link}
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.link
+              }
+            >
+              {link}
+            </NavLink>
+          ))}
+        </span>
+      </span>
+
       <Profile />
     </nav>
   );

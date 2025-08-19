@@ -13,7 +13,7 @@ import "./DiffView.css";
 export default function DiffView({
   expected,
   actual,
-  granularity = "char",
+  granularity = "word",
   showInvisible = true,
   sideBySide = true,
 }) {
@@ -37,14 +37,7 @@ export default function DiffView({
   }
 
   // Side-by-side: derive left/right streams from a common diff
-  const left = parts.map((p) => ({
-    ...p,
-    value: p.removed || !p.added ? p.value : "",
-  }));
-  const right = parts.map((p) => ({
-    ...p,
-    value: p.added || !p.removed ? p.value : "",
-  }));
+  const { left, right } = splitForSideBySide(parts, granularity);
 
   const leftIsEmpty = left.every((p) => !p.value);
   const rightIsEmpty = right.every((p) => !p.value);
@@ -88,30 +81,37 @@ function EmptyPlaceholder({ showInvisible }) {
 
 function visualizeInvisibles(s) {
   return s
-    .replace(/ /g, " ") // visualize spaces as middle dots
+    .replace(/ /g, " ") // visualize spaces as middle dots if desired
     .replace(/\t/g, "→\t") // tab (arrow marker, keep width)
     .replace(/\r/g, "␍") // carriage return
     .replace(/\n/g, "\\n\n"); // show \n + keep real line break
 }
 
 function toSpans(parts, showInvis) {
-  return parts.map((p, i) => {
-    const cls = p.added ? "diff-ins" : p.removed ? "diff-del" : "diff-same";
-    const text = showInvis ? visualizeInvisibles(p.value) : p.value;
+  return parts.flatMap((p, i) => {
+    const cls = p.changed
+      ? "diff-change"
+      : p.added
+        ? "diff-ins"
+        : p.removed
+          ? "diff-del"
+          : "diff-same";
 
-    const nodes = text.split("\n").flatMap((line, j, arr) => {
-      const chunk = (
+    const raw = p.value ?? "";
+    const text = showInvis ? visualizeInvisibles(raw) : raw;
+
+    // If there's nothing to show, emit nothing (lets :empty collapse layout)
+    if (text.length === 0) return [];
+
+    // Render lines, keeping explicit newlines via <br>, but no extra spaces
+    return text.split("\n").flatMap((line, j, arr) => {
+      const span = (
         <span key={`${i}-${j}`} className={cls}>
-          {line.length === 0 ? "\u00A0" : line}{" "}
-          {/* keep height for blank lines */}
+          {line}
         </span>
       );
-      return j < arr.length - 1
-        ? [chunk, <br key={`${i}-${j}-br`} />]
-        : [chunk];
+      return j < arr.length - 1 ? [span, <br key={`${i}-${j}-br`} />] : [span];
     });
-
-    return <Fragment key={i}>{nodes}</Fragment>;
   });
 }
 
@@ -119,4 +119,44 @@ function makeDiff(a, b, level) {
   if (level === "line") return JsDiff.diffLines(a, b);
   if (level === "word") return JsDiff.diffWords(a, b);
   return JsDiff.diffChars(a, b); // default char-level
+}
+
+/**
+ * Convert diff "parts" into left/right streams for side-by-side view.
+ * Special case: if we see a single-character removed+added (in either order),
+ * treat it as a REPLACEMENT and mark both sides with { changed: true }.
+ */
+function splitForSideBySide(parts, granularity) {
+  const left = [];
+  const right = [];
+  const isChar = granularity === "char";
+
+  for (let i = 0; i < parts.length; i++) {
+    const p = parts[i];
+    const n = parts[i + 1];
+
+    // Detect a 1-char replacement pair (remove+add or add+remove)
+    if (isChar && n && ((p.removed && n.added) || (p.added && n.removed))) {
+      const a = p.removed ? p : n; // expected (removed)
+      const b = p.added ? p : n; // actual (added)
+
+      if (
+        a.value.length === 1 &&
+        b.value.length === 1 &&
+        !a.value.includes("\n") &&
+        !b.value.includes("\n")
+      ) {
+        left.push({ value: a.value, changed: true });
+        right.push({ value: b.value, changed: true });
+        i++; // consume the pair
+        continue;
+      }
+    }
+
+    // Default mapping
+    left.push({ ...p, value: p.removed || !p.added ? p.value : "" });
+    right.push({ ...p, value: p.added || !p.removed ? p.value : "" });
+  }
+
+  return { left, right };
 }

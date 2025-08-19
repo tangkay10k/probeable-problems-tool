@@ -102,7 +102,6 @@
 }
 
 .executionBlock {
-  background-color: var(--editor-colour);
   border-radius: inherit;
   padding: var(--padding-2);
 
