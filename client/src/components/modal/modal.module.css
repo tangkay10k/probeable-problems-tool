@@ -39,8 +39,8 @@
   padding: var(--padding-3);
   border-radius: var(--border-radius-3);
 
-  width: 100%;
-  max-width: 30rem;
+  width: clamp(30rem, max-content, 50rem);
+  max-width: 50rem;
 
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.8s ease-in-out;

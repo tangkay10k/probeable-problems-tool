@@ -166,7 +166,7 @@ export function NonEditableTestCase({ index, test, result }) {
         ) : (
           <>
             <section className={styles.locked}>
-              {(!hasRun || isCompilationError || !passed) && <LockedIcon />}
+              {(!hasRun || isCompilationError) && <LockedIcon />}
               <h1>Test {index + 1}</h1>
             </section>
             <StatusPill status={status} />

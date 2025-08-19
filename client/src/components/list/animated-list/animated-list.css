@@ -17,6 +17,28 @@
   padding: var(--padding-1);
 }
 
+.scroll-list > *:nth-child(even),
+.scroll-list > *:nth-child(odd) {
+  transition: background-color 0.3s ease-in-out;
+  border-radius: var(--border-radius-1);
+}
+
+.scroll-list > *:nth-child(odd) {
+  background: var(--list-item-grey);
+}
+
+.scroll-list > *:nth-child(odd):hover {
+  background: var(--list-item-grey-hover);
+}
+
+.scroll-list > *:nth-child(even) {
+  background: var(--dark-dark-grey);
+}
+
+.scroll-list > *:nth-child(even):hover {
+  background: var(--dark-3-grey);
+}
+
 .scroll-list::-webkit-scrollbar {
   width: 8px;
 }

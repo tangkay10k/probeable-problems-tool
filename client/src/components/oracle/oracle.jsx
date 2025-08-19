@@ -14,6 +14,7 @@ import { MdOutlinePlayArrow as PlayIcon } from "react-icons/md";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
+import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -144,7 +145,6 @@ export default function Oracle({
           language={problemAttempt?.problemLanguage}
           showLanguageSelect={false}
           lineNumbers={false}
-          isResizable={false}
           fixedHeight={"100%"}
           src={inputVariables}
           setSource={setInputVariables}
@@ -156,17 +156,17 @@ export default function Oracle({
         <div className={styles.outputHeader}>
           <h3>Output: </h3>
         </div>
-        <TextArea
-          placeholder="Click run to see output "
-          disabled={true}
-          resizable={false}
-          value={
-            executionOutput?.run?.output ??
-            (executionOutput?.run?.stderr
-              ? "COMPILE ERROR"
-              : executionOutput?.run?.output)
-          }
-        />
+        <div className={styles.terminalOutput}>
+          {executionOutput?.run?.output ? (
+            executionOutput?.run?.stderr ? (
+              "COMPILE ERROR"
+            ) : (
+              executionOutput?.run?.output
+            )
+          ) : (
+            <ShinyText text={"Click Run to see output"} />
+          )}
+        </div>
         <ButtonV2 onClick={executeOracle} disabled={isExecuting}>
           <PlayIcon size={18} /> Run
         </ButtonV2>

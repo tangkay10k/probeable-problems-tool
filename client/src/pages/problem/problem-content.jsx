@@ -19,6 +19,8 @@ import {
   ORACLE as ORACLE_VARIANT,
   FULL,
 } from "@/constants/problem-constants.js";
+import { formatInstruction } from "@/utils/utils.js";
+import ReactMarkdown from "react-markdown";
 
 export default function ProblemContent() {
   const { addLog } = useLogging();
@@ -80,11 +82,28 @@ export default function ProblemContent() {
         </div>
         <BottomNav handleStageChange={handleStageChange} stage={stage} />
       </div>
-      <Modal isOpen={showTutorial} setIsOpen={setShowTutorial} title={"Task: "}>
-        {tutorialStep === 1
-          ? stageOneInstruction.content
-          : STAGE_TWO_CONCISE.content}
-        <ButtonV2 onClick={hideTutorial}>I Understand!</ButtonV2>
+      <Modal
+        isOpen={showTutorial}
+        setIsOpen={setShowTutorial}
+        enableOutsideCancel={false}
+        className={styles.instructionContainer}
+      >
+        <section>
+          <img
+            src={tutorialStep === 1 ? "/client-full.png" : "/cogs-full.png"}
+            alt="Client"
+            className={styles.clientPic}
+          />
+          <ReactMarkdown>
+            {tutorialStep === 1
+              ? formatInstruction(stageOneInstruction, problem.problemStatement)
+              : STAGE_TWO_CONCISE.content}
+          </ReactMarkdown>
+        </section>
+
+        <div className={styles.actions}>
+          <ButtonV2 onClick={hideTutorial}>I Understand!</ButtonV2>
+        </div>
       </Modal>
     </div>
   );

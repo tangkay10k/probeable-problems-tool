@@ -14,12 +14,23 @@ export const STAGE_ONE_FULL = {
 
 export const STAGE_ONE_ORACLE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "You have been approached by a client who would like you to write a program for them, however, they have been a" +
+    " little vague.\n\n" +
+    "They have asked you to:\n\n" +
+    "**//VAR_PROBLEM_STATEMENT**\n" +
+    "\n" +
+    "Before writing any code, please clarify what the function should do by checking it with various inputs. \n\nYou" +
+    " can modify the inputs as many times as you like, and then click **Run** to observe the desired outputs. \n" +
+    "\n\nOnce you are certain about how the function should behave, click **I’m ready to code!**\n",
 };
 
 export const STAGE_ONE_NATURAL_LANGUAGE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "Your client has come back again and asked you to write more code for them. \n\n This time however, they are" +
+    " able to answer your question directly.\n\n Talk with your client to find out more about what they want you to" +
+    " write!\n\nOnce you understand what they want to write, click **I'm ready to code!**",
 };
 
 export const STAGE_ONE_CONCISE_FULL = {
@@ -33,12 +44,25 @@ export const STAGE_ONE_CONCISE_FULL = {
 
 export const STAGE_ONE_CONCISE_ORACLE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "## Hello there! \nI want you to **//VAR_PROBLEM_STATEMENT**\n" +
+    "\n" +
+    "Before writing any code, please clarify what the function should do by checking it with various inputs. \n" +
+    "\n" +
+    "You can modify the inputs as many times as you like, and then click **Run** to observe the desired outputs. \n" +
+    "\n" +
+    "Once you are certain about how the function should behave, click **I’m ready to code!**\n",
 };
 
 export const STAGE_ONE_CONCISE_NATURAL_LANGUAGE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "## Hello again! \n Thanks for that code that you wrote me last time, great stuff! Can you write me another bit" +
+    " of" +
+    " code?\n" +
+    "\n" +
+    "Fortunately I have my phone on me this time so you will be able to ask me any questions you have directly.\n\n" +
+    " This time I want you to **//VAR_PROBLEM_STATEMENT**",
 };
 export const STAGE_TWO = {
   title: "Tasks",
@@ -50,10 +74,10 @@ Your company has leased you an AI agent named Cogs that you can use to help writ
 
 export const STAGE_TWO_CONCISE = {
   title: "Tasks",
-  content: `It's time for you to implement a solution that meets your client's requirements!
-
-**Cogs** is an AI agent that can help you write code.
-`,
+  content:
+    "## Beep Boop, I am Cogs!\n\n I'm here to help you write code efficiently. \n\n Please give me detailed" +
+    " instructions on what to write so I can give you my very best work ✨ \n\n Click **Build** when you are happy" +
+    " with your instructions and I'll build your code for you!",
 };
 
 export const CLIENT_HELP =
@@ -63,4 +87,6 @@ export const ORACLE_HELP =
   "You can play around with the inputs and click the **Run** button to see the expected output of the" +
   " function(s)!\n\nClicking **⟲** will reset inputs back to default values.";
 
-export const EXECUTION__CONFIRMATION = ``;
+export const PENALTY_WARNING =
+  "Each unsuccessful run will incur a **1% penalty** on your final score unless you" +
+  " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY%** \n\n *\*Penalties are capped at 15%*";

@@ -25,6 +25,7 @@ import {
   ORACLE as ORACLE_VARIANT,
   FULL,
 } from "@/constants/problem-constants.js";
+import { formatInstruction } from "@/utils/utils.js";
 
 export default function StageOne() {
   const { problem } = useProblemAttemptContext();
@@ -44,7 +45,14 @@ export default function StageOne() {
     const tabs = [
       {
         label: "Task",
-        content: <StudentInstruction instruction={instruction.content} />,
+        content: (
+          <StudentInstruction
+            instruction={formatInstruction(
+              instruction,
+              problem.problemStatement,
+            )}
+          />
+        ),
       },
     ];
     if (showRun) {
@@ -107,7 +115,7 @@ export default function StageOne() {
               onClickHandlers={handlers}
             />
           ) : (
-            <div></div>
+            <span />
           )}
 
           <section className={styles.leftButtons}>
@@ -116,11 +124,14 @@ export default function StageOne() {
                 onClick={() => setResetOracle((prev) => !prev)}
                 className={styles.resetBtn}
               >
-                <RestartIcon size={18} />
+                <RestartIcon />
               </ButtonV2>
             )}
-            <ButtonV2 onClick={() => setShowHelp(true)}>
-              <InfoIcon size={18} />
+            <ButtonV2
+              onClick={() => setShowHelp(true)}
+              className={styles.infoBtn}
+            >
+              <InfoIcon />
             </ButtonV2>
           </section>
         </div>

@@ -13,6 +13,8 @@
   --black: #000000;
   --light-grey: #e5e5e5;
   --less-dark-grey: #757575;
+  --list-item-grey-hover: #252525;
+  --list-item-grey: #4b4b4b;
   --very-light-grey: #ccc;
   --dark-grey: #5b5b5b;
   --dark-dark-grey: #2f2f2f;
@@ -102,16 +104,17 @@
   --nav-height: 5rem;
 
   --container-max-height: 78vh;
-  --page-container-max-width: 90vw;
-  --problem-list-max-width: 70vw;
+  --page-container-max-width: 80vw;
+  --problem-list-max-width: 75vw;
 
   --editor-buttons-height: 2.5rem;
+  --editor-buttons-width: 2.5rem;
   --bottom-nav-height: 100%;
 
   --stage-one-button-container-height: 3rem;
   --banner-height: 3rem;
 
-  --bottom-nav-buttons-height: 2.1rem;
+  --bottom-nav-buttons-height: 2.5rem;
   --slider-width: 8rem;
 
   --blue-highlight: rgba(59, 177, 255, 0.25);

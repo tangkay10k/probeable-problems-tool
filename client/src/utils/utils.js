@@ -15,3 +15,14 @@ export function stripCommentsFromCode(code) {
       .replace(/\/\/.*$/gm, "")
   );
 }
+
+export function formatInstruction(
+  instruction,
+  replacement,
+  replacementName = "//VAR_PROBLEM_STATEMENT",
+) {
+  return instruction.content.replace(
+    replacementName,
+    replacement.toLowerCase(),
+  );
+}

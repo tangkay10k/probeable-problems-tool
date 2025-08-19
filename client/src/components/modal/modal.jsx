@@ -9,8 +9,9 @@ export default function wModal({
   isOpen,
   setIsOpen,
   onClose,
-  title,
+  title = "",
   className,
+  enableOutsideCancel = true,
   children,
 }) {
   if (!isOpen) return null;
@@ -27,7 +28,9 @@ export default function wModal({
     }
   }, [isOpen, title]);
 
-  useOnClickOutside(modalRef, () => setIsOpen(false));
+  if (enableOutsideCancel) {
+    useOnClickOutside(modalRef, () => setIsOpen(false));
+  }
 
   return (
     <div className={styles.container} onClick={onClose}>

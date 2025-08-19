@@ -62,22 +62,6 @@
   transition: 0.4s;
 }
 
-.row:nth-child(odd) {
-  background-color: var(--toggle-hover-editor);
-}
-
-.row:nth-child(even) {
-  background-color: var(--accent-light);
-}
-
-.row:nth-child(odd):hover {
-  background-color: var(--dark-dark-grey);
-}
-
-.row:nth-child(even):hover {
-  background-color: var(--less-dark-grey);
-}
-
 .status,
 .row,
 .cell,
