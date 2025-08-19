@@ -30,7 +30,7 @@ export default function TopToolbar({
       />
 
       <section className={styles.leftButtons}>
-        <section>
+        <section className={styles.stageTwoBtnGroup}>
           {hasCompleted && (
             <>
               <p>{scoreText}</p>
@@ -44,14 +44,14 @@ export default function TopToolbar({
             disabled={isLoading}
             className={styles.resetBtn}
           >
-            <RestartIcon size={18} />
+            <RestartIcon />
           </ButtonV2>
           <ButtonV2
             onClick={onRun}
             disabled={isLoading}
             className={styles.runBtn}
           >
-            <PlayIcon size={18} /> Run
+            <PlayIcon /> Run
           </ButtonV2>
         </section>
 

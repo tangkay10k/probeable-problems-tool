@@ -53,7 +53,13 @@ export const STAGE_ONE_CONCISE_ORACLE = {
 
 export const STAGE_ONE_CONCISE_NATURAL_LANGUAGE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "## Hello again! \n Thanks for that code that you wrote me last time, great stuff! Can you write me another bit" +
+    " of" +
+    " code?\n" +
+    "\n" +
+    "Fortunately I have my phone on me this time so you will be able to ask me any questions you have directly.\n\n" +
+    " This time I want you to **//VAR_PROBLEM_STATEMENT**",
 };
 export const STAGE_TWO = {
   title: "Tasks",

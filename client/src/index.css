@@ -106,12 +106,13 @@
   --problem-list-max-width: 70vw;
 
   --editor-buttons-height: 2.5rem;
+  --editor-buttons-width: 2.5rem;
   --bottom-nav-height: 100%;
 
   --stage-one-button-container-height: 3rem;
   --banner-height: 3rem;
 
-  --bottom-nav-buttons-height: 2.1rem;
+  --bottom-nav-buttons-height: 3rem;
   --slider-width: 8rem;
 
   --blue-highlight: rgba(59, 177, 255, 0.25);

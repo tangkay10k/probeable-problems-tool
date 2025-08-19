@@ -34,7 +34,7 @@
   border-bottom: 0.1rem solid transparent;
   transition: all 0.2s;
 
-  height: auto;
+  height: calc(var(--editor-buttons-height));
   width: auto;
 }
 
@@ -42,7 +42,7 @@
   border-bottom: 0.2rem solid var(--accent);
   color: var(--accent);
 
-  height: auto;
+  height: calc(var(--editor-buttons-height));
   width: auto;
 }
 

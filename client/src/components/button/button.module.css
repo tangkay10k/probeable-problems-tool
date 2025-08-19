@@ -126,7 +126,7 @@
 .buttonGroup {
   background-color: var(--toggle-hover-editor);
   width: auto;
-  height: var(--editor-buttons-height);
+  height: 100%;
 
   display: flex;
 

@@ -7,30 +7,26 @@
   justify-self: center;
   align-self: center;
 
-  justify-content: space-between;
+  justify-content: center;
+
   gap: var(--padding-2);
 
   display: flex;
   flex-direction: column;
-
-  padding-top: var(
-    --padding-3
-  ); /*if this is changed, container max height must be changed!*/
-  padding-left: 8rem;
-  padding-right: 8rem;
-  background-color: var(--editor-colour);
 }
 
 .content {
   width: 100%;
-  height: 100%;
+  max-width: var(--page-container-max-width);
+  height: max-content;
+
+  justify-self: center;
+  align-self: center;
 
   display: flex;
   flex-direction: column;
 
-  gap: var(--padding-2);
-  /*Adjust next and prev buttons from bottom*/
-  padding-bottom: var(--padding-2);
+  gap: var(--padding-1);
 }
 
 .containerWrapper {
@@ -49,8 +45,6 @@
   height: 100%;
   width: 100%;
 
-  border-radius: var(--padding-3);
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -62,19 +56,24 @@
 
 .rightContainer {
   flex: 4;
+  gap: var(--padding-025);
 }
 
 .toggleButtonContainer {
   display: flex;
-  align-items: start;
-  height: var(--stage-one-button-container-height);
-  max-height: var(--stage-one-button-container-height);
+
+  height: var(--editor-buttons-height);
   justify-content: space-between;
+}
+
+.infoBtn {
+  width: var(--editor-buttons-width);
 }
 
 .resetBtn {
   background-color: var(--fail-red) !important;
   border: 0.01rem solid var(--fail-red-light) !important;
+  width: 3.5rem !important;
 }
 
 .resetBtn:hover {
@@ -83,16 +82,15 @@
 }
 
 .leftButtons {
-  height: var(--editor-buttons-height);
-  padding: var(--padding-025);
+  height: 100%;
 
   color: var(--white);
   font-size: var(--font-size-08);
-  width: max-content;
 }
 
-.leftButtons section {
-  align-items: center;
+.stageTwoBtnGroup {
+  display: flex;
+  gap: var(--padding-025);
 }
 
 .runBtn {
@@ -118,11 +116,6 @@
   align-items: center;
 
   align-self: center;
-}
-
-.leftButtons section {
-  display: flex;
-  gap: var(--padding-025);
 }
 
 .leftButtons button {
@@ -178,7 +171,7 @@
 .editorWrapper {
   height: calc(
     var(--container-max-height) - var(--editor-buttons-height) -
-      var(--padding-1)
+      var(--padding-025)
   );
 
   background-color: var(--dark-dark-grey);

@@ -3,13 +3,7 @@
   flex-direction: column;
 
   width: 100%;
-
-  height: calc(
-    var(--container-max-height) - var(--stage-one-button-container-height)
-  );
-  max-height: calc(
-    var(--container-max-height) - var(--stage-one-button-container-height)
-  );
+  height: 100%;
 }
 
 .chatApp {

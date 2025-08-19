@@ -81,7 +81,7 @@
   background-color: var(--accent);
   width: max-content !important;
   min-width: 12rem;
-  height: 100%;
+  height: var(--bottom-nav-buttons-height);
 
   font-size: var(--font-size-1);
   border-radius: var(--border-radius-1);

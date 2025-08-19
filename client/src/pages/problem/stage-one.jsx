@@ -115,7 +115,7 @@ export default function StageOne() {
               onClickHandlers={handlers}
             />
           ) : (
-            <div></div>
+            <span />
           )}
 
           <section className={styles.leftButtons}>
@@ -124,11 +124,14 @@ export default function StageOne() {
                 onClick={() => setResetOracle((prev) => !prev)}
                 className={styles.resetBtn}
               >
-                <RestartIcon size={18} />
+                <RestartIcon />
               </ButtonV2>
             )}
-            <ButtonV2 onClick={() => setShowHelp(true)}>
-              <InfoIcon size={18} />
+            <ButtonV2
+              onClick={() => setShowHelp(true)}
+              className={styles.infoBtn}
+            >
+              <InfoIcon />
             </ButtonV2>
           </section>
         </div>
