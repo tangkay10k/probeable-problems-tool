@@ -105,7 +105,7 @@
 
 .executionBlock {
   background-color: var(--editor-colour);
-  border-radius: var(--border-radius-2);
+  border-radius: inherit;
   padding: var(--padding-2);
 
   display: flex;
