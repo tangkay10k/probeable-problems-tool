@@ -3,7 +3,6 @@
   color: var(--white);
 }
 
-/* Code block container */
 .diff .code {
   margin: 0;
   padding: var(--padding-1);
@@ -19,7 +18,6 @@
   line-height: 1.8;
 }
 
-/* Layout */
 .diff.sxs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -57,19 +55,14 @@
 }
 
 .diff-change {
-  /*outline: 0.01rem solid var(--caution-yellow);*/
 }
 
-/* Fallback for merged view only:
-   if a delete is immediately followed by an insert (or vice versa),
-   treat it as a substitution and tint it amber. */
 .diff.merged .diff-ins + .diff-del,
 .diff.merged .diff-del + .diff-ins {
   background: #fffbeb;
   outline-color: #f59e0b44;
 }
 
-/* Chips (legend/badges) */
 .chip {
   display: inline-flex;
   align-items: center;
