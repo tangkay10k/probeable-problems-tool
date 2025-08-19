@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
@@ -10,12 +10,15 @@ import useProblemData from "./hooks/useProblemData.js";
 import useTestRunner from "./hooks/useTestRunner.js";
 
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
-import { STAGE_TWO } from "@/pages/problem/data/instructions.js";
+import {
+  PENALTY_WARNING,
+  STAGE_TWO,
+} from "@/pages/problem/data/instructions.js";
 import AIAgent from "@/components/ai/ai-agent.jsx";
 import Tabs from "@/components/tabs/tabs.jsx";
 import styles from "@/pages/problem/problemPage.module.css";
 import { toast } from "react-toastify";
-import { sleep } from "@/utils/utils.js";
+import { formatInstruction, sleep } from "@/utils/utils.js";
 import { Action, Component } from "@/constants/logConstants.js";
 
 import TopToolbar from "./ui/top-tool-bar.jsx";
@@ -35,7 +38,7 @@ export default function StageTwo() {
     studentCodeSubmission,
     updateStudentCodeSubmission,
     saveStudentAttempt,
-    updateStudentScore,
+    updateNumTestsPassed,
   } = useProblemAttemptContext();
 
   const [isLoading, withLoading] = useWithLoading();
@@ -52,7 +55,7 @@ export default function StageTwo() {
     problem,
     template,
     addLog,
-    updateStudentScore,
+    updateNumTestsPassed,
   });
 
   const handleAgentBuildRequest = () => {
@@ -131,7 +134,6 @@ export default function StageTwo() {
   };
 
   const hasCompleted = profile?.problemsCompleted?.includes(problemId);
-  const scoreText = problemAttempt?.score;
 
   return (
     <div className={styles.containerWrapper}>
@@ -147,7 +149,6 @@ export default function StageTwo() {
           onToggleTests={() => setShowTestSuite(true)}
           isLoading={isLoading}
           hasCompleted={hasCompleted}
-          scoreText={scoreText}
           onReset={handleReset}
           onRun={confirmRun}
           onSubmit={confirmSubmissionIfFailedElseSubmit}
@@ -182,7 +183,11 @@ export default function StageTwo() {
         isOpen={showRunConfirmation}
         onClose={() => setShowRunConfirmation(false)}
       >
-        {`Each unsuccessful run will incur a **1% penalty** on your final score unless you receive a compilation error. \n\n Your current penalty is: **${problemAttempt?.failedAttempts ?? 0}%** \n\n *\*Penalties are capped at 15%*`}
+        {formatInstruction(
+          PENALTY_WARNING,
+          `${problemAttempt?.failedAttempts ?? 0}`,
+          "//VAR_PENALTY",
+        )}
         <section className={styles.modalBtns}>
           <ButtonV2 onClick={() => setShowRunConfirmation(false)}>
             Cancel

@@ -7,6 +7,7 @@ import {
 import { IoMdPaperPlane as PlaneIcon } from "react-icons/io";
 import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import styles from "@/pages/problem/problemPage.module.css";
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 
 export default function TopToolbar({
   selectedIndex,
@@ -15,11 +16,12 @@ export default function TopToolbar({
   onToggleTests,
   isLoading,
   hasCompleted,
-  scoreText,
   onReset,
   onRun,
   onSubmit,
 }) {
+  const { problemAttempt } = useProblemAttemptContext();
+
   return (
     <div className={styles.toggleButtonContainer}>
       <ButtonGroup
@@ -33,8 +35,25 @@ export default function TopToolbar({
         <section className={styles.stageTwoBtnGroup}>
           {hasCompleted && (
             <>
-              <p>{scoreText}</p>
-              <span>
+              <p>
+                Tests: {problemAttempt.testsPassed} |{" "}
+                {problemAttempt.failedAttempts !== 0 && (
+                  <>
+                    Penalty:{" "}
+                    <span className={styles.penalty}>
+                      {problemAttempt.failedAttempts}%
+                    </span>
+                    {" | "}
+                  </>
+                )}
+                Score:{" "}
+                <span className={styles.finalScore}>
+                  {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(
+                    2,
+                  )}
+                </span>
+              </p>
+              <span className={styles.completed}>
                 <CompletedIcon />
               </span>
             </>
@@ -53,11 +72,10 @@ export default function TopToolbar({
           >
             <PlayIcon /> Run
           </ButtonV2>
+          <ButtonV2 onClick={onSubmit} disabled={isLoading}>
+            <PlaneIcon size={15} /> Submit
+          </ButtonV2>
         </section>
-
-        <ButtonV2 onClick={onSubmit} disabled={isLoading}>
-          <PlaneIcon size={15} /> Submit!
-        </ButtonV2>
       </section>
     </div>
   );

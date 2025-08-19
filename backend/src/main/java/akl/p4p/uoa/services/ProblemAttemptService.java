@@ -96,10 +96,12 @@ public class ProblemAttemptService {
 
   public ProblemAttempt saveProblemAttemptAndUpdateProblemsCompleted(
       ProblemAttempt problemAttempt) {
-    var saved = problemAttemptRepository.save(problemAttempt);
-    String submitterEmail = saved.getStudentEmail();
-    personService.updateProblemsCompleted(submitterEmail, saved.getProblemId());
-    return saved;
+
+    String submitterEmail = problemAttempt.getStudentEmail();
+    personService.updateProblemsCompleted(submitterEmail, problemAttempt.getProblemId());
+
+    calculateAndSaveFinalScore(problemAttempt);
+    return problemAttemptRepository.save(problemAttempt);
   }
 
   public ChatHistory overwriteAssistantMessage(String sessionId, String replacementAssistantText) {
@@ -131,5 +133,18 @@ public class ProblemAttemptService {
 
     return aiService.chatWithClient(
         newSessionId, systemPrompt, null, JsonSchemaDefinition.getClientProbeSchema(), false);
+  }
+
+  private void calculateAndSaveFinalScore(ProblemAttempt attempt) {
+    var testsPassed = attempt.getTestsPassed();
+    String[] tokens = testsPassed.split("/");
+
+    var numTestsPassed = Integer.parseInt(tokens[0]);
+    var numTests = Integer.parseInt(tokens[1]);
+    double score = ((double) numTestsPassed / numTests) * 100.0;
+    var failures = attempt.getFailedAttempts();
+
+    double finalScore = Math.max(score - failures, 0.0);
+    attempt.setFinalScore(finalScore);
   }
 }

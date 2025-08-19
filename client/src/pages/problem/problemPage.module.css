@@ -96,6 +96,23 @@
 .stageTwoBtnGroup {
   display: flex;
   gap: var(--padding-025);
+
+  width: 100%;
+  align-items: center;
+}
+
+.penalty {
+  color: var(--fail-red);
+  font-weight: 600;
+}
+
+.finalScore {
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+.stageTwoBtnGroup button {
+  width: max-content !important;
 }
 
 .runBtn {
@@ -108,7 +125,7 @@
   color: var(--pass-green) !important;
 }
 
-.leftButtons span {
+.completed {
   background-color: transparent;
   color: var(--pass-green);
 

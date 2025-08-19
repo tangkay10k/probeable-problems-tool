@@ -68,7 +68,7 @@ const ProblemAttemptProvider = ({ children }) => {
   const studentNotes = currentData.notes || "";
   const studentAgentPrompt = currentData.agentPrompt || "";
   const studentCodeSubmission = currentData.codeSubmission || "";
-  const score = currentData.score || "";
+  const testsPassed = currentData.testsPassed || "";
   const oracleExecutionHistory = currentData.oracleExecutionHistory || [];
 
   // Fetch attempt + chat, then chain execute template once we know the language.
@@ -155,7 +155,8 @@ const ProblemAttemptProvider = ({ children }) => {
     saveStudentData("agentPrompt", newPrompt);
   const updateStudentCodeSubmission = (newCode) =>
     saveStudentData("codeSubmission", newCode);
-  const updateStudentScore = (newScore) => saveStudentData("score", newScore);
+  const updateNumTestsPassed = (testsPassed) =>
+    saveStudentData("testsPassed", testsPassed);
 
   /* store [{testcase: X, output: Y, timestamp: Z}, ...]*/
   const updateOracleHistory = (newHistory) =>
@@ -175,7 +176,7 @@ const ProblemAttemptProvider = ({ children }) => {
   };
 
   const saveStudentAttempt = () => {
-    if (!score || String(score).length === 0) {
+    if (!testsPassed || String(testsPassed).length === 0) {
       toast.error("🚨 Please run your code before submitting! 🚨");
       return;
     }
@@ -193,7 +194,7 @@ const ProblemAttemptProvider = ({ children }) => {
       notesTaken: studentNotes,
       agentPrompt: studentAgentPrompt,
       codeSubmission: studentCodeSubmission,
-      score: score,
+      testsPassed: testsPassed,
       oracleExecutionHistory: oracleExecutionHistory,
     };
 
@@ -205,7 +206,7 @@ const ProblemAttemptProvider = ({ children }) => {
 
         toast.success("Your submission was saved successfully!");
         // clear score in case they update their code.
-        updateStudentScore("");
+        updateNumTestsPassed("");
 
         return getUserProfileSilently(profile.email)
           .then((updatedProfile) => setProfile(updatedProfile))
@@ -234,7 +235,7 @@ const ProblemAttemptProvider = ({ children }) => {
         studentCodeSubmission,
         updateStudentCodeSubmission,
         deleteStudentAttempt,
-        updateStudentScore,
+        updateNumTestsPassed,
         updateOracleHistory,
         oracleExecutionHistory,
         saveStudentAttempt,

@@ -87,6 +87,9 @@ export const ORACLE_HELP =
   "You can play around with the inputs and click the **Run** button to see the expected output of the" +
   " function(s)!\n\nClicking **⟲** will reset inputs back to default values.";
 
-export const PENALTY_WARNING =
-  "Each unsuccessful run will incur a **1% penalty** on your final score unless you" +
-  " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY%** \n\n *\*Penalties are capped at 15%*";
+export const PENALTY_WARNING = {
+  content:
+    "Each unsuccessful run will incur a **1% penalty** on your final score unless you" +
+    " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY%** \n\n *\*Penalties are capped at" +
+    " 15%*",
+};
