@@ -1,7 +1,12 @@
 import styles from "./nav.module.css";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
+import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+import { useNavigate } from "react-router-dom";
 
 export default function BottomNav({ handleStageChange, stage }) {
+  const { problemAttempt } = useProblemAttemptContext();
+  const navigate = useNavigate();
+
   return (
     <div className={styles.bottomNavContainer}>
       <div className={styles.prevContainer}>
@@ -13,6 +18,11 @@ export default function BottomNav({ handleStageChange, stage }) {
       <div className={styles.nextContainer}>
         {stage === 1 && (
           <ButtonV2 onClick={handleStageChange}>I'm ready to code!</ButtonV2>
+        )}
+        {stage === 2 && problemAttempt?.finalScore && (
+          <ButtonV2 onClick={() => navigate("/problems")}>
+            Back to Problem List
+          </ButtonV2>
         )}
       </div>
     </div>

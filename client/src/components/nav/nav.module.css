@@ -32,7 +32,7 @@
 
 .navbar section {
   display: flex;
-  align-items: center;
+  align-item: center;
   gap: var(--padding-1);
 }
 
@@ -160,4 +160,32 @@
 .menu button:hover {
   background: var(--toggle-hover-editor);
   color: var(--white);
+}
+
+.links {
+  display: flex;
+  gap: var(--padding-2);
+}
+
+.link {
+  text-decoration: none;
+  color: var(--white);
+  font-family: Poppins, sans-serif;
+
+  transition: color 0.7s ease-in-out;
+}
+
+.link:hover {
+  color: var(--accent-light);
+}
+
+.active {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: var(--padding-3);
 }

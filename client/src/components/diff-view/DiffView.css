@@ -3,6 +3,7 @@
   color: var(--white);
 }
 
+/* Code block container */
 .diff .code {
   margin: 0;
   padding: var(--padding-1);
@@ -15,8 +16,10 @@
   white-space: pre-wrap;
   word-break: break-word;
   tab-size: 2;
+  line-height: 1.8;
 }
 
+/* Layout */
 .diff.sxs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -34,24 +37,39 @@
   font-style: italic;
 }
 
+.diff-same,
+.diff-ins,
+.diff-del,
+.diff-change {
+  width: max-content;
+}
+
 .diff-same {
   background: transparent;
 }
 
 .diff-ins {
-  outline: 0.01rem solid var(--pass-green);
+  color: var(--pass-green);
 }
 
 .diff-del {
-  outline: 0.01rem solid var(--fail-red);
+  color: var(--fail-red);
 }
 
+.diff-change {
+  /*outline: 0.01rem solid var(--caution-yellow);*/
+}
+
+/* Fallback for merged view only:
+   if a delete is immediately followed by an insert (or vice versa),
+   treat it as a substitution and tint it amber. */
 .diff.merged .diff-ins + .diff-del,
 .diff.merged .diff-del + .diff-ins {
   background: #fffbeb;
   outline-color: #f59e0b44;
 }
 
+/* Chips (legend/badges) */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -79,4 +97,15 @@
 
 .chip.inv {
   color: #374151;
+}
+
+.diff .code .diff-same:empty,
+.diff .code .diff-ins:empty,
+.diff .code .diff-del:empty,
+.diff .code .diff-change:empty {
+  display: none; /* removes them from layout */
+  width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
 }

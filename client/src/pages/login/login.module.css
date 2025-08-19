@@ -3,7 +3,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-height: calc(100vh - var(--nav-height));
+  height: calc(100vh - var(--nav-height));
+
+  overflow: clip;
 }
 
 .background {
@@ -20,7 +22,7 @@
 }
 
 .loginPageContainer h1 {
-  font-size: 3rem;
+  font-size: var(--font-size-3);
   color: var(--white);
   text-align: center;
 }
