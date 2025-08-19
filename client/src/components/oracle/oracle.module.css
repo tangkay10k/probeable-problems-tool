@@ -14,16 +14,14 @@
 
 .editorWrapper {
   width: 100%;
-  flex: 1;
+  height: 100%;
 
   border-radius: inherit;
-
   padding: var(--padding-1);
   background-color: var(--editor-colour);
 }
 
 .outputContainer {
-  flex: 1;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -40,20 +38,19 @@
 }
 
 .outputHeader,
-.outputContainer textarea {
+.terminalOutput {
   color: var(--white);
   padding: var(--padding-2);
   background-color: var(--dark-3-grey);
-  font-size: 1rem;
+  font-size: var(--font-size-1);
   width: 100%;
 }
 
 /*===Oracle Terminal===*/
-.outputContainer textarea {
-  height: 100%;
-
+.terminalOutput {
   background-color: var(--dark-dark-grey);
   border-radius: 0 0 var(--border-radius-2) var(--border-radius-2);
+  height: 100%;
 }
 
 .outputContainer button {
@@ -83,7 +80,6 @@
 }
 
 /*===Oracle History===*/
-
 .historyContainer {
   background-color: var(--toggle-hover-editor);
   border-radius: var(--border-radius-2);
