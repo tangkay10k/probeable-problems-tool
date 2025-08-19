@@ -16,9 +16,13 @@ export function stripCommentsFromCode(code) {
   );
 }
 
-export function formatQuestionInstruction(instruction, problemStatement) {
+export function formatInstruction(
+  instruction,
+  replacement,
+  replacementName = "//VAR_PROBLEM_STATEMENT",
+) {
   return instruction.content.replace(
-    "//VAR_PROBLEM_STATEMENT",
-    problemStatement.toLowerCase(),
+    replacementName,
+    replacement.toLowerCase(),
   );
 }

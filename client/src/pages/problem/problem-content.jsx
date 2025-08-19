@@ -19,7 +19,7 @@ import {
   ORACLE as ORACLE_VARIANT,
   FULL,
 } from "@/constants/problem-constants.js";
-import { formatQuestionInstruction } from "@/utils/utils.js";
+import { formatInstruction } from "@/utils/utils.js";
 import ReactMarkdown from "react-markdown";
 
 export default function ProblemContent() {
@@ -96,10 +96,7 @@ export default function ProblemContent() {
           />
           <ReactMarkdown>
             {tutorialStep === 1
-              ? formatQuestionInstruction(
-                  stageOneInstruction,
-                  problem.problemStatement,
-                )
+              ? formatInstruction(stageOneInstruction, problem.problemStatement)
               : STAGE_TWO_CONCISE.content}
           </ReactMarkdown>
         </section>

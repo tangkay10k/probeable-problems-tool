@@ -102,7 +102,7 @@
   --nav-height: 5rem;
 
   --container-max-height: 78vh;
-  --page-container-max-width: 90vw;
+  --page-container-max-width: 80vw;
   --problem-list-max-width: 70vw;
 
   --editor-buttons-height: 2.5rem;
@@ -112,7 +112,7 @@
   --stage-one-button-container-height: 3rem;
   --banner-height: 3rem;
 
-  --bottom-nav-buttons-height: 3rem;
+  --bottom-nav-buttons-height: 2.5rem;
   --slider-width: 8rem;
 
   --blue-highlight: rgba(59, 177, 255, 0.25);

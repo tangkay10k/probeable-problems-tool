@@ -27,7 +27,10 @@ export const STAGE_ONE_ORACLE = {
 
 export const STAGE_ONE_NATURAL_LANGUAGE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "Your client has come back again and asked you to write more code for them. \n\n This time however, they are" +
+    " able to answer your question directly.\n\n Talk with your client to find out more about what they want you to" +
+    " write!\n\nOnce you understand what they want to write, click **I'm ready to code!**",
 };
 
 export const STAGE_ONE_CONCISE_FULL = {
@@ -74,7 +77,7 @@ export const STAGE_TWO_CONCISE = {
   content:
     "## Beep Boop, I am Cogs!\n\n I'm here to help you write code efficiently. \n\n Please give me detailed" +
     " instructions on what to write so I can give you my very best work ✨ \n\n Click **Build** when you are happy" +
-    " with your instructions.",
+    " with your instructions and I'll build your code for you!",
 };
 
 export const CLIENT_HELP =
@@ -83,3 +86,7 @@ export const CLIENT_HELP =
 export const ORACLE_HELP =
   "You can play around with the inputs and click the **Run** button to see the expected output of the" +
   " function(s)!\n\nClicking **⟲** will reset inputs back to default values.";
+
+export const PENALTY_WARNING =
+  "Each unsuccessful run will incur a **1% penalty** on your final score unless you" +
+  " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY%** \n\n *\*Penalties are capped at 15%*";

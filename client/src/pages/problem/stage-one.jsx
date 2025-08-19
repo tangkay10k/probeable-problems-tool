@@ -25,7 +25,7 @@ import {
   ORACLE as ORACLE_VARIANT,
   FULL,
 } from "@/constants/problem-constants.js";
-import { formatQuestionInstruction } from "@/utils/utils.js";
+import { formatInstruction } from "@/utils/utils.js";
 
 export default function StageOne() {
   const { problem } = useProblemAttemptContext();
@@ -47,7 +47,7 @@ export default function StageOne() {
         label: "Task",
         content: (
           <StudentInstruction
-            instruction={formatQuestionInstruction(
+            instruction={formatInstruction(
               instruction,
               problem.problemStatement,
             )}

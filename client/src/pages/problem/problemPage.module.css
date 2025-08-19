@@ -66,6 +66,7 @@
   justify-content: space-between;
 }
 
+.resetBtn,
 .infoBtn {
   width: var(--editor-buttons-width);
 }
@@ -73,6 +74,9 @@
 .resetBtn {
   background-color: var(--fail-red) !important;
   border: 0.01rem solid var(--fail-red-light) !important;
+}
+
+.resetBtnStage2 {
   width: 3.5rem !important;
 }
 
@@ -83,6 +87,7 @@
 
 .leftButtons {
   height: 100%;
+  width: max-content;
 
   color: var(--white);
   font-size: var(--font-size-08);

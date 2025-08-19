@@ -42,7 +42,7 @@ export default function TopToolbar({
           <ButtonV2
             onClick={onReset}
             disabled={isLoading}
-            className={styles.resetBtn}
+            className={`${styles.resetBtn} ${styles.resetBtnStage2}`}
           >
             <RestartIcon />
           </ButtonV2>
