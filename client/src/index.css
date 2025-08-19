@@ -97,6 +97,7 @@
   --layer-1: 1;
   --layer-2: 2;
   --layer-3: 3;
+  --layer-max: 1000;
 
   --chat-box-height: 100%;
   --ai-agent-box-height: 20rem;

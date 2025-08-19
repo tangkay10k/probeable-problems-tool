@@ -96,7 +96,7 @@
 
 .status {
   position: absolute;
-  z-index: var(--layer-2);
+  z-index: var(--layer-1);
 
   /*===HARDCODED BASED ON HEIGHT OF HEADER===*/
   right: 3.5rem;
