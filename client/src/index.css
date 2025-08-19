@@ -99,7 +99,9 @@
   --layer-3: 3;
   --layer-max: 1000;
 
-  --chat-box-height: 100%;
+  --chat-box-height: calc(
+    100% - var(--stage-one-button-container-height) + 1vh
+  );
   --ai-agent-box-height: 20rem;
 
   --nav-height: 5rem;
