@@ -10,7 +10,7 @@ export default function useTestRunner({
   problem,
   template,
   addLog,
-  updateStudentScore,
+  updateNumTestsPassed,
 }) {
   const { problemAttempt, setProblemAttempt } = useProblemAttemptContext();
   const [_, withLoading] = useWithLoading();
@@ -39,7 +39,7 @@ export default function useTestRunner({
 
         setResults(next);
         setNumPassed(passedCount);
-        const score = `${passedCount}/${problem?.testSuite?.length ?? 0}`;
+        const numTestsPassed = `${passedCount}/${problem?.testSuite?.length ?? 0}`;
 
         if (passedCount !== problem?.testSuite?.length) {
           await withLoading(
@@ -51,13 +51,13 @@ export default function useTestRunner({
           );
         }
 
-        updateStudentScore(score);
+        updateNumTestsPassed(numTestsPassed);
 
         addLog({
           component: Component.TESTS,
           action: Action.EXECUTE,
           input: `${implementation}`,
-          output: score,
+          output: numTestsPassed,
         });
       };
 
@@ -68,7 +68,7 @@ export default function useTestRunner({
         updateResults,
       );
     },
-    [problem, template, addLog, updateStudentScore],
+    [problem, template, addLog, updateNumTestsPassed],
   );
 
   return { results, setResults, numPassed, run };

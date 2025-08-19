@@ -24,11 +24,12 @@ public class ProblemAttempt {
   private ProgramLanguage problemLanguage;
   private String chatHistoryId;
   private String codeSubmission;
-  private String score;
+  private String testsPassed;
   private String notesTaken;
   private String agentPrompt;
   private List<OracleExecution> oracleExecutionHistory;
   private int failedAttempts;
+  private double finalScore;
 
   // Used to store frequency of eq class targeted by student: [constraintNum, freq]
   private Map<Integer, Integer> clientEquivalenceMap = new HashMap<>();
