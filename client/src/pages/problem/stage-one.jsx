@@ -25,6 +25,7 @@ import {
   ORACLE as ORACLE_VARIANT,
   FULL,
 } from "@/constants/problem-constants.js";
+import { formatQuestionInstruction } from "@/utils/utils.js";
 
 export default function StageOne() {
   const { problem } = useProblemAttemptContext();
@@ -44,7 +45,14 @@ export default function StageOne() {
     const tabs = [
       {
         label: "Task",
-        content: <StudentInstruction instruction={instruction.content} />,
+        content: (
+          <StudentInstruction
+            instruction={formatQuestionInstruction(
+              instruction,
+              problem.problemStatement,
+            )}
+          />
+        ),
       },
     ];
     if (showRun) {

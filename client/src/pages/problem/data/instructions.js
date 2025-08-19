@@ -14,7 +14,15 @@ export const STAGE_ONE_FULL = {
 
 export const STAGE_ONE_ORACLE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "You have been approached by a client who would like you to write a program for them, however, they have been a" +
+    " little vague.\n\n" +
+    "They have asked you to:\n\n" +
+    "**//VAR_PROBLEM_STATEMENT**\n" +
+    "\n" +
+    "Before writing any code, please clarify what the function should do by checking it with various inputs. \n\nYou" +
+    " can modify the inputs as many times as you like, and then click **Run** to observe the desired outputs. \n" +
+    "\n\nOnce you are certain about how the function should behave, click **I’m ready to code!**\n",
 };
 
 export const STAGE_ONE_NATURAL_LANGUAGE = {
@@ -33,7 +41,14 @@ export const STAGE_ONE_CONCISE_FULL = {
 
 export const STAGE_ONE_CONCISE_ORACLE = {
   title: "Tasks",
-  content: "KAY TO UPDATE",
+  content:
+    "## Hello there! \nI want you to **//VAR_PROBLEM_STATEMENT**\n" +
+    "\n" +
+    "Before writing any code, please clarify what the function should do by checking it with various inputs. \n" +
+    "\n" +
+    "You can modify the inputs as many times as you like, and then click **Run** to observe the desired outputs. \n" +
+    "\n" +
+    "Once you are certain about how the function should behave, click **I’m ready to code!**\n",
 };
 
 export const STAGE_ONE_CONCISE_NATURAL_LANGUAGE = {
@@ -50,10 +65,10 @@ Your company has leased you an AI agent named Cogs that you can use to help writ
 
 export const STAGE_TWO_CONCISE = {
   title: "Tasks",
-  content: `It's time for you to implement a solution that meets your client's requirements!
-
-**Cogs** is an AI agent that can help you write code.
-`,
+  content:
+    "## Beep Boop, I am Cogs!\n\n I'm here to help you write code efficiently. \n\n Please give me detailed" +
+    " instructions on what to write so I can give you my very best work ✨ \n\n Click **Build** when you are happy" +
+    " with your instructions.",
 };
 
 export const CLIENT_HELP =
@@ -62,5 +77,3 @@ export const CLIENT_HELP =
 export const ORACLE_HELP =
   "You can play around with the inputs and click the **Run** button to see the expected output of the" +
   " function(s)!\n\nClicking **⟲** will reset inputs back to default values.";
-
-export const EXECUTION__CONFIRMATION = ``;

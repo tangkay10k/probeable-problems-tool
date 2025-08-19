@@ -39,7 +39,7 @@
 }
 
 .activeTab {
-  border-bottom: 0.1rem solid var(--accent);
+  border-bottom: 0.2rem solid var(--accent);
   color: var(--accent);
 
   height: auto;

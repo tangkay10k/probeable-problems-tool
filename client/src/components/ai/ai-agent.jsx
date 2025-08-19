@@ -102,7 +102,7 @@ export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
       <div className={styles.agentBody}>
         <TextArea
           placeholder={
-            "Greetings beep boop, I write exactly as what I'm told. \nPlease give me instructions on what to code!"
+            "I write exactly as what I'm told 👋  \n\nPlease give me instructions on what to code!"
           }
           resizable={false}
           value={studentAgentPrompt}

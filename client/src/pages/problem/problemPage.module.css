@@ -265,3 +265,58 @@
 .error {
   color: var(--fail-red) !important;
 }
+
+/*.instructionContainer section {*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.row {*/
+/*    display: flow-root;*/
+/*}*/
+
+/*.clientPic {*/
+/*    float: right;*/
+
+/*    width: 15rem;*/
+/*    height: auto;*/
+
+/*    shape-outside: url("/client-full.png");*/
+/*    shape-margin: var(--padding-3);*/
+
+/*    object-fit: cover;*/
+/*}*/
+
+/* Center the whole content block inside the modal */
+.instructionContainer .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers the <section> and the button as items */
+  gap: var(--padding-2);
+}
+
+/* The section contains the float; center the section itself */
+.instructionContainer section {
+  display: flow-root; /* contains the float’s height */
+  width: min(70ch, 100%); /* nice readable line length */
+  margin: 0 auto; /* centers the section horizontally */
+  text-align: left; /* keep text readable with a float */
+}
+
+/* Your floated image for shape-outside */
+.clientPic {
+  float: right;
+  width: 15rem;
+  height: auto; /* set a fixed height if you see odd wraps */
+  shape-outside: url("/client-full.png");
+  shape-margin: var(--padding-3);
+  object-fit: cover;
+
+  margin: 0 -70px var(--padding-3) var(--padding-3);
+}
+
+/* Center the button row, if you want stronger control */
+.actions {
+  display: flex;
+  justify-content: center;
+}
