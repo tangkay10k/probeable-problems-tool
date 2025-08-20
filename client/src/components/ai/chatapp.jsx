@@ -177,7 +177,6 @@ export default function ChatApp() {
 
           {isLoading && <LoadingBubble />}
         </div>
-
         <div className={styles.inputContainer}>
           <TextArea
             rows={1}

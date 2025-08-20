@@ -3,7 +3,7 @@ Language Rules:
 - No code unless it meets the TC Rule. For test cases, provide only the input setup, a single function call, and a
 single `printf` output line if the function return type is not void; no prose.
 
-Example test case format:
+Example test case formats:
 [INTERNAL REFERENCE — DO NOT OUTPUT UNLESS TC TRIGGERS]
 int values[] = {1,2,3,4,5};
 int n = 5;
@@ -11,3 +11,7 @@ int a = 0;
 int b = 5;
 int result = CountBetween(values, n, a, b);
 printf("%d", result);
+
+int values[] = {5, 2, 4, 2, 7};
+int length = 5;
+SmallestEven(values, length);
