@@ -27,6 +27,9 @@ public class ProblemAttemptService {
 
   private final PersonService personService;
 
+  private final String CLIENT_FIRST_MESSGAGE_VALIDATION =
+      "Hello There"; // The first message MUST contain this text.
+
   ProblemAttemptService(
       ProblemAttemptRepository problemAttemptRepository,
       ProblemRepository problemRepository,
@@ -59,6 +62,13 @@ public class ProblemAttemptService {
       attempt.setCreatedDate(new Date());
 
       ChatHistory chatHistory = initialiseClientPersona(problem);
+
+      if (!isClientFirstMessageValid(chatHistory)) {
+        String failSafe =
+            ClientPrompts.clientFirstMessageFailSafe(
+                problem.getProblemStatement(), problem.getModelAnswer());
+        replaceFirstMessage(chatHistory, failSafe);
+      }
 
       attempt.setChatHistoryId(chatHistory.getSessionId());
       attempt = problemAttemptRepository.save(attempt);
@@ -146,5 +156,14 @@ public class ProblemAttemptService {
 
     double finalScore = Math.max(score - failures, 0.0);
     attempt.setFinalScore(finalScore);
+  }
+
+  private boolean isClientFirstMessageValid(ChatHistory chatHistory) {
+    String assistantFirstMessage = chatHistory.getMessages().get(1).getContent().getMessage();
+    return (assistantFirstMessage.contains(CLIENT_FIRST_MESSGAGE_VALIDATION));
+  }
+
+  private void replaceFirstMessage(ChatHistory chatHistory, String newMessage) {
+    chatHistory.getMessages().get(1).getContent().setMessage(newMessage);
   }
 }

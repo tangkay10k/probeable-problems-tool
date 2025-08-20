@@ -15,6 +15,8 @@ public class ClientPrompts {
       "c-sf-specific-instructions.txt";
   private static final String FAULTY_SOLUTION_PROMPT_FILE = "faulty-solution-prompt.txt";
 
+  private static final String FAIL_SAFE_PROMPT = "client-convo-start.txt";
+
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,
       String problemStatement,
@@ -95,5 +97,15 @@ public class ClientPrompts {
   private static String getJavaSpecificInstructions() {
     // TODO: write java Specific instructions.
     return null;
+  }
+
+  public static String clientFirstMessageFailSafe(String problemStatement, String modelAnswer)
+      throws IOException {
+    String baseMessage = readFileFromResources(PROMPT_RESOURCE_DIR + FAIL_SAFE_PROMPT);
+    String functionSignature = modelAnswer.split("\\{")[0].trim();
+
+    return baseMessage
+        .replace("//VAR_PROBLEM_STATEMENT", problemStatement.toLowerCase())
+        .replace("//VAR_FUNCTION_SIGNATURE", functionSignature);
   }
 }
