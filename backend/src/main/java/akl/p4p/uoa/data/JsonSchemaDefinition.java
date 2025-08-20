@@ -14,14 +14,6 @@ public class JsonSchemaDefinition {
 			      "type": "string",
 			      "description": "The response of the client with the persona of a non-technical person"
 			    },
-			    "can_answer": {
-			      "type": "boolean",
-			      "description": "If the client is able to answer the question without executing the code"
-			    },
-			    "has_asked": {
-			      "type": "boolean",
-			      "description": "Flag indicating if the user has asked a similar or identical question"
-			    },
 			    "test_case": {
 			      "type": ["string", "null"],
 			      "default": null,
@@ -38,8 +30,6 @@ public class JsonSchemaDefinition {
 			  },
 			  "required": [
 			    "message",
-			    "can_answer",
-			    "has_asked",
 			    "constraint_targeting",
 			    "test_case",
 			    "asked_expected_output"
