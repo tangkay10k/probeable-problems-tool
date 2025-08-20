@@ -19,11 +19,11 @@ export default function BottomNav({ handleStageChange, stage }) {
         {stage === 1 && (
           <ButtonV2 onClick={handleStageChange}>I'm ready to code!</ButtonV2>
         )}
-        {stage === 2 && problemAttempt?.finalScore && (
+        {stage === 2 && problemAttempt?.finalScore ? (
           <ButtonV2 onClick={() => navigate("/problems")}>
             Back to Problem List
           </ButtonV2>
-        )}
+        ) : null}
       </div>
     </div>
   );

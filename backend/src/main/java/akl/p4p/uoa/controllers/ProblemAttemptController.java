@@ -128,6 +128,7 @@ public class ProblemAttemptController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ProblemAttempt> updateFailedAttempts(@PathVariable String id) {
     ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
+
     int newFailedAttempts =
         Math.min(
             problemAttempt.getFailedAttempts() + 1,

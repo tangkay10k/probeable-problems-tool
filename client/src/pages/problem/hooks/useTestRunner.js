@@ -23,14 +23,14 @@ export default function useTestRunner({
 
       const updateResults = async (execution) => {
         const output = execution.run.output ?? "";
+        const didCompile = execution.compile.code === 0;
         const lines = output.split(SPLIT_STRING);
         let passedCount = 0;
         const next = [];
 
         for (let i = 0; i < lines.length; i++) {
           const expected = problem?.testSuite?.[i]?.expectedStdOut ?? "";
-          const actual =
-            execution.compile.code === 0 ? lines[i] : "[COMPILATION ERROR]";
+          const actual = didCompile ? lines[i] : "[COMPILATION ERROR]";
           const pass = actual === expected;
           if (pass) passedCount += 1;
           next.push({ actual, expected, pass });
@@ -41,7 +41,7 @@ export default function useTestRunner({
         setNumPassed(passedCount);
         const numTestsPassed = `${passedCount}/${problem?.testSuite?.length ?? 0}`;
 
-        if (passedCount !== problem?.testSuite?.length) {
+        if (didCompile && passedCount !== problem?.testSuite?.length) {
           await withLoading(
             () => updateFailedAttempts(problemAttempt.id),
             (updatedProblemAttempt) => {

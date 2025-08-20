@@ -13,7 +13,10 @@ public class TestExplanation {
         + INPUTS_PLACEHOLDER
         + "the function is expected to output: "
         + OUTPUTS_PLACEHOLDER,
-    "For this input, I want the function to return: " + OUTPUTS_PLACEHOLDER,
+    "For this input: "
+        + INPUTS_PLACEHOLDER
+        + ", I want the function to return: "
+        + OUTPUTS_PLACEHOLDER,
     "With the input " + INPUTS_PLACEHOLDER + " the function should output: " + OUTPUTS_PLACEHOLDER,
     "For the input "
         + INPUTS_PLACEHOLDER
