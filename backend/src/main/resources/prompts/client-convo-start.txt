@@ -1,0 +1,6 @@
+Hello there, I don't know how to code so I need you to help me //VAR_PROBLEM_STATEMENT
+
+The signature of the function I want you to write is:
+ **`//VAR_FUNCTION_SIGNATURE;`**
+
+Please let me know if you have any further questions or if anything was unclear! I'll try my best to help you out!
