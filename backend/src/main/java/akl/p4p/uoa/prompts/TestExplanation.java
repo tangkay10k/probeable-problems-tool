@@ -31,7 +31,7 @@ public class TestExplanation {
   private static final String[] multipleInputResponses = {
     "For the inputs "
         + INPUTS_PLACEHOLDER
-        + " the function call is expected to return the output: "
+        + " the function call is expected to produce: "
         + OUTPUTS_PLACEHOLDER,
     "For these inputs, I want the function to output: " + OUTPUTS_PLACEHOLDER + ".",
     "With the inputs " + INPUTS_PLACEHOLDER + " the function should output: " + OUTPUTS_PLACEHOLDER,
@@ -57,6 +57,7 @@ public class TestExplanation {
         getRandomResponse(isSingleInputTestCase(message.getTestCase(), message.getFunctionName()));
 
     return llmMessage
+        + " "
         + responseTemplate
             .replace(INPUTS_PLACEHOLDER, inputs)
             .replace(OUTPUTS_PLACEHOLDER, message.getOutput());
