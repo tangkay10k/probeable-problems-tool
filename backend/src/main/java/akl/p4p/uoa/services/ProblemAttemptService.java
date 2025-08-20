@@ -1,7 +1,9 @@
 package akl.p4p.uoa.services;
 
+import static akl.p4p.uoa.data.JsonSchemaDefinition.getClientProbeSchema;
+import static akl.p4p.uoa.prompts.ClientPrompts.getClientFirstMessage;
+
 import akl.p4p.uoa.data.ChatContent;
-import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.models.ProblemAttempt;
@@ -26,9 +28,6 @@ public class ProblemAttemptService {
   private final ChatHistoryRepository chatHistoryRepository;
 
   private final PersonService personService;
-
-  private final String CLIENT_FIRST_MESSGAGE_VALIDATION =
-      "Hello There"; // The first message MUST contain this text.
 
   ProblemAttemptService(
       ProblemAttemptRepository problemAttemptRepository,
@@ -63,13 +62,6 @@ public class ProblemAttemptService {
 
       ChatHistory chatHistory = initialiseClientPersona(problem);
 
-      if (!isClientFirstMessageValid(chatHistory)) {
-        String failSafe =
-            ClientPrompts.clientFirstMessageFailSafe(
-                problem.getProblemStatement(), problem.getModelAnswer());
-        replaceFirstMessage(chatHistory, failSafe);
-      }
-
       attempt.setChatHistoryId(chatHistory.getSessionId());
       attempt = problemAttemptRepository.save(attempt);
       attempt.setMessageList(chatHistory.getMessages());
@@ -94,14 +86,7 @@ public class ProblemAttemptService {
 
   public ChatHistory chatWithClientWithSessionHistory(String sessionId, ChatContent userMessage)
       throws IOException {
-    return aiService.chatWithClient(
-        sessionId, null, userMessage, JsonSchemaDefinition.getClientProbeSchema(), false);
-  }
-
-  public ChatHistory chatWithClientWithSessionHistoryAndReplace(
-      String sessionId, String systemPrompt) throws IOException {
-    return aiService.chatWithClient(
-        sessionId, systemPrompt, null, JsonSchemaDefinition.getClientProbeSchema(), true);
+    return aiService.chatWithClient(sessionId, userMessage, getClientProbeSchema());
   }
 
   public ProblemAttempt saveProblemAttemptAndUpdateProblemsCompleted(
@@ -132,17 +117,19 @@ public class ProblemAttemptService {
   }
 
   private ChatHistory initialiseClientPersona(Problem problem) throws IOException {
+
+    var problemStatement = problem.getProblemStatement();
+    var modelAnswer = problem.getModelAnswer();
+
     String systemPrompt =
         ClientPrompts.getClientInitialisationPrompt(
-            problem.getProgramLanguage(),
-            problem.getProblemStatement(),
-            problem.getModelAnswer(),
-            problem.getConstraints());
+            problem.getProgramLanguage(), problemStatement, modelAnswer, problem.getConstraints());
 
     String newSessionId = UUID.randomUUID().toString();
+    aiService.createNewChat(newSessionId, systemPrompt);
 
-    return aiService.chatWithClient(
-        newSessionId, systemPrompt, null, JsonSchemaDefinition.getClientProbeSchema(), false);
+    return overwriteAssistantMessage(
+        newSessionId, getClientFirstMessage(problemStatement, modelAnswer));
   }
 
   private void calculateAndSaveFinalScore(ProblemAttempt attempt) {
@@ -156,14 +143,5 @@ public class ProblemAttemptService {
 
     double finalScore = Math.max(score - failures, 0.0);
     attempt.setFinalScore(finalScore);
-  }
-
-  private boolean isClientFirstMessageValid(ChatHistory chatHistory) {
-    String assistantFirstMessage = chatHistory.getMessages().get(1).getContent().getMessage();
-    return (assistantFirstMessage.contains(CLIENT_FIRST_MESSGAGE_VALIDATION));
-  }
-
-  private void replaceFirstMessage(ChatHistory chatHistory, String newMessage) {
-    chatHistory.getMessages().get(1).getContent().setMessage(newMessage);
   }
 }

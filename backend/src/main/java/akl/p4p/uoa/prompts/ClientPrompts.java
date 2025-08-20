@@ -99,7 +99,7 @@ public class ClientPrompts {
     return null;
   }
 
-  public static String clientFirstMessageFailSafe(String problemStatement, String modelAnswer)
+  public static String getClientFirstMessage(String problemStatement, String modelAnswer)
       throws IOException {
     String baseMessage = readFileFromResources(PROMPT_RESOURCE_DIR + FAIL_SAFE_PROMPT);
     String functionSignature = modelAnswer.split("\\{")[0].trim();

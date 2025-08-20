@@ -1,15 +1,18 @@
 package akl.p4p.uoa.services;
 
+import static akl.p4p.uoa.data.ChatMessageConverter.convertSystemPromptToChatMessage;
+import static akl.p4p.uoa.data.ChatMessageConverter.convertUserMessageToChatMessage;
+
 import akl.p4p.uoa.data.*;
 import akl.p4p.uoa.data.ChatMessage.Role;
+import akl.p4p.uoa.data.ChatMessageConverter;
 import akl.p4p.uoa.models.ChatHistory;
-import akl.p4p.uoa.prompts.ClientPrompts;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.lang.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.ai.chat.client.ChatClient;
@@ -121,87 +124,45 @@ public class AIService {
     return rf;
   }
 
+  public ChatHistory createNewChat(String sessionId, String systemPrompt) {
+
+    var sessionHistory = new ChatHistory();
+    sessionHistory.setSessionId(sessionId);
+
+    List<ChatMessage> messageHistory = new ArrayList<>();
+    messageHistory.add(convertSystemPromptToChatMessage(systemPrompt));
+
+    sessionHistory.setMessages(messageHistory);
+    return chatHistoryService.saveHistory(sessionHistory);
+  }
+
   /**
    * Send a user message within a session, maintaining the chat history.
    *
    * @param sessionId a unique key for this conversation (e.g. user ID or UUID)
-   * @param systemPrompt only applied on session‐start; ignored for subsequent messages
    * @param userMessage the new user message to send
    * @param responseSchema the response schema to follow, defaults to text if null
    * @return the assistant’s reply
-   * @throws IOException
+   * @throws IOException if the LLM call fails or the response cannot be parsed
    */
   public ChatHistory chatWithClient(
-      String sessionId,
-      @Nullable String systemPrompt,
-      @Nullable ChatContent userMessage,
-      @Nullable String responseSchema,
-      boolean isReplace)
-      throws IOException {
+      String sessionId, ChatContent userMessage, String responseSchema) throws IOException {
 
     ChatHistory sessionHistory = chatHistoryService.loadHistory(sessionId);
 
     if (sessionHistory == null) {
-      sessionHistory = new ChatHistory();
-      sessionHistory.setSessionId(sessionId);
-      sessionHistory.setMessages(new ArrayList<>());
+      throw new RuntimeException("Chat History with id: " + sessionId + " does not exist!");
     }
 
-    List<ChatMessage> history = sessionHistory.getMessages();
+    List<ChatMessage> nativeMessages = sessionHistory.getMessages();
+    nativeMessages.add(convertUserMessageToChatMessage(userMessage));
+    List<Message> messages = convertNativeChatHistoryToMessages(nativeMessages);
 
-    if (history.isEmpty() || isReplace) {
-      history.add(ChatMessageConverter.convertSystemPromptToChatMessage(systemPrompt));
-    } else if (userMessage != null) {
-      history.add(ChatMessageConverter.convertUserMessageToChatMessage(userMessage));
-    }
+    var options = getStudentDefaultOptions(responseSchema);
+    String assistantReply = callLLM(options, messages);
 
-    List<Message> sdkMessages =
-        history.stream()
-            .map(
-                chatMsg -> {
-                  if (Role.USER.equals(chatMsg.getRole())) {
-                    return new UserMessage(chatMsg.getContent().getMessage());
-                  } else if (Role.ASSISTANT.equals(chatMsg.getRole())) {
-                    return new AssistantMessage(chatMsg.getContent().getMessage());
-                  } else {
-                    return new SystemMessage(chatMsg.getContent().getMessage());
-                  }
-                })
-            .collect(Collectors.toList());
-
-    OpenAiChatOptions options =
-        OpenAiChatOptions.builder()
-            .model(OpenAiApi.ChatModel.O4_MINI)
-            .temperature(1D)
-            .responseFormat(getResponseType(responseSchema, CLIENT_RESPONSE_SCHEMA_NAME))
-            .build();
-
-    String assistantReply =
-        chatClient.prompt().options(options).messages(sdkMessages).call().content();
-
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    ChatContent chatContent = objectMapper.readValue(assistantReply, ChatContent.class);
-
-    // Only replace IFF user has submitted a message. No index out of bounds.
-    if (!isReplace && chatContent.isAsked_expected_output() && sdkMessages.size() > 2) {
-      List<Message> filteredMessages =
-          Arrays.asList(
-              // sdkMessages.get(0),
-              sdkMessages.get(1),
-              sdkMessages.get(sdkMessages.size() - 1),
-              new SystemMessage(ClientPrompts.clientTestCasePrompt()));
-
-      String rawRes = generateTestCase(filteredMessages);
-      String testCase = sanitizeLLMTestCaseResponse(rawRes);
-      chatContent.setTest_case(testCase);
-    }
-
-    if (isReplace && history.size() >= 2) {
-      history.subList(history.size() - 2, history.size()).clear();
-    }
-
-    history.add(ChatMessageConverter.convertLLMResponseToChatMessage(chatContent));
+    sessionHistory.setMessages(
+        parseLLMResponseAndAppendToMessageHistory(nativeMessages, assistantReply));
 
     return chatHistoryService.saveHistory(sessionHistory);
   }
@@ -284,5 +245,40 @@ public class AIService {
       // Not JSON, just return as-is
     }
     return raw;
+  }
+
+  private OpenAiChatOptions getStudentDefaultOptions(String responseSchema) {
+    return OpenAiChatOptions.builder()
+        .model(OpenAiApi.ChatModel.O4_MINI)
+        .temperature(1D)
+        .responseFormat(getResponseType(responseSchema, CLIENT_RESPONSE_SCHEMA_NAME))
+        .build();
+  }
+
+  private String callLLM(OpenAiChatOptions options, List<Message> messages) {
+    return chatClient.prompt().options(options).messages(messages).call().content();
+  }
+
+  private List<Message> convertNativeChatHistoryToMessages(List<ChatMessage> chatHistory) {
+    return chatHistory.stream()
+        .map(
+            chatMsg -> {
+              if (Role.USER.equals(chatMsg.getRole())) {
+                return new UserMessage(chatMsg.getContent().getMessage());
+              } else if (Role.ASSISTANT.equals(chatMsg.getRole())) {
+                return new AssistantMessage(chatMsg.getContent().getMessage());
+              } else {
+                return new SystemMessage(chatMsg.getContent().getMessage());
+              }
+            })
+        .collect(Collectors.toList());
+  }
+
+  private List<ChatMessage> parseLLMResponseAndAppendToMessageHistory(
+      List<ChatMessage> messagesToAppendTo, String reply) throws JsonProcessingException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    ChatContent chatContent = objectMapper.readValue(reply, ChatContent.class);
+    messagesToAppendTo.add(ChatMessageConverter.convertLLMResponseToChatMessage(chatContent));
+    return messagesToAppendTo;
   }
 }
