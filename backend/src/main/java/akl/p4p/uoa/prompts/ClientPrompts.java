@@ -47,8 +47,7 @@ public class ClientPrompts {
         .replace("//VAR_CONSTRAINTS", constraints)
         .replace("//VAR_FUNCTION_SIGNATURE", functionSignature)
         .replace("//VAR_PROGRAM_LANGUAGE", problemLanguage)
-        .replace("//VAR_IS_NEW_SESSION", "true")
-        .replace("//VAR_TURN_INDEX", "0");
+        .replace("//VAR_IS_NEW_SESSION", "true");
   }
 
   /**
