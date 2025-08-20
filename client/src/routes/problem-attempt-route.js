@@ -30,6 +30,7 @@ export const submitUserMessage = async (
 export const replaceWithOutputResponse = async (
   sessionId,
   question,
+  llmMessage,
   output,
   testCase,
   functionName,
@@ -37,6 +38,7 @@ export const replaceWithOutputResponse = async (
   const payload = {
     sessionId: sessionId,
     questionAsked: question,
+    llmResponse: llmMessage,
     output,
     testCase,
     functionName,

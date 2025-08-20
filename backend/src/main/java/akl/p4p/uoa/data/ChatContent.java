@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatContent {
   private String message;
-  private boolean can_answer;
-  private boolean has_asked;
   private String test_case;
   private int constraint_targeting;
   private boolean asked_expected_output;

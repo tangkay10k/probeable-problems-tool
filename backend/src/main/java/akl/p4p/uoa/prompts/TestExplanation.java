@@ -9,17 +9,17 @@ public class TestExplanation {
   private static final String OUTPUTS_PLACEHOLDER = "//VAR_OUTPUTS";
 
   private static final String[] singleInputResponses = {
-    "Hmm, for the input: "
+    "For that: "
         + INPUTS_PLACEHOLDER
         + "the function is expected to output: "
         + OUTPUTS_PLACEHOLDER,
     "For this input, I want the function to return: " + OUTPUTS_PLACEHOLDER,
     "With the input " + INPUTS_PLACEHOLDER + " the function should output: " + OUTPUTS_PLACEHOLDER,
-    "Good question! For the input "
+    "For the input "
         + INPUTS_PLACEHOLDER
         + " I expect the function to output: "
         + OUTPUTS_PLACEHOLDER,
-    "I want you to make it so that the function returns: "
+    "I would like you to make it so that the function outputs: "
         + OUTPUTS_PLACEHOLDER
         + " for the input "
         + INPUTS_PLACEHOLDER,
@@ -29,17 +29,20 @@ public class TestExplanation {
         + OUTPUTS_PLACEHOLDER,
   };
   private static final String[] multipleInputResponses = {
-    "Hmm, for the inputs "
+    "For the inputs "
         + INPUTS_PLACEHOLDER
-        + " the function call is expected to return the output: "
+        + " the function call is expected to produce: "
         + OUTPUTS_PLACEHOLDER,
-    "For these inputs, I want the function to output: " + OUTPUTS_PLACEHOLDER + ".",
+    "For these inputs: "
+        + INPUTS_PLACEHOLDER
+        + " I want the function to output: "
+        + OUTPUTS_PLACEHOLDER,
     "With the inputs " + INPUTS_PLACEHOLDER + " the function should output: " + OUTPUTS_PLACEHOLDER,
-    "Good question! For the inputs "
+    "For the inputs "
         + INPUTS_PLACEHOLDER
         + " I expect the function to output: "
         + OUTPUTS_PLACEHOLDER,
-    "I want you to make it so that the function output: "
+    "I would like you to make it so that the function output: "
         + OUTPUTS_PLACEHOLDER
         + " for the inputs "
         + INPUTS_PLACEHOLDER,
@@ -50,14 +53,17 @@ public class TestExplanation {
   };
 
   public static String getTestCaseExplanation(TestCaseOutputDTO message) {
+    String llmMessage = message.getLlmResponse().getMessage();
     String inputs =
         parseInputsFromGeneratedTestCase(message.getTestCase(), message.getFunctionName());
     String responseTemplate =
         getRandomResponse(isSingleInputTestCase(message.getTestCase(), message.getFunctionName()));
 
-    return responseTemplate
-        .replace(INPUTS_PLACEHOLDER, inputs)
-        .replace(OUTPUTS_PLACEHOLDER, message.getOutput());
+    return llmMessage
+        + " "
+        + responseTemplate
+            .replace(INPUTS_PLACEHOLDER, inputs)
+            .replace(OUTPUTS_PLACEHOLDER, message.getOutput());
   }
 
   /** Helper function to extract the inputs from a generated test case. */

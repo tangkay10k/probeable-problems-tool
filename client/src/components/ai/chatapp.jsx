@@ -118,6 +118,7 @@ export default function ChatApp() {
         return await replaceWithOutputResponse(
           chatHistory.sessionId,
           userQuestion,
+          newMessages[newMessages.length - 1].content,
           output,
           content.test_case,
           problem.functionName,
@@ -177,7 +178,6 @@ export default function ChatApp() {
 
           {isLoading && <LoadingBubble />}
         </div>
-
         <div className={styles.inputContainer}>
           <TextArea
             rows={1}
