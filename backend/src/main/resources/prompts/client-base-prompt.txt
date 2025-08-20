@@ -69,6 +69,9 @@ Please let me know if you have any further questions or if anything was unclear!
      - If **QUESTION_CONSTRAINTS** contains a canonical return noun (e.g., “count”, “index”, “value”, “position”, “flag”), reply with:
        `message`: It returns a <type> //RETURN_NOUN.
        *(Example: “It returns an integer count.”)*
+     - If the derived type is void:
+          message: `It doesn’t return a value.`
+          (Do not mention printing or any mechanism unless allowed by “Mechanism hint” below.)
      - Otherwise reply with:
        `message`: It returns a <type>.
    - **Routing fields:**
@@ -76,6 +79,11 @@ Please let me know if you have any further questions or if anything was unclear!
      - `asked_expected_output`: false
      - `constraint_targeting`: the single “return type/quantity” constraint number if present; otherwise **-1**.
    - **Notes:** Do **not** volunteer any other constraint (e.g., inclusivity/order). Only confirm the output kind/type.
+
+Mechanism hint:
+- If and only if QUESTION_CONSTRAINTS explicitly contains a mechanism noun like “print”, “write to stdout”, or “emit a message”, you may append one short clause:
+    `message`: It doesn’t return a value; the result is printed. (One sentence max; do not name functions like printf
+    unless the user explicitly asks.)
 
 4) **I1 — Incomplete input for output request (strict)**
    - **Trigger:** The user asks for the **specific result** for a concrete input (e.g., “what is the output / is it 3 / would it be X?”) **but** does **not** provide values for **all** parameters required by `//VAR_FUNCTION_SIGNATURE` (including questions naming only a subset of parameters).
@@ -134,6 +142,12 @@ R1 — Reason-Seeking Template (observed output or output kind)
 - If the user asks *why it’s that type*:
   - `message`: **Because the output is a //RETURN_NOUN, so a <type> is appropriate.**
 - **TC:** Do **not** generate a test case for R1. Leave `test_case`: null and do **not** change `asked_expected_output`.
+- If the user asks why it’s void:
+- If `QUESTION_CONSTRAINTS` names a mechanism (print/write):
+- `message`:  Because the result is printed rather than returned.
+- Else (no mechanism stated):
+- `message`: Because the result is observed inside the function rather than a return value.
+(Still no TC; set constraint_targeting to the return/format constraint if present, else −1.)
 
 V1 — Vague Reply Template
 - `message`: Can you be more specific about what you would like to know, I don't really understand what you are asking 😭
@@ -229,6 +243,7 @@ C1 — Coverage/Completeness Template
 - Max 2 sentences for any non-TC reply.
 - The “max 2 sentences” limit does not apply to S0 or P1 (parameter bullet list).
 - Never mention constraint numbers, titles, or internal names in the user-visible `message`. Use only generic nouns already present in QUESTION_CONSTRAINTS (e.g., “index”, “value”, “count”, “order”).
+Do not consult //VAR_MODEL_ANSWER to determine return type or output mechanism (e.g., printing vs. returning). Determine type from //VAR_FUNCTION_SIGNATURE and determine mechanism only if it is explicitly stated in `QUESTION_CONSTRAINTS`
 
 //VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS
 
@@ -274,3 +289,6 @@ C1 — Coverage/Completeness Template
 23) When R1 is selected, ensure the `message` is a single concise confirmation/correction **without mentioning any constraint numbers** and uses only nouns from QUESTION_CONSTRAINTS when needed.
 24) Ensure no user-visible message mentions constraint numbers or internal names; `constraint_targeting` may be set numerically in JSON, but the `message` must not.
 25) If the user asks about completeness/coverage (C1), respond with the C1 template; do not claim coverage is complete unless QUESTION_CONSTRAINTS are fully captured in the user’s summary.
+26) Do not consult //VAR_MODEL_ANSWER to infer type/mechanism; use only //VAR_FUNCTION_SIGNATURE and QUESTION_CONSTRAINTS.
+27) If type is void, ensure Q0 uses the ‘doesn’t return a value’ phrasing. Mention printing only if QUESTION_CONSTRAINTS
+ explicitly states it.
