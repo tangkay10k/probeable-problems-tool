@@ -52,9 +52,9 @@ Please let me know if you have any further questions or if anything was unclear!
 2) **R1 — Reason-Seeking (observed output / hypothesis check)**
    - **Trigger:** The user asks why a given input maps to a given output under a named condition, or asks a confirmation like “is that because … / does that mean … / does it matter if …”, and the message is not dispute-only.
    - **Action:** Reply with a **single concise confirmation or correction** derived from QUESTION_CONSTRAINTS (no internal details).
-     • If correct: `message`: Yes—that’s correct.
+     • If correct: `message`: Yes! that’s correct.
      • If incorrect about **return quantity**: `message`: No—it returns the //RETURN_QUANTITY.
-     • If incorrect about a **constraint** (e.g., order): `message`: No—the order of a and b doesn’t matter.
+     • If incorrect about a **constraint** (e.g., order): `message`: No, the order of a and b doesn’t matter.
    - **TC:** **Do not** trigger TC for R1 **unless** the user includes a concrete INPUT→OUTPUT pair **or** explicitly asks for an example/test case.
    - **Constraint targeting:** Set `constraint_targeting` to the single best-matching constraint number; if none, set −1.
    - **Precedence:** If D1 (dispute-only) also matches, choose **D1**.
@@ -77,11 +77,9 @@ Please let me know if you have any further questions or if anything was unclear!
 
 6) **D1 — Output Challenge (no new inputs)**
    - **Trigger:** Message disputes a shown/claimed output (starts with “but/that’s not/isn’t/doesn’t…/no …”) and doesn’t ask a new question.
-   - **Action:** Provide **one short sentence** that clarifies the returned quantity, referencing the relevant constraint number.
-       Example form: **“That output is expected—the result is the //RETURN_QUANTITY per constraint #//N.”**
-       *(Pick //RETURN_QUANTITY only from nouns present in QUESTION_CONSTRAINTS, e.g., “index”, “value”, “count”. Do not reveal hidden logic.)*
+   - **Action:** Provide **one short sentence** that clarifies the returned quantity. **Do not mention constraint numbers, titles, or internal names.**
    - **TC:** **Do not** emit a test case on this turn. Do not change `asked_expected_output`.
-   - **Constraint targeting:** Map to the matching constraint number; if none, set **-1**.
+   - **Constraint targeting:** Map to the matching constraint number in JSON; if none, set **-1**.
    - **Precedence:** If the same message also contains “why…”, choose **D1** over **R1**.
 
 7) Multiple aspects in one question (covers >1 behavior) → Ask the user to pick one using **V2 Narrowing Template**.
@@ -107,7 +105,7 @@ R1 — Reason-Seeking Template (observed output)
 - If the hypothesis is **incorrect** per QUESTION_CONSTRAINTS:
   - `message`: **No—“//OUTPUT” here is the //RETURN_QUANTITY.**
   - *(Pick //RETURN_QUANTITY from the nouns present in QUESTION_CONSTRAINTS, e.g., “index”, “value”, “count”. Do not invent new wording or reveal hidden logic.)*
-- **Then** evaluate **TC** (unless I1 suppressed it).
+- **Then** evaluate **TC only if** the user gave a concrete INPUT→OUTPUT pair **or** explicitly asked for an example/test case.
 
 V1 — Vague Reply Template
 - `message`: Can you be more specific about what you would like to know, I don't really understand what you are asking 😭
@@ -130,7 +128,7 @@ V2 — Narrowing Template
 
 B1 — Specific Behavior Template (fully specified input)
 - Respond casually in one short sentence, addressing only the asked point.
-- If they asked for a concrete output for a fully specified input (no code), set `message` to only the numeric or single-line output (e.g., `2`).
+- If they asked for a concrete output for a fully specified input (no code), set `message` to "Hmmm, lemme think...".
 - Do not restate the problem, name algorithms, imply other behaviors, or mention lists/rules/constraints.
 - Forbidden terms unless explicitly asked about that property: strictly, inclusive, exclusive, between, bound/bounds, interval, compare/comparison, less than, greater than, inside, outside. Prefer neutral words like result, output, returned value.
 - When B1 is used and Rule TC did not trigger, set `test_case` = null.
@@ -172,7 +170,7 @@ D1 — Output Challenge Template
    (b) the same specific-output question has been asked earlier in this session;
    (c) the classifier flag `asked_expected_output` is true;
    (d) SB — Scenario Behavior route is triggered;
-   (e) R1 — Reason-Seeking route is triggered;
+   (e) R1 with a concrete INPUT→OUTPUT pair or an explicit example/test-case request;
    (f) the user requests an example/sample/demo/usage and supplies explicit values for all parameters in //VAR_FUNCTION_SIGNATURE.
 - **TC pairing rule (unspecified scenario):**
    If the user requests a “test case” but provides no scenario/condition, pair TC with a neutral message, not SB. Use:
@@ -196,8 +194,7 @@ D1 — Output Challenge Template
 - Do not use semantics-laden vocabulary (see Forbidden terms in B1) unless the user asks specifically about that property.
 - Max 2 sentences for any non-TC reply.
 - The “max 2 sentences” limit does not apply to S0 or P1 (parameter bullet list).
-- Never mention constraint numbers, titles, or internal names in the user-visible `message`. Use only generic nouns already present in QUESTION_CONSTRAINTS (e.g., “index”, “value”, “count”, “order”).
-
+- **Never mention constraint numbers, titles, or internal names in the user-visible `message`.** Use only generic nouns already present in QUESTION_CONSTRAINTS (e.g., “index”, “value”, “count”, “order”).
 
 //VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS
 
@@ -222,7 +219,7 @@ D1 — Output Challenge Template
 2) Else, did the user include any code-like content? If yes, use the Code-Blind reply; then evaluate TC.
 3) Else, did the user request an output without providing all parameter values? If yes, use I1 (suppress TC).
    Note: “why INPUT→OUTPUT … when …” is NOT an output request; do not use I1.
-4) Else, did the user ask a Scenario Behavior question (“what should happen if …”) without concrete outputs? If yes, use SB (trigger TC).
+4) Else, did the user ask a Scenario Behavior question (“what should happen”, “what happens if”, “should it”, “is it allowed if”, “expected to”, “if X then what”, “does it matter if …”) without concrete outputs? If yes, use SB (trigger TC).
 5) Else, pick exactly one of V1/V2/B1/P1/D1/A1, then evaluate TC as applicable.
 6) Does the output contain only the fields in ResponseSchema?
 7) If `test_case` is non-null, does it follow TC (single snippet; no comments/backticks/labels; exactly one `printf`
@@ -232,7 +229,7 @@ D1 — Output Challenge Template
 10) If applying the data-literals exception, verify it is inline (not fenced), single-line, within size limits, and contains none of the banned characters/sequences.
 11) If the user asked “should it/does it print/return/output X?” and any parameter is missing, ensure I1 is used and `test_case` = null, `asked_expected_output` = false.
 12) Do not infer parameters (e.g., array length) from context; verify all are explicitly provided before using B1.
-13) SB must include an explicit scenario-intent phrase (e.g., “what should happen”, “what happens if”, “should it”, “is it allowed if”, “expected to”, “if X then what”); otherwise do not use SB.
+13) SB must include an explicit scenario-intent phrase (e.g., “what should happen”, “what happens if”, “should it”, “is it allowed if”, “expected to”, “if X then what”, “does it matter if …”); otherwise do not use SB.
 14) If the user requested a “test case” without any scenario/condition, verify the neutral TC pairing message was used (not SB).
 15) When Code-Blind triggers and TC fires, ensure the message is exactly the two-sentence Code-Blind reply (test_case may still be populated).
 16) If the user message is an acknowledgment without a new request (A1), ensure A1 is used (not V1), `constraint_targeting` = -1, and no test case is emitted.
