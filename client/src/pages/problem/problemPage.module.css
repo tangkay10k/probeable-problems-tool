@@ -68,32 +68,24 @@
 
 .resetBtn,
 .infoBtn {
-  width: var(--editor-buttons-width);
+  width: calc(var(--editor-buttons-height) - var(--padding-025));
+  height: calc(var(--editor-buttons-height) - var(--padding-025));
 }
 
 .resetBtn {
-  background-color: var(--fail-red) !important;
-  border: 0.01rem solid var(--fail-red-light) !important;
+  background-color: var(--fail-red);
+  border: 0.01rem solid var(--fail-red-light);
 }
 
 .resetBtn:hover {
-  background-color: var(--fail-red-light) !important;
-  color: var(--fail-red) !important;
+  background-color: var(--fail-red-light);
+  color: var(--fail-red);
 }
 
-.leftButtons {
+.topBarButtons {
   height: 100%;
-  width: max-content;
-
   color: var(--white);
   font-size: var(--font-size-08);
-}
-
-.stageTwoBtnGroup {
-  display: flex;
-  gap: var(--padding-025);
-
-  width: 100%;
   align-items: center;
 }
 
@@ -107,18 +99,16 @@
   font-weight: 600;
 }
 
-.stageTwoBtnGroup button {
-  width: max-content !important;
-}
-
 .runBtn {
-  background-color: var(--pass-green) !important;
-  border: 0.01rem solid var(--pass-green-light) !important;
+  background-color: var(--pass-green);
+  border: 0.01rem solid var(--pass-green-light);
+  width: max-content;
+  height: calc(var(--editor-buttons-height) - var(--padding-025));
 }
 
 .runBtn:hover {
-  background-color: var(--pass-green-light) !important;
-  color: var(--pass-green) !important;
+  background-color: var(--pass-green-light);
+  color: var(--pass-green);
 }
 
 .completed {
@@ -136,7 +126,7 @@
   align-self: center;
 }
 
-.leftButtons button {
+.infoBtn {
   background-color: var(--accent);
   border: 0.01rem solid var(--accent-light);
   gap: var(--padding-025);
@@ -144,7 +134,7 @@
   font-weight: 600;
 }
 
-.leftButtons button:hover {
+.infoBtn:hover {
   background-color: var(--accent-light);
   color: var(--accent);
 }
@@ -239,7 +229,7 @@
   background-color: var(--dark-dark-grey);
 }
 
-.leftButtons {
+.topBarButtons {
   display: flex;
   gap: var(--padding-025);
 }

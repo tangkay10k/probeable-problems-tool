@@ -77,7 +77,8 @@ export const STAGE_TWO_CONCISE = {
   content:
     "## Beep Boop, I am Cogs!\n\n I'm here to help you write code efficiently. \n\n Please give me detailed" +
     " instructions on what to write so I can give you my very best work ✨ \n\n Click **Build** when you are happy" +
-    " with your instructions and I'll build your code for you!",
+    " with your instructions and I'll build your code for you! \n\nFeel free to write code in the editor yourself as" +
+    " well!",
 };
 
 export const CLIENT_HELP =
@@ -90,7 +91,8 @@ export const ORACLE_HELP =
 export const PENALTY_WARNING = {
   content:
     "Each unsuccessful run will incur a **1 point penalty** on your final score for **this problem** unless you" +
-    " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY points** \n\n *\*Penalties are" +
+    " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY point//VAR_PLURAL** \n\n" +
+    " *\*Penalties are" +
     " capped at" +
-    " 15 points*",
+    " 15 points*\n\nYour highest score will be kept.",
 };

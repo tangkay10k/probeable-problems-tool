@@ -47,10 +47,9 @@ export default function StageOne() {
         label: "Task",
         content: (
           <StudentInstruction
-            instruction={formatInstruction(
-              instruction,
-              problem.problemStatement,
-            )}
+            instruction={formatInstruction(instruction, {
+              "//VAR_PROBLEM_STATEMENT": problem.problemStatement,
+            })}
           />
         ),
       },
@@ -118,7 +117,7 @@ export default function StageOne() {
             <span />
           )}
 
-          <section className={styles.leftButtons}>
+          <section className={styles.topBarButtons}>
             {isRun && (
               <ButtonV2
                 onClick={() => setResetOracle((prev) => !prev)}

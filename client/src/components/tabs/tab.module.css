@@ -56,4 +56,7 @@
     var(--border-radius-2);
 
   background-color: var(--dark-dark-grey);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--editor-colour) transparent;
 }

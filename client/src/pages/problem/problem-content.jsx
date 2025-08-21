@@ -96,7 +96,9 @@ export default function ProblemContent() {
           />
           <ReactMarkdown>
             {tutorialStep === 1
-              ? formatInstruction(stageOneInstruction, problem.problemStatement)
+              ? formatInstruction(stageOneInstruction, {
+                  "//VAR_PROBLEM_STATEMENT": problem.problemStatement,
+                })
               : STAGE_TWO_CONCISE.content}
           </ReactMarkdown>
         </section>

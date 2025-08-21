@@ -32,47 +32,46 @@ export default function TopToolbar({
         onClickHandlers={[onToggleCode, onToggleTests]}
       />
 
-      <section className={styles.leftButtons}>
-        <section className={styles.stageTwoBtnGroup}>
-          {problemAttempt.testsPassed !== 0 && (
-            <p>
-              Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`} |{" "}
-              {problemAttempt.failedAttempts !== 0 && (
-                <>
-                  Penalty:{" "}
-                  <span className={styles.penalty}>
-                    {problemAttempt.failedAttempts}%
-                  </span>
-                  {" | "}
-                </>
-              )}
-              Points:{" "}
-              <span className={styles.finalScore}>
-                {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(2)}
-              </span>{" "}
-              (Highest Score Kept)
-            </p>
-          )}
-          {problemAttempt.completed && (
-            <span className={styles.completed}>
-              <CompletedIcon />
-            </span>
-          )}
-          <ButtonV2
-            onClick={onReset}
-            disabled={isLoading}
-            className={styles.resetBtn}
-          >
-            <RestartIcon />
-          </ButtonV2>
-          <ButtonV2
-            onClick={onRun}
-            disabled={isLoading}
-            className={styles.runBtn}
-          >
-            <PlayIcon /> Check!
-          </ButtonV2>
-        </section>
+      <section className={styles.topBarButtons}>
+        {problemAttempt.testsPassed !== 0 && (
+          <p>
+            Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`} |{" "}
+            {problemAttempt.failedAttempts !== 0 && (
+              <>
+                Penalty:{" "}
+                <span className={styles.penalty}>
+                  -{problemAttempt.failedAttempts}{" "}
+                  {`${problemAttempt.failedAttempts > 1 ? "pts" : "pt"}`}
+                </span>
+                {" | "}
+              </>
+            )}
+            Points:{" "}
+            <span className={styles.finalScore}>
+              {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(2)}
+            </span>{" "}
+            (High Score)
+          </p>
+        )}
+        {problemAttempt.completed && (
+          <span className={styles.completed}>
+            <CompletedIcon />
+          </span>
+        )}
+        <ButtonV2
+          onClick={onReset}
+          disabled={isLoading}
+          className={styles.resetBtn}
+        >
+          <RestartIcon />
+        </ButtonV2>
+        <ButtonV2
+          onClick={onRun}
+          disabled={isLoading}
+          className={styles.runBtn}
+        >
+          <PlayIcon /> Check!
+        </ButtonV2>
       </section>
     </div>
   );

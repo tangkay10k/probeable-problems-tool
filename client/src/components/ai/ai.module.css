@@ -249,6 +249,9 @@
   width: 100%;
 
   font-size: var(--font-size-1);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--editor-colour) transparent;
 }
 
 .agentBody textarea:focus {

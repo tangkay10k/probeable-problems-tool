@@ -164,11 +164,10 @@ export default function StageTwo() {
         isOpen={showRunConfirmation}
         onClose={() => setShowRunConfirmation(false)}
       >
-        {formatInstruction(
-          PENALTY_WARNING,
-          `${problemAttempt?.failedAttempts ?? 0}`,
-          "//VAR_PENALTY",
-        )}
+        {formatInstruction(PENALTY_WARNING, {
+          "//VAR_PENALTY": `${problemAttempt?.failedAttempts ?? 0}`,
+          "//VAR_PLURAL": problemAttempt?.failedAttempts === 1 ? "" : "s",
+        })}
         <section className={styles.modalBtns}>
           <ButtonV2 onClick={() => setShowRunConfirmation(false)}>
             Cancel
