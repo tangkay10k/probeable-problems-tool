@@ -256,18 +256,8 @@ const ProblemAttemptProvider = ({ children }) => {
   const updateOracleHistory = (newHistory) =>
     patchAttempt({ oracleExecutionHistory: newHistory });
 
-  const updateFailedAttempts = (nextValOrFn) =>
-    patchAttempt((prev) => {
-      const base =
-        typeof prev?.failedAttempts === "number" ? prev.failedAttempts : 0;
-      const value =
-        typeof nextValOrFn === "function" ? nextValOrFn(base) : nextValOrFn;
-      return { ...prev, failedAttempts: value };
-    });
-
   /**
    * Save the current attempt to the server, pulling prompt/code from LOCAL.
-   * You can pass overrides for other server fields if needed.
    */
   const saveStudentAttempt = (notifyStudent = false) => {
     if (!problemAttempt) {
@@ -320,8 +310,9 @@ const ProblemAttemptProvider = ({ children }) => {
         const next = [];
 
         for (let i = 0; i < totalTests; i++) {
-          const expected = problem?.testSuite?.[i]?.expectedStdOut ?? "";
-          const actual = didCompile ? (lines[i] ?? "") : "[COMPILATION ERROR]";
+          const expected = problem.testSuite[i].expectedStdOut.trim();
+          const actual = didCompile ? lines[i].trim() : "[COMPILATION ERROR]";
+          console.log("Expected", expected, "Actual", actual);
           const pass = actual === expected;
           if (pass) passedCount += 1;
           next.push({ actual, expected, pass });
@@ -331,7 +322,11 @@ const ProblemAttemptProvider = ({ children }) => {
         setTestResults(next);
 
         // Server truth for attempts:
-        const willIncrementFailed = didCompile && passedCount !== totalTests;
+        const willIncrementFailed =
+          didCompile &&
+          passedCount !== totalTests &&
+          problemAttempt.completed === false;
+
         const nextFailedAttempts = willIncrementFailed
           ? (problemAttempt.failedAttempts ?? 0) + 1
           : (problemAttempt.failedAttempts ?? 0);
@@ -344,7 +339,7 @@ const ProblemAttemptProvider = ({ children }) => {
 
         addLog?.({
           component: Component.TESTS,
-          action: Action.EXECUTE,
+          action: Action.CHECK,
           input: `${studentCodeSubmission}`, // LOCAL draft used for the run
           output: `${passedCount}/${totalTests}`,
         });

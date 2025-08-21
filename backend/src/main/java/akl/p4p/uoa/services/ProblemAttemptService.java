@@ -221,10 +221,13 @@ public class ProblemAttemptService {
       ProblemAttempt curAttempt, ProblemAttempt prevAttempt) {
     curAttempt.setCodeSubmission(prevAttempt.getCodeSubmission());
     curAttempt.setOracleExecutionHistory(prevAttempt.getOracleExecutionHistory());
-    curAttempt.setFinalScore(prevAttempt.getFinalScore());
-    curAttempt.setFailedAttempts(prevAttempt.getFailedAttempts());
-    curAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
-    curAttempt.setTestsPassed(prevAttempt.getTestsPassed());
     curAttempt.setAgentPrompt(prevAttempt.getAgentPrompt());
+
+    curAttempt.setTestsPassed(prevAttempt.getTestsPassed());
+    curAttempt.setFailedAttempts(prevAttempt.getFailedAttempts());
+    curAttempt.setFinalScore(prevAttempt.getFinalScore());
+
+    curAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
+    curAttempt.setOracleEquivalenceMap(prevAttempt.getOracleEquivalenceMap());
   }
 }

@@ -91,8 +91,8 @@ export const ORACLE_HELP =
 export const PENALTY_WARNING = {
   content:
     "Each unsuccessful run will incur a **1 point penalty** on your final score for **this problem** unless you" +
-    " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY point//VAR_PLURAL** \n\n" +
+    " receive a compilation error. \n\n Your current penalty is: **//VAR_PENALTY point//VAR_PLURAL** \n" +
     " *\*Penalties are" +
     " capped at" +
-    " 15 points*\n\nYour highest score will be kept.",
+    " 15 points*\n\n**Your highest score will be kept.**",
 };

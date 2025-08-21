@@ -22,6 +22,7 @@ import EditorPanel from "./ui/editor-panel.jsx";
 import TestSuitePanel from "./ui/test-suite-panel.jsx";
 import Modal from "@/components/modal/modal.jsx";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
+import ReactMarkdown from "react-markdown";
 
 export default function StageTwo() {
   const { problemId } = useParams();
@@ -45,6 +46,8 @@ export default function StageTwo() {
   const [selected, setSelected] = useState(0); // [0=Code, 1=Tests]
   const [showTestSuite, setShowTestSuite] = useState(false);
   const [showRunConfirmation, setShowRunConfirmation] = useState(false);
+  const defaultComment =
+    problem.editorDefaultComment || "// Write your code here";
 
   const handleAgentBuildRequest = () => {
     setSelected(0);
@@ -58,11 +61,7 @@ export default function StageTwo() {
     {
       label: "Cogs",
       content: (
-        <AIAgent
-          editorRef={editorRef}
-          runCallback={handleAgentBuildRequest}
-          editorDefaultSrc={problem.defaultEditorSrc}
-        />
+        <AIAgent editorRef={editorRef} runCallback={handleAgentBuildRequest} />
       ),
     },
   ];
@@ -75,7 +74,7 @@ export default function StageTwo() {
   const confirmRun = () => {
     showEditor();
     const src = (studentCodeSubmission ?? "").trim();
-    if (!src || src === problem.defaultEditorSrc) {
+    if (!src || src === defaultComment) {
       toast.error("Please write some code before running!");
       return;
     }
@@ -94,10 +93,9 @@ export default function StageTwo() {
       setShowTestSuite(true);
       setSelected(1);
 
-      // Optional UI log
       addLog({
         component: Component.TESTS,
-        action: Action.SUBMIT,
+        action: Action.CHECK,
         name: "runTests",
         output: didCompile ? "compiled" : "failed to compile", // TODO: fix this
       });
@@ -114,11 +112,11 @@ export default function StageTwo() {
   };
   const handleReset = () => {
     addLog({ component: Component.CODE_EDITOR, action: Action.RESET });
-    updateStudentCodeSubmission(problem.defaultEditorSrc);
+    updateStudentCodeSubmission(defaultComment);
     showEditor();
   };
 
-  const hasCompleted = profile?.problemsCompleted?.includes(problemId);
+  const hasCompleted = profile.problemsCompleted?.includes(problemId);
 
   return (
     <div className={styles.containerWrapper}>
@@ -133,7 +131,6 @@ export default function StageTwo() {
           onToggleCode={() => setShowTestSuite(false)}
           onToggleTests={() => setShowTestSuite(true)}
           isLoading={isLoading}
-          hasCompleted={hasCompleted}
           onReset={handleReset}
           onRun={confirmRun}
         />
@@ -158,16 +155,26 @@ export default function StageTwo() {
         title={"Have you met all your client's requirements?"}
         isOpen={showRunConfirmation}
         onClose={() => setShowRunConfirmation(false)}
+        className={styles.runConfirmationModal}
       >
-        {formatInstruction(PENALTY_WARNING, {
-          "//VAR_PENALTY": `${problemAttempt?.failedAttempts ?? 0}`,
-          "//VAR_PLURAL": problemAttempt?.failedAttempts === 1 ? "" : "s",
-        })}
+        <p>
+          Each unsuccessful run will incur a <b>1 point penalty</b> on your
+          final score for <b>this problem</b> unless you receive a compilation
+          error. <br />
+          <br />
+          Your current penalty is: [
+          <b className={styles.penalty}>
+            -{problemAttempt.failedAttempts}{" "}
+          </b>] {`${problemAttempt.failedAttempts === 1 ? "point" : "points"}`}
+          <br />
+          <i className={styles.footnote}>Penalties are capped at 15 points.</i>
+        </p>
+        <b>Your highest score will be kept.</b>
         <section className={styles.modalBtns}>
           <ButtonV2 onClick={() => setShowRunConfirmation(false)}>
             Cancel
           </ButtonV2>
-          <ButtonV2 onClick={handleExecution}>Run</ButtonV2>
+          <ButtonV2 onClick={handleExecution}>Check</ButtonV2>
         </section>
       </Modal>
     </div>
