@@ -100,6 +100,10 @@ public class ProblemAttemptService {
     updateFailedAttemptsIfNotFullMarks(curProblemAttempt, prevAttempt, problem);
     updateProblemsCompleted(curProblemAttempt, problem);
 
+    if (isFullMarks(prevAttempt, problem)) {
+      alwaysTakeFullMarkSubmissionAttributes(curProblemAttempt, prevAttempt);
+    }
+
     return problemAttemptRepository.save(curProblemAttempt);
   }
 
@@ -196,21 +200,31 @@ public class ProblemAttemptService {
     }
   }
 
-  private boolean isFullMarks(ProblemAttempt curAttempt, Problem problem) {
+  private boolean isFullMarks(ProblemAttempt prevAttempt, Problem problem) {
     int totalNumberOfTests =
         problem.getTestSuite().size(); // Test suite is usually < 10 cases so O(1)
-    int currentTestsPassed = curAttempt.getTestsPassed();
+    int currentTestsPassed = prevAttempt.getTestsPassed();
     return totalNumberOfTests == currentTestsPassed;
   }
 
   private void updateFailedAttemptsIfNotFullMarks(
       ProblemAttempt curAttempt, ProblemAttempt prevAttempt, Problem problem) {
     if (isFullMarks(curAttempt, problem)) {
-      curAttempt.setFailedAttempts(prevAttempt.getFailedAttempts());
       return;
     }
     int newFailedAttempts =
         Math.max(curAttempt.getFailedAttempts(), prevAttempt.getFailedAttempts());
     curAttempt.setFailedAttempts(newFailedAttempts);
+  }
+
+  private void alwaysTakeFullMarkSubmissionAttributes(
+      ProblemAttempt curAttempt, ProblemAttempt prevAttempt) {
+    curAttempt.setCodeSubmission(prevAttempt.getCodeSubmission());
+    curAttempt.setOracleExecutionHistory(prevAttempt.getOracleExecutionHistory());
+    curAttempt.setFinalScore(prevAttempt.getFinalScore());
+    curAttempt.setFailedAttempts(prevAttempt.getFailedAttempts());
+    curAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
+    curAttempt.setTestsPassed(prevAttempt.getTestsPassed());
+    curAttempt.setAgentPrompt(prevAttempt.getAgentPrompt());
   }
 }
