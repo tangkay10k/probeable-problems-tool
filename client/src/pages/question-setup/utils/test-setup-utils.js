@@ -65,6 +65,6 @@ export const handleTestSuiteExecution = async (
   );
 
   await executeCodePistonDirect(problem.programLanguage, testSuiteFromFile)
-    .then((execution) => resultsCallback(execution, implementation))
+    .then((execution) => resultsCallback(execution))
     .catch((err) => toast.error(err));
 };

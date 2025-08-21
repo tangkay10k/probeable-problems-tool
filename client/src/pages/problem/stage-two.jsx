@@ -5,9 +5,7 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 
-import useWithLoading from "@/hooks/useWithLoading.js";
 import useProblemData from "./hooks/useProblemData.js";
-import useTestRunner from "./hooks/useTestRunner.js";
 
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import {
@@ -24,7 +22,6 @@ import { Action, Component } from "@/constants/logConstants.js";
 import TopToolbar from "./ui/top-tool-bar.jsx";
 import EditorPanel from "./ui/editor-panel.jsx";
 import TestSuitePanel from "./ui/test-suite-panel.jsx";
-import SubmitConfirmModal from "./ui/confirmation-modal.jsx";
 import Modal from "@/components/modal/modal.jsx";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
 
@@ -38,25 +35,18 @@ export default function StageTwo() {
     studentCodeSubmission,
     updateStudentCodeSubmission,
     saveStudentAttempt,
-    updateNumTestsPassed,
+    runTests,
+    testResults,
+    setResults,
   } = useProblemAttemptContext();
 
-  const [isLoading, withLoading] = useWithLoading();
+  const [isLoading, setIsLoading] = useState(false);
   const editorRef = useRef(null);
 
   const [selected, setSelected] = useState(0); // [0=Code, 1=Tests]
   const [showTestSuite, setShowTestSuite] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [showRunConfirmation, setShowRunConfirmation] = useState(false);
-
-  const { problem, template, defaultEditorSrc } = useProblemData(problemId);
-
-  const { results, setResults, numPassed, run } = useTestRunner({
-    problem,
-    template,
-    addLog,
-    updateNumTestsPassed,
-  });
+  const { problem, defaultEditorSrc } = useProblemData(problemId);
 
   const handleAgentBuildRequest = () => {
     setSelected(0);
@@ -97,40 +87,40 @@ export default function StageTwo() {
 
   const handleExecution = async () => {
     setShowRunConfirmation(false);
+    setIsLoading(true);
 
-    await withLoading(
-      () => run(studentCodeSubmission),
-      () => {
-        setShowTestSuite(true);
-        setSelected(1);
-      },
-      console.error,
-    );
-    await sleep();
+    try {
+      const result = await runTests(addLog);
+      const didCompile = !!result?.didCompile;
+
+      setShowTestSuite(true);
+      setSelected(1);
+
+      // Optional UI log
+      addLog({
+        component: Component.TESTS,
+        action: Action.SUBMIT,
+        name: "runTests",
+        output: didCompile ? "compiled" : "failed to compile", // TODO: fix this
+      });
+
+      const saveSilently = Boolean(didCompile);
+      saveStudentAttempt(saveSilently, {
+        testsPassed: result.passedCount,
+        failedAttempts: result.nextFailedAttempts,
+      });
+
+      await sleep();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
   const handleReset = () => {
     addLog({ component: Component.CODE_EDITOR, action: Action.RESET });
     updateStudentCodeSubmission(defaultEditorSrc);
     showEditor();
-  };
-
-  const handleSubmission = () => {
-    saveStudentAttempt();
-    setShowConfirmation(false);
-    addLog({
-      component: Component.BUTTON,
-      action: Action.SUBMIT,
-      content: `${numPassed}/${problem?.testSuite?.length ?? 0}`,
-    });
-  };
-
-  const confirmSubmissionIfFailedElseSubmit = () => {
-    if (numPassed !== (problem?.testSuite?.length ?? 0)) {
-      setShowConfirmation(true);
-    } else {
-      handleSubmission();
-    }
   };
 
   const hasCompleted = profile?.problemsCompleted?.includes(problemId);
@@ -151,14 +141,13 @@ export default function StageTwo() {
           hasCompleted={hasCompleted}
           onReset={handleReset}
           onRun={confirmRun}
-          onSubmit={confirmSubmissionIfFailedElseSubmit}
         />
 
         {showTestSuite ? (
           <TestSuitePanel
             tests={problem?.testSuite}
             language={problem?.programLanguage}
-            results={results}
+            results={testResults}
             setResults={setResults}
           />
         ) : (
@@ -170,14 +159,6 @@ export default function StageTwo() {
           />
         )}
       </div>
-
-      <SubmitConfirmModal
-        isOpen={showConfirmation}
-        onClose={() => setShowConfirmation(false)}
-        onConfirm={handleSubmission}
-        numPassed={numPassed}
-        total={problem?.testSuite?.length ?? 0}
-      />
       <Modal
         title={"Have you met all your client's requirements?"}
         isOpen={showRunConfirmation}

@@ -1,19 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ProblemAttemptContext from "./problem-attempt-context.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  getLatestProblemAttemptForStudent,
+  getProblemAttempt,
   saveProblemAttempt,
 } from "@/routes/problem-attempt-route.js";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { getUserProfileSilently } from "@/routes/person-route.js";
-import { getExecuteTemplate } from "@/routes/template-route.js";
+import {
+  getExecuteTemplate,
+  getSubmissionTemplate,
+} from "@/routes/template-route.js";
 import { getProblem } from "@/routes/problem-route.js";
 import {
   saveProbesToLocalStorage,
   sha256Hex,
 } from "@/context/context-utils.js";
+
+import { SPLIT_STRING } from "@/constants/setup-constants";
+import { handleTestSuiteExecution } from "@/pages/question-setup/utils/test-setup-utils.js";
+import { Action, Component } from "@/constants/logConstants.js";
+import useWithLoading from "@/hooks/useWithLoading.js";
 
 const STORAGE_NAMESPACE = "studentProblemData";
 
@@ -22,7 +30,8 @@ const ProblemAttemptProvider = ({ children }) => {
   const { profile, setProfile } = useUserProfile();
   const [problemAttempt, setProblemAttempt] = useState(null);
   const [chatHistory, setChatHistory] = useState(null);
-  const [executeTemplate, setExecuteTemplate] = useState("");
+  const [executeOracleTemplate, setExecuteOracleTemplate] = useState("");
+  const [executeSubmissionTemplate, setSubmissionTemplate] = useState("");
   const [isProblemReady, setIsProblemReady] = useState(false);
   const [problem, setProblem] = useState({});
   const navigate = useNavigate();
@@ -30,8 +39,14 @@ const ProblemAttemptProvider = ({ children }) => {
 
   // Derived per-user storage key (hashed)
   const [userStorageKey, setUserStorageKey] = useState(null);
-
   const [studentDataMap, setStudentDataMap] = useState({});
+
+  // Local runner state
+  const [testResults, setTestResults] = useState([]); // [{ actual, expected, pass }, ...]
+  const [, withLoading] = useWithLoading();
+
+  // A place to stash the *latest* run results so runTests can return them
+  const lastRunRef = useRef(null);
 
   // Compute hashed storage key when profile email is available
   useEffect(() => {
@@ -65,11 +80,11 @@ const ProblemAttemptProvider = ({ children }) => {
 
   const currentData =
     studentDataMap && problemId ? studentDataMap[problemId] || {} : {};
-  const studentNotes = currentData.notes || "";
   const studentAgentPrompt = currentData.agentPrompt || "";
   const studentCodeSubmission = currentData.codeSubmission || "";
-  const testsPassed = currentData.testsPassed || "";
+  const testsPassed = currentData.testsPassed || 0;
   const oracleExecutionHistory = currentData.oracleExecutionHistory || [];
+  const failedAttempts = currentData.failedAttempts || 0;
 
   // Fetch attempt + chat, then chain execute template once we know the language.
   // Fetch problem in parallel.
@@ -79,7 +94,7 @@ const ProblemAttemptProvider = ({ children }) => {
     fetchedProblemIds.current.add(problemId);
 
     // Attempt + chat -> template
-    getLatestProblemAttemptForStudent(problemId, profile.email)
+    getProblemAttempt(problemId, profile.email)
       .then((attempt) => {
         setProblemAttempt(attempt);
         setChatHistory({
@@ -93,11 +108,18 @@ const ProblemAttemptProvider = ({ children }) => {
           return;
         }
 
-        return getExecuteTemplate(lang)
-          .then((template) => setExecuteTemplate(template))
+        getExecuteTemplate(lang)
+          .then((template) => setExecuteOracleTemplate(template))
           .catch((err) => {
             console.error(err);
-            toast.error("Failed to load execute template.");
+            toast.error("Failed to load oracle template.");
+          });
+
+        return getSubmissionTemplate(lang)
+          .then((template) => setSubmissionTemplate(template))
+          .catch((err) => {
+            console.error(err);
+            toast.error("Failed to load submission template.");
           });
       })
       .catch((err) => {
@@ -114,7 +136,7 @@ const ProblemAttemptProvider = ({ children }) => {
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Failed to load problem details.");
+        toast.error("Failed to load problem.");
       });
   }, [problemId, profile?.email, navigate]);
 
@@ -125,15 +147,26 @@ const ProblemAttemptProvider = ({ children }) => {
     ) {
       updateStudentCodeSubmission(problem?.editorDefaultComment);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [problem, studentCodeSubmission]);
 
-  // Derive readiness
+  // Derive readiness (include both templates in deps)
   useEffect(() => {
     const ready =
-      !!problemAttempt && !!problem?.id && !!executeTemplate && !!chatHistory;
+      !!problemAttempt &&
+      !!problem?.id &&
+      !!executeOracleTemplate &&
+      !!executeSubmissionTemplate &&
+      !!chatHistory;
 
     setIsProblemReady(ready);
-  }, [problemAttempt, problem?.id, executeTemplate, chatHistory]);
+  }, [
+    problemAttempt,
+    problem?.id,
+    executeOracleTemplate,
+    executeSubmissionTemplate,
+    chatHistory,
+  ]);
 
   const persist = (nextMap) => {
     if (!userStorageKey) return;
@@ -143,27 +176,37 @@ const ProblemAttemptProvider = ({ children }) => {
   const saveStudentData = (field, value) => {
     if (!problemId) return;
     setStudentDataMap((prev) => {
-      const updatedEntry = { ...(prev[problemId] || {}), [field]: value };
+      const prevEntry = { ...(prev[problemId] || {}) };
+      const nextValue =
+        typeof value === "function" ? value(prevEntry[field]) : value;
+      const updatedEntry = { ...prevEntry, [field]: nextValue };
       const updatedMap = { ...prev, [problemId]: updatedEntry };
       persist(updatedMap);
       return updatedMap;
     });
   };
 
-  const updateStudentNotes = (newNote) => saveStudentData("notes", newNote);
   const updateStudentAgentPrompt = (newPrompt) =>
     saveStudentData("agentPrompt", newPrompt);
+
   const updateStudentCodeSubmission = (newCode) =>
     saveStudentData("codeSubmission", newCode);
-  const updateNumTestsPassed = (testsPassed) =>
-    saveStudentData("testsPassed", testsPassed);
+
+  const updateNumTestsPassed = (count) => saveStudentData("testsPassed", count);
 
   /* store [{testcase: X, output: Y, timestamp: Z}, ...]*/
   const updateOracleHistory = (newHistory) =>
     saveStudentData("oracleExecutionHistory", newHistory);
 
+  // Functional updater to avoid stale increments
+  const updateFailedAttempts = (next) =>
+    saveStudentData("failedAttempts", (prevVal) => {
+      const base = typeof prevVal === "number" ? prevVal : 0;
+      return typeof next === "function" ? next(base) : next;
+    });
+
   /**
-   * Deletes the entire stored data (notes, prompt, code, score) for THIS problem (for this user)
+   * Deletes the entire stored data (prompt, code, score) for THIS problem (for this user)
    */
   const deleteStudentAttempt = () => {
     if (!problemId) return;
@@ -175,38 +218,34 @@ const ProblemAttemptProvider = ({ children }) => {
     });
   };
 
-  const saveStudentAttempt = () => {
-    if (!testsPassed || String(testsPassed).length === 0) {
-      toast.error("🚨 Please run your code before submitting! 🚨");
-      return;
-    }
-    if (!studentCodeSubmission || studentCodeSubmission.length === 0) {
-      toast.error("🚨 Write some code before submitting! 🚨");
-      return;
-    }
+  /**
+   * Save the current attempt. Accepts optional overrides to avoid stale reads.
+   * Example:
+   *   saveStudentAttempt(true, { testsPassed: 3, failedAttempts: 2 })
+   */
+  const saveStudentAttempt = (notifyStudent = false, overrides = {}) => {
     if (!problemAttempt) {
       toast.error("🚨 Problem metadata not loaded yet. Try again. 🚨");
       return;
     }
-
     const toSave = {
       ...problemAttempt,
-      notesTaken: studentNotes,
-      agentPrompt: studentAgentPrompt,
-      codeSubmission: studentCodeSubmission,
-      testsPassed: testsPassed,
-      oracleExecutionHistory: oracleExecutionHistory,
+      agentPrompt: overrides.agentPrompt ?? studentAgentPrompt,
+      codeSubmission: overrides.codeSubmission ?? studentCodeSubmission,
+      failedAttempts: overrides.failedAttempts ?? failedAttempts,
+      testsPassed: overrides.testsPassed ?? testsPassed,
+      oracleExecutionHistory:
+        overrides.oracleExecutionHistory ?? oracleExecutionHistory,
     };
 
     saveProblemAttempt(toSave)
       .then(() => {
-        getLatestProblemAttemptForStudent(problemId, profile.email).then(
-          (attempt) => setProblemAttempt(attempt),
+        getProblemAttempt(problemId, profile.email).then((attempt) =>
+          setProblemAttempt(attempt),
         );
-
-        toast.success("Your submission was saved successfully!");
-        // clear score in case they update their code.
-        updateNumTestsPassed("");
+        if (notifyStudent) {
+          toast.success("Your submission was saved successfully!");
+        }
 
         return getUserProfileSilently(profile.email)
           .then((updatedProfile) => setProfile(updatedProfile))
@@ -216,9 +255,85 @@ const ProblemAttemptProvider = ({ children }) => {
           });
       })
       .catch(() => {
-        toast.error("🚨You have already submitted your attempt!");
+        toast.error("🚨Failed to save your submission. Please try again.");
       });
   };
+
+  /**
+   * Execute the student implementation against the problem's test suite.
+   * Returns an object: { didCompile, passedCount, nextFailedAttempts }
+   */
+  const runTests = useCallback(
+    async (addLog) => {
+      if (!problem?.id || !executeSubmissionTemplate) return null;
+
+      const updateResults = async (execution) => {
+        const output = execution?.run?.output ?? "";
+        const didCompile = execution?.compile?.code === 0;
+
+        const lines = output.split(SPLIT_STRING);
+        let passedCount = 0;
+        const next = [];
+
+        const totalTests = problem?.testSuite?.length ?? 0;
+
+        for (let i = 0; i < totalTests; i++) {
+          const expected = problem?.testSuite?.[i]?.expectedStdOut ?? "";
+          const actual = didCompile ? (lines[i] ?? "") : "[COMPILATION ERROR]";
+          const pass = actual === expected;
+          if (pass) passedCount += 1;
+          next.push({ actual, expected, pass });
+          if (!pass) break; // stop at first mismatch
+        }
+
+        setTestResults(next);
+        updateNumTestsPassed(passedCount);
+
+        // Compute next failedAttempts locally and persist with functional update
+        const willIncrementFailed = didCompile && passedCount !== totalTests;
+        const nextFailedAttempts = willIncrementFailed
+          ? failedAttempts + 1
+          : failedAttempts;
+
+        if (willIncrementFailed) {
+          // Functional increment avoids lost updates
+          updateFailedAttempts((v) => (typeof v === "number" ? v + 1 : 1));
+        }
+
+        const numTestsPassed = `${passedCount}/${totalTests}`;
+        addLog?.({
+          component: Component.TESTS,
+          action: Action.EXECUTE,
+          input: `${studentCodeSubmission}`,
+          output: numTestsPassed,
+        });
+
+        // Stash authoritative results to return from runTests()
+        lastRunRef.current = { didCompile, passedCount, nextFailedAttempts };
+
+        // Preserve existing contract if handleTestSuiteExecution expects a boolean return
+        return didCompile;
+      };
+
+      // Await the suite execution; then return what updateResults stashed
+      await handleTestSuiteExecution(
+        problem,
+        studentCodeSubmission,
+        executeSubmissionTemplate,
+        updateResults,
+      );
+
+      return lastRunRef.current ?? null;
+    },
+    [
+      problem?.id,
+      problem?.testSuite,
+      executeSubmissionTemplate,
+      studentCodeSubmission,
+      updateNumTestsPassed,
+      failedAttempts,
+    ],
+  );
 
   return (
     <ProblemAttemptContext.Provider
@@ -228,8 +343,6 @@ const ProblemAttemptProvider = ({ children }) => {
         chatHistory,
         setChatHistory,
         isProblemReady,
-        studentNotes,
-        updateStudentNotes,
         studentAgentPrompt,
         updateStudentAgentPrompt,
         studentCodeSubmission,
@@ -239,8 +352,13 @@ const ProblemAttemptProvider = ({ children }) => {
         updateOracleHistory,
         oracleExecutionHistory,
         saveStudentAttempt,
-        executeTemplate,
+        executeTemplate: executeOracleTemplate,
         problem,
+
+        // Test runner API
+        testResults,
+        setTestResults,
+        runTests,
       }}
     >
       {children}

@@ -76,10 +76,6 @@
   border: 0.01rem solid var(--fail-red-light) !important;
 }
 
-.resetBtnStage2 {
-  width: 3.5rem !important;
-}
-
 .resetBtn:hover {
   background-color: var(--fail-red-light) !important;
   color: var(--fail-red) !important;

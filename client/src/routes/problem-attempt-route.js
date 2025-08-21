@@ -1,9 +1,6 @@
 import axiosClient from "./utils/axiosClient.js";
 
-export const getLatestProblemAttemptForStudent = async (
-  problemId,
-  studentEmail,
-) => {
+export const getProblemAttempt = async (problemId, studentEmail) => {
   const res = await axiosClient.get(
     `/api/problemAttempt?problemId=${problemId}&studentEmail=${studentEmail}`,
   );

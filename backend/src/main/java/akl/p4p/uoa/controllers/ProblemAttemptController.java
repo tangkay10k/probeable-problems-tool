@@ -96,8 +96,8 @@ public class ProblemAttemptController {
   @PostMapping
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ProblemAttempt> saveProblemAttempt(@RequestBody ProblemAttempt attempt) {
-    return ResponseEntity.ok(
-        problemAttemptService.saveProblemAttemptAndUpdateProblemsCompleted(attempt));
+    var savedAttempt = problemAttemptService.saveProblemAttemptAndUpdateProblemsCompleted(attempt);
+    return ResponseEntity.ok(savedAttempt);
   }
 
   @PostMapping("{id}/equivalenceClass")

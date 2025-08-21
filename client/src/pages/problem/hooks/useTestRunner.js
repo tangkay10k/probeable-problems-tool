@@ -1,75 +1,24 @@
-import { useCallback, useState } from "react";
-import { SPLIT_STRING } from "@/constants/setup-constants";
-import { handleTestSuiteExecution } from "@/pages/question-setup/utils/test-setup-utils.js";
-import { Action, Component } from "@/constants/logConstants.js";
-import useWithLoading from "@/hooks/useWithLoading.js";
+import { useCallback } from "react";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { updateFailedAttempts } from "@/routes/problem-attempt-route";
+import { useLogging } from "@/context/logging-context-provider.jsx";
 
-export default function useTestRunner({
-  problem,
-  template,
-  addLog,
-  updateNumTestsPassed,
-}) {
-  const { problemAttempt, setProblemAttempt } = useProblemAttemptContext();
-  const [_, withLoading] = useWithLoading();
-  const [results, setResults] = useState([]);
-  const [numPassed, setNumPassed] = useState(0);
+/**
+ * Backwards-compatible wrapper so existing call sites can keep using:
+ *   const { results, setResults, run } = useTestRunner({ addLog });
+ * `problem` and `template` props are now ignored (provider owns them).
+ */
+export default function useTestRunner() {
+  const { runTests, testResults, setTestResults } = useProblemAttemptContext();
+  const { addLog } = useLogging();
 
   const run = useCallback(
-    async (implementation) => {
-      if (!problem || !template) return null;
-
-      const updateResults = async (execution) => {
-        const output = execution.run.output ?? "";
-        const didCompile = execution.compile.code === 0;
-        const lines = output.split(SPLIT_STRING);
-        let passedCount = 0;
-        const next = [];
-
-        for (let i = 0; i < lines.length; i++) {
-          const expected = problem?.testSuite?.[i]?.expectedStdOut ?? "";
-          const actual = didCompile ? lines[i] : "[COMPILATION ERROR]";
-          const pass = actual === expected;
-          if (pass) passedCount += 1;
-          next.push({ actual, expected, pass });
-          if (!pass) break; // stop at first mismatch
-        }
-
-        setResults(next);
-        setNumPassed(passedCount);
-        const numTestsPassed = `${passedCount}/${problem?.testSuite?.length ?? 0}`;
-
-        if (didCompile && passedCount !== problem?.testSuite?.length) {
-          await withLoading(
-            () => updateFailedAttempts(problemAttempt.id),
-            (updatedProblemAttempt) => {
-              setProblemAttempt(updatedProblemAttempt);
-            },
-            console.error,
-          );
-        }
-
-        updateNumTestsPassed(numTestsPassed);
-
-        addLog({
-          component: Component.TESTS,
-          action: Action.EXECUTE,
-          input: `${implementation}`,
-          output: numTestsPassed,
-        });
-      };
-
-      return handleTestSuiteExecution(
-        problem,
-        implementation,
-        template,
-        updateResults,
-      );
-    },
-    [problem, template, addLog, updateNumTestsPassed],
+    async (implementation) => runTests(implementation, addLog),
+    [runTests, addLog],
   );
 
-  return { results, setResults, numPassed, run };
+  return {
+    testResults,
+    setTestResults,
+    run,
+  };
 }

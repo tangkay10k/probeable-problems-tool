@@ -101,9 +101,7 @@ export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
       <Banner rightIcon={rightIcon} header={"Cogs"} subtext={"online now"} />
       <div className={styles.agentBody}>
         <TextArea
-          placeholder={
-            "Cogs see 👀 Cogs do 🤖 \nPlease give me instructions on what to code!"
-          }
+          placeholder={"Please give me instructions on what to code!"}
           resizable={false}
           value={studentAgentPrompt}
           onChange={(e) => updateStudentAgentPrompt(e.target.value)}

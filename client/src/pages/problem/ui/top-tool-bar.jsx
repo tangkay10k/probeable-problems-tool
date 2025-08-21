@@ -8,6 +8,7 @@ import { IoMdPaperPlane as PlaneIcon } from "react-icons/io";
 import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import styles from "@/pages/problem/problemPage.module.css";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
+import useProblemData from "@/pages/problem/hooks/useProblemData.js";
 
 export default function TopToolbar({
   selectedIndex,
@@ -15,12 +16,12 @@ export default function TopToolbar({
   onToggleCode,
   onToggleTests,
   isLoading,
-  hasCompleted,
   onReset,
   onRun,
-  onSubmit,
 }) {
   const { problemAttempt } = useProblemAttemptContext();
+  const { problem } = useProblemData();
+  const numTestsTotal = problem?.testSuite?.length;
 
   return (
     <div className={styles.toggleButtonContainer}>
@@ -33,35 +34,34 @@ export default function TopToolbar({
 
       <section className={styles.leftButtons}>
         <section className={styles.stageTwoBtnGroup}>
-          {hasCompleted && (
-            <>
-              <p>
-                Tests: {problemAttempt.testsPassed} |{" "}
-                {problemAttempt.failedAttempts !== 0 && (
-                  <>
-                    Penalty:{" "}
-                    <span className={styles.penalty}>
-                      {problemAttempt.failedAttempts}%
-                    </span>
-                    {" | "}
-                  </>
-                )}
-                Score:{" "}
-                <span className={styles.finalScore}>
-                  {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(
-                    2,
-                  )}
-                </span>
-              </p>
-              <span className={styles.completed}>
-                <CompletedIcon />
-              </span>
-            </>
+          {problemAttempt.testsPassed !== 0 && (
+            <p>
+              Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`} |{" "}
+              {problemAttempt.failedAttempts !== 0 && (
+                <>
+                  Penalty:{" "}
+                  <span className={styles.penalty}>
+                    {problemAttempt.failedAttempts}%
+                  </span>
+                  {" | "}
+                </>
+              )}
+              Points:{" "}
+              <span className={styles.finalScore}>
+                {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(2)}
+              </span>{" "}
+              (Highest Score Kept)
+            </p>
+          )}
+          {problemAttempt.completed && (
+            <span className={styles.completed}>
+              <CompletedIcon />
+            </span>
           )}
           <ButtonV2
             onClick={onReset}
             disabled={isLoading}
-            className={`${styles.resetBtn} ${styles.resetBtnStage2}`}
+            className={styles.resetBtn}
           >
             <RestartIcon />
           </ButtonV2>
@@ -70,10 +70,7 @@ export default function TopToolbar({
             disabled={isLoading}
             className={styles.runBtn}
           >
-            <PlayIcon /> Run
-          </ButtonV2>
-          <ButtonV2 onClick={onSubmit} disabled={isLoading}>
-            <PlaneIcon size={15} /> Submit
+            <PlayIcon /> Check!
           </ButtonV2>
         </section>
       </section>

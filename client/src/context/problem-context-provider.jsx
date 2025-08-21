@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import {
-  getTestTemplate,
+  getSubmissionTemplate,
   getExecuteTemplate,
 } from "@/routes/template-route.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
@@ -40,7 +40,7 @@ export function ProblemProvider({ children }) {
   // Fetch template when language changes
   useEffect(() => {
     withLoading(
-      () => getTestTemplate(problem.programLanguage),
+      () => getSubmissionTemplate(problem.programLanguage),
       (template) => setTestTemplate(template),
       (err) =>
         console.error(`No TEST template for ${problem.programLanguage}`, err),
