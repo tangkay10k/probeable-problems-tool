@@ -59,7 +59,12 @@ export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
     }
 
     withLoading(
-      () => generateSolutionAttempt({ prompt: studentAgentPrompt, programLanguage: problem.programLanguage, functionSignature: problem.functionSignature }),
+      () =>
+        generateSolutionAttempt({
+          prompt: studentAgentPrompt,
+          programLanguage: problem.programLanguage,
+          functionSignature: problem.functionSignature,
+        }),
       (response) => {
         updateStudentCodeSubmission(response.source_code);
 

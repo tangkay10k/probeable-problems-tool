@@ -4,11 +4,9 @@ import {
   MdRestartAlt as RestartIcon,
   MdOutlinePlayArrow as PlayIcon,
 } from "react-icons/md";
-import { IoMdPaperPlane as PlaneIcon } from "react-icons/io";
 import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import styles from "@/pages/problem/problemPage.module.css";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import useProblemData from "@/pages/problem/hooks/useProblemData.js";
 
 export default function TopToolbar({
   selectedIndex,
@@ -19,8 +17,7 @@ export default function TopToolbar({
   onReset,
   onRun,
 }) {
-  const { problemAttempt } = useProblemAttemptContext();
-  const { problem } = useProblemData();
+  const { problemAttempt, problem } = useProblemAttemptContext();
   const numTestsTotal = problem?.testSuite?.length;
 
   return (

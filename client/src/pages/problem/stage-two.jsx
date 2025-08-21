@@ -5,8 +5,6 @@ import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 
-import useProblemData from "./hooks/useProblemData.js";
-
 import StudentInstruction from "@/components/instruction/student-instruction.jsx";
 import {
   PENALTY_WARNING,
@@ -38,6 +36,7 @@ export default function StageTwo() {
     runTests,
     testResults,
     setResults,
+    problem,
   } = useProblemAttemptContext();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +45,6 @@ export default function StageTwo() {
   const [selected, setSelected] = useState(0); // [0=Code, 1=Tests]
   const [showTestSuite, setShowTestSuite] = useState(false);
   const [showRunConfirmation, setShowRunConfirmation] = useState(false);
-  const { problem, defaultEditorSrc } = useProblemData(problemId);
 
   const handleAgentBuildRequest = () => {
     setSelected(0);
@@ -63,7 +61,7 @@ export default function StageTwo() {
         <AIAgent
           editorRef={editorRef}
           runCallback={handleAgentBuildRequest}
-          editorDefaultSrc={defaultEditorSrc}
+          editorDefaultSrc={problem.defaultEditorSrc}
         />
       ),
     },
@@ -77,7 +75,7 @@ export default function StageTwo() {
   const confirmRun = () => {
     showEditor();
     const src = (studentCodeSubmission ?? "").trim();
-    if (!src || src === defaultEditorSrc) {
+    if (!src || src === problem.defaultEditorSrc) {
       toast.error("Please write some code before running!");
       return;
     }
@@ -119,7 +117,7 @@ export default function StageTwo() {
   };
   const handleReset = () => {
     addLog({ component: Component.CODE_EDITOR, action: Action.RESET });
-    updateStudentCodeSubmission(defaultEditorSrc);
+    updateStudentCodeSubmission(problem.defaultEditorSrc);
     showEditor();
   };
 
