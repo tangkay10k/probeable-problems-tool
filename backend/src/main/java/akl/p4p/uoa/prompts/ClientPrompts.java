@@ -11,11 +11,12 @@ public class ClientPrompts {
   private static final String CLIENT_BASE_PROMPT_FILE = "client-base-prompt.txt";
   private static final String CLIENT_EXPLANATION_PROMPT_FILE = "client-explanation-prompt.txt";
   private static final String CLIENT_TEST_CASE_PROMPT_FILE = "client-test-case-prompt.txt";
-  private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS =
-      "c-sf-specific-instructions.txt";
+  private static final String C_SINGLE_FUNCTION_SPECIFIC_INSTRUCTIONS = 
+  "c-sf-specific-instructions.txt";
   private static final String FAULTY_SOLUTION_PROMPT_FILE = "faulty-solution-prompt.txt";
 
   private static final String FAIL_SAFE_PROMPT = "client-convo-start.txt";
+  private static final String CODE_GENERATION_PROMPT_FILE = "code-generation-prompt.txt";
 
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,
@@ -31,8 +32,8 @@ public class ClientPrompts {
       case C -> specificInstructions = getCSpecificInstructions();
       case JAVA -> specificInstructions = getJavaSpecificInstructions();
       default ->
-          throw new RuntimeException(
-              "Programming language: " + problemLanguage + " does not exist!");
+        throw new RuntimeException(
+            "Programming language: " + problemLanguage + " does not exist!");
     }
     return basePrompt.replace("//VAR_LANGUAGE_SPECIFIC_INSTRUCTIONS", specificInstructions);
   }
@@ -88,6 +89,15 @@ public class ClientPrompts {
     return basePrompt
         .replace("//VAR_MODEL_SOLUTION", modelAnswer)
         .replace("//VAR_CONSTRAINTS", constraints);
+  }
+
+  public static String codeGenerationPrompt(String userPrompt, String problemLanguage, String functionSignature)
+      throws IOException {
+    String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CODE_GENERATION_PROMPT_FILE);
+    return basePrompt
+        .replace("//VAR_USER_PROMPT", userPrompt)
+        .replace("//FUNCTION_SIGNATURE", functionSignature)
+        .replace("//VAR_PROBLEM_LANGUAGE", problemLanguage);
   }
 
   private static String getCSpecificInstructions() throws IOException {

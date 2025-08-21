@@ -5,6 +5,7 @@ import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.dtos.ChatRequestDTO;
 import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.prompts.OracleGenerationPrompts;
 import akl.p4p.uoa.prompts.ProblemGenerationPrompts;
 import akl.p4p.uoa.prompts.TestSuitePrompts;
@@ -59,8 +60,8 @@ class AiController {
     ObjectMapper objectMapper = new ObjectMapper();
 
     String sysPrompt = TestSuitePrompts.getTestSuiteGenerationPrompt(problem);
-    String testSuite =
-        aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+    String testSuite = 
+    aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
 
     TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
@@ -82,9 +83,9 @@ class AiController {
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateOracle(@RequestBody Problem problem) throws IOException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
-    String jsonResponse =
-        aiService.executeOneTimeLLMCall(
-            sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
+    String jsonResponse = 
+    aiService.executeOneTimeLLMCall(
+        sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
 
     var initialProbe = JsonUtils.parseOracleJsonResponse(jsonResponse);
     problem.setDefaultProbe(initialProbe);
@@ -93,10 +94,12 @@ class AiController {
 
   @PostMapping("solution-attempt")
   @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
-  public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
-    String solutionAttempt =
-        aiService.executeOneTimeLLMCallStudent(
-            prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
+  public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) throws IOException {
+    String codeGenerationPrompt = ClientPrompts.codeGenerationPrompt(prompt.getPrompt(), prompt.getProgramLanguage().toString(),
+        prompt.getFunctionSignature());
+    String solutionAttempt = aiService.executeOneTimeLLMCallStudent(codeGenerationPrompt,
+        JsonSchemaDefinition.getCodeGenerationSchema());
+
     return ResponseEntity.ok(solutionAttempt);
   }
 }

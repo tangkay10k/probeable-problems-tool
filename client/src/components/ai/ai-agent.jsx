@@ -14,6 +14,7 @@ import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 
 export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
   const {
+    problem,
     studentAgentPrompt,
     updateStudentAgentPrompt,
     updateStudentCodeSubmission,
@@ -58,7 +59,7 @@ export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
     }
 
     withLoading(
-      () => generateSolutionAttempt({ prompt: studentAgentPrompt }),
+      () => generateSolutionAttempt({ prompt: studentAgentPrompt, programLanguage: problem.programLanguage, functionSignature: problem.functionSignature }),
       (response) => {
         updateStudentCodeSubmission(response.source_code);
 

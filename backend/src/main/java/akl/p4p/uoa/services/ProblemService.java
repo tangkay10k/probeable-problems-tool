@@ -49,6 +49,7 @@ public class ProblemService {
 
     problem.getBuggy_codes().addAll(buggyCodes.getBuggy_codes());
     problem.setFunctionName(StringUtils.extractFunctionName(problem.getModelAnswer()));
+    problem.setFunctionSignature(StringUtils.extractFunctionSignature(problem.getModelAnswer()));
 
     return problemRepository.save(problem);
   }
