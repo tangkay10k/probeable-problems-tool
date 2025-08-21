@@ -1,0 +1,563 @@
+{
+    "activities": [
+        {
+            "_id": {
+                "$oid": "68a260d649ee7817e5b471a3"
+            },
+            "email": "tonghoanh2005@gmail.com",
+            "activities": [
+                {
+                    "component": "ORACLE",
+                    "action": "RESET",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:08:06.137Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "TYPED",
+                    "content": "what does count between mean is it strict or non strict",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:08:28.770Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "SEND",
+                    "input": "what does count between mean is it strict or non strict",
+                    "output": "It excludes any element equal to either a or b.",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:08:35.926Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "TYPED",
+                    "content": "can u swap a and b does order matter",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:08:59.673Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "SEND",
+                    "input": "can u swap a and b does order matter",
+                    "output": "The result is the same if you swap a and b.",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:09:02.569Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "I'm ready to code!",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:02.498Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Task: ",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:02.530Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Go back",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:05.341Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "I'm ready to code!",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:08.595Z"
+                    }
+                },
+                {
+                    "component": "AI_AGENT",
+                    "action": "TYPED",
+                    "content": "int CountBetween(int *values, int n, int a, int b);\n\nwrite in c and also a and b can be swapped it dosent matter order also count between strictly\n\n",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:28.219Z"
+                    }
+                },
+                {
+                    "component": "AI_AGENT",
+                    "action": "EXECUTE",
+                    "input": "int CountBetween(int *values, int n, int a, int b);\n\nwrite in c and also a and b can be swapped it dosent matter order also count between strictly\n\n",
+                    "output": "int CountBetween(int *values, int n, int a, int b) {\n    int count = 0;\n    int lower = a < b ? a : b;\n    int upper = a > b ? a : b;\n    for (int i = 0; i < n; i++) {\n        if (values[i] > lower && values[i] < upper) {\n            count++;\n        }\n    }\n    return count;\n}",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:28.658Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:36.983Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:42.490Z"
+                    }
+                },
+                {
+                    "component": "CODE_EDITOR",
+                    "action": "TYPED",
+                    "content": "int CountBetween(int *values, int n, int a, int b) {\r\n    int count = 0;\r\n    int lower = a < b ? a : b;\r\n    int upper = a > b ? a : b;\r\n    for (int i = 0; i < n; i++) {\r\n        if (values[i] > lower && values[i] < upper) {\r\n            count++;\r\n        }\r\n    }\r\n    return count-1;\r\n}\r\n",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:43.204Z"
+                    }
+                },
+                {
+                    "component": "TESTS",
+                    "action": "EXECUTE",
+                    "input": "int CountBetween(int *values, int n, int a, int b) {\r\n    int count = 0;\r\n    int lower = a < b ? a : b;\r\n    int upper = a > b ? a : b;\r\n    for (int i = 0; i < n; i++) {\r\n        if (values[i] > lower && values[i] < upper) {\r\n            count++;\r\n        }\r\n    }\r\n    return count-1;\r\n}\r\n",
+                    "output": "0/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:44.465Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Code",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:45.783Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:48.776Z"
+                    }
+                },
+                {
+                    "component": "TESTS",
+                    "action": "EXECUTE",
+                    "input": "int CountBetween(int *values, int n, int a, int b) {\r\n    int count = 0;\r\n    int lower = a < b ? a : b;\r\n    int upper = a > b ? a : b;\r\n    for (int i = 0; i < n; i++) {\r\n        if (values[i] > lower && values[i] < upper) {\r\n            count++;\r\n        }\r\n    }\r\n    return count;\r\n}\r\n",
+                    "output": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:50.890Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Tests",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:51.854Z"
+                    }
+                },
+                {
+                    "component": "TEST_CASE",
+                    "action": "OPENED",
+                    "name": "Test 2",
+                    "content": "Input: int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 4, 2);\nprintf(\"%d\", result); | Expected: 1 | Actual: 1 | Hidden: no | Passed: yes",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:52.178Z"
+                    }
+                },
+                {
+                    "component": "TEST_CASE",
+                    "action": "OPENED",
+                    "name": "Test 4",
+                    "content": "Input: int arr[] = {0, 1, 2, 3};\nint result = CountBetween(arr, 4, 1, 3);\nprintf(\"%d\", result); | Expected: 1 | Actual: 1 | Hidden: no | Passed: yes",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:52.737Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "SUBMIT",
+                    "content": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:54.128Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "SUBMIT",
+                    "content": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:10:57.965Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:11:00.458Z"
+                    }
+                },
+                {
+                    "component": "TESTS",
+                    "action": "EXECUTE",
+                    "input": "int CountBetween(int *values, int n, int a, int b) {\r\n    int count = 0;\r\n    int lower = a < b ? a : b;\r\n    int upper = a > b ? a : b;\r\n    for (int i = 0; i < n; i++) {\r\n        if (values[i] > lower && values[i] < upper) {\r\n            count++;\r\n        }\r\n    }\r\n    return count;\r\n}\r\n",
+                    "output": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:11:02.542Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "SUBMIT",
+                    "content": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:11:03.672Z"
+                    }
+                }
+            ],
+            "_class": "akl.p4p.uoa.models.ActivityLog"
+        },
+        {
+            "_id": {
+                "$oid": "68a251b549ee7817e5b471a0"
+            },
+            "email": "hton892@aucklanduni.ac.nz",
+            "activities": [
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Task: ",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:01:34.406Z"
+                    }
+                },
+                {
+                    "component": "AI_AGENT",
+                    "action": "TYPED",
+                    "content": "write function in C int CountBetween(int *values, int n, int a, int b); where a and b can be revserse count between a and b strictly",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:01:37.006Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "TYPED",
+                    "content": "is countBetween strict or non strict",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:01:49.411Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "SEND",
+                    "input": "is countBetween strict or non strict",
+                    "output": "It excludes any element equal to a or b.",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:01:54.001Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "TYPED",
+                    "content": "",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:01:59.990Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "TYPED",
+                    "content": "can a and b be reversed",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:03.435Z"
+                    }
+                },
+                {
+                    "component": "CHAT_APP",
+                    "action": "SEND",
+                    "input": "can a and b be reversed",
+                    "output": "It does not count elements equal to a or b.",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:11.192Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Run",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:12.042Z"
+                    }
+                },
+                {
+                    "component": "ORACLE",
+                    "action": "EXECUTE",
+                    "input": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 7;\nint b = 18;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "output": "2",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:13.766Z"
+                    }
+                },
+                {
+                    "action": "TYPED",
+                    "content": "int values[] = {1, 5, 10, 15, 20};\nint n = 7;\nint a = 5;\nint b = 18;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:17.525Z"
+                    }
+                },
+                {
+                    "action": "TYPED",
+                    "content": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 5;\nint b = 18;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:19.939Z"
+                    }
+                },
+                {
+                    "action": "TYPED",
+                    "content": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 5;\nint b = 1;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:22.785Z"
+                    }
+                },
+                {
+                    "component": "ORACLE",
+                    "action": "EXECUTE",
+                    "input": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 5;\nint b = 1;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "output": "0",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:22.943Z"
+                    }
+                },
+                {
+                    "component": "ORACLE",
+                    "action": "EXECUTE",
+                    "input": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 5;\nint b = 42;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "output": "3",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:25.995Z"
+                    }
+                },
+                {
+                    "action": "TYPED",
+                    "content": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 5;\nint b = 42;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:26.034Z"
+                    }
+                },
+                {
+                    "action": "TYPED",
+                    "content": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 5;\nint b = 30;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:28.598Z"
+                    }
+                },
+                {
+                    "component": "ORACLE",
+                    "action": "EXECUTE",
+                    "input": "int values[] = {1, 5, 10, 15, 20};\nint n = 5;\nint a = 5;\nint b = 30;\nint result = CountBetween(values, n, a, b);\nprintf(\"%d\", result);",
+                    "output": "3",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:28.968Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "I'm ready to code!",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:29.908Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Task: ",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:29.944Z"
+                    }
+                },
+                {
+                    "component": "TAB",
+                    "action": "CLICKED",
+                    "name": "Cogs",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:32.030Z"
+                    }
+                },
+                {
+                    "component": "AI_AGENT",
+                    "action": "EXECUTE",
+                    "input": "write function in C int CountBetween(int *values, int n, int a, int b); where a and b can be revserse count between a and b strictly",
+                    "output": "int CountBetween(int *values, int n, int a, int b) {\n    int count = 0;\n    int lower = a < b ? a : b;\n    int upper = a > b ? a : b;\n    for (int i = 0; i < n; i++) {\n        if (values[i] > lower && values[i] < upper) {\n            count++;\n        }\n    }\n    return count;\n}",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:34.590Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:36.518Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:40.687Z"
+                    }
+                },
+                {
+                    "component": "CODE_EDITOR",
+                    "action": "TYPED",
+                    "content": "int CountBetween(int *values, int n, int a, int b) {\n    int count = 0;\n    int lower = a < b ? a : b;\n    int upper = a > b ? a : b;\n    for (int i = 0; i < n; i++) {\n        if (values[i] > lower && values[i] < upper) {\n            count++;\n        }\n    }\n    return count-1;\n}\n",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:41.719Z"
+                    }
+                },
+                {
+                    "component": "TESTS",
+                    "action": "EXECUTE",
+                    "input": "int CountBetween(int *values, int n, int a, int b) {\n    int count = 0;\n    int lower = a < b ? a : b;\n    int upper = a > b ? a : b;\n    for (int i = 0; i < n; i++) {\n        if (values[i] > lower && values[i] < upper) {\n            count++;\n        }\n    }\n    return count-1;\n}\n",
+                    "output": "0/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:42.273Z"
+                    }
+                },
+                {
+                    "component": "TEST_CASE",
+                    "action": "OPENED",
+                    "name": "Test 1",
+                    "content": "Input: int arr[] = {1, 2, 3, 4, 5};\nint result = CountBetween(arr, 5, 2, 4);\nprintf(\"%d\", result); | Expected: 1 | Actual: 0 | Hidden: no | Passed: no",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:43.523Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Code",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:45.387Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Tests",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:48.534Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Code",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:49.888Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:50.444Z"
+                    }
+                },
+                {
+                    "component": "TESTS",
+                    "action": "EXECUTE",
+                    "input": "int CountBetween(int *values, int n, int a, int b) {\n    int count = 0;\n    int lower = a < b ? a : b;\n    int upper = a > b ? a : b;\n    for (int i = 0; i < n; i++) {\n        if (values[i] > lower && values[i] < upper) {\n            count++;\n        }\n    }\n    return count;\n}\n",
+                    "output": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:52.257Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Code",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:53.516Z"
+                    }
+                },
+                {
+                    "component": "CODE_EDITOR",
+                    "action": "RESET",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:54.414Z"
+                    }
+                },
+                {
+                    "component": "AI_AGENT",
+                    "action": "EXECUTE",
+                    "input": "write function in C int CountBetween(int *values, int n, int a, int b); where a and b can be revserse count between a and b strictly",
+                    "output": "int CountBetween(int *values, int n, int a, int b) {\n    int count = 0;\n    int lower = a < b ? a : b;\n    int upper = a > b ? a : b;\n    for (int i = 0; i < n; i++) {\n        if (values[i] > lower && values[i] < upper) {\n            count++;\n        }\n    }\n    return count;\n}",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:57.093Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "Go back",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:57.803Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "What do I do here?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:02:59.208Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "CLICKED",
+                    "name": "I'm ready to code!",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:03:03.855Z"
+                    }
+                },
+                {
+                    "component": "MODAL",
+                    "action": "CLICKED",
+                    "name": "Have you met all your client's requirements?",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:03:04.853Z"
+                    }
+                },
+                {
+                    "component": "TESTS",
+                    "action": "EXECUTE",
+                    "input": "int CountBetween(int *values, int n, int a, int b) {\n    int count = 0;\n    int lower = a < b ? a : b;\n    int upper = a > b ? a : b;\n    for (int i = 0; i < n; i++) {\n        if (values[i] > lower && values[i] < upper) {\n            count++;\n        }\n    }\n    return count;\n}\n",
+                    "output": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:03:06.481Z"
+                    }
+                },
+                {
+                    "component": "BUTTON",
+                    "action": "SUBMIT",
+                    "content": "10/10",
+                    "timestamp": {
+                        "$date": "2025-08-17T23:03:07.625Z"
+                    }
+                }
+            ],
+            "_class": "akl.p4p.uoa.models.ActivityLog"
+        }
+    ]
+}

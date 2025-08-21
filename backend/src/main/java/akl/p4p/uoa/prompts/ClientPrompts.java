@@ -16,6 +16,7 @@ public class ClientPrompts {
   private static final String FAULTY_SOLUTION_PROMPT_FILE = "faulty-solution-prompt.txt";
 
   private static final String FAIL_SAFE_PROMPT = "client-convo-start.txt";
+  private static final String CODE_GENERATION_PROMPT_FILE = "code-generation-prompt.txt";
 
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,
@@ -88,6 +89,15 @@ public class ClientPrompts {
     return basePrompt
         .replace("//VAR_MODEL_SOLUTION", modelAnswer)
         .replace("//VAR_CONSTRAINTS", constraints);
+  }
+
+  public static String codeGenerationPrompt(
+      String userPrompt, String problemLanguage, String functionSignature) throws IOException {
+    String basePrompt = readFileFromResources(PROMPT_RESOURCE_DIR + CODE_GENERATION_PROMPT_FILE);
+    return basePrompt
+        .replace("//VAR_USER_PROMPT", userPrompt)
+        .replace("//FUNCTION_SIGNATURE", functionSignature)
+        .replace("//VAR_PROBLEM_LANGUAGE", problemLanguage);
   }
 
   private static String getCSpecificInstructions() throws IOException {

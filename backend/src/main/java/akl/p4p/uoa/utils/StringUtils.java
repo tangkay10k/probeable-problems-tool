@@ -15,4 +15,8 @@ public class StringUtils {
     }
     return null;
   }
+
+  public static String extractFunctionSignature(String code) {
+    return code.split("\\{")[0];
+  }
 }

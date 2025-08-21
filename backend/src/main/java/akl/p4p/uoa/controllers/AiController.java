@@ -5,6 +5,7 @@ import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.dtos.ChatRequestDTO;
 import akl.p4p.uoa.models.Problem;
+import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.prompts.OracleGenerationPrompts;
 import akl.p4p.uoa.prompts.ProblemGenerationPrompts;
 import akl.p4p.uoa.prompts.TestSuitePrompts;
@@ -93,10 +94,17 @@ class AiController {
 
   @PostMapping("solution-attempt")
   @PreAuthorize(AuthConstants.IS_AUTHENTICATED)
-  public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt) {
+  public ResponseEntity<String> generateSolutionAttempt(@RequestBody ChatRequestDTO prompt)
+      throws IOException {
+    String codeGenerationPrompt =
+        ClientPrompts.codeGenerationPrompt(
+            prompt.getPrompt(),
+            prompt.getProgramLanguage().toString(),
+            prompt.getFunctionSignature());
     String solutionAttempt =
         aiService.executeOneTimeLLMCallStudent(
-            prompt.getPrompt(), JsonSchemaDefinition.getCodeGenerationSchema());
+            codeGenerationPrompt, JsonSchemaDefinition.getCodeGenerationSchema());
+
     return ResponseEntity.ok(solutionAttempt);
   }
 }
