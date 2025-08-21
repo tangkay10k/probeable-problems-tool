@@ -36,6 +36,8 @@ public class Problem {
 
   private String functionName;
 
+  private String functionSignature;
+
   private String editorDefaultComment = "REPLACE ME IN MONGO";
 
   private ProblemVariant problemVariant =
