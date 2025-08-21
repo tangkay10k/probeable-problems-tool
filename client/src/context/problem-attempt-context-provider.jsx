@@ -31,22 +31,22 @@ const ProblemAttemptProvider = ({ children }) => {
   const [problemAttempt, setProblemAttempt] = useState(null);
   const [chatHistory, setChatHistory] = useState(null);
   const [executeOracleTemplate, setExecuteOracleTemplate] = useState("");
-  const [executeSubmissionTemplate, setSubmissionTemplate] = useState("");
+  const [executeSubmissionTemplate, setExecuteSubmissionTemplate] =
+    useState("");
   const [isProblemReady, setIsProblemReady] = useState(false);
   const [problem, setProblem] = useState({});
   const navigate = useNavigate();
   const fetchedProblemIds = useRef(new Set());
 
-  // Derived per-user storage key (hashed)
-  const [userStorageKey, setUserStorageKey] = useState(null);
-  const [studentDataMap, setStudentDataMap] = useState({});
-
-  // Local runner state
+  // Local runner state (ephemeral)
   const [testResults, setTestResults] = useState([]); // [{ actual, expected, pass }, ...]
   const [, withLoading] = useWithLoading();
-
-  // A place to stash the *latest* run results so runTests can return them
   const lastRunRef = useRef(null);
+
+  // ===== LOCALSTORAGE (only for prompt/code) =====
+  const [userStorageKey, setUserStorageKey] = useState(null);
+  const [studentDataMap, setStudentDataMap] = useState({});
+  const hydratedLocalForThisProblem = useRef(false);
 
   // Compute hashed storage key when profile email is available
   useEffect(() => {
@@ -73,27 +73,64 @@ const ProblemAttemptProvider = ({ children }) => {
     try {
       setStudentDataMap(saved ? JSON.parse(saved) : {});
     } catch {
-      // corrupt JSON? reset for safety
       setStudentDataMap({});
     }
   }, [userStorageKey]);
 
-  const currentData =
-    studentDataMap && problemId ? studentDataMap[problemId] || {} : {};
-  const studentAgentPrompt = currentData.agentPrompt || "";
-  const studentCodeSubmission = currentData.codeSubmission || "";
-  const testsPassed = currentData.testsPassed || 0;
-  const oracleExecutionHistory = currentData.oracleExecutionHistory || [];
-  const failedAttempts = currentData.failedAttempts || 0;
+  const persistLocal = (nextMap) => {
+    if (!userStorageKey) return;
+    localStorage.setItem(userStorageKey, JSON.stringify(nextMap));
+  };
 
-  // Fetch attempt + chat, then chain execute template once we know the language.
-  // Fetch problem in parallel.
+  const saveLocalField = (field, value) => {
+    if (!problemId) return;
+    setStudentDataMap((prev) => {
+      const prevEntry = { ...(prev[problemId] || {}) };
+      const nextValue =
+        typeof value === "function" ? value(prevEntry[field]) : value;
+      const updatedEntry = { ...prevEntry, [field]: nextValue };
+      const updatedMap = { ...prev, [problemId]: updatedEntry };
+      persistLocal(updatedMap);
+      return updatedMap;
+    });
+  };
+
+  // Derive CURRENT local values for this problem
+  const currentLocal =
+    studentDataMap && problemId ? studentDataMap[problemId] || {} : {};
+  const studentAgentPrompt = currentLocal.agentPrompt || "";
+  const studentCodeSubmission = currentLocal.codeSubmission || "";
+
+  // If server already has prompt/code and local is empty (first load), hydrate local once.
+  useEffect(() => {
+    if (!problemId || !problemAttempt || hydratedLocalForThisProblem.current)
+      return;
+
+    const hasLocal = !!studentDataMap?.[problemId];
+    const serverPrompt = problemAttempt.agentPrompt ?? "";
+    const serverCode = problemAttempt.codeSubmission ?? "";
+
+    if (!hasLocal && (serverPrompt || serverCode)) {
+      const next = {
+        ...(studentDataMap || {}),
+        [problemId]: {
+          agentPrompt: serverPrompt,
+          codeSubmission: serverCode,
+        },
+      };
+      setStudentDataMap(next);
+      persistLocal(next);
+    }
+    hydratedLocalForThisProblem.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [problemAttempt, problemId, userStorageKey]);
+
+  // ===== FETCH DATA =====
   useEffect(() => {
     if (!profile?.email || !problemId) return;
     if (fetchedProblemIds.current.has(problemId)) return;
     fetchedProblemIds.current.add(problemId);
 
-    // Attempt + chat -> template
     getProblemAttempt(problemId, profile.email)
       .then((attempt) => {
         setProblemAttempt(attempt);
@@ -109,14 +146,14 @@ const ProblemAttemptProvider = ({ children }) => {
         }
 
         getExecuteTemplate(lang)
-          .then((template) => setExecuteOracleTemplate(template))
+          .then((t) => setExecuteOracleTemplate(t))
           .catch((err) => {
             console.error(err);
             toast.error("Failed to load oracle template.");
           });
 
-        return getSubmissionTemplate(lang)
-          .then((template) => setSubmissionTemplate(template))
+        getSubmissionTemplate(lang)
+          .then((t) => setExecuteSubmissionTemplate(t))
           .catch((err) => {
             console.error(err);
             toast.error("Failed to load submission template.");
@@ -128,7 +165,6 @@ const ProblemAttemptProvider = ({ children }) => {
         toast.error("Something went wrong fetching that problem...");
       });
 
-    // Problem
     getProblem(problemId)
       .then((fetchedProblem) => {
         setProblem(fetchedProblem);
@@ -140,17 +176,17 @@ const ProblemAttemptProvider = ({ children }) => {
       });
   }, [problemId, profile?.email, navigate]);
 
+  // If the problem supplies a default editor comment and *local* code is empty, seed local (no server write)
   useEffect(() => {
-    if (
-      problem?.id &&
-      (!studentCodeSubmission || studentCodeSubmission.length === 0)
-    ) {
-      updateStudentCodeSubmission(problem?.editorDefaultComment);
+    if (!problem?.id) return;
+    const hasLocal = !!studentDataMap?.[problemId]?.codeSubmission;
+    if (!hasLocal && problem?.editorDefaultComment) {
+      saveLocalField("codeSubmission", problem.editorDefaultComment);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [problem, studentCodeSubmission]);
+  }, [problem?.id, problem?.editorDefaultComment]);
 
-  // Derive readiness (include both templates in deps)
+  // Derive readiness
   useEffect(() => {
     const ready =
       !!problemAttempt &&
@@ -158,7 +194,6 @@ const ProblemAttemptProvider = ({ children }) => {
       !!executeOracleTemplate &&
       !!executeSubmissionTemplate &&
       !!chatHistory;
-
     setIsProblemReady(ready);
   }, [
     problemAttempt,
@@ -168,114 +203,121 @@ const ProblemAttemptProvider = ({ children }) => {
     chatHistory,
   ]);
 
-  const persist = (nextMap) => {
-    if (!userStorageKey) return;
-    localStorage.setItem(userStorageKey, JSON.stringify(nextMap));
-  };
+  // ===== SERVER PATCH HELPER =====
+  const patchAttempt = useCallback(
+    async (patch, { notify = false, refresh = true } = {}) => {
+      if (!problemAttempt) {
+        toast.error("🚨 Problem metadata not loaded yet. Try again. 🚨");
+        return null;
+      }
 
-  const saveStudentData = (field, value) => {
-    if (!problemId) return;
-    setStudentDataMap((prev) => {
-      const prevEntry = { ...(prev[problemId] || {}) };
-      const nextValue =
-        typeof value === "function" ? value(prevEntry[field]) : value;
-      const updatedEntry = { ...prevEntry, [field]: nextValue };
-      const updatedMap = { ...prev, [problemId]: updatedEntry };
-      persist(updatedMap);
-      return updatedMap;
-    });
-  };
+      const prev = problemAttempt;
+      const next =
+        typeof patch === "function" ? patch(prev) : { ...prev, ...patch };
 
+      // Optimistic UI
+      setProblemAttempt(next);
+
+      try {
+        await saveProblemAttempt(next);
+
+        if (refresh) {
+          const fresh = await getProblemAttempt(problemId, profile.email);
+          setProblemAttempt(fresh);
+        }
+
+        if (notify) toast.success("Your submission was saved successfully!");
+
+        getUserProfileSilently(profile.email)
+          .then((updatedProfile) => setProfile(updatedProfile))
+          .catch((e) => console.error(e));
+
+        return next;
+      } catch (e) {
+        console.error(e);
+        setProblemAttempt(prev); // revert optimistic
+        toast.error("🚨Failed to save your submission. Please try again.");
+        return null;
+      }
+    },
+    [problemAttempt, problemId, profile?.email, setProfile],
+  );
+
+  // ===== PUBLIC UPDATERS =====
+  // LOCAL ONLY (autosave to localStorage; NOT to server)
   const updateStudentAgentPrompt = (newPrompt) =>
-    saveStudentData("agentPrompt", newPrompt);
+    saveLocalField("agentPrompt", newPrompt);
 
   const updateStudentCodeSubmission = (newCode) =>
-    saveStudentData("codeSubmission", newCode);
+    saveLocalField("codeSubmission", newCode);
 
-  const updateNumTestsPassed = (count) => saveStudentData("testsPassed", count);
-
-  /* store [{testcase: X, output: Y, timestamp: Z}, ...]*/
+  // SERVER-BACKED
+  const updateNumTestsPassed = (count) => patchAttempt({ testsPassed: count });
   const updateOracleHistory = (newHistory) =>
-    saveStudentData("oracleExecutionHistory", newHistory);
+    patchAttempt({ oracleExecutionHistory: newHistory });
 
-  // Functional updater to avoid stale increments
-  const updateFailedAttempts = (next) =>
-    saveStudentData("failedAttempts", (prevVal) => {
-      const base = typeof prevVal === "number" ? prevVal : 0;
-      return typeof next === "function" ? next(base) : next;
+  const updateFailedAttempts = (nextValOrFn) =>
+    patchAttempt((prev) => {
+      const base =
+        typeof prev?.failedAttempts === "number" ? prev.failedAttempts : 0;
+      const value =
+        typeof nextValOrFn === "function" ? nextValOrFn(base) : nextValOrFn;
+      return { ...prev, failedAttempts: value };
     });
 
   /**
-   * Deletes the entire stored data (prompt, code, score) for THIS problem (for this user)
+   * Save the current attempt to the server, pulling prompt/code from LOCAL.
+   * You can pass overrides for other server fields if needed.
+   */
+  const saveStudentAttempt = (notifyStudent = false) => {
+    if (!problemAttempt) {
+      toast.error("🚨 Problem metadata not loaded yet. Try again. 🚨");
+      return;
+    }
+
+    const merged = {
+      ...problemAttempt,
+      agentPrompt: studentAgentPrompt,
+      codeSubmission: studentCodeSubmission,
+      testsPassed: problemAttempt.testsPassed,
+      oracleExecutionHistory: problemAttempt.oracleExecutionHistory,
+      failedAttempts: problemAttempt.failedAttempts ?? 0,
+    };
+
+    patchAttempt(merged, { notify: notifyStudent });
+  };
+
+  /**
+   * Clears LOCAL draft for this problem (does NOT write to server).
    */
   const deleteStudentAttempt = () => {
     if (!problemId) return;
     setStudentDataMap((prev) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [problemId]: _omit, ...rest } = prev;
-      persist(rest);
+      const { [problemId]: _omit, ...rest } = prev || {};
+      persistLocal(rest);
       return rest;
     });
   };
 
   /**
-   * Save the current attempt. Accepts optional overrides to avoid stale reads.
-   * Example:
-   *   saveStudentAttempt(true, { testsPassed: 3, failedAttempts: 2 })
-   */
-  const saveStudentAttempt = (notifyStudent = false, overrides = {}) => {
-    if (!problemAttempt) {
-      toast.error("🚨 Problem metadata not loaded yet. Try again. 🚨");
-      return;
-    }
-    const toSave = {
-      ...problemAttempt,
-      agentPrompt: overrides.agentPrompt ?? studentAgentPrompt,
-      codeSubmission: overrides.codeSubmission ?? studentCodeSubmission,
-      failedAttempts: overrides.failedAttempts ?? failedAttempts,
-      testsPassed: overrides.testsPassed ?? testsPassed,
-      oracleExecutionHistory:
-        overrides.oracleExecutionHistory ?? oracleExecutionHistory,
-    };
-
-    saveProblemAttempt(toSave)
-      .then(() => {
-        getProblemAttempt(problemId, profile.email).then((attempt) =>
-          setProblemAttempt(attempt),
-        );
-        if (notifyStudent) {
-          toast.success("Your submission was saved successfully!");
-        }
-
-        return getUserProfileSilently(profile.email)
-          .then((updatedProfile) => setProfile(updatedProfile))
-          .catch((e) => {
-            console.error(e);
-            // non-fatal
-          });
-      })
-      .catch(() => {
-        toast.error("🚨Failed to save your submission. Please try again.");
-      });
-  };
-
-  /**
-   * Execute the student implementation against the problem's test suite.
-   * Returns an object: { didCompile, passedCount, nextFailedAttempts }
+   * Execute tests. Persists testsPassed and failedAttempts to the SERVER.
+   * Does NOT auto-save prompt/code (they stay local until explicit submit).
    */
   const runTests = useCallback(
     async (addLog) => {
-      if (!problem?.id || !executeSubmissionTemplate) return null;
+      if (!problem?.id || !executeSubmissionTemplate || !problemAttempt)
+        return null;
 
       const updateResults = async (execution) => {
         const output = execution?.run?.output ?? "";
         const didCompile = execution?.compile?.code === 0;
 
         const lines = output.split(SPLIT_STRING);
+        const totalTests = problem?.testSuite?.length ?? 0;
+
         let passedCount = 0;
         const next = [];
-
-        const totalTests = problem?.testSuite?.length ?? 0;
 
         for (let i = 0; i < totalTests; i++) {
           const expected = problem?.testSuite?.[i]?.expectedStdOut ?? "";
@@ -283,42 +325,37 @@ const ProblemAttemptProvider = ({ children }) => {
           const pass = actual === expected;
           if (pass) passedCount += 1;
           next.push({ actual, expected, pass });
-          if (!pass) break; // stop at first mismatch
+          if (!pass) break;
         }
 
         setTestResults(next);
-        updateNumTestsPassed(passedCount);
 
-        // Compute next failedAttempts locally and persist with functional update
+        // Server truth for attempts:
         const willIncrementFailed = didCompile && passedCount !== totalTests;
         const nextFailedAttempts = willIncrementFailed
-          ? failedAttempts + 1
-          : failedAttempts;
+          ? (problemAttempt.failedAttempts ?? 0) + 1
+          : (problemAttempt.failedAttempts ?? 0);
 
-        if (willIncrementFailed) {
-          // Functional increment avoids lost updates
-          updateFailedAttempts((v) => (typeof v === "number" ? v + 1 : 1));
-        }
+        await patchAttempt({
+          ...problemAttempt,
+          testsPassed: passedCount,
+          failedAttempts: nextFailedAttempts,
+        });
 
-        const numTestsPassed = `${passedCount}/${totalTests}`;
         addLog?.({
           component: Component.TESTS,
           action: Action.EXECUTE,
-          input: `${studentCodeSubmission}`,
-          output: numTestsPassed,
+          input: `${studentCodeSubmission}`, // LOCAL draft used for the run
+          output: `${passedCount}/${totalTests}`,
         });
 
-        // Stash authoritative results to return from runTests()
         lastRunRef.current = { didCompile, passedCount, nextFailedAttempts };
-
-        // Preserve existing contract if handleTestSuiteExecution expects a boolean return
         return didCompile;
       };
 
-      // Await the suite execution; then return what updateResults stashed
       await handleTestSuiteExecution(
         problem,
-        studentCodeSubmission,
+        studentCodeSubmission, // run against LOCAL draft
         executeSubmissionTemplate,
         updateResults,
       );
@@ -329,9 +366,9 @@ const ProblemAttemptProvider = ({ children }) => {
       problem?.id,
       problem?.testSuite,
       executeSubmissionTemplate,
-      studentCodeSubmission,
-      updateNumTestsPassed,
-      failedAttempts,
+      studentCodeSubmission, // LOCAL
+      patchAttempt,
+      problemAttempt,
     ],
   );
 
@@ -340,22 +377,27 @@ const ProblemAttemptProvider = ({ children }) => {
       value={{
         problemAttempt,
         setProblemAttempt,
+
         chatHistory,
         setChatHistory,
+
         isProblemReady,
+        executeTemplate: executeOracleTemplate,
+        problem,
+
+        // LOCAL (draft) fields + updaters
         studentAgentPrompt,
         updateStudentAgentPrompt,
         studentCodeSubmission,
         updateStudentCodeSubmission,
-        deleteStudentAttempt,
+
+        // SERVER-backed fields/APIs
         updateNumTestsPassed,
         updateOracleHistory,
-        oracleExecutionHistory,
         saveStudentAttempt,
-        executeTemplate: executeOracleTemplate,
-        problem,
+        deleteStudentAttempt,
 
-        // Test runner API
+        // Test runner API (ephemeral UI)
         testResults,
         setTestResults,
         runTests,

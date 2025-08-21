@@ -103,10 +103,7 @@ export default function StageTwo() {
       });
 
       const saveSilently = Boolean(didCompile);
-      saveStudentAttempt(saveSilently, {
-        testsPassed: result.passedCount,
-        failedAttempts: result.nextFailedAttempts,
-      });
+      saveStudentAttempt(saveSilently);
 
       await sleep();
     } catch (e) {
