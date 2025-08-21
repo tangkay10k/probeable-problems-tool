@@ -163,9 +163,12 @@ export default function StageTwo() {
           error. <br />
           <br />
           Your current penalty is: [
-          <b className={styles.penalty}>
-            -{problemAttempt.failedAttempts}{" "}
-          </b>] {`${problemAttempt.failedAttempts === 1 ? "point" : "points"}`}
+          <b
+            className={`${problemAttempt.failedAttempts !== 0 ? styles.penalty : ""}`}
+          >
+            {problemAttempt.failedAttempts}
+          </b>
+          ] {`${problemAttempt.failedAttempts === 1 ? "point" : "points"}`}
           <br />
           <i className={styles.footnote}>Penalties are capped at 15 points.</i>
         </p>

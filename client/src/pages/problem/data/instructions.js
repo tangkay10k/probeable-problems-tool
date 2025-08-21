@@ -9,7 +9,7 @@ export const STAGE_ONE_FULL = {
     " with" +
     " different inputs to determine functionality.\n" +
     "\n" +
-    "Once you fully understand what the client wants, proceed to the next page.",
+    "Once you fully understand what the client wants, click **I'm ready to code!**",
 };
 
 export const STAGE_ONE_ORACLE = {

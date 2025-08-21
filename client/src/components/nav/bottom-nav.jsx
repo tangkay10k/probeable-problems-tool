@@ -21,7 +21,7 @@ export default function BottomNav({ handleStageChange, stage }) {
         )}
         {stage === 2 && problemAttempt?.finalScore ? (
           <ButtonV2 onClick={() => navigate("/problems")}>
-            Back to Problem List
+            Back to problem list
           </ButtonV2>
         ) : null}
       </div>

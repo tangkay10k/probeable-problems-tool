@@ -154,6 +154,7 @@ export default function StageOne() {
         isOpen={showHelp}
         setIsOpen={setShowHelp}
         title={"What do I do here?"}
+        className={styles.infoModal}
       >
         {isClient ? CLIENT_HELP : ORACLE_HELP}
       </Modal>

@@ -66,6 +66,10 @@
   justify-content: space-between;
 }
 
+.infoModal {
+  max-width: var(--modal-max-width) !important;
+}
+
 .runBtn,
 .resetBtn,
 .infoBtn {

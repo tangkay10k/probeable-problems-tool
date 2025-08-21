@@ -43,7 +43,7 @@ const ProblemAttemptProvider = ({ children }) => {
   const [, withLoading] = useWithLoading();
   const lastRunRef = useRef(null);
 
-  // ===== LOCALSTORAGE (only for prompt/code) =====
+  // ===== LOCALSTORAGE (prompt/code/oracleExecutionHistory) =====
   const [userStorageKey, setUserStorageKey] = useState(null);
   const [studentDataMap, setStudentDataMap] = useState({});
   const hydratedLocalForThisProblem = useRef(false);
@@ -100,8 +100,9 @@ const ProblemAttemptProvider = ({ children }) => {
     studentDataMap && problemId ? studentDataMap[problemId] || {} : {};
   const studentAgentPrompt = currentLocal.agentPrompt || "";
   const studentCodeSubmission = currentLocal.codeSubmission || "";
+  const oracleExecutionHistory = currentLocal.oracleExecutionHistory || [];
 
-  // If server already has prompt/code and local is empty (first load), hydrate local once.
+  // If server already has prompt/code/oracleExecutionHistory and local is empty (first load), hydrate local once.
   useEffect(() => {
     if (!problemId || !problemAttempt || hydratedLocalForThisProblem.current)
       return;
@@ -109,13 +110,20 @@ const ProblemAttemptProvider = ({ children }) => {
     const hasLocal = !!studentDataMap?.[problemId];
     const serverPrompt = problemAttempt.agentPrompt ?? "";
     const serverCode = problemAttempt.codeSubmission ?? "";
+    const serverOracleHist = problemAttempt.oracleExecutionHistory ?? [];
 
-    if (!hasLocal && (serverPrompt || serverCode)) {
+    if (
+      !hasLocal &&
+      (serverPrompt || serverCode || (serverOracleHist?.length ?? 0) > 0)
+    ) {
       const next = {
         ...(studentDataMap || {}),
         [problemId]: {
           agentPrompt: serverPrompt,
           codeSubmission: serverCode,
+          oracleExecutionHistory: Array.isArray(serverOracleHist)
+            ? serverOracleHist
+            : [],
         },
       };
       setStudentDataMap(next);
@@ -251,26 +259,40 @@ const ProblemAttemptProvider = ({ children }) => {
   const updateStudentCodeSubmission = (newCode) =>
     saveLocalField("codeSubmission", newCode);
 
+  const updateOracleHistory = (newHistory) =>
+    saveLocalField("oracleExecutionHistory", newHistory);
+
   // SERVER-BACKED
   const updateNumTestsPassed = (count) => patchAttempt({ testsPassed: count });
-  const updateOracleHistory = (newHistory) =>
-    patchAttempt({ oracleExecutionHistory: newHistory });
 
   /**
-   * Save the current attempt to the server, pulling prompt/code from LOCAL.
+   * Save the current attempt to the server, pulling prompt/code/oracle history from LOCAL.
    */
-  const saveStudentAttempt = (notifyStudent = false) => {
+  const saveStudentAttempt = async (notifyStudent = false) => {
     if (!problemAttempt) {
       toast.error("🚨 Problem metadata not loaded yet. Try again. 🚨");
       return;
     }
 
+    // Fetch the latest attempt from the server to avoid stale client state
+    let base = null;
+    try {
+      base = await getProblemAttempt(problemId, profile.email);
+      setProblemAttempt(base); // keep local in sync with the fresh server copy
+    } catch (e) {
+      console.warn("Falling back to local problemAttempt while saving:", e);
+      base = problemAttempt;
+    }
+
     const merged = {
-      ...problemAttempt,
+      ...base,
+      // Locally stored
       agentPrompt: studentAgentPrompt,
       codeSubmission: studentCodeSubmission,
-      testsPassed: problemAttempt.testsPassed,
-      oracleExecutionHistory: problemAttempt.oracleExecutionHistory,
+      oracleExecutionHistory,
+
+      // Server truth
+      testsPassed: problemAttempt.testsPassed ?? 0,
       failedAttempts: problemAttempt.failedAttempts ?? 0,
     };
 
@@ -292,7 +314,7 @@ const ProblemAttemptProvider = ({ children }) => {
 
   /**
    * Execute tests. Persists testsPassed and failedAttempts to the SERVER.
-   * Does NOT auto-save prompt/code (they stay local until explicit submit).
+   * Does NOT auto-save prompt/code/oracle history (they stay local until explicit submit).
    */
   const runTests = useCallback(
     async (addLog) => {
@@ -310,9 +332,11 @@ const ProblemAttemptProvider = ({ children }) => {
         const next = [];
 
         for (let i = 0; i < totalTests; i++) {
-          const expected = problem.testSuite[i].expectedStdOut.trim();
-          const actual = didCompile ? lines[i].trim() : "[COMPILATION ERROR]";
-          console.log("Expected", expected, "Actual", actual);
+          const expected =
+            problem?.testSuite?.[i]?.expectedStdOut?.trim?.() ?? "";
+          const actual = didCompile
+            ? (lines[i]?.trim?.() ?? "")
+            : "[COMPILATION ERROR]";
           const pass = actual === expected;
           if (pass) passedCount += 1;
           next.push({ actual, expected, pass });
@@ -385,10 +409,11 @@ const ProblemAttemptProvider = ({ children }) => {
         updateStudentAgentPrompt,
         studentCodeSubmission,
         updateStudentCodeSubmission,
+        oracleExecutionHistory,
+        updateOracleHistory,
 
         // SERVER-backed fields/APIs
         updateNumTestsPassed,
-        updateOracleHistory,
         saveStudentAttempt,
         deleteStudentAttempt,
 
