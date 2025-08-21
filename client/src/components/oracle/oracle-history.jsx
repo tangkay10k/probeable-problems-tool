@@ -8,7 +8,7 @@ export default function OracleHistory() {
 
   return (
     <div className={styles.historyContainer}>
-      {oracleExecutionHistory.length > 0 ? (
+      {oracleExecutionHistory?.length > 0 ? (
         <AnimatedList
           insertDirection={"head"}
           items={oracleExecutionHistory}

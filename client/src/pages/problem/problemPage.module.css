@@ -66,10 +66,22 @@
   justify-content: space-between;
 }
 
+.infoModal {
+  max-width: var(--modal-max-width) !important;
+}
+
+.runBtn,
 .resetBtn,
 .infoBtn {
-  width: calc(var(--editor-buttons-height) - var(--padding-025));
-  height: calc(var(--editor-buttons-height) - var(--padding-025));
+  height: calc(var(--editor-buttons-height) - 2 * var(--padding-025));
+  font-weight: 600;
+}
+
+.resetBtn,
+.infoBtn {
+  width: calc(
+    var(--editor-buttons-height) - 2 * var(--padding-025)
+  ); /* Match button group height */
 }
 
 .resetBtn {
@@ -91,7 +103,10 @@
 
 .penalty {
   color: var(--fail-red);
-  font-weight: 600;
+}
+
+.footnote {
+  font-size: var(--font-size-08);
 }
 
 .finalScore {
@@ -103,12 +118,23 @@
   background-color: var(--pass-green);
   border: 0.01rem solid var(--pass-green-light);
   width: max-content;
-  height: calc(var(--editor-buttons-height) - var(--padding-025));
+
+  font-weight: 600;
 }
 
 .runBtn:hover {
   background-color: var(--pass-green-light);
   color: var(--pass-green);
+}
+
+.runConfirmationModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 39rem !important;
+  text-wrap: balanced;
 }
 
 .completed {

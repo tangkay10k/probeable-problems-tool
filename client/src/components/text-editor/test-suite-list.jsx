@@ -10,6 +10,30 @@ import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
 import DiffView from "@/components/diff-view/diff-view.jsx";
 
+const normalize = (s) => (s ?? "").replace(/\r\n/g, "\n"); // avoid CRLF noise
+const deriveStatus = (result, expectedRaw) => {
+  const hasRun = result?.actual !== undefined; // true even for ""
+  if (!hasRun)
+    return { hasRun, isCompilationError: false, passed: false, status: null };
+
+  const isCompilationError = result?.actual === "[COMPILATION ERROR]";
+  if (isCompilationError)
+    return { hasRun, isCompilationError, passed: false, status: "compile" };
+
+  // Prefer the runner's truth if it provided it
+  const expected = normalize(expectedRaw);
+  const actual = normalize(result?.actual);
+  const passed =
+    typeof result?.pass === "boolean" ? result.pass : actual === expected;
+
+  return {
+    hasRun,
+    isCompilationError: false,
+    passed,
+    status: passed ? "passed" : "failed",
+  };
+};
+
 export function TestSuiteList({
   tests = [],
   setTests,
@@ -84,18 +108,8 @@ const StatusPill = ({ status }) => {
 export function NonEditableTestCase({ index, test, result }) {
   const { addLog } = useLogging();
 
-  const hasRun = result?.actual !== undefined; // true even for "", false only if never ran
+  const { hasRun, passed, status } = deriveStatus(result, test.expectedStdOut);
   const isCompilationError = result?.actual === "[COMPILATION ERROR]";
-  const passed =
-    hasRun && !isCompilationError && result.actual === test.expectedStdOut;
-
-  const status = hasRun
-    ? isCompilationError
-      ? "compile"
-      : passed
-        ? "passed"
-        : "failed"
-    : null;
 
   const preventToggleIfLocked = (e) => {
     if (!hasRun || isCompilationError) {

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Action, Component } from "@/constants/logConstants.js";
 import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 
-export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
+export default function AIAgent({ editorRef, runCallback }) {
   const {
     problem,
     studentAgentPrompt,
@@ -20,21 +20,23 @@ export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
     updateStudentCodeSubmission,
     studentCodeSubmission,
   } = useProblemAttemptContext();
-  const [isLoading, withLoading] = useWithLoading();
   const { addLog } = useLogging();
+
+  const [isLoading, withLoading] = useWithLoading();
   const [resetWarning, setResetWarning] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const editorDefault = problem.editorDefaultComment;
 
   useEffect(() => {
     if (
       studentCodeSubmission.trim().length > 0 &&
-      studentCodeSubmission !== editorDefaultSrc
+      studentCodeSubmission !== editorDefault
     ) {
       setResetWarning(true);
       return;
     }
     setResetWarning(false);
-  }, [studentCodeSubmission, editorDefaultSrc]);
+  }, [studentCodeSubmission, editorDefault]);
 
   useEffect(() => {
     if (!studentAgentPrompt) return;
@@ -61,9 +63,8 @@ export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
     withLoading(
       () =>
         generateSolutionAttempt({
+          problemId: problem.id,
           prompt: studentAgentPrompt,
-          programLanguage: problem.programLanguage,
-          functionSignature: problem.functionSignature,
         }),
       (response) => {
         updateStudentCodeSubmission(response.source_code);
@@ -84,7 +85,7 @@ export default function AIAgent({ editorRef, runCallback, editorDefaultSrc }) {
 
         addLog({
           component: Component.AI_AGENT,
-          action: Action.EXECUTE,
+          action: Action.BUILD,
           input: `${studentAgentPrompt}`,
           output: `${response.source_code}`,
         });

@@ -1,10 +1,10 @@
-ROLE
 You write code. Produce exactly one function implementation that solves the task.
 
 INPUTS
 - LANGUAGE: //VAR_PROBLEM_LANGUAGE
 - SIGNATURE: //FUNCTION_SIGNATURE
-- TASK: //VAR_USER_PROMPT
+- TASK:
+//VAR_USER_PROMPT
 
 HARD RULES
 1. Output exactly one function in //VAR_PROBLEM_LANGUAGE. No imports, no main, no tests, no extra text.

@@ -1,12 +1,12 @@
 export const Action = {
   TYPED: "TYPED",
-  EXECUTE: "EXECUTE",
+  CHECK: "CHECK",
   SEND: "SEND",
   CLICKED: "CLICKED",
   OPENED: "OPENED",
   CLOSED: "CLOSED",
   RESET: "RESET",
-  SUBMIT: "SUBMIT",
+  BUILD: "BUILD",
 };
 
 export const Component = {

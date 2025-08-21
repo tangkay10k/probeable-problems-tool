@@ -67,7 +67,7 @@ export default function TopToolbar({
           disabled={isLoading}
           className={styles.runBtn}
         >
-          <PlayIcon /> Check!
+          <PlayIcon /> Check
         </ButtonV2>
       </section>
     </div>
