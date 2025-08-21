@@ -14,7 +14,6 @@ export default function wModal({
   enableOutsideCancel = true,
   children,
 }) {
-  if (!isOpen) return null;
   const modalRef = useRef(null);
   const { addLog } = useLogging();
 
@@ -31,6 +30,8 @@ export default function wModal({
   if (enableOutsideCancel) {
     useOnClickOutside(modalRef, () => setIsOpen(false));
   }
+
+  if (!isOpen) return null;
 
   return (
     <div className={styles.container} onClick={onClose}>

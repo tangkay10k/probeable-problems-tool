@@ -3,7 +3,7 @@ import Home from "./pages/home/home";
 import QuestionSetup from "./pages/question-setup/question-setup";
 import NavBar from "@/components/nav/navbar.jsx";
 import "./App.css";
-import { Slide, ToastContainer } from "react-toastify";
+import { Flip, ToastContainer } from "react-toastify";
 import ProblemPage from "@/pages/problem/problem-page.jsx";
 import Login from "@/pages/login/login.jsx";
 import PrivateRoutes from "@/components/router/private-route.jsx";
@@ -26,7 +26,7 @@ function App() {
         draggable
         pauseOnHover
         theme="dark"
-        transition={Slide}
+        transition={Flip}
       />
       <Routes>
         <Route path="/" element={<Login />} />

@@ -90,13 +90,27 @@ public class ProblemAttemptService {
   }
 
   public ProblemAttempt saveProblemAttemptAndUpdateProblemsCompleted(
-      ProblemAttempt problemAttempt) {
+      ProblemAttempt curProblemAttempt) {
+    var prevAttempt = findOrCreateNewProblemAttempt(curProblemAttempt);
+    var problem = findProblemById(prevAttempt);
 
-    String submitterEmail = problemAttempt.getStudentEmail();
-    personService.updateProblemsCompleted(submitterEmail, problemAttempt.getProblemId());
+    calculateFinalScore(curProblemAttempt);
+    compareFinalScoreWithExistingAttempt(curProblemAttempt, prevAttempt);
+    updateTestsPassedIfHigher(curProblemAttempt, prevAttempt);
+    updateFailedAttemptsIfNotFullMarks(curProblemAttempt, prevAttempt, problem);
+    updateProblemsCompleted(curProblemAttempt, problem);
 
-    calculateAndSaveFinalScore(problemAttempt);
-    return problemAttemptRepository.save(problemAttempt);
+    return problemAttemptRepository.save(curProblemAttempt);
+  }
+
+  public ProblemAttempt findOrCreateNewProblemAttempt(ProblemAttempt problemAttempt) {
+    try {
+      return findProblemAttemptById(problemAttempt.getId());
+    } catch (RuntimeException e) {
+      problemAttempt.setId(UUID.randomUUID().toString());
+      problemAttempt.setCreatedDate(new Date());
+      return problemAttemptRepository.save(problemAttempt);
+    }
   }
 
   public ChatHistory overwriteAssistantMessage(String sessionId, String replacementAssistantText) {
@@ -132,16 +146,71 @@ public class ProblemAttemptService {
         newSessionId, getClientFirstMessage(problemStatement, modelAnswer));
   }
 
-  private void calculateAndSaveFinalScore(ProblemAttempt attempt) {
-    var testsPassed = attempt.getTestsPassed();
-    String[] tokens = testsPassed.split("/");
-
-    var numTestsPassed = Integer.parseInt(tokens[0]);
-    var numTests = Integer.parseInt(tokens[1]);
-    double score = ((double) numTestsPassed / numTests) * 100.0;
-    var failures = attempt.getFailedAttempts();
-
-    double finalScore = Math.max(score - failures, 0.0);
+  private void calculateFinalScore(ProblemAttempt attempt) {
+    double score = calculateCurrentScore(attempt);
+    double failures = attempt.getFailedAttempts();
+    double finalScore = Math.max(0, score - failures);
     attempt.setFinalScore(finalScore);
+  }
+
+  private void markProblemAsCompleted(ProblemAttempt attempt) {
+    attempt.setCompleted(true);
+  }
+
+  public double calculateCurrentScore(ProblemAttempt attempt) {
+    var numTestsPassed = attempt.getTestsPassed();
+    var problem = findProblemById(attempt);
+    var numTests = problem.getTestSuite().size();
+
+    return ((double) numTestsPassed / numTests) * 100.0;
+  }
+
+  private void compareFinalScoreWithExistingAttempt(
+      ProblemAttempt curAttempt, ProblemAttempt prevAttempt) {
+    if (curAttempt.getFinalScore() < prevAttempt.getFinalScore()) {
+      curAttempt.setFinalScore(prevAttempt.getFinalScore());
+    }
+  }
+
+  private boolean hasPassedAllTests(ProblemAttempt attempt, Problem problem) {
+    return attempt.getTestsPassed() == problem.getTestSuite().size();
+  }
+
+  private Problem findProblemById(ProblemAttempt attempt) {
+    var problemOptional = problemRepository.findById(attempt.getProblemId());
+    return problemOptional.orElseThrow(
+        () -> new RuntimeException("Problem with id: " + attempt.getProblemId() + " not found."));
+  }
+
+  private void updateProblemsCompleted(ProblemAttempt problemAttempt, Problem problem) {
+    if (hasPassedAllTests(problemAttempt, problem) && !problemAttempt.isCompleted()) {
+      markProblemAsCompleted(problemAttempt);
+      personService.updateProblemsCompleted(
+          problemAttempt.getStudentEmail(), problemAttempt.getProblemId());
+    }
+  }
+
+  private void updateTestsPassedIfHigher(ProblemAttempt curAttempt, ProblemAttempt prevAttempt) {
+    if (curAttempt.getTestsPassed() < prevAttempt.getTestsPassed()) {
+      curAttempt.setTestsPassed(prevAttempt.getTestsPassed());
+    }
+  }
+
+  private boolean isFullMarks(ProblemAttempt curAttempt, Problem problem) {
+    int totalNumberOfTests =
+        problem.getTestSuite().size(); // Test suite is usually < 10 cases so O(1)
+    int currentTestsPassed = curAttempt.getTestsPassed();
+    return totalNumberOfTests == currentTestsPassed;
+  }
+
+  private void updateFailedAttemptsIfNotFullMarks(
+      ProblemAttempt curAttempt, ProblemAttempt prevAttempt, Problem problem) {
+    if (isFullMarks(curAttempt, problem)) {
+      curAttempt.setFailedAttempts(prevAttempt.getFailedAttempts());
+      return;
+    }
+    int newFailedAttempts =
+        Math.max(curAttempt.getFailedAttempts(), prevAttempt.getFailedAttempts());
+    curAttempt.setFailedAttempts(newFailedAttempts);
   }
 }

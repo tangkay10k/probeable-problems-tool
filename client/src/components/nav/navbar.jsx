@@ -22,6 +22,7 @@ export default function NavBar() {
         <span className={styles.links}>
           {links.map((link) => (
             <NavLink
+              key={link}
               to={"/" + link}
               className={({ isActive }) =>
                 isActive ? styles.active : styles.link

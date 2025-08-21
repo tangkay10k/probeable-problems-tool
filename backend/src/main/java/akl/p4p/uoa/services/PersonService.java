@@ -74,11 +74,6 @@ public class PersonService {
       user.setProblemsCompleted(new HashSet<>());
     }
 
-    // Block multiple submissions of the same problem for data collection purposes
-    if (user.getProblemsCompleted().contains(problemId)) {
-      throw new RuntimeException("Student has already submitted their attempt!");
-    }
-
     user.getProblemsCompleted().add(problemId);
     return updateUser(user);
   }

@@ -1,6 +1,6 @@
 import axiosClient from "./utils/axiosClient.js";
 
-export const getTestTemplate = async (language) => {
+export const getSubmissionTemplate = async (language) => {
   if (!language) return;
   const res = await axiosClient.get(`/api/template/${language}/test`);
   return res.data;

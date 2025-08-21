@@ -16,13 +16,27 @@ export function stripCommentsFromCode(code) {
   );
 }
 
-export function formatInstruction(
-  instruction,
-  replacement,
-  replacementName = "//VAR_PROBLEM_STATEMENT",
-) {
-  return instruction.content.replace(
-    replacementName,
-    replacement.toLowerCase(),
-  );
+// Escapes a string for safe use inside a RegExp
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Replaces multiple placeholders in instruction.content.
+ *
+ * @param {{content: string}|string} instruction  - object with `.content` or a plain string
+ * @param {Record<string, string>} replacements   - e.g. { "//VAR_PROBLEM_STATEMENT": "...", "//FUNCTION_SIGNATURE": "..." }
+ * @param {{ lowercase?: boolean }} [opts]        - lowercase all replacement values (default: true)
+ * @returns {string}
+ */
+export function formatInstruction(instruction, replacements, opts = {}) {
+  const { lowercase = true } = opts;
+  let text =
+    typeof instruction === "string" ? instruction : (instruction.content ?? "");
+
+  for (const [name, value] of Object.entries(replacements || {})) {
+    const pattern = new RegExp(escapeRegExp(name), "g");
+    const replacement = lowercase ? String(value).toLowerCase() : String(value);
+    text = text.replace(pattern, replacement);
+  }
+
+  return text;
 }
