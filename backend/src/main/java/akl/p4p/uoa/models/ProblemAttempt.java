@@ -24,7 +24,7 @@ public class ProblemAttempt {
   private ProgramLanguage problemLanguage;
   private String chatHistoryId;
   private String codeSubmission;
-  private int testsPassed;
+  private int testsPassed = -1;
   private String agentPrompt;
   private List<OracleExecution> oracleExecutionHistory;
   private int failedAttempts;

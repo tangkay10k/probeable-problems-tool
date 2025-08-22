@@ -36,11 +36,6 @@
   gap: var(--padding-1);
 }
 
-.navbar section:hover {
-  cursor: pointer;
-  color: var(--white-hover);
-}
-
 .icon {
   height: var(--nav-image-height);
   /*box-shadow: 0 0 1rem 0.01rem rgba(255, 255, 255, 0.5);*/
@@ -54,6 +49,34 @@
   font-size: 0.8rem;
   margin-top: -0.3rem;
   color: var(--light-grey);
+}
+
+.infoBtn,
+.homeBtn {
+  font-size: var(--font-size-11);
+
+  height: var(--nav-image-height);
+  width: var(--nav-image-height);
+}
+
+.infoBtn {
+  background-color: var(--accent-light);
+  color: var(--white);
+}
+
+.infoBtn:hover {
+  background-color: var(--accent-light-light);
+  color: var(--accent-light);
+}
+
+.homeBtn {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+.homeBtn:hover {
+  background-color: var(--accent-light);
+  color: var(--accent);
 }
 
 /*=== Bottom Nav ===*/
@@ -70,7 +93,6 @@
 .nextContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
   width: max-content;
   height: 100%;
 }
@@ -91,14 +113,6 @@
 .bottomNavContainer button:hover {
   background-color: var(--accent-light);
   color: var(--accent);
-}
-
-.nextContainer {
-  justify-content: flex-end; /* Positions next button to the right */
-}
-
-.prevContainer {
-  justify-content: flex-start; /* Positions prev button to the left */
 }
 
 /*=== Profile Picture ===*/
@@ -188,4 +202,9 @@
   display: flex;
   align-items: center;
   gap: var(--padding-3);
+}
+
+.leftSection:hover {
+  cursor: pointer;
+  color: var(--white-hover);
 }

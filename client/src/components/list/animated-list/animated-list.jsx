@@ -50,6 +50,7 @@ const AnimatedItem = ({
  * `insertDirection` controls animation direction and scroll compensation when items are prepended.
  */
 const AnimatedList = ({
+  stickyHeader = null,
   items = [],
   renderItem,
   onItemSelect,
@@ -172,6 +173,7 @@ const AnimatedList = ({
         className={`scroll-list ${!displayScrollbar ? "no-scrollbar" : ""}`}
         onScroll={handleScroll}
       >
+        {stickyHeader}
         {items.map((item, index) => {
           const content = renderItem ? (
             renderItem(item, index)

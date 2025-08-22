@@ -32,45 +32,42 @@ export default function ProblemList() {
     return <div className={styles.empty}>No problems to show.</div>;
   }
 
-  const allItems = [{ isHeader: true }, ...problems];
-
   return (
     <div className={styles.problemListContainer}>
       <h1>Problems</h1>
 
       <AnimatedList
-        items={allItems}
+        items={problems}
+        stickyHeader={
+          <div className={`${styles.headerRow} ${styles.stickyHeader}`}>
+            <span className={styles.status}>
+              <CompletedIcon color={"white"} />
+            </span>
+            <span className={styles.rowNumber}>#</span>
+            <span className={styles.cell}>Problem Description</span>
+            <span className={styles.problemLang}>Language</span>
+            <span className={styles.problemType}>Type</span>
+          </div>
+        }
         className={styles.table}
         showGradients={true}
         enableArrowNavigation={false}
         onItemSelect={(item, idx) => {
           if (idx > 0) onRowClick(item);
         }}
-        renderItem={(item, idx) =>
-          item.isHeader ? (
-            <div className={styles.headerRow}>
-              <span className={styles.status}>
-                <CompletedIcon color={"white"} />
-              </span>
-              <span className={styles.rowNumber}>#</span>
-              <span className={styles.cell}>Problem Description</span>
-              <span className={styles.problemLang}>Language</span>
-              <span className={styles.problemType}>Type</span>
-            </div>
-          ) : (
-            <div className={styles.row} onClick={() => onRowClick(item)}>
-              <span className={styles.status}>
-                {completedSet.has(item.id) && <CompletedIcon />}
-              </span>
-              <span className={styles.rowNumber}>{idx}.</span>
-              <span className={styles.cell}>{item.problemStatement}</span>
-              <span className={styles.problemLang}>
-                {LANGUAGE_DISPLAY_NAMES[item.programLanguage]}
-              </span>
-              <span className={styles.problemType}>{item.problemType}</span>
-            </div>
-          )
-        }
+        renderItem={(item, idx) => (
+          <div className={styles.row} onClick={() => onRowClick(item)}>
+            <span className={styles.status}>
+              {completedSet.has(item.id) && <CompletedIcon />}
+            </span>
+            <span className={styles.rowNumber}>{idx + 1}.</span>
+            <span className={styles.cell}>{item.problemStatement}</span>
+            <span className={styles.problemLang}>
+              {LANGUAGE_DISPLAY_NAMES[item.programLanguage]}
+            </span>
+            <span className={styles.problemType}>{item.problemType}</span>
+          </div>
+        )}
       />
     </div>
   );

@@ -18,6 +18,7 @@ import { executeChatTestCaseSilently } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
+import { getRandomRateLimitText } from "@/utils/piston-utils.js";
 
 const CLIENT_AVATAR = "/client.png";
 const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
@@ -147,7 +148,7 @@ export default function ChatApp() {
   async function clientTemporarilyUnavailable() {
     return await replaceAssistantMessage(chatHistory.sessionId, {
       content: {
-        message: `I'm out for coffee atm. Can you ask me again later!?`,
+        message: getRandomRateLimitText(),
       },
     });
   }

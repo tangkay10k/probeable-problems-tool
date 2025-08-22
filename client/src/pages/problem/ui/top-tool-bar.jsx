@@ -30,7 +30,7 @@ export default function TopToolbar({
       />
 
       <section className={styles.topBarButtons}>
-        {problemAttempt.testsPassed !== 0 && (
+        {problemAttempt.testsPassed !== -1 && (
           <p>
             Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`} |{" "}
             {problemAttempt.failedAttempts !== 0 && (
