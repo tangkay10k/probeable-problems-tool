@@ -6,7 +6,6 @@ import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 import { useEffect, useState } from "react";
 import { getRandomSubheading } from "@/pages/home/home-utils.js";
 import CircularIconButton from "@/components/button/circular-button.jsx";
-import { RiSurveyLine as SurveyIcon } from "react-icons/ri";
 import {
   MdInfoOutline as InfoIcon,
   MdOutlineCreate as CreateIcon,
@@ -36,16 +35,6 @@ export default function Home() {
           />
         </div>
       )}
-      <div className={styles.stickyButtonContainer}>
-        {/*<CircularIconButton*/}
-        {/*  onClick={() => setShowSurvey(true)}*/}
-        {/*  icon={<SurveyIcon size={20} />}*/}
-        {/*/>*/}
-        <CircularIconButton
-          onClick={() => navigate("/about")}
-          icon={<InfoIcon size={20} />}
-        />
-      </div>
     </div>
   );
 }

@@ -9,6 +9,7 @@
   /*===Global Variables===*/
   --accent: #6366f1;
   --accent-light: #818cf8;
+  --accent-light-light: #9fa7fc;
 
   --black: #000000;
   --light-grey: #e5e5e5;
@@ -82,7 +83,9 @@
 
   --font-size-08: 0.8rem;
   --font-size-1: 1rem;
+  --font-size-11: 1.1rem;
   --font-size-12: 1.2rem;
+  --font-size-15: 1.5rem;
   --font-size-2: 2rem;
   --font-size-3: 3rem;
   --font-size-4: 4rem;

@@ -1,13 +1,15 @@
 import styles from "./nav.module.css";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { useEffect, useRef, useState } from "react";
+import CircularIconButton from "@/components/button/circular-button.jsx";
+import {
+  MdInfoOutline as InfoIcon,
+  MdOutlineHome as HomeIcon,
+} from "react-icons/md";
 
 export default function NavBar() {
   const navigate = useNavigate();
-  const { profile } = useUserProfile();
-
-  const links = profile ? ["problems", "about"] : [];
 
   return (
     <nav className={styles.navbar}>
@@ -19,22 +21,23 @@ export default function NavBar() {
             <p>Developing Critical Thinking</p>
           </div>
         </section>
-        <span className={styles.links}>
-          {links.map((link) => (
-            <NavLink
-              key={link}
-              to={"/" + link}
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.link
-              }
-            >
-              {link}
-            </NavLink>
-          ))}
-        </span>
       </span>
 
-      <Profile />
+      <section>
+        <CircularIconButton
+          className={styles.homeBtn}
+          onClick={() => navigate("/problems")}
+          icon={<HomeIcon />}
+        />
+        <span>{`</>`}</span>
+        <CircularIconButton
+          className={styles.infoBtn}
+          onClick={() => navigate("/about")}
+          icon={<InfoIcon />}
+        />
+        <span>{`</>`}</span>
+        <Profile />
+      </section>
     </nav>
   );
 }

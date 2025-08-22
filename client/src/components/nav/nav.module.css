@@ -56,6 +56,34 @@
   color: var(--light-grey);
 }
 
+.infoBtn,
+.homeBtn {
+  font-size: var(--font-size-11);
+
+  height: var(--nav-image-height);
+  width: var(--nav-image-height);
+}
+
+.infoBtn {
+  background-color: var(--accent-light);
+  color: var(--white);
+}
+
+.infoBtn:hover {
+  background-color: var(--accent-light-light);
+  color: var(--accent-light);
+}
+
+.homeBtn {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+.homeBtn:hover {
+  background-color: var(--accent-light);
+  color: var(--accent);
+}
+
 /*=== Bottom Nav ===*/
 .bottomNavContainer {
   display: flex;
