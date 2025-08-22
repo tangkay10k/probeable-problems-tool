@@ -70,7 +70,7 @@ public class TestExplanation {
    * of semicolons and replace them with commas for nicer formatting in natural language.
    */
   private static String parseInputsFromGeneratedTestCase(String testCase, String functionName) {
-    String[] lines = testCase.split(";");
+    String[] lines = testCase.split(";\n");
     StringBuilder inputs = new StringBuilder();
 
     for (String line : lines) {
@@ -78,7 +78,7 @@ public class TestExplanation {
         break;
       }
 
-      inputs.append(line).append(" ");
+      inputs.append(line).append(", ");
     }
     return inputs.toString();
   }

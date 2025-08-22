@@ -28,7 +28,7 @@ export const STAGE_ONE_ORACLE = {
 export const STAGE_ONE_NATURAL_LANGUAGE = {
   title: "Tasks",
   content:
-    "Your client has come back again and asked you to write more code for them. \n\n This time however, they are" +
+    "Your client has come back again and asked you to write more code for them. This time however, they are" +
     " able to answer your question directly.\n\n Talk with your client to find out more about what they want you to" +
     " write!\n\nOnce you understand what they want to write, click **I'm ready to code!**",
 };
