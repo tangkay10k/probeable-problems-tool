@@ -3,6 +3,7 @@ import SplitText from "@/components/text/split-text/split-text.jsx";
 import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 import { Delayed } from "@/components/delay/delayed.jsx";
 import Galaxy from "@/pages/about/galaxy.jsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 export default function AboutPage() {
   return (
@@ -31,7 +32,9 @@ export default function AboutPage() {
         </Delayed>
       </div>
       <div className={styles.background}>
-        <Galaxy />
+        <ErrorBoundary fallbackRender={() => null}>
+          <Galaxy />
+        </ErrorBoundary>
       </div>
     </div>
   );
