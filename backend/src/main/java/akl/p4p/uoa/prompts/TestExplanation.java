@@ -13,39 +13,44 @@ public class TestExplanation {
         + INPUTS_PLACEHOLDER
         + ", I want the function to return: "
         + OUTPUTS_PLACEHOLDER,
-    "With the input " + INPUTS_PLACEHOLDER + " the function should output: " + OUTPUTS_PLACEHOLDER,
+    "With the input " + INPUTS_PLACEHOLDER + ", the function should output: " + OUTPUTS_PLACEHOLDER,
     "For the input "
         + INPUTS_PLACEHOLDER
-        + " I expect the function to output: "
+        + ", I expect the function to output: "
         + OUTPUTS_PLACEHOLDER,
     "You should make it so that the function outputs: "
         + OUTPUTS_PLACEHOLDER
         + " for the input "
-        + INPUTS_PLACEHOLDER,
+        + INPUTS_PLACEHOLDER
+        + ".",
     "Make it so that for the input: "
         + INPUTS_PLACEHOLDER
-        + "the function outputs: "
+        + ", the function outputs: "
         + OUTPUTS_PLACEHOLDER,
   };
   private static final String[] multipleInputResponses = {
     "For the inputs "
         + INPUTS_PLACEHOLDER
-        + " the function call is expected to produce: "
+        + ", the function call is expected to produce: "
         + OUTPUTS_PLACEHOLDER,
-    "For these inputs: "
+    "For these inputs "
         + INPUTS_PLACEHOLDER
-        + " I want the function to output: "
+        + ", I want the function to output: "
         + OUTPUTS_PLACEHOLDER,
-    "With the inputs " + INPUTS_PLACEHOLDER + " the function should output: " + OUTPUTS_PLACEHOLDER,
-    "For the inputs "
+    "With the inputs "
         + INPUTS_PLACEHOLDER
-        + " I expect the function to output: "
+        + ", the function should output: "
+        + OUTPUTS_PLACEHOLDER,
+    "For the inputs: "
+        + INPUTS_PLACEHOLDER
+        + ", I expect the function to output: "
         + OUTPUTS_PLACEHOLDER,
     "You should make it so that the function outputs: "
         + OUTPUTS_PLACEHOLDER
         + " for the inputs "
-        + INPUTS_PLACEHOLDER,
-    "Make it so that for the inputs: "
+        + INPUTS_PLACEHOLDER
+        + ".",
+    "Make it so that for the inputs "
         + INPUTS_PLACEHOLDER
         + " the function outputs: "
         + OUTPUTS_PLACEHOLDER,
@@ -77,8 +82,11 @@ public class TestExplanation {
       if (line.contains(functionName)) {
         break;
       }
-
       inputs.append(line).append(", ");
+    }
+    // Remove trailing comma and space if present
+    if (!inputs.isEmpty()) {
+      inputs.setLength(inputs.length() - 2);
     }
     return inputs.toString();
   }
