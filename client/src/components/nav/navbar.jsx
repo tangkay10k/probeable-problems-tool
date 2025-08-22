@@ -7,9 +7,12 @@ import {
   MdInfoOutline as InfoIcon,
   MdOutlineHome as HomeIcon,
 } from "react-icons/md";
+import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 
 export default function NavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoginScreen = location.pathname === "/";
 
   return (
     <nav className={styles.navbar}>
@@ -22,22 +25,23 @@ export default function NavBar() {
           </div>
         </section>
       </span>
-
-      <section>
-        <CircularIconButton
-          className={styles.homeBtn}
-          onClick={() => navigate("/problems")}
-          icon={<HomeIcon />}
-        />
-        <span>{`</>`}</span>
-        <CircularIconButton
-          className={styles.infoBtn}
-          onClick={() => navigate("/about")}
-          icon={<InfoIcon />}
-        />
-        <span>{`</>`}</span>
-        <Profile />
-      </section>
+      {!isLoginScreen ? (
+        <section>
+          <CircularIconButton
+            className={styles.homeBtn}
+            onClick={() => navigate("/problems")}
+            icon={<HomeIcon />}
+          />
+          <span>{`</>`}</span>
+          <CircularIconButton
+            className={styles.infoBtn}
+            onClick={() => navigate("/about")}
+            icon={<InfoIcon />}
+          />
+          <span>{`</>`}</span>
+          <Profile />
+        </section>
+      ) : null}
     </nav>
   );
 }
@@ -48,22 +52,12 @@ function Profile() {
   const profilePicture = profile?.userImage || "/default-avatar.jpg";
   const menuRef = useRef(null);
   const location = useLocation();
-  const navigate = useNavigate();
+  useOnClickOutside(menuRef, () => setShowMenu(false));
 
   // Reset menu to closed when path changes
   useEffect(() => {
     setShowMenu(false);
   }, [location.pathname]);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   if (!profile) return null;
 
