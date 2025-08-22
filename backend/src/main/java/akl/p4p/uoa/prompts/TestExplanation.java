@@ -9,10 +9,6 @@ public class TestExplanation {
   private static final String OUTPUTS_PLACEHOLDER = "//VAR_OUTPUTS";
 
   private static final String[] singleInputResponses = {
-    "For that: "
-        + INPUTS_PLACEHOLDER
-        + "the function is expected to output: "
-        + OUTPUTS_PLACEHOLDER,
     "For this input: "
         + INPUTS_PLACEHOLDER
         + ", I want the function to return: "
@@ -22,7 +18,7 @@ public class TestExplanation {
         + INPUTS_PLACEHOLDER
         + " I expect the function to output: "
         + OUTPUTS_PLACEHOLDER,
-    "I would like you to make it so that the function outputs: "
+    "You should make it so that the function outputs: "
         + OUTPUTS_PLACEHOLDER
         + " for the input "
         + INPUTS_PLACEHOLDER,
@@ -45,7 +41,7 @@ public class TestExplanation {
         + INPUTS_PLACEHOLDER
         + " I expect the function to output: "
         + OUTPUTS_PLACEHOLDER,
-    "I would like you to make it so that the function output: "
+    "You should make it so that the function outputs: "
         + OUTPUTS_PLACEHOLDER
         + " for the inputs "
         + INPUTS_PLACEHOLDER,
