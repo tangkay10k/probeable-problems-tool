@@ -58,16 +58,19 @@ public class TestExplanation {
     String responseTemplate =
         getRandomResponse(isSingleInputTestCase(message.getTestCase(), message.getFunctionName()));
 
-    return llmMessage
+    return llmMessage.trim()
         + " "
         + responseTemplate
             .replace(INPUTS_PLACEHOLDER, inputs)
             .replace(OUTPUTS_PLACEHOLDER, message.getOutput());
   }
 
-  /** Helper function to extract the inputs from a generated test case. */
+  /**
+   * Helper function to extract the inputs from a generated test case. It will also strip the inputs
+   * of semicolons and replace them with commas for nicer formatting in natural language.
+   */
   private static String parseInputsFromGeneratedTestCase(String testCase, String functionName) {
-    String[] lines = testCase.split("\n");
+    String[] lines = testCase.split(";");
     StringBuilder inputs = new StringBuilder();
 
     for (String line : lines) {
