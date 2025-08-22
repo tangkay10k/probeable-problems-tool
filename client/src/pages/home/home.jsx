@@ -6,10 +6,7 @@ import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 import { useEffect, useState } from "react";
 import { getRandomSubheading } from "@/pages/home/home-utils.js";
 import CircularIconButton from "@/components/button/circular-button.jsx";
-import {
-  MdInfoOutline as InfoIcon,
-  MdOutlineCreate as CreateIcon,
-} from "react-icons/md";
+import { MdOutlineCreate as CreateIcon } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Survey from "@/components/survey/survey.jsx";
 
