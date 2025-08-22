@@ -295,28 +295,6 @@
   color: var(--fail-red) !important;
 }
 
-/*.instructionContainer section {*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.row {*/
-/*    display: flow-root;*/
-/*}*/
-
-/*.clientPic {*/
-/*    float: right;*/
-
-/*    width: 15rem;*/
-/*    height: auto;*/
-
-/*    shape-outside: url("/client-full.png");*/
-/*    shape-margin: var(--padding-3);*/
-
-/*    object-fit: cover;*/
-/*}*/
-
-/* Center the whole content block inside the modal */
 .instructionContainer .content {
   display: flex;
   flex-direction: column;
@@ -332,19 +310,25 @@
   text-align: left; /* keep text readable with a float */
 }
 
-/* Your floated image for shape-outside */
-.clientPic {
+.clientPic,
+.cogsPic {
   float: right;
   width: 15rem;
-  height: auto; /* set a fixed height if you see odd wraps */
-  shape-outside: url("/client-full.png");
+  height: auto;
   shape-margin: var(--padding-3);
   object-fit: cover;
 
   margin: 0 -70px var(--padding-3) var(--padding-3);
 }
 
-/* Center the button row, if you want stronger control */
+.clientPic {
+  shape-outside: url("/client-full.png");
+}
+
+.cogsPic {
+  shape-outside: url("/cogs-full.png");
+}
+
 .actions {
   display: flex;
   justify-content: center;

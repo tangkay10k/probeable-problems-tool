@@ -70,7 +70,6 @@
 .nextContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
   width: max-content;
   height: 100%;
 }
@@ -91,14 +90,6 @@
 .bottomNavContainer button:hover {
   background-color: var(--accent-light);
   color: var(--accent);
-}
-
-.nextContainer {
-  justify-content: flex-end; /* Positions next button to the right */
-}
-
-.prevContainer {
-  justify-content: flex-start; /* Positions prev button to the left */
 }
 
 /*=== Profile Picture ===*/

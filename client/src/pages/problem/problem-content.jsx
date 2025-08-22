@@ -92,7 +92,7 @@ export default function ProblemContent() {
           <img
             src={tutorialStep === 1 ? "/client-full.png" : "/cogs-full.png"}
             alt="Client"
-            className={styles.clientPic}
+            className={`${tutorialStep === 1 ? styles.clientPic : styles.cogsPic}`}
           />
           <ReactMarkdown>
             {tutorialStep === 1

@@ -19,11 +19,19 @@ export default function BottomNav({ handleStageChange, stage }) {
         {stage === 1 && (
           <ButtonV2 onClick={handleStageChange}>I'm ready to code!</ButtonV2>
         )}
-        {stage === 2 && problemAttempt?.finalScore ? (
-          <ButtonV2 onClick={() => navigate("/problems")}>
-            Back to problem list
-          </ButtonV2>
-        ) : null}
+
+        <section
+          style={{
+            opacity: problemAttempt.completed ? 1 : 0,
+            transition: "opacity 10s",
+          }}
+        >
+          {stage === 2 && (
+            <ButtonV2 onClick={() => navigate("/problems")}>
+              Back to problem list
+            </ButtonV2>
+          )}
+        </section>
       </div>
     </div>
   );
