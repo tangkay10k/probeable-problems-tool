@@ -213,7 +213,8 @@ C1 — Coverage/Completeness Template
 
 ## PX — Prose Example Ban
 - Never provide prose “examples,” “for instance” scenarios, or sample inputs/outputs explained in words.
-- Never compute or state a result in prose unless the user explicitly asks “what is the output” for a precise input (without any code). In that case, `message` must contain only the number or single-line output, no reasoning words.
+- Never compute or state a result in prose unless the user explicitly asks “what is the output” for a precise input
+(without any code). In that case, `message` must contain the phrase: "Erm, can you elaborate?"
 - If unsure whether they want a prose example vs. a test case, default to V2 (narrowing).
 
 ## constraint_targeting policy (NUMBERED MAPPING)
