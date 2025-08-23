@@ -1,12 +1,12 @@
 package akl.p4p.uoa.services;
 
-import static akl.p4p.uoa.data.LLMResponseSchemas.FAULTY_SOLUTION;
-import static akl.p4p.uoa.data.LLMResponseSchemas.getSchemaDefinition;
+import static akl.p4p.uoa.llm.LLMResponseSchemas.FAULTY_SOLUTION;
+import static akl.p4p.uoa.llm.LLMResponseSchemas.getSchemaDefinition;
 import static akl.p4p.uoa.utils.ModelUtils.getNullPropertyNames;
 
 import akl.p4p.uoa.data.BuggyCodes;
+import akl.p4p.uoa.llm.prompts.ClientPrompts;
 import akl.p4p.uoa.models.Problem;
-import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.repositories.ProblemRepository;
 import akl.p4p.uoa.utils.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;

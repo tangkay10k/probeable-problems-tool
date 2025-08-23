@@ -1,8 +1,8 @@
-package akl.p4p.uoa.prompts;
+package akl.p4p.uoa.utils;
 
 import akl.p4p.uoa.dtos.TestCaseOutputDTO;
 
-public class TestExplanation {
+public class TestExplanationUtils {
 
   private static final String INPUTS_PLACEHOLDER = "//VAR_INPUTS";
 

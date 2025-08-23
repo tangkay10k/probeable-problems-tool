@@ -1,4 +1,4 @@
-package akl.p4p.uoa.dtos;
+package akl.p4p.uoa.data;
 
 import lombok.Data;
 

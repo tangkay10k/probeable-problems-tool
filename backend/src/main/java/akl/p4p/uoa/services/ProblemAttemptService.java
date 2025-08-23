@@ -1,13 +1,13 @@
 package akl.p4p.uoa.services;
 
-import static akl.p4p.uoa.data.LLMResponseSchemas.*;
-import static akl.p4p.uoa.prompts.ClientPrompts.getClientFirstMessage;
+import static akl.p4p.uoa.llm.LLMResponseSchemas.*;
+import static akl.p4p.uoa.llm.prompts.ClientPrompts.getClientFirstMessage;
 
 import akl.p4p.uoa.data.ChatContent;
+import akl.p4p.uoa.llm.prompts.ClientPrompts;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.models.ProblemAttempt;
-import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.repositories.ChatHistoryRepository;
 import akl.p4p.uoa.repositories.ProblemAttemptRepository;
 import akl.p4p.uoa.repositories.ProblemRepository;

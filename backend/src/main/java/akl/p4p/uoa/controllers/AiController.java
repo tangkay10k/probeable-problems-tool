@@ -1,18 +1,19 @@
 package akl.p4p.uoa.controllers;
 
-import static akl.p4p.uoa.data.LLMResponseSchemas.*;
+import static akl.p4p.uoa.llm.LLMResponseSchemas.*;
+import static akl.p4p.uoa.llm.prompts.OracleGenerationPrompts.getOracleGenerationPrompt;
+import static akl.p4p.uoa.llm.prompts.ProblemGenerationPrompts.getConstraintsGenerationPrompt;
+import static akl.p4p.uoa.llm.prompts.ProblemGenerationPrompts.getProblemStatementSystemPrompt;
+import static akl.p4p.uoa.llm.prompts.TestSuitePrompts.getTestSuiteGenerationPrompt;
+import static akl.p4p.uoa.utils.JsonUtils.parseOracleJsonResponse;
 
 import akl.p4p.uoa.constants.AuthConstants;
+import akl.p4p.uoa.data.BuildRequest;
 import akl.p4p.uoa.data.TestResponse;
-import akl.p4p.uoa.dtos.BuildRequest;
+import akl.p4p.uoa.llm.prompts.ClientPrompts;
 import akl.p4p.uoa.models.Problem;
-import akl.p4p.uoa.prompts.ClientPrompts;
-import akl.p4p.uoa.prompts.OracleGenerationPrompts;
-import akl.p4p.uoa.prompts.ProblemGenerationPrompts;
-import akl.p4p.uoa.prompts.TestSuitePrompts;
 import akl.p4p.uoa.services.AIService;
 import akl.p4p.uoa.services.ProblemService;
-import akl.p4p.uoa.utils.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,8 @@ class AiController {
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemConstraints(@RequestBody Problem problem)
       throws IOException {
-    String sysPrompt = ProblemGenerationPrompts.getConstraintsGenerationPrompt(problem);
-    String constraints = aiService.executeOneTimeLLMCall(sysPrompt, null);
+    String sysPrompt = getConstraintsGenerationPrompt(problem);
+    String constraints = aiService.executeOneTimeLLMCall(sysPrompt);
     problem.setConstraints(constraints);
     return ResponseEntity.ok(problem);
   }
@@ -58,12 +59,12 @@ class AiController {
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemTestSuite(@RequestBody Problem problem)
       throws Exception {
-    ObjectMapper objectMapper = new ObjectMapper();
 
-    String sysPrompt = TestSuitePrompts.getTestSuiteGenerationPrompt(problem);
     String testSuite =
-        aiService.executeOneTimeLLMCall(sysPrompt, getSchemaDefinition(TEST_CASE_GENERATION));
+        aiService.executeOneTimeLLMCall(
+            getTestSuiteGenerationPrompt(problem), getSchemaDefinition(TEST_CASE_GENERATION));
 
+    ObjectMapper objectMapper = new ObjectMapper();
     TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
     problem.getTestSuite().addAll(testResponse.getTests());
@@ -74,8 +75,8 @@ class AiController {
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateProblemStatement(@RequestBody Problem problem)
       throws IOException {
-    String sysPrompt = ProblemGenerationPrompts.getProblemStatementSystemPrompt(problem);
-    String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt, null);
+    String sysPrompt = getProblemStatementSystemPrompt(problem);
+    String problemStatement = aiService.executeOneTimeLLMCall(sysPrompt);
     problem.setProblemStatement(problemStatement);
     return ResponseEntity.ok(problem);
   }
@@ -83,11 +84,10 @@ class AiController {
   @PostMapping("oracle")
   @PreAuthorize(AuthConstants.HAS_ROLE_TEACHER)
   public ResponseEntity<Problem> generateOracle(@RequestBody Problem problem) throws IOException {
-    String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
     String jsonResponse =
-        aiService.executeOneTimeLLMCall(sysPrompt, getSchemaDefinition(ORACLE_GENERATION));
-
-    var initialProbe = JsonUtils.parseOracleJsonResponse(jsonResponse);
+        aiService.executeOneTimeLLMCall(
+            getOracleGenerationPrompt(problem), getSchemaDefinition(ORACLE_GENERATION));
+    var initialProbe = parseOracleJsonResponse(jsonResponse);
     problem.setDefaultProbe(initialProbe);
     return ResponseEntity.ok(problem);
   }
