@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "source_code": {
+      "type": "string",
+      "description": "Only source code. No backticks, no comments, no markdown, no explanations — output must be pure code only."
+    }
+  },
+  "required": [
+    "source_code"
+  ],
+  "additionalProperties": false
+}

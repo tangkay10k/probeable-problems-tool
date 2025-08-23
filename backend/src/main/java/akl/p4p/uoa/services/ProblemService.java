@@ -1,9 +1,10 @@
 package akl.p4p.uoa.services;
 
+import static akl.p4p.uoa.data.LLMResponseSchemas.FAULTY_SOLUTION;
+import static akl.p4p.uoa.data.LLMResponseSchemas.getSchemaDefinition;
 import static akl.p4p.uoa.utils.ModelUtils.getNullPropertyNames;
 
 import akl.p4p.uoa.data.BuggyCodes;
-import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.models.Problem;
 import akl.p4p.uoa.prompts.ClientPrompts;
 import akl.p4p.uoa.repositories.ProblemRepository;
@@ -41,7 +42,7 @@ public class ProblemService {
     String assistantReply =
         aiService.executeOneTimeLLMCallStudent(
             ClientPrompts.faultySolutionPrompt(problem.getModelAnswer(), problem.getConstraints()),
-            JsonSchemaDefinition.getFaultySolutionSchema());
+            getSchemaDefinition(FAULTY_SOLUTION));
 
     ObjectMapper objectMapper = new ObjectMapper();
 
