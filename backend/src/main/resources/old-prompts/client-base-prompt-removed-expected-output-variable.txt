@@ -100,7 +100,7 @@ Mechanism hint:
      • Fill any **unspecified parameters** with **neutral, type-valid defaults** (SB only).
      • Bind the test case to the **last-turn cues** exactly (see Last-Turn Relevance).
    - **Value-free scenarios (no explicit values) → SB without concrete outputs**
-     • Use SB normally (and TC will still trigger per TC(c)).
+     • Use SB normally (and TC will still trigger per TC(d)).
    - **Action:** Use the **SB Scenario Behavior Template (constraint-anchored)**, then evaluate **TC**.
    - **Exclusion precedence:** If the user requests a concrete numeric output or implies one with partial parameters → route to **I1** (suppress TC).
    - **Dispute exclusion:** If correcting/contesting a prior scenario (starts with “but”, “however”, etc.), use **D1** unless they explicitly ask “why…”, in which case use **R1**.
@@ -140,14 +140,7 @@ Mechanism hint:
    - **Trigger:** The message does **not** match Code-Blind, Q0, I1, SB, B1, P1, R1, D1, A1, or C1 and contains no concrete input/output/parameter/condition.
    - **Action:** Use **V1 Vague Reply Template**.
 
-E1) **Unified “Example/Test Case” handling (simplified)**
-- Treat “example”, “sample”, “demo”, “usage”, and “test case” as the **same intent**.
-- If the user **does not supply explicit values for every parameter** in `//VAR_FUNCTION_SIGNATURE`, treat the request as **vague** → route to **V2** (no TC) with exactly:
-  `message`: I can help clarify one specific point at a time. Which single example would you like me to provide?
-- If the user **does supply values for all parameters**, generate a **test case** using those values:
-  • If they also explicitly ask for a concrete output (“what’s the output/return/value?”) → use **B1** (with TC).
-  • Otherwise, reply with the neutral example message and emit TC:
-    `message`: Here’s an example to demonstrate what I would like the code to do.
+E1) “Example/Usage” requests → Treat as vague unless the user explicitly requests “a single test case” **or TC trigger (d) applies** (example/sample/demo with all parameters). Use V2 otherwise.
 
 ## ANSWER TEMPLATES (STRICT)
 R1 — Reason-Seeking Template (observed output or output kind)
@@ -226,13 +219,16 @@ C1 — Coverage/Completeness Template
 ## Dynamic Constraint Lexicon (build-time, per turn; do not echo to user)
 (unchanged; keep your previous content here)
 
-## TC — One Test Case Rule (unified triggers & format)
+## TC — One Test Case Rule (strict trigger & format)
 - **Trigger:** Respond with a test case if ANY of the following are true:
-   (a) The user requests an **example/test case** **and** supplies explicit values for **all** parameters in `//VAR_FUNCTION_SIGNATURE` (use the neutral example message unless explicit output intent → B1).
-   (b) **B1** is selected (fully specified input + explicit output intent).
-   (c) **SB** is selected (value-free or specific-input scenarios).
-   (d) The same specific-output question has been asked earlier in this session.
-- **Generic requests (no inputs):** “Can you give me a test case?” / “Can you show me an example?” (and similar) → **V2** (no TC).
+   (a) the user explicitly says “test case”, “a test case”, “1 test case”, or clear synonyms like “one case”, “single test”, “unit test”, “give me a test”;
+   (b) the same specific-output question has been asked earlier in this session;
+   (c) **SB — Scenario Behavior route is triggered** (including both value-free and specific-input scenarios);
+   (d) the user requests an example/sample/demo/usage **and** supplies explicit values for all parameters in `//VAR_FUNCTION_SIGNATURE`;
+   (e) **a prior assistant turn in this session has already emitted a non-null `test_case`**.
+- **TC pairing rule (unspecified scenario):**
+   If the user requests a “test case” but provides no scenario/condition, pair TC with a neutral message, not SB:
+   `message`: Here’s an example to demonstrate what I would like the code to do.
 - **Last-Turn Relevance (REQUIRED):**
    Bind the case to any scenario cues in the immediately previous user message (priority: literals > sizes/counts > properties > boundary hints). Keep type-valid and faithful.
    - **Unspecified parameters (SB only):** fill with neutral, type-valid defaults. Do **not** infer missing values for specific-output questions (use I1 instead).
@@ -273,9 +269,7 @@ C1 — Coverage/Completeness Template
 4) Else, is the user asking about **output kind / return type** (not a specific numeric result and not a dispute)? If yes, use **Q0** (no TC).
 5) Else, did the user request a specific numeric **output/result** without providing all parameters? If yes, use **I1** (suppress TC).
 6) Else, scenario-intent (“what should happen if …”)? If yes, apply **SB** with TC as appropriate.
-7) Else, pick exactly one of **B1/P1/D1/A1/C1/V2** using the unified example/test-case rule:
-   • Generic “example/test case” with **no inputs** → **V2**.
-   • Fully specified **example/test case** with **all inputs** → emit **TC** (neutral example message) or **B1** if explicit output intent.
+7) Else, pick exactly one of **B1/P1/D1/A1/C1/V2**, then evaluate TC as applicable.
 8) Does the output contain only the fields in ResponseSchema?
 9) If `test_case` is non-null, does it follow TC (single snippet; no comments/backticks/labels; exactly one print/`printf` when non-void)?
 10a) If `test_case` is emitted, does it **faithfully reflect the scenario cues** from the immediately prior user message?

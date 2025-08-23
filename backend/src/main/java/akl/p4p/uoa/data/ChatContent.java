@@ -11,7 +11,6 @@ public class ChatContent {
   private String message;
   private String test_case;
   private int constraint_targeting;
-  private boolean asked_expected_output;
 
   public ChatContent(String message) {
     this.message = message;
