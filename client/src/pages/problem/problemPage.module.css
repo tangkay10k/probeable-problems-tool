@@ -77,11 +77,18 @@
   font-weight: 600;
 }
 
+.runBtn svg,
+.resetBtn svg,
+.infoBtn svg {
+  font-size: var(--icon-size);
+}
+
 .resetBtn,
 .infoBtn {
   width: calc(
     var(--editor-buttons-height) - 2 * var(--padding-025)
   ); /* Match button group height */
+  padding: 0;
 }
 
 .resetBtn {
