@@ -25,11 +25,16 @@
   height: 100%;
   max-height: var(--chat-box-height);
 
-  scroll-behavior: smooth;
+  /*scroll-behavior: smooth;*/
   padding-bottom: var(--padding-1);
 
   scrollbar-width: thin;
   scrollbar-color: var(--editor-colour) transparent;
+
+  contain: content;
+  will-change: transform;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable both-edges;
 }
 
 .icon {
