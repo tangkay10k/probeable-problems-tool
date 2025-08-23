@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "The response of the client with the persona of a non-technical person"
+    },
+    "test_case": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Raw C snippet ONLY when TC triggers; otherwise null. Must declare variables, make one function call, and end with a single printf of the result; no comments/backticks/JSON/labels."
+    },
+    "constraint_targeting": {
+      "type": "number",
+      "description": "number indicating which constraint the user is aiming to find with their question, if their question doesn't apply to any constraint return -1"
+    }
+  },
+  "required": [
+    "message",
+    "constraint_targeting",
+    "test_case"
+  ],
+  "additionalProperties": false
+}

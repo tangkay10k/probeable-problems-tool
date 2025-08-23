@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "probe": {
+      "type": "string",
+      "description": "default inputs to the function(s), including their typings if applicable"
+    }
+  },
+  "required": [
+    "probe"
+  ],
+  "additionalProperties": false
+}

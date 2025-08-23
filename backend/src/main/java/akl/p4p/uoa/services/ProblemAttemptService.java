@@ -1,6 +1,6 @@
 package akl.p4p.uoa.services;
 
-import static akl.p4p.uoa.data.JsonSchemaDefinition.getClientProbeSchema;
+import static akl.p4p.uoa.data.LLMResponseSchemas.*;
 import static akl.p4p.uoa.prompts.ClientPrompts.getClientFirstMessage;
 
 import akl.p4p.uoa.data.ChatContent;
@@ -86,7 +86,7 @@ public class ProblemAttemptService {
 
   public ChatHistory chatWithClientWithSessionHistory(String sessionId, ChatContent userMessage)
       throws IOException {
-    return aiService.chatWithClient(sessionId, userMessage, getClientProbeSchema());
+    return aiService.chatWithClient(sessionId, userMessage, getSchemaDefinition(CLIENT_RESPONSE));
   }
 
   public ProblemAttempt saveProblemAttemptAndUpdateProblemsCompleted(

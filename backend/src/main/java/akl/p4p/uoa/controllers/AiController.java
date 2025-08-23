@@ -1,9 +1,8 @@
 package akl.p4p.uoa.controllers;
 
-import static akl.p4p.uoa.data.JsonSchemaDefinition.getCodeGenerationSchema;
+import static akl.p4p.uoa.data.LLMResponseSchemas.*;
 
 import akl.p4p.uoa.constants.AuthConstants;
-import akl.p4p.uoa.data.JsonSchemaDefinition;
 import akl.p4p.uoa.data.TestResponse;
 import akl.p4p.uoa.dtos.BuildRequest;
 import akl.p4p.uoa.models.Problem;
@@ -63,7 +62,7 @@ class AiController {
 
     String sysPrompt = TestSuitePrompts.getTestSuiteGenerationPrompt(problem);
     String testSuite =
-        aiService.executeOneTimeLLMCall(sysPrompt, JsonSchemaDefinition.getTestCaseSchema());
+        aiService.executeOneTimeLLMCall(sysPrompt, getSchemaDefinition(TEST_CASE_GENERATION));
 
     TestResponse testResponse = objectMapper.readValue(testSuite, TestResponse.class);
 
@@ -86,8 +85,7 @@ class AiController {
   public ResponseEntity<Problem> generateOracle(@RequestBody Problem problem) throws IOException {
     String sysPrompt = OracleGenerationPrompts.getOracleGenerationPrompt(problem);
     String jsonResponse =
-        aiService.executeOneTimeLLMCall(
-            sysPrompt, JsonSchemaDefinition.getOracleGenerationSchema());
+        aiService.executeOneTimeLLMCall(sysPrompt, getSchemaDefinition(ORACLE_GENERATION));
 
     var initialProbe = JsonUtils.parseOracleJsonResponse(jsonResponse);
     problem.setDefaultProbe(initialProbe);
@@ -109,7 +107,8 @@ class AiController {
             problem.getFunctionSignature());
 
     String solutionAttempt =
-        aiService.executeOneTimeLLMCallStudent(codeGenerationPrompt, getCodeGenerationSchema());
+        aiService.executeOneTimeLLMCallStudent(
+            codeGenerationPrompt, getSchemaDefinition(CODE_GENERATION));
 
     return ResponseEntity.ok(solutionAttempt);
   }

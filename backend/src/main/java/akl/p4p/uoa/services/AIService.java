@@ -51,8 +51,7 @@ public class AIService {
    *
    * @param systemPrompt is the system prompt to send to the LLM to execute request.
    * @param responseSchema is the schema type of the response format which are defined in {@link
-   *     akl.p4p.uoa.data.JsonSchemaDefinition} if not supplied (null) the response format defaults
-   *     to a string.
+   *     LLMResponseSchemas} if not supplied (null) the response format defaults to a string.
    */
   public String executeOneTimeLLMCall(String systemPrompt, @Nullable String responseSchema) {
     // 03 does not support temperature tuning
