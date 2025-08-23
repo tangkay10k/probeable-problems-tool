@@ -120,6 +120,10 @@
   cursor: pointer;
 }
 
+.circularButton svg {
+  font-size: var(--icon-size);
+}
+
 /*===*/
 
 /*===BUTTON GROUP===*/
