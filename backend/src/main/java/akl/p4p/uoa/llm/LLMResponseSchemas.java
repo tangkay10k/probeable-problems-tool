@@ -1,4 +1,4 @@
-package akl.p4p.uoa.data;
+package akl.p4p.uoa.llm;
 
 import static akl.p4p.uoa.utils.PromptUtils.readFileFromResources;
 

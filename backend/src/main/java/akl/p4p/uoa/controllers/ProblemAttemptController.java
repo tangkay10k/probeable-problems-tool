@@ -10,8 +10,8 @@ import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.dtos.TestCaseOutputDTO;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.ProblemAttempt;
-import akl.p4p.uoa.prompts.TestExplanation;
 import akl.p4p.uoa.services.ProblemAttemptService;
+import akl.p4p.uoa.utils.TestExplanationUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +76,7 @@ public class ProblemAttemptController {
       @RequestBody TestCaseOutputDTO message) {
 
     // FE Validation that PISTON executed testcase successfully (exit code 0) MUST have occurred.
-    var explanation = TestExplanation.getTestCaseExplanation(message);
+    var explanation = TestExplanationUtils.getTestCaseExplanation(message);
     var history =
         problemAttemptService.overwriteAssistantMessage(message.getSessionId(), explanation);
 

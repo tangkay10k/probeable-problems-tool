@@ -1,4 +1,4 @@
-package akl.p4p.uoa.prompts;
+package akl.p4p.uoa.llm.prompts;
 
 import akl.p4p.uoa.models.Problem;
 

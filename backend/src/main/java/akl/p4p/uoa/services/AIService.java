@@ -1,14 +1,12 @@
 package akl.p4p.uoa.services;
 
-import static akl.p4p.uoa.data.ChatMessageConverter.convertSystemPromptToChatMessage;
-import static akl.p4p.uoa.data.ChatMessageConverter.convertUserMessageToChatMessage;
+import static akl.p4p.uoa.data.ChatMessageConverter.*;
 
 import akl.p4p.uoa.data.*;
 import akl.p4p.uoa.data.ChatMessage.Role;
-import akl.p4p.uoa.data.ChatMessageConverter;
+import akl.p4p.uoa.llm.LLMResponseSchemas;
 import akl.p4p.uoa.models.ChatHistory;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.lang.Nullable;
 import java.io.IOException;
@@ -58,18 +56,14 @@ public class AIService {
     return executeOneTimeLLMCall(systemPrompt, responseSchema, 1, 1, OpenAiApi.ChatModel.O3);
   }
 
+  public String executeOneTimeLLMCall(String systemPrompt) {
+    // 03 does not support temperature tuning
+    return executeOneTimeLLMCall(systemPrompt, null, 1, 1, OpenAiApi.ChatModel.O3);
+  }
+
   public String executeOneTimeLLMCallStudent(String systemPrompt, @Nullable String responseSchema) {
     return executeOneTimeLLMCall(
         systemPrompt, responseSchema, TOP_P_VAL, TEMP_VAL, OpenAiApi.ChatModel.GPT_4_O);
-  }
-
-  public String executeOneTimeLLMCall(
-      String systemPrompt,
-      @Nullable String responseSchema,
-      OpenAiApi.ChatModel model,
-      double topP,
-      double temperature) {
-    return executeOneTimeLLMCall(systemPrompt, responseSchema, topP, temperature, model);
   }
 
   public String executeOneTimeLLMCall(
@@ -166,12 +160,6 @@ public class AIService {
     return chatHistoryService.saveHistory(sessionHistory);
   }
 
-  public String generateTestCase(List<Message> messages) {
-    OpenAiChatOptions options =
-        OpenAiChatOptions.builder().model(OpenAiApi.ChatModel.O4_MINI).temperature(1D).build();
-    return chatClient.prompt().options(options).messages(messages).call().content();
-  }
-
   /**
    * Overwrite the most recent ASSISTANT message in a session's history.
    *
@@ -219,7 +207,7 @@ public class AIService {
   /** Convenience overload: pass a ChatContent and wrap it as an ASSISTANT ChatMessage. */
   public ChatHistory overwriteLastAssistantMessage(
       String sessionId, ChatContent content, boolean appendIfMissing) {
-    ChatMessage msg = ChatMessageConverter.convertLLMResponseToChatMessage(content);
+    ChatMessage msg = convertLLMResponseToChatMessage(content);
     // Just in case the converter doesn't set role to ASSISTANT:
     msg.setRole(Role.ASSISTANT);
     return overwriteLastAssistantMessage(sessionId, msg, appendIfMissing);
@@ -231,19 +219,6 @@ public class AIService {
     ChatContent content = new ChatContent();
     content.setMessage(assistantText);
     return overwriteLastAssistantMessage(sessionId, content, appendIfMissing);
-  }
-
-  private String sanitizeLLMTestCaseResponse(String raw) {
-    ObjectMapper mapper = new ObjectMapper();
-    try {
-      JsonNode root = mapper.readTree(raw);
-      if (root.has(TEST_ATTRIBUTE_NAME)) {
-        return root.get(TEST_ATTRIBUTE_NAME).asText();
-      }
-    } catch (Exception e) {
-      // Not JSON, just return as-is
-    }
-    return raw;
   }
 
   private OpenAiChatOptions getStudentDefaultOptions(String responseSchema) {
@@ -277,7 +252,7 @@ public class AIService {
       List<ChatMessage> messagesToAppendTo, String reply) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     ChatContent chatContent = objectMapper.readValue(reply, ChatContent.class);
-    messagesToAppendTo.add(ChatMessageConverter.convertLLMResponseToChatMessage(chatContent));
+    messagesToAppendTo.add(convertLLMResponseToChatMessage(chatContent));
     return messagesToAppendTo;
   }
 }
