@@ -1,5 +1,7 @@
-package akl.p4p.uoa.data;
+package akl.p4p.uoa.utils;
 
+import akl.p4p.uoa.data.ChatContent;
+import akl.p4p.uoa.data.ChatMessage;
 import akl.p4p.uoa.data.ChatMessage.Role;
 import java.time.Instant;
 

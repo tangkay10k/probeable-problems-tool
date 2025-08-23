@@ -1,6 +1,6 @@
 package akl.p4p.uoa.services;
 
-import static akl.p4p.uoa.data.ChatMessageConverter.*;
+import static akl.p4p.uoa.utils.ChatMessageConverter.*;
 
 import akl.p4p.uoa.data.*;
 import akl.p4p.uoa.data.ChatMessage.Role;
