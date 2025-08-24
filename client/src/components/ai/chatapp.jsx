@@ -1,6 +1,6 @@
 import styles from "./ai.module.css";
 import { FaRegPaperPlane as PlaneIcon } from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Button from "@/components/button/button.jsx";
 import { convertIsoStringToLocalTime } from "@/components/ai/chat-utils.js";
 import useWithLoading from "@/hooks/useWithLoading.js";
@@ -20,6 +20,9 @@ import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
 import { getRandomRateLimitText } from "@/utils/piston-utils.js";
 
+import useStickToBottom from "@/hooks/useStickToBottom.js";
+import { AnimatePresence, motion } from "framer-motion";
+
 const CLIENT_AVATAR = "/client.png";
 const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
 
@@ -31,25 +34,27 @@ export default function ChatApp() {
     problemAttempt,
     problem,
   } = useProblemAttemptContext();
+
   const [userMessage, setUserMessage] = useState("");
   const [isLoading, withLoading] = useWithLoading();
   const { addLog } = useLogging();
+
   const containerRef = useRef(null);
+  const endRef = useRef(null); // sentinel at bottom
   const typingTimerRef = useRef(null);
+  const pendingIdRef = useRef(null); // stable key for pending→real
   const TYPING_DEBOUNCE_MS = 2000;
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (el && el.scrollHeight > el.clientHeight) {
-      // only scroll if content is taller than container
-      el.scrollTop = el.scrollHeight;
-    }
-  }, [chatHistory]);
+  const scrollToBottom = useStickToBottom(
+    containerRef,
+    endRef,
+    [chatHistory?.messages?.length], // fire on real appends
+    { threshold: 96, forceOnMount: true },
+  );
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setUserMessage(value);
-
     if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
     typingTimerRef.current = setTimeout(() => {
       addLog({
@@ -60,25 +65,40 @@ export default function ChatApp() {
     }, TYPING_DEBOUNCE_MS);
   };
 
+  function makePendingAssistant() {
+    const id = `pending-${Date.now()}`;
+    pendingIdRef.current = id;
+    return {
+      id,
+      role: "assistant",
+      pending: true,
+      content: { message: "" }, // rendered as typing bubble
+      timestamp: new Date().toISOString(),
+    };
+  }
+
   const handleSend = () => {
     if (!userMessage || userMessage.trim().length === 0) return;
     if (isLoading) return;
 
     const message = userMessage;
+    setUserMessage("");
+
+    // Optimistic user + pending assistant
+    const userMsg = {
+      role: "user",
+      content: { message },
+      timestamp: new Date().toISOString(),
+    };
+    const pendingAssistant = makePendingAssistant();
+
     setChatHistory({
       ...chatHistory,
-      messages: [
-        ...chatHistory.messages,
-        {
-          role: "user",
-          content: {
-            message,
-          },
-          timestamp: new Date().toISOString(),
-        },
-      ],
+      messages: [...chatHistory.messages, userMsg, pendingAssistant],
     });
-    setUserMessage("");
+
+    // snap to bottom immediately after user hits enter.
+    requestAnimationFrame(() => requestAnimationFrame(scrollToBottom));
 
     withLoading(
       async () => {
@@ -91,9 +111,7 @@ export default function ChatApp() {
         const newMessages = newHistory.messages;
         const content = newMessages[newMessages.length - 1].content;
 
-        if (!content.test_case) {
-          return newHistory;
-        }
+        if (!content.test_case) return newHistory;
 
         const res = await executeChatTestCaseSilently(
           problemAttempt?.problemLanguage,
@@ -103,7 +121,6 @@ export default function ChatApp() {
         );
 
         if (res.status === 429) {
-          // If we get rate limited.
           return clientTemporarilyUnavailable();
         }
 
@@ -125,16 +142,38 @@ export default function ChatApp() {
           problem.functionName,
         );
       },
-      (newHistory) => {
-        setChatHistory(newHistory);
+      (serverHistory) => {
+        // Replace local pending with real assistant reply (keep same key/id)
+        const finalMsgs = serverHistory.messages;
+        const realAssistant = finalMsgs[finalMsgs.length - 1];
 
-        const messages = newHistory.messages;
+        setChatHistory((prev) => {
+          const idx = prev.messages.findIndex(
+            (m) => m.id === pendingIdRef.current,
+          );
+          if (idx === -1) {
+            return serverHistory; // fallback
+          }
+          const merged = prev.messages.slice();
+          merged[idx] = {
+            ...realAssistant,
+            id: pendingIdRef.current, // keep stable React key
+            serverId: realAssistant.id,
+            pending: false,
+          };
+          return { ...serverHistory, messages: merged };
+        });
 
+        // Ensure bottom snap even though length didn't change
+        requestAnimationFrame(() => requestAnimationFrame(scrollToBottom));
+
+        // Logging based on server truth
+        const msgs = serverHistory.messages;
         addLog({
           component: Component.CHAT_APP,
           action: Action.SEND,
-          input: messages[messages.length - 2].content.message,
-          output: messages[messages.length - 1].content.message,
+          input: msgs[msgs.length - 2]?.content?.message,
+          output: msgs[msgs.length - 1]?.content?.message,
         });
       },
       console.error,
@@ -147,9 +186,7 @@ export default function ChatApp() {
 
   async function clientTemporarilyUnavailable() {
     return await replaceAssistantMessage(chatHistory.sessionId, {
-      content: {
-        message: getRandomRateLimitText(),
-      },
+      content: { message: getRandomRateLimitText() },
     });
   }
 
@@ -171,14 +208,48 @@ export default function ChatApp() {
       />
 
       <div className={styles.chatApp}>
-        <div ref={containerRef} className={styles.chatBody}>
-          {/*Always skip system message*/}
-          {chatHistory.messages?.slice(1).map((message, idx) => (
-            <ChatBubble key={idx + message.timestamp} chatMessage={message} />
-          ))}
+        <div
+          ref={containerRef}
+          className={styles.chatBody}
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions"
+        >
+          <AnimatePresence initial={false} mode="popLayout">
+            {/* Always skip system message */}
+            {chatHistory.messages?.slice(1).map((message, idx) => {
+              const key = message.id ?? `${message.timestamp}-${idx}`;
+              const initial = { y: 12, opacity: 0, filter: "blur(2px)" };
+              const animate = { y: 0, opacity: 1, filter: "blur(0px)" };
+              const exit = { y: 8, opacity: 0 };
 
-          {isLoading && <LoadingBubble />}
+              return (
+                <motion.div
+                  key={key}
+                  layout="position" // smooth positional shifts
+                  layoutId={key} // morph pending -> real reply
+                  initial={initial}
+                  animate={animate}
+                  exit={exit}
+                  transition={{
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 30,
+                    mass: 0.6,
+                  }}
+                >
+                  {message.pending ? (
+                    <LoadingBubble />
+                  ) : (
+                    <ChatBubble chatMessage={message} />
+                  )}
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+          <div ref={endRef} aria-hidden="true" />
         </div>
+
         <div className={styles.inputContainer}>
           <TextArea
             rows={1}
@@ -202,22 +273,18 @@ function ChatBubble({ chatMessage }) {
   const { profile } = useUserProfile();
   const userImage = profile?.userImage || USER_FALLBACK_AVATAR;
   const isAssistant = chatMessage.role === "assistant";
-
   const time = convertIsoStringToLocalTime(chatMessage.timestamp);
 
   const responseSchema = chatMessage.content;
   const message = responseSchema.message;
   const testCase = responseSchema.test_case;
-  const msg = testCase
-    ? `${message}
-        ${testCase}`
-    : message;
+  const msg = testCase ? `${message}\n${testCase}` : message;
 
   return (
     <div className={styles.bubbleContainer}>
       {isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={CLIENT_AVATAR} alt="Client"></img>
+          <img src={CLIENT_AVATAR} alt="Client" />
         </div>
       )}
 
@@ -230,11 +297,8 @@ function ChatBubble({ chatMessage }) {
         <p
           className={styles.chatTimestamp}
           style={{
-            padding:
-              chatMessage.role === "assistant"
-                ? "0.25rem 0 0 0.5rem"
-                : "0.25rem 0.5rem 0 0",
-            justifySelf: chatMessage.role === "assistant" ? "start" : "end",
+            padding: isAssistant ? "0.25rem 0 0 0.5rem" : "0.25rem 0.5rem 0 0",
+            justifySelf: isAssistant ? "start" : "end",
           }}
         >
           Sent at: {time}
@@ -243,7 +307,7 @@ function ChatBubble({ chatMessage }) {
 
       {!isAssistant && (
         <div className={styles.avatarContainer}>
-          <img src={userImage} referrerPolicy="no-referrer" alt="You"></img>
+          <img src={userImage} referrerPolicy="no-referrer" alt="You" />
         </div>
       )}
     </div>
@@ -268,10 +332,7 @@ function LoadingBubble() {
 
         <p
           className={styles.chatTimestamp}
-          style={{
-            padding: "0.25rem 0 0 0.5rem",
-            justifySelf: "start",
-          }}
+          style={{ padding: "0.25rem 0 0 0.5rem", justifySelf: "start" }}
         >
           Client is typing…
         </p>
