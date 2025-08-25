@@ -8,6 +8,7 @@ import akl.p4p.uoa.services.StudentLogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/log")
 public class LogController {
