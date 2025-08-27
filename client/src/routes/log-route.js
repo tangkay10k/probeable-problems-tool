@@ -2,7 +2,7 @@ import axiosClient from "./utils/axiosClient.js";
 
 export const logPastedContent = async (problemAttemptId, pastedContent) => {
   const res = await axiosClient.post(
-    `/log/paste/${problemAttemptId}`,
+    `${__LOG_URL__}/log/paste/${problemAttemptId}`,
     pastedContent,
     {
       headers: {
@@ -15,7 +15,7 @@ export const logPastedContent = async (problemAttemptId, pastedContent) => {
 
 export const logActivity = async (problemAttemptId, activities, email) => {
   const res = await axiosClient.post(
-    `/log/activity/${problemAttemptId}`,
+    `${__LOG_URL__}/log/activity/${problemAttemptId}`,
     {
       activities,
       email,

@@ -6,15 +6,19 @@ import react from "@vitejs/plugin-react";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export default defineConfig((mode) => {
+export default defineConfig(({ mode }) => {
   const isProd = mode === "production";
+  const LOG_URL = isProd
+    ? "https://hoseatongho-h5onpdk3ka-ts.a.run.app"
+    : "http://localhost:8081";
 
   return {
     plugins: [react()],
     resolve: {
-      alias: {
-        "@": resolve(__dirname, "src"),
-      },
+      alias: { "@": resolve(__dirname, "src") },
+    },
+    define: {
+      __LOG_URL__: JSON.stringify(LOG_URL), 
     },
     server: {
       proxy: {
@@ -24,7 +28,7 @@ export default defineConfig((mode) => {
           secure: false,
         },
         "/log": {
-          target: isProd ? "https://hoseatongho-h5onpdk3ka-ts.a.run.app/" : "http://localhost:8081",
+          target: LOG_URL, 
           changeOrigin: true,
           secure: false,
         },
