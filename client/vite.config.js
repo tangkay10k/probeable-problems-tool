@@ -24,7 +24,7 @@ export default defineConfig((mode) => {
           secure: false,
         },
         "/log": {
-          target: isProd ? "https://probeable-problems-837455747674.australia-southeast1.run.app/" : "http://localhost:8081",
+          target: isProd ? "https://hoseatongho-h5onpdk3ka-ts.a.run.app/" : "http://localhost:8081",
           changeOrigin: true,
           secure: false,
         },
