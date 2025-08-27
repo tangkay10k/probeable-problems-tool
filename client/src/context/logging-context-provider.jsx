@@ -5,14 +5,13 @@ import { useUserProfile } from "@/context/user-context.jsx";
 
 const LoggingContext = createContext();
 
-const LOGGING_ENABLED =
-  String(import.meta.env.VITE_LOGGING_ENABLED).toLowerCase() === "true";
+const LOGGING_ENABLED = import.meta.env.PROD;
 
 export function LoggingProvider({ children }) {
   const [logs, setLogs] = useState([]);
   const { profile } = useUserProfile();
   const { problemAttempt } = useProblemAttemptContext();
-
+  
   const addLog = useCallback(
     (entry) => {
       if (!LOGGING_ENABLED) {
