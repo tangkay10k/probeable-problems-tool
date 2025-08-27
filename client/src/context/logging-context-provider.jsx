@@ -14,6 +14,7 @@ export function LoggingProvider({ children }) {
   
   const addLog = useCallback(
     (entry) => {
+      console.log(import.meta.env.PROD)
       if (!LOGGING_ENABLED) {
         return;
       }
