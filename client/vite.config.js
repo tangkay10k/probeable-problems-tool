@@ -6,8 +6,8 @@ import react from "@vitejs/plugin-react";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export default defineConfig(() => {
-  const isProd = import.meta.env.PROD;
+export default defineConfig((mode) => {
+  const isProd = mode === "production";
 
   return {
     plugins: [react()],
