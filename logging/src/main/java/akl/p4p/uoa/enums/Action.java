@@ -8,5 +8,7 @@ public enum Action {
     OPENED,
     CLOSED,
     RESET,
-    SUBMIT
+    SUBMIT,
+    BUILD,
+    CHECK
 }
