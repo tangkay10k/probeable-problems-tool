@@ -22,7 +22,6 @@ import EditorPanel from "./ui/editor-panel.jsx";
 import TestSuitePanel from "./ui/test-suite-panel.jsx";
 import Modal from "@/components/modal/modal.jsx";
 import ButtonV2 from "@/components/button/buttonV2.jsx";
-import ReactMarkdown from "react-markdown";
 
 export default function StageTwo() {
   const { problemId } = useParams();
@@ -97,7 +96,7 @@ export default function StageTwo() {
         component: Component.TESTS,
         action: Action.CHECK,
         name: "runTests",
-        output: didCompile ? "compiled" : "failed to compile", // TODO: fix this
+        output: didCompile ? "compiled" : "failed to compile",
       });
 
       const saveSilently = Boolean(didCompile);
