@@ -100,6 +100,9 @@ public class ProblemAttemptService {
     updateFailedAttemptsIfNotFullMarks(curProblemAttempt, prevAttempt, problem);
     updateProblemsCompleted(curProblemAttempt, problem);
 
+    curProblemAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
+    curProblemAttempt.setOracleEquivalenceMap(prevAttempt.getOracleEquivalenceMap());
+
     if (isFullMarks(prevAttempt, problem)) {
       alwaysTakeFullMarkSubmissionAttributes(curProblemAttempt, prevAttempt);
     }

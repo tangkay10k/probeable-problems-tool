@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
       alias: { "@": resolve(__dirname, "src") },
     },
     define: {
-      __LOG_URL__: JSON.stringify(LOG_URL), 
+      __LOG_URL__: JSON.stringify(LOG_URL),
     },
     server: {
       proxy: {
@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
           secure: false,
         },
         "/log": {
-          target: LOG_URL, 
+          target: LOG_URL,
           changeOrigin: true,
           secure: false,
         },
