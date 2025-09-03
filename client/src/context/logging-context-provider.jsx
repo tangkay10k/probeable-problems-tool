@@ -11,7 +11,7 @@ export function LoggingProvider({ children }) {
   const [logs, setLogs] = useState([]);
   const { profile } = useUserProfile();
   const { problemAttempt } = useProblemAttemptContext();
-  
+
   const addLog = useCallback(
     (entry) => {
       if (!LOGGING_ENABLED) {
