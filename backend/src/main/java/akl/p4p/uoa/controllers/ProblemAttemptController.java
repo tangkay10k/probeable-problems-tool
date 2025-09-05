@@ -35,7 +35,7 @@ public class ProblemAttemptController {
       @RequestParam String problemId, @RequestParam String studentEmail) throws IOException {
 
     ProblemAttempt attempt =
-    problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
+        problemAttemptService.retrieveLatestOrCreateProblemAttempt(problemId, studentEmail);
     return ResponseEntity.ok(attempt);
   }
 
@@ -45,15 +45,15 @@ public class ProblemAttemptController {
       throws IOException {
 
     ChatHistory attempt =
-    problemAttemptService.chatWithClientWithSessionHistory(
-        message.getSessionId(), message.getChatMessage().getContent());
+        problemAttemptService.chatWithClientWithSessionHistory(
+            message.getSessionId(), message.getChatMessage().getContent());
 
     // Update Equivalence class map:
     var messages = attempt.getMessages();
     var lastMsg = messages.get(messages.size() - 1);
     if (lastMsg.getRole().equals(Role.ASSISTANT)) {
-      var problemAttempt = 
-      problemAttemptService.findProblemAttemptById(message.getProblemAttemptId());
+      var problemAttempt =
+          problemAttemptService.findProblemAttemptById(message.getProblemAttemptId());
 
       var content = lastMsg.getContent();
       int constraint = content.getConstraint_targeting();
@@ -78,8 +78,8 @@ public class ProblemAttemptController {
 
     // FE Validation that PISTON executed testcase successfully (exit code 0) MUST have occurred.
     var explanation = TestExplanationUtils.getTestCaseExplanation(message);
-    var history = 
-    problemAttemptService.overwriteAssistantMessage(message.getSessionId(), explanation);
+    var history =
+        problemAttemptService.overwriteAssistantMessage(message.getSessionId(), explanation);
 
     return ResponseEntity.ok(history);
   }
@@ -88,9 +88,9 @@ public class ProblemAttemptController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<ChatHistory> replaceAssistantMessageInChatHistory(
       @RequestParam String sessionId, @RequestBody ChatMessage message) {
-    ChatHistory history = 
-    problemAttemptService.overwriteAssistantMessage(
-        sessionId, message.getContent().getMessage());
+    ChatHistory history =
+        problemAttemptService.overwriteAssistantMessage(
+            sessionId, message.getContent().getMessage());
     return ResponseEntity.ok(history);
   }
 
@@ -106,9 +106,10 @@ public class ProblemAttemptController {
   public ResponseEntity<Void> recordEquivalenceClass(
       @PathVariable String id, @RequestBody EquivalenceClassRequest equivalenceClassRequest) {
     ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
-    Map<Integer, Integer> oracleEquivalenceMap = equivalenceClassRequest.getProbeType() == ProbeType.ORACLE
-        ? problemAttempt.getOracleEquivalenceMap()
-        : problemAttempt.getClientExecuteTestEquivalenceMap();
+    Map<Integer, Integer> oracleEquivalenceMap =
+        equivalenceClassRequest.getProbeType() == ProbeType.ORACLE
+            ? problemAttempt.getOracleEquivalenceMap()
+            : problemAttempt.getClientExecuteTestEquivalenceMap();
 
     List<String> buggyOutputs = equivalenceClassRequest.getBuggyOutputs();
 
@@ -132,10 +133,10 @@ public class ProblemAttemptController {
   public ResponseEntity<ProblemAttempt> updateFailedAttempts(@PathVariable String id) {
     ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
 
-    int newFailedAttempts = 
-    Math.min(
-        problemAttempt.getFailedAttempts() + 1,
-        ProblemAttemptConstants.CAPPED_PENALTY_PERCENTAGE);
+    int newFailedAttempts =
+        Math.min(
+            problemAttempt.getFailedAttempts() + 1,
+            ProblemAttemptConstants.CAPPED_PENALTY_PERCENTAGE);
 
     problemAttempt.setFailedAttempts(newFailedAttempts);
 
