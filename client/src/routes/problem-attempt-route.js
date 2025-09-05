@@ -65,12 +65,14 @@ export const saveEquivalenceClass = async (
   problemAttemptId,
   result,
   buggyOutputs,
+  probeType,
 ) => {
   await axiosClient.post(
     `/api/problemAttempt/${problemAttemptId}/equivalenceClass`,
     {
       result,
       buggyOutputs,
+      probeType
     },
   );
 };
