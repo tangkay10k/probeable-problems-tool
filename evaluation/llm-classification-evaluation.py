@@ -11,9 +11,10 @@ CHAT_MODEL = "o4-mini"
 RESPONSE_SCHEMA = 'client-response.json'
 
 QUESTION_DIR = "question-data/"
-CHAT_HISTORY = QUESTION_DIR + "question1-base-history.json"
-USER_PROBES = QUESTION_DIR + "question1-probes.json"
-RESULTS_FILE = QUESTION_DIR + "question1-results.json"
+CHAT_HISTORY = QUESTION_DIR + "question3-base-history.json"
+USER_PROBES = QUESTION_DIR + "question3-probes.json"
+RESULTS_FILE = QUESTION_DIR + "question3-results.json"
+
 
 def load_api_key() -> str:
     # Load .env from the directory where this script resides
@@ -31,6 +32,7 @@ def load_api_key() -> str:
         sys.exit(1)
     return key
 
+
 def load_history(path):
     with open(path, "r", encoding="utf-8") as f:
         raw = json.load(f)
@@ -40,9 +42,11 @@ def load_history(path):
 
     raise ValueError("Unrecognized history schema; expected list of messages, or object(s) with 'messages' key.")
 
+
 def load_json(path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 def _normalize_to_openai(messages):
     """Convert your schema → OpenAI messages."""
@@ -71,6 +75,7 @@ def _normalize_to_openai(messages):
         out.append({"role": role, "content": content})
     return out
 
+
 def make_user_message(text: Any) -> Dict[str, str]:
     """
     Convert arbitrary input to an OpenAI user message.
@@ -89,6 +94,7 @@ def make_user_message(text: Any) -> Dict[str, str]:
 
     return {"role": "user", "content": text}
 
+
 def single_LLM_call(message: str) -> int:
     api_key = load_api_key()
     messages = load_history(CHAT_HISTORY)
@@ -102,7 +108,6 @@ def single_LLM_call(message: str) -> int:
     client = OpenAI(api_key=api_key)
     response_schema = load_json(RESPONSE_SCHEMA)
 
-
     try:
         completion = client.chat.completions.create(
             model=CHAT_MODEL,
@@ -113,8 +118,8 @@ def single_LLM_call(message: str) -> int:
                     "name": "ClientProbe",
                     "schema": response_schema,
                     "strict": True
-            }
-    },
+                }
+            },
         )
     except Exception as e:
         sys.stderr.write(f"OpenAI API error: {e}\n")
@@ -124,9 +129,10 @@ def single_LLM_call(message: str) -> int:
         content = completion.choices[0].message.content
     except Exception:
         content = "FAILED TO CALL"
-    
+
     response_schema = json.loads(content)
     return response_schema["constraint_targeting"]
+
 
 def write_data_to_json_file(data: dict, filename: str):
     """
@@ -143,11 +149,12 @@ def write_data_to_json_file(data: dict, filename: str):
     except Exception as e:
         print(f"Error writing JSON to file: {e}")
 
+
 def main() -> None:
     results = {}
 
     question_map = load_json(USER_PROBES)
-    for constraint in question_map: # The key is the constraint number
+    for constraint in question_map:  # The key is the constraint number
         questions = question_map.get(constraint)["questions"]
 
         # Call each question twice, 5 questions x 2 = 10 calls
@@ -168,7 +175,9 @@ def main() -> None:
                     print("Classified Incorrectly")
                     results[constraint]["Incorrect"] += 1
 
-    write_data_to_json_file(results, RESULTS_FILE)    
+    write_data_to_json_file(results, RESULTS_FILE)
+
 
 if __name__ == "__main__":
     main()
+

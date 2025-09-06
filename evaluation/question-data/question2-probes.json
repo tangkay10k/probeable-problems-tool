@@ -1,0 +1,102 @@
+{
+  "1": {
+    "comment": "If n is invalid (<= 0) print 'INVALID LENGTH' then return.",
+    "questions": [
+      "What happens if n is zero?",
+      "Should the function handle negative n values?",
+      "What should be printed if n is invalid?",
+      "If n <= 0, what does the function do?",
+      "How should the function react when n is zero or less?"
+    ]
+  },
+  "2": {
+    "comment": "n will always be less than or equal to the number of elements in the array.",
+    "questions": [
+      "Can n ever be larger than the array length?",
+      "Is n always guaranteed to fit within the array size?",
+      "Do we need to check if n exceeds the number of elements?",
+      "What’s the relation between n and the array length?",
+      "Should I assume n ≤ array length?"
+    ]
+  },
+  "3": {
+    "comment": "If either boundary (a or b) ≥ n, return -1.",
+    "questions": [
+      "What if a is equal to n?",
+      "Should b be allowed to equal n?",
+      "What should the function return if a or b is outside the valid range?",
+      "What happens when one of the boundaries is too large?",
+      "Do we return -1 if b equals the length of the array?"
+    ]
+  },
+  "4": {
+    "comment": "Compare each element with the previous element from 0 to n-1 inclusive.",
+    "questions": [
+      "How does the function process the array elements?",
+      "Does it compare each element with the previous one?",
+      "What loop logic is used to compare elements?",
+      "How are array values checked against earlier values?",
+      "Is each index compared with the one before it?"
+    ]
+  },
+  "5": {
+    "comment": "If the current element > previous element, print UP.",
+    "questions": [
+      "What should be printed if the current value is greater?",
+      "How do we mark an increase in the array?",
+      "When the sequence goes up, what is the output?",
+      "If the next element is larger than the last, what do we print?",
+      "Does the function print something when numbers rise?"
+    ]
+  },
+  "6": {
+    "comment": "If the current element < previous element, print DOWN.",
+    "questions": [
+      "What should be printed if the current element is less than the last?",
+      "How do we indicate the sequence is decreasing?",
+      "What output do we get when the array goes down?",
+      "Does the function print something for downward changes?",
+      "If the current number drops below the previous, what do we display?"
+    ]
+  },
+  "7": {
+    "comment": "If the current element == previous element, print SAME.",
+    "questions": [
+      "What if the values don’t change between two elements?",
+      "What should be printed when the numbers are equal?",
+      "How is equality between elements represented?",
+      "If the array has two identical consecutive numbers, what do we print?",
+      "Do we display SAME when there’s no change?"
+    ]
+  },
+  "8": {
+    "comment": "If the array was strictly increasing, print 'Increasing Trend'.",
+    "questions": [
+      "How do we summarize an array that only goes up?",
+      "What is printed if the array is strictly rising?",
+      "How do we output when the sequence is always increasing?",
+      "If every number is larger than the previous one, what do we print?",
+      "Does the function print 'Increasing Trend' in this case?"
+    ]
+  },
+  "9": {
+    "comment": "If the array was strictly decreasing, print 'Decreasing Trend'.",
+    "questions": [
+      "How do we summarize an array that only goes down?",
+      "What should be printed if the numbers keep decreasing?",
+      "What’s the output for a strictly descending sequence?",
+      "If the array is always getting smaller, what is printed?",
+      "Does the function print 'Decreasing Trend' in this case?"
+    ]
+  },
+  "10": {
+    "comment": "If the array is neither strictly increasing nor decreasing, print 'No Trend'.",
+    "questions": [
+      "What if the array has both ups and downs?",
+      "What is printed if the array doesn’t follow a single direction?",
+      "How is a mixed trend represented?",
+      "If the array is not purely increasing or decreasing, what do we print?",
+      "Does the function output 'No Trend' in such cases?"
+    ]
+  }
+}

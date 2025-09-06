@@ -1,0 +1,92 @@
+{
+  "1": {
+    "comment": "If the second parameter is an empty string, print 'No word!' and return.",
+    "questions": [
+      "What happens if the search word is empty?",
+      "What should the function do when the second argument is ''?",
+      "If there’s no word provided, what is printed?",
+      "Should the function stop when the second parameter is an empty string?",
+      "What is the exact output when the word parameter is empty?"
+    ]
+  },
+  "2": {
+    "comment": "If the first parameter is an empty string and the second is non-empty, print 'No text!' and return.",
+    "questions": [
+      "What if the text input is empty but the word is not?",
+      "What is printed if the first argument is '' and the second is 'cat'?",
+      "Does the function return something when the text is empty but the word isn’t?",
+      "If no text is provided, how should the function behave?",
+      "What’s the output when the first string is empty and the second is valid?"
+    ]
+  },
+  "3": {
+    "comment": "All matches are case-insensitive (e.g., 'A' equals 'a').",
+    "questions": [
+      "Are matches case sensitive?",
+      "Should 'Dog' match 'dog'?",
+      "How does the function treat uppercase vs lowercase letters?",
+      "Is searching done in a case-insensitive way?",
+      "Does 'HELLO' equal 'hello'?"
+    ]
+  },
+  "4": {
+    "comment": "Use zero-based indexing for reporting matches.",
+    "questions": [
+      "What kind of indexing is used for match positions?",
+      "Is the first index reported as 0 or 1?",
+      "Does the function use zero-based indexes?",
+      "Are matches reported starting from 0?",
+      "Should I assume zero-based numbering for positions?"
+    ]
+  },
+  "5": {
+    "comment": "Report every position i where the substring equals the word, even if matches overlap.",
+    "questions": [
+      "Does the function allow overlapping matches?",
+      "What if two matches share characters?",
+      "Will overlapping words be reported?",
+      "Are overlapping occurrences valid results?",
+      "Should matches at positions that overlap be included?"
+    ]
+  },
+  "6": {
+    "comment": "When multiple matches are found, print positions in strictly descending order.",
+    "questions": [
+      "In what order are multiple matches printed?",
+      "Should matches be listed from right to left?",
+      "Are indices printed in descending order?",
+      "Is the rightmost match shown first?",
+      "How are multiple matches ordered in the output?"
+    ]
+  },
+  "7": {
+    "comment": "Separate multiple indices with one space, no leading/trailing spaces.",
+    "questions": [
+      "How should indices be separated in the output?",
+      "Are spaces required between match positions?",
+      "Do we avoid extra spaces at the start or end?",
+      "What’s the formatting for multiple indices?",
+      "How are multiple positions separated in the printout?"
+    ]
+  },
+  "8": {
+    "comment": "If no matches are found, print exactly one hyphen ('-').",
+    "questions": [
+      "What if the word does not appear in the text?",
+      "What is printed if no matches are found?",
+      "Does the function output anything if there are zero matches?",
+      "How is the case of no matches handled?",
+      "Is a hyphen shown when no results exist?"
+    ]
+  },
+  "9": {
+    "comment": "Both input parameters will never be NULL.",
+    "questions": [
+      "Can the inputs be NULL?",
+      "Is it possible for either parameter to be null?",
+      "Do we need to handle null values?",
+      "Should I assume the arguments are never NULL?",
+      "Are NULL inputs valid for this function?"
+    ]
+  }
+}
