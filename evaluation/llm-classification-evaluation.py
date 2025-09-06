@@ -154,14 +154,18 @@ def main() -> None:
         for _ in range(0, 2):
             for question in questions:
                 constraint_classification = single_LLM_call(question)
-                print("LLM classified this question as constraint: ", constraint_classification)
+                actual = int(constraint_classification)
+                expected = int(constraint)
+                print("LLM classified this question as constraint: ", actual, "The constraint actually was: ", expected)
 
                 if constraint not in results:
                     results[constraint] = {"Correct": 0, "Incorrect": 0}
 
-                if (constraint_classification == constraint):
+                if (actual == expected):
+                    print("Classified Correctly")
                     results[constraint]["Correct"] += 1
                 else:
+                    print("Classified Incorrectly")
                     results[constraint]["Incorrect"] += 1
 
     write_data_to_json_file(results, RESULTS_FILE)    
