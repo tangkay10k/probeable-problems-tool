@@ -15,6 +15,7 @@ import ButtonV2 from "@/components/button/buttonV2.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
 import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
+import { ORACLE } from "@/constants/problem-constants";
 
 export default function Oracle({
   llmGeneratedTestCaseCallback = null,
@@ -117,6 +118,7 @@ export default function Oracle({
         problemAttempt.id,
         oracleResult?.run?.output,
         buggyResult,
+        ORACLE
       );
     } catch (err) {
       console.error(err);

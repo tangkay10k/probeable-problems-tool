@@ -33,5 +33,6 @@ public class ProblemAttempt {
 
   // Used to store frequency of eq class targeted by student: [constraintNum, freq]
   private Map<Integer, Integer> clientEquivalenceMap = new HashMap<>();
+  private Map<Integer, Integer> clientExecuteTestEquivalenceMap = new HashMap<>();
   private Map<Integer, Integer> oracleEquivalenceMap = new HashMap<>();
 }

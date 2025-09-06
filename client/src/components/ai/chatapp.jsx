@@ -19,9 +19,12 @@ import TextArea from "@/components/inputs/text-area.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
 import { getRandomRateLimitText } from "@/utils/piston-utils.js";
+import { handleBuggyProbeExecution } from "@/pages/question-setup/utils/buggy-solutions-setup-utils";
+import { saveEquivalenceClass } from "@/routes/problem-attempt-route";
 
 import useStickToBottom from "@/hooks/useStickToBottom.js";
 import { AnimatePresence, motion } from "framer-motion";
+import { NATURAL_LANGUAGE } from "@/constants/problem-constants";
 
 const CLIENT_AVATAR = "/client.png";
 const USER_FALLBACK_AVATAR = "/default-avatar.jpg";
@@ -130,6 +133,19 @@ export default function ChatApp() {
         }
 
         const output = execRes.run.output;
+
+        const buggyResult = await handleBuggyProbeExecution(
+          problem,
+          content.test_case,
+        );
+
+        await saveEquivalenceClass(
+          problemAttempt.id,
+          output,
+          buggyResult,
+          NATURAL_LANGUAGE
+        );
+
         const userQuestion =
           newMessages[newMessages.length - 2].content.message;
 

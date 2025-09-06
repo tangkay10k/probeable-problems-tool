@@ -8,6 +8,7 @@ import akl.p4p.uoa.data.ChatMessage.Role;
 import akl.p4p.uoa.data.EquivalenceClassRequest;
 import akl.p4p.uoa.dtos.MessageDTO;
 import akl.p4p.uoa.dtos.TestCaseOutputDTO;
+import akl.p4p.uoa.enums.ProbeType;
 import akl.p4p.uoa.models.ChatHistory;
 import akl.p4p.uoa.models.ProblemAttempt;
 import akl.p4p.uoa.services.ProblemAttemptService;
@@ -57,7 +58,7 @@ public class ProblemAttemptController {
       var content = lastMsg.getContent();
       int constraint = content.getConstraint_targeting();
 
-      if (constraint != -1) {
+      if (constraint != -1 && lastMsg.getContent().getTest_case() == null) {
         var eqClasses = problemAttempt.getClientEquivalenceMap();
         eqClasses.putIfAbsent(constraint, 0);
         eqClasses.put(constraint, eqClasses.get(constraint) + 1);
@@ -105,7 +106,10 @@ public class ProblemAttemptController {
   public ResponseEntity<Void> recordEquivalenceClass(
       @PathVariable String id, @RequestBody EquivalenceClassRequest equivalenceClassRequest) {
     ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
-    Map<Integer, Integer> oracleEquivalenceMap = problemAttempt.getOracleEquivalenceMap();
+    Map<Integer, Integer> oracleEquivalenceMap =
+        equivalenceClassRequest.getProbeType() == ProbeType.ORACLE
+            ? problemAttempt.getOracleEquivalenceMap()
+            : problemAttempt.getClientExecuteTestEquivalenceMap();
 
     List<String> buggyOutputs = equivalenceClassRequest.getBuggyOutputs();
 
