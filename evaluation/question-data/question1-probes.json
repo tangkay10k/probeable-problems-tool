@@ -1,0 +1,102 @@
+{
+    "1": {
+        "comment": "If n < 0, return -1.",
+        "questions": [
+            "What should the function return if n is negative?",
+            "n = -1: what happens?",
+            "If n < 0, do I get an error or a specific return value?",
+            "How should the function handle n = -5?",
+            "Is a negative n valid, or should it return -1?"
+        ]
+    },
+    "2": {
+        "comment": "If either boundary a or b is < 0, return -1.",
+        "questions": [
+            "If a is -3 (or b is -3), what should the function return?",
+            "Are negative boundaries allowed?",
+            "What happens when either boundary is less than zero?",
+            "Suppose a < 0 while b >= 0 — what is the output?",
+            "Do we return -1 if b is negative?"
+        ]
+    },
+    "3": {
+        "comment": "If a or b ≥ n, return -1.",
+        "questions": [
+            "What if a or b is equal to n?",
+            "If a or b is greater than or equal to n, what should be returned?",
+            "Are boundaries allowed to be outside the array (>= n)?",
+            "Should the function return -1 when b = n?",
+            "How do we handle an upper boundary that exceeds n?"
+        ]
+    },
+    "4": {
+        "comment": "Swapping a and b yields the same result.",
+        "questions": [
+            "Does swapping a and b change the result?",
+            "Do I need to enforce a < b, or is order irrelevant?",
+            "If I pass (b, a) instead of (a, b), will it still work the same?",
+            "Is the function symmetric with respect to a and b?",
+            "Should I sort the boundaries before calling the function?"
+        ]
+    },
+    "5": {
+        "comment": "The range is exclusive of a and b.",
+        "questions": [
+            "Is the range inclusive of a and b?",
+            "For a=2 and b=5, are indices 2 and 5 included?",
+            "Do we exclude the endpoints when searching?",
+            "Are a and b themselves part of the range?",
+            "Are the bounds open or closed?"
+        ]
+    },
+    "6": {
+        "comment": "If distance between a and b < 1, return -1.",
+        "questions": [
+            "What if a and b are the same value?",
+            "How do we handle a range where b - a < 1?",
+            "If the distance between a and b is 0.5, what should be returned?",
+            "When the boundaries are less than one apart, is that valid?",
+            "Should the function return -1 if there’s no space between a and b?"
+        ]
+    },
+    "7": {
+        "comment": "Return the index of the maximum within the range.",
+        "questions": [
+            "What exactly does the function return: index or value?",
+            "Does the function return the index of the maximum in the range?",
+            "Is the output the position of the largest element within the bounds?",
+            "Are we supposed to return the array index of the maximum?",
+            "Do we return the index of the max element between a and b?"
+        ]
+    },
+    "8": {
+        "comment": "n ≤ number of elements in the array.",
+        "questions": [
+            "Can n ever be larger than the array length?",
+            "Is n guaranteed to be ≤ the number of elements?",
+            "Should I validate that n doesn’t exceed the array size?",
+            "What happens if n is greater than the array length?",
+            "Is it safe to assume n won’t exceed the array length?"
+        ]
+    },
+    "9": {
+        "comment": "The list will never be empty.",
+        "questions": [
+            "Can the list be empty?",
+            "What should I do if the list is empty?",
+            "Do we need to handle an empty array case?",
+            "Is an empty list a possible input?",
+            "Will the function ever receive an empty array?"
+        ]
+    },
+    "10": {
+        "comment": "If multiple maxima in range, return the first index.",
+        "questions": [
+            "If there are duplicates of the maximum, which index do we return?",
+            "When multiple elements share the max value, do we pick the first?",
+            "How do we break ties for the largest element in the range?",
+            "If the maximum occurs more than once, which occurrence is returned?",
+            "Do we return the first index of the max when there are ties?"
+        ]
+    }
+}
