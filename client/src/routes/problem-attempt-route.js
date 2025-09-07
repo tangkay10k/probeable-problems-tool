@@ -72,7 +72,7 @@ export const saveEquivalenceClass = async (
     {
       result,
       buggyOutputs,
-      probeType
+      probeType,
     },
   );
 };

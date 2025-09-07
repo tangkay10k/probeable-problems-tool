@@ -101,7 +101,8 @@ public class ProblemAttemptService {
     updateProblemsCompleted(curProblemAttempt, problem);
 
     curProblemAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
-    curProblemAttempt.setClientExecuteTestEquivalenceMap(prevAttempt.getClientExecuteTestEquivalenceMap());
+    curProblemAttempt.setClientExecuteTestEquivalenceMap(
+        prevAttempt.getClientExecuteTestEquivalenceMap());
     curProblemAttempt.setOracleEquivalenceMap(prevAttempt.getOracleEquivalenceMap());
 
     if (isFullMarks(prevAttempt, problem)) {

@@ -143,7 +143,7 @@ export default function ChatApp() {
           problemAttempt.id,
           output,
           buggyResult,
-          NATURAL_LANGUAGE
+          NATURAL_LANGUAGE,
         );
 
         const userQuestion =

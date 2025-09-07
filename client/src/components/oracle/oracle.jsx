@@ -118,7 +118,7 @@ export default function Oracle({
         problemAttempt.id,
         oracleResult?.run?.output,
         buggyResult,
-        ORACLE
+        ORACLE,
       );
     } catch (err) {
       console.error(err);
