@@ -311,11 +311,7 @@ function ChatBubble({ chatMessage }) {
           <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{msg}</ReactMarkdown>
         </div>
         <p
-          className={styles.chatTimestamp}
-          style={{
-            padding: isAssistant ? "0.25rem 0 0 0.5rem" : "0.25rem 0.5rem 0 0",
-            justifySelf: isAssistant ? "start" : "end",
-          }}
+          className={`${styles.chatTimestamp} ${isAssistant ? styles.clientTimeStamp : styles.userTimeStamp}`}
         >
           Sent at: {time}
         </p>
@@ -338,7 +334,7 @@ function LoadingBubble() {
       </div>
 
       <section className={styles.chatBubble}>
-        <div className={`${styles.chatMessage} ${styles.assistant}`}>
+        <div className={`${styles.chatMessage} ${styles.loadingBubble}`}>
           <div className={styles.typing}>
             <span />
             <span />
@@ -346,10 +342,7 @@ function LoadingBubble() {
           </div>
         </div>
 
-        <p
-          className={styles.chatTimestamp}
-          style={{ padding: "0.25rem 0 0 0.5rem", justifySelf: "start" }}
-        >
+        <p className={`${styles.chatTimestamp} ${styles.clientTimeStamp}`}>
           Client is typing…
         </p>
       </section>

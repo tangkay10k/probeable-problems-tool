@@ -195,6 +195,7 @@
 
   font-size: 0.8rem;
 
+  width: auto;
   max-width: 75%;
 
   white-space: pre-wrap;
@@ -209,19 +210,40 @@
 .chatTimestamp {
   font-size: 0.6rem;
   color: var(--white);
-
   /* styling is dynamic*/
 }
 
+.clientTimeStamp {
+  padding: 0.25rem 0 0 0.5rem;
+  justify-self: start;
+}
+
+.userTimeStamp {
+  padding: 0.25rem 0.5rem 0 0;
+  margin-left: auto;
+  text-align: right;
+}
+
+.loadingBubble,
 .assistant {
   background: linear-gradient(to right, var(--accent-light), var(--accent));
-  justify-self: start;
+  margin-left: 0;
+  text-align: left;
   padding-left: var(--padding-25);
+}
+
+.assistant {
+  width: auto;
+}
+
+.loadingBubble {
+  width: max-content;
 }
 
 .user {
   background: var(--white);
-  justify-self: end;
+  width: max-content;
+  margin-left: auto;
   padding-right: var(--padding-25);
 }
 
