@@ -7,10 +7,17 @@ INPUTS
 //VAR_USER_PROMPT
 
 HARD RULES
-1. Output exactly one function in //VAR_PROBLEM_LANGUAGE. No imports, no main, no tests, no extra text.
-2. Use the SIGNATURE exactly (name, parameters, types, modifiers, generics/annotations). Do not change it.
-4. Return raw source only, no markdown/code fences, no explanations.
-5. Include comments or docstrings only if the TASK asks for them.
+1) Output exactly one function in //VAR_PROBLEM_LANGUAGE. No main, no tests, no extra text.
+2) Use the SIGNATURE exactly (name, parameters, types, modifiers, generics/annotations). Do not change it.
+3) Do NOT perform any I/O unless the TASK explicitly requires it. Never call printf/puts/scanf/cout/System.out.println/Console.WriteLine/print/logging, etc.
+4) Return raw source only—no markdown/code fences, no explanations.
+5) Include comments/docstrings only if the TASK asks for them.
+6) If SIGNATURE and any style rule conflict, the SIGNATURE wins.
+7) Imports/includes are forbidden unless strictly required by types used in the SIGNATURE. Never add I/O-related headers/imports unless the TASK explicitly requires printing.
 
-OUTPUT FORMAT
-Return only the function implementation in //VAR_PROBLEM_LANGUAGE, conforming to //FUNCTION_SIGNATURE, with nothing before or after.
+BRACE & INDENT STYLE (HARD CONSTRAINT; applies only to C/C++/Java/C#/JavaScript/TypeScript)
+- Variables: lowerCamelCase (e.g., numberOfStudents).
+- Your own function names: PascalCase (except when the SIGNATURE specifies otherwise).
+- Functions: opening brace on its own line below the signature; closing brace on its own aligned line (Allman for functions).
+- Control blocks (if/while/for): opening brace on the SAME line as the statement; closing brace on its own aligned line (K&R for blocks). Do NOT place the opening brace on a new line for control blocks.
+- Indentation: one level inside braces using a single tab character.
