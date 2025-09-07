@@ -33,8 +33,19 @@
 .stickyHeader {
   position: sticky;
   top: 0;
-  z-index: var(--layer-2);
+  z-index: var(--layer-3);
   background: var(--editor-colour);
+}
+
+.stickyHeader::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--padding-2));
+  left: 0;
+  right: 0;
+  height: var(--padding-2);
+  background: var(--editor-colour);
+  pointer-events: none;
 }
 
 .headerRow {

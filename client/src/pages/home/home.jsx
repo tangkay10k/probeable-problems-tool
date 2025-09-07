@@ -16,13 +16,13 @@ export default function Home() {
   const { profile } = useUserProfile();
   const navigate = useNavigate();
   const isTeacher = profile.role === "TEACHER";
-  const [showSurvey, setShowSurvey] = useState(false);
+  // const [showSurvey, setShowSurvey] = useState(false);
 
   return (
     <div className={styles.homePageContainer}>
       <WelcomeText />
       <ProblemList />
-      <Survey setShowSurvey={setShowSurvey} showSurvey={showSurvey} />
+      {/*<Survey setShowSurvey={setShowSurvey} showSurvey={showSurvey} />*/}
 
       {isTeacher && (
         <div className={styles.stickyButtonContainerLeft}>
