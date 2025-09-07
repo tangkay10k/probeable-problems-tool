@@ -8,7 +8,7 @@
   padding: var(--padding-1);
   background: transparent;
 
-  border: 1px solid var(--white);
+  border: 0.08rem solid var(--white-hover);
   border-radius: var(--border-radius-1);
 
   overflow-x: auto;

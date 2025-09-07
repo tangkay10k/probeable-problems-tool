@@ -155,11 +155,15 @@
 }
 
 .testDetail .detailContent {
-  padding: var(--padding-1);
-  border-top: 0.1rem solid var(--white);
+  padding: var(--padding-01);
+  border-top: 0.01rem solid var(--white);
 
   height: 100%;
   width: 100%;
+}
+
+.detailContent {
+  border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
 }
 
 .pill {
