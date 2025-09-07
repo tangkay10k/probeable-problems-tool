@@ -8,7 +8,8 @@ import ToggleButton from "@/components/button/toggle-button";
 import { FaLock as LockedIcon } from "react-icons/fa";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
-import DiffView from "@/components/diff-view/diff-view.jsx";
+import DiffView from "@/components/code/diff-view.jsx";
+import CodeBlockViewer from "@/components/code/code-block-viewer.jsx";
 
 const normalize = (s) => (s ?? "").replace(/\r\n/g, "\n"); // avoid CRLF noise
 const deriveStatus = (result, expectedRaw) => {
@@ -190,11 +191,15 @@ export function NonEditableTestCase({ index, test, result }) {
 
       {!test.hidden && !isCompilationError && (
         <div className={styles.detailContent}>
-          <p>
-            <strong>Input:</strong>
-          </p>
-          <pre>{test.code}</pre>
-          <DiffView actual={result?.actual} expected={test.expectedStdOut} />
+          <CodeBlockViewer
+            code={test.code}
+            childComponents={
+              <DiffView
+                actual={result?.actual}
+                expected={test.expectedStdOut}
+              />
+            }
+          />
         </div>
       )}
     </details>
