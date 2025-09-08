@@ -16,6 +16,7 @@ import akl.p4p.uoa.utils.TestExplanationUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -103,9 +104,15 @@ public class ProblemAttemptController {
 
   @PostMapping("{id}/equivalenceClass")
   @PreAuthorize(IS_AUTHENTICATED)
-  public ResponseEntity<Void> recordEquivalenceClass(
+  public ResponseEntity<?> recordEquivalenceClass(
       @PathVariable String id, @RequestBody EquivalenceClassRequest equivalenceClassRequest) {
     ProblemAttempt problemAttempt = problemAttemptService.findProblemAttemptById(id);
+
+    if (problemAttempt.isCompleted()) {
+      return ResponseEntity.status(HttpStatus.OK)
+          .body("Problem has already been solved. Not updating maps.");
+    }
+
     Map<Integer, Integer> oracleEquivalenceMap =
         equivalenceClassRequest.getProbeType() == ProbeType.ORACLE
             ? problemAttempt.getOracleEquivalenceMap()
@@ -120,7 +127,6 @@ public class ProblemAttemptController {
         int currentCount = oracleEquivalenceMap.getOrDefault(i + 1, 0);
 
         oracleEquivalenceMap.put(i + 1, currentCount + 1);
-
         problemAttemptService.saveProblemAttempt(problemAttempt);
       }
     }

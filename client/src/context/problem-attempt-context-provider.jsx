@@ -184,7 +184,6 @@ const ProblemAttemptProvider = ({ children }) => {
       });
   }, [problemId, profile?.email, navigate]);
 
-  // If the problem supplies a default editor comment and *local* code is empty, seed local (no server write)
   useEffect(() => {
     if (!problem?.id) return;
     const hasLocal = !!studentDataMap?.[problemId]?.codeSubmission;
@@ -296,7 +295,7 @@ const ProblemAttemptProvider = ({ children }) => {
       failedAttempts: problemAttempt.failedAttempts ?? 0,
     };
 
-    patchAttempt(merged, { notify: notifyStudent });
+    await patchAttempt(merged, { notify: notifyStudent });
   };
 
   /**
@@ -357,6 +356,9 @@ const ProblemAttemptProvider = ({ children }) => {
 
         await patchAttempt({
           ...problemAttempt,
+          agentPrompt: studentAgentPrompt,
+          codeSubmission: studentCodeSubmission,
+          oracleExecutionHistory,
           testsPassed: passedCount,
           failedAttempts: nextFailedAttempts,
         });

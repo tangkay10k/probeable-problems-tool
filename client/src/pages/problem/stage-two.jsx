@@ -99,9 +99,6 @@ export default function StageTwo() {
         output: didCompile ? "compiled" : "failed to compile",
       });
 
-      const saveSilently = Boolean(didCompile);
-      saveStudentAttempt(saveSilently);
-
       await sleep();
     } catch (e) {
       console.error(e);
@@ -114,8 +111,6 @@ export default function StageTwo() {
     updateStudentCodeSubmission(defaultComment);
     showEditor();
   };
-
-  const hasCompleted = profile.problemsCompleted?.includes(problemId);
 
   return (
     <div className={styles.containerWrapper}>

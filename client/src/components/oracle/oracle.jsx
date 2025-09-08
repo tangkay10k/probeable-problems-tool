@@ -73,7 +73,7 @@ export default function Oracle({
       typingTimerRef.current = setTimeout(() => {
         const value = editor.getValue();
         addLog({
-          component: Component.Oracle,
+          component: Component.ORACLE,
           action: Action.TYPED,
           content: value,
         });

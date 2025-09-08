@@ -99,11 +99,7 @@ public class ProblemAttemptService {
     updateTestsPassedIfHigher(curProblemAttempt, prevAttempt);
     updateFailedAttemptsIfNotFullMarks(curProblemAttempt, prevAttempt, problem);
     updateProblemsCompleted(curProblemAttempt, problem);
-
-    curProblemAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
-    curProblemAttempt.setClientExecuteTestEquivalenceMap(
-        prevAttempt.getClientExecuteTestEquivalenceMap());
-    curProblemAttempt.setOracleEquivalenceMap(prevAttempt.getOracleEquivalenceMap());
+    avoidOverwritingExistingData(curProblemAttempt, prevAttempt);
 
     if (isFullMarks(prevAttempt, problem)) {
       alwaysTakeFullMarkSubmissionAttributes(curProblemAttempt, prevAttempt);
@@ -225,15 +221,35 @@ public class ProblemAttemptService {
   private void alwaysTakeFullMarkSubmissionAttributes(
       ProblemAttempt curAttempt, ProblemAttempt prevAttempt) {
     curAttempt.setCodeSubmission(prevAttempt.getCodeSubmission());
-    curAttempt.setOracleExecutionHistory(prevAttempt.getOracleExecutionHistory());
     curAttempt.setAgentPrompt(prevAttempt.getAgentPrompt());
 
     curAttempt.setTestsPassed(prevAttempt.getTestsPassed());
     curAttempt.setFailedAttempts(prevAttempt.getFailedAttempts());
     curAttempt.setFinalScore(prevAttempt.getFinalScore());
 
+    curAttempt.setOracleExecutionHistory(prevAttempt.getOracleExecutionHistory());
     curAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
     curAttempt.setClientExecuteTestEquivalenceMap(prevAttempt.getClientExecuteTestEquivalenceMap());
     curAttempt.setOracleEquivalenceMap(prevAttempt.getOracleEquivalenceMap());
+  }
+
+  private void avoidOverwritingExistingData(ProblemAttempt curAttempt, ProblemAttempt prevAttempt) {
+
+    if (!prevAttempt.getClientEquivalenceMap().isEmpty()) {
+      curAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
+    }
+
+    if (!prevAttempt.getOracleEquivalenceMap().isEmpty()) {
+      curAttempt.setOracleEquivalenceMap(prevAttempt.getOracleEquivalenceMap());
+    }
+
+    if (!prevAttempt.getClientExecuteTestEquivalenceMap().isEmpty()) {
+      curAttempt.setClientExecuteTestEquivalenceMap(
+          prevAttempt.getClientExecuteTestEquivalenceMap());
+    }
+
+    if (!prevAttempt.getOracleExecutionHistory().isEmpty()) {
+      curAttempt.setOracleExecutionHistory(prevAttempt.getOracleExecutionHistory());
+    }
   }
 }

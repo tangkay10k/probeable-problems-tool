@@ -7,6 +7,7 @@ export const Action = {
   CLOSED: "CLOSED",
   RESET: "RESET",
   BUILD: "BUILD",
+  EXECUTE: "EXECUTE",
 };
 
 export const Component = {
