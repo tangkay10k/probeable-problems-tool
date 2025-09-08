@@ -235,20 +235,20 @@ public class ProblemAttemptService {
 
   private void avoidOverwritingExistingData(ProblemAttempt curAttempt, ProblemAttempt prevAttempt) {
 
-    if (!prevAttempt.getClientEquivalenceMap().isEmpty()) {
+    if (curAttempt.getClientEquivalenceMap().isEmpty()) {
       curAttempt.setClientEquivalenceMap(prevAttempt.getClientEquivalenceMap());
     }
 
-    if (!prevAttempt.getOracleEquivalenceMap().isEmpty()) {
+    if (curAttempt.getOracleEquivalenceMap().isEmpty()) {
       curAttempt.setOracleEquivalenceMap(prevAttempt.getOracleEquivalenceMap());
     }
 
-    if (!prevAttempt.getClientExecuteTestEquivalenceMap().isEmpty()) {
+    if (curAttempt.getClientExecuteTestEquivalenceMap().isEmpty()) {
       curAttempt.setClientExecuteTestEquivalenceMap(
           prevAttempt.getClientExecuteTestEquivalenceMap());
     }
 
-    if (!prevAttempt.getOracleExecutionHistory().isEmpty()) {
+    if (curAttempt.getOracleExecutionHistory().isEmpty()) {
       curAttempt.setOracleExecutionHistory(prevAttempt.getOracleExecutionHistory());
     }
   }

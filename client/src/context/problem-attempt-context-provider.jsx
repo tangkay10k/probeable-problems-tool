@@ -21,7 +21,6 @@ import {
 import { SPLIT_STRING } from "@/constants/setup-constants";
 import { handleTestSuiteExecution } from "@/pages/question-setup/utils/test-setup-utils.js";
 import { Action, Component } from "@/constants/logConstants.js";
-import useWithLoading from "@/hooks/useWithLoading.js";
 
 const STORAGE_NAMESPACE = "studentProblemData";
 
@@ -36,17 +35,14 @@ const ProblemAttemptProvider = ({ children }) => {
   const [isProblemReady, setIsProblemReady] = useState(false);
   const [problem, setProblem] = useState({});
   const navigate = useNavigate();
-  const fetchedProblemIds = useRef(new Set());
 
   // Local runner state (ephemeral)
   const [testResults, setTestResults] = useState([]); // [{ actual, expected, pass }, ...]
-  const [, withLoading] = useWithLoading();
   const lastRunRef = useRef(null);
 
   // ===== LOCALSTORAGE (prompt/code/oracleExecutionHistory) =====
-  const [userStorageKey, setUserStorageKey] = useState(null);
+  const [userStorageKey, setUserStorageKey] = useState(STORAGE_NAMESPACE);
   const [studentDataMap, setStudentDataMap] = useState({});
-  const hydratedLocalForThisProblem = useRef(false);
 
   // Compute hashed storage key when profile email is available
   useEffect(() => {
@@ -104,40 +100,31 @@ const ProblemAttemptProvider = ({ children }) => {
 
   // If server already has prompt/code/oracleExecutionHistory and local is empty (first load), hydrate local once.
   useEffect(() => {
-    if (!problemId || !problemAttempt || hydratedLocalForThisProblem.current)
-      return;
+    if (!problemId || !problemAttempt) return;
 
     const hasLocal = !!studentDataMap?.[problemId];
     const serverPrompt = problemAttempt.agentPrompt ?? "";
     const serverCode = problemAttempt.codeSubmission ?? "";
     const serverOracleHist = problemAttempt.oracleExecutionHistory ?? [];
 
-    if (
-      !hasLocal &&
-      (serverPrompt || serverCode || (serverOracleHist?.length ?? 0) > 0)
-    ) {
+    if (!hasLocal) {
       const next = {
         ...(studentDataMap || {}),
         [problemId]: {
           agentPrompt: serverPrompt,
           codeSubmission: serverCode,
-          oracleExecutionHistory: Array.isArray(serverOracleHist)
-            ? serverOracleHist
-            : [],
+          oracleExecutionHistory: serverOracleHist,
         },
       };
       setStudentDataMap(next);
       persistLocal(next);
     }
-    hydratedLocalForThisProblem.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [problemAttempt, problemId, userStorageKey]);
 
   // ===== FETCH DATA =====
   useEffect(() => {
     if (!profile?.email || !problemId) return;
-    if (fetchedProblemIds.current.has(problemId)) return;
-    fetchedProblemIds.current.add(problemId);
 
     getProblemAttempt(problemId, profile.email)
       .then((attempt) => {
@@ -312,8 +299,7 @@ const ProblemAttemptProvider = ({ children }) => {
   };
 
   /**
-   * Execute tests. Persists testsPassed and failedAttempts to the SERVER.
-   * Does NOT auto-save prompt/code/oracle history (they stay local until explicit submit).
+   * Execute tests. Persists attempt to server.
    */
   const runTests = useCallback(
     async (addLog) => {
