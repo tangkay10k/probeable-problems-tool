@@ -233,16 +233,16 @@
 }
 
 .assistant {
-  width: auto;
+  width: fit-content;
 }
 
 .loadingBubble {
-  width: max-content;
+  width: fit-content;
 }
 
 .user {
   background: var(--white);
-  width: max-content;
+  width: fit-content;
   margin-left: auto;
   padding-right: var(--padding-25);
 }
