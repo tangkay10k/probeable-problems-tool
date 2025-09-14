@@ -340,14 +340,17 @@ const ProblemAttemptProvider = ({ children }) => {
           ? (problemAttempt.failedAttempts ?? 0) + 1
           : (problemAttempt.failedAttempts ?? 0);
 
-        await patchAttempt({
-          ...problemAttempt,
-          agentPrompt: studentAgentPrompt,
-          codeSubmission: studentCodeSubmission,
-          oracleExecutionHistory,
-          testsPassed: passedCount,
-          failedAttempts: nextFailedAttempts,
-        });
+        await patchAttempt(
+          {
+            ...problemAttempt,
+            agentPrompt: studentAgentPrompt,
+            codeSubmission: studentCodeSubmission,
+            oracleExecutionHistory,
+            testsPassed: passedCount,
+            failedAttempts: nextFailedAttempts,
+          },
+          { notify: true },
+        );
 
         addLog?.({
           component: Component.TESTS,
