@@ -22,6 +22,13 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       proxy: {
+        // Self-hosted PISTON API: /piston/* => http://170.64.241.58/api/v2/*
+        "/piston": {
+          target: "http://170.64.241.58",
+          changeOrigin: true,
+          rewrite: (p) => p.replace(/^\/piston/, "/api/v2"),
+        },
+
         "/api": {
           target: process.env.SERVER_URL || "http://localhost:8080",
           changeOrigin: true,
