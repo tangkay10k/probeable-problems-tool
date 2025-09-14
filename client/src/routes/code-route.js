@@ -3,7 +3,7 @@ import { LANGUAGE_VERSIONS } from "@/components/text-editor/data/constants.js";
 import isDev from "@/utils/envUtils.js";
 
 const PISTON_API = axiosClient.create({
-  baseURL: isDev() ? "/piston" : "http://170.64.241.58/api/v2", //PUBLIC FACING API: "https://emkc.org/api/v2/piston"
+  baseURL: isDev() ? "/piston" : "https://emkc.org/api/v2/piston", //SELF HOSTED API: "http://170.64.241.58/api/v2"
 });
 
 export const executeOraclePistonDirect = async (
