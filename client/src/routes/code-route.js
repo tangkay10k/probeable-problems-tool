@@ -1,8 +1,9 @@
 import axiosClient from "./utils/axiosClient.js";
 import { LANGUAGE_VERSIONS } from "@/components/text-editor/data/constants.js";
+import isDev from "@/utils/envUtils.js";
 
 const PISTON_API = axiosClient.create({
-  baseURL: "/piston", //PUBLIC FACING API: "https://emkc.org/api/v2/piston". Currently, using self deployed containers.
+  baseURL: isDev() ? "/piston" : "http://170.64.241.58/api/v2", //PUBLIC FACING API: "https://emkc.org/api/v2/piston"
 });
 
 export const executeOraclePistonDirect = async (
