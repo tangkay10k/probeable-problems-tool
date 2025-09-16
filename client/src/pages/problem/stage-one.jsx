@@ -26,8 +26,11 @@ import {
   FULL,
 } from "@/constants/problem-constants.js";
 import { formatInstruction } from "@/utils/utils.js";
+import { useLogging } from "@/context/logging-context-provider.jsx";
+import { Action, Component } from "@/constants/logConstants.js";
 
 export default function StageOne() {
+  const { addLog } = useLogging();
   const { problem } = useProblemAttemptContext();
   const variant = problem?.problemVariant;
 
@@ -97,6 +100,14 @@ export default function StageOne() {
     if (panels[idx].key === "run") setShiny(null);
   });
 
+  const onResetOracle = () => {
+    addLog({
+      component: Component.ORACLE,
+      action: Action.RESET,
+    });
+    setResetOracle((prev) => !prev)
+  }
+
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.leftContainer}>
@@ -120,7 +131,7 @@ export default function StageOne() {
           <section className={styles.topBarButtons}>
             {isRun && (
               <ButtonV2
-                onClick={() => setResetOracle((prev) => !prev)}
+                onClick={onResetOracle}
                 className={styles.resetBtn}
               >
                 <RestartIcon />
