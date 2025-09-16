@@ -1,6 +1,5 @@
 import styles from "./oracle.module.css";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
-import TextArea from "@/components/inputs/text-area.jsx";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
 import { useEffect, useState, useRef } from "react";
 import { executeOraclePistonDirect } from "@/routes/code-route.js";
@@ -52,11 +51,6 @@ export default function Oracle({
   }, [problemAttempt, chatHistory, llmGeneratedTestCaseCallback]);
 
   useEffect(() => {
-    addLog({
-      component: Component.ORACLE,
-      action: Action.RESET,
-    });
-
     const defaultProbeMap = localStorage.getItem(DEFAULT_PROBES_KEY);
     if (!defaultProbeMap) return;
     try {

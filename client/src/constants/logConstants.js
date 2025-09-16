@@ -8,6 +8,7 @@ export const Action = {
   RESET: "RESET",
   BUILD: "BUILD",
   EXECUTE: "EXECUTE",
+  CANCEL: "CANCEL",
 };
 
 export const Component = {
