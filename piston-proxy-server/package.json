@@ -1,15 +1,23 @@
 {
   "name": "piston-proxy-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Cloud Run proxy for forwarding requests to Piston backend",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "proxy",
+    "express",
+    "cloud-run"
+  ],
+  "author": "Your Name",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
+  "engines": {
+    "node": ">=18.x"
+  },
   "dependencies": {
     "express": "^5.1.0",
     "http-proxy-middleware": "^3.0.5"
