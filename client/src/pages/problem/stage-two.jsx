@@ -113,8 +113,12 @@ export default function StageTwo() {
   };
 
   const handleCancel = () => {
-    addLog({ component: Component.MODAL, name: "Check", action: Action.CANCEL });
-    setShowRunConfirmation(false)
+    addLog({
+      component: Component.MODAL,
+      name: "Check",
+      action: Action.CANCEL,
+    });
+    setShowRunConfirmation(false);
   };
 
   return (
@@ -173,9 +177,7 @@ export default function StageTwo() {
         </p>
         <b>Your highest score will be kept.</b>
         <section className={styles.modalBtns}>
-          <ButtonV2 onClick={handleCancel}>
-            Cancel
-          </ButtonV2>
+          <ButtonV2 onClick={handleCancel}>Cancel</ButtonV2>
           <ButtonV2 onClick={handleExecution}>Check</ButtonV2>
         </section>
       </Modal>
