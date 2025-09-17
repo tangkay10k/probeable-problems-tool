@@ -1,7 +1,10 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
 
 // Proxy /piston/* → http://170.64.241.58/api/v2/*
 app.use(
