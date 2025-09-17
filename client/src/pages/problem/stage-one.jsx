@@ -105,8 +105,8 @@ export default function StageOne() {
       component: Component.ORACLE,
       action: Action.RESET,
     });
-    setResetOracle((prev) => !prev)
-  }
+    setResetOracle((prev) => !prev);
+  };
 
   return (
     <div className={styles.containerWrapper}>
@@ -130,10 +130,7 @@ export default function StageOne() {
 
           <section className={styles.topBarButtons}>
             {isRun && (
-              <ButtonV2
-                onClick={onResetOracle}
-                className={styles.resetBtn}
-              >
+              <ButtonV2 onClick={onResetOracle} className={styles.resetBtn}>
                 <RestartIcon />
               </ButtonV2>
             )}
