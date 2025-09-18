@@ -15,7 +15,7 @@ public class ClientPrompts {
       "c-sf-specific-instructions.txt";
   private static final String FAULTY_SOLUTION_PROMPT_FILE = "faulty-solution-prompt.txt";
 
-  private static final String FAIL_SAFE_PROMPT = "client-convo-start.txt";
+  private static final String CLIENT_FIRST_MESSSAGE = "client-convo-start.txt";
   private static final String CODE_GENERATION_PROMPT_FILE = "code-generation-prompt.txt";
 
   public static String getClientInitialisationPrompt(
@@ -109,10 +109,9 @@ public class ClientPrompts {
     return null;
   }
 
-  public static String getClientFirstMessage(String problemStatement, String modelAnswer)
+  public static String getClientFirstMessage(String problemStatement, String functionSignature)
       throws IOException {
-    String baseMessage = readFileFromResources(PROMPT_RESOURCE_DIR + FAIL_SAFE_PROMPT);
-    String functionSignature = modelAnswer.split("\\{")[0].trim();
+    String baseMessage = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_FIRST_MESSSAGE);
 
     return baseMessage
         .replace("//VAR_PROBLEM_STATEMENT", problemStatement.toLowerCase())

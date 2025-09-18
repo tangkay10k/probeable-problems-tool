@@ -196,7 +196,7 @@
   font-size: 0.8rem;
 
   width: auto;
-  max-width: 75%;
+  max-width: 80%;
 
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -226,7 +226,7 @@
 
 .loadingBubble,
 .assistant {
-  background: linear-gradient(to right, var(--accent-light), var(--accent));
+  background: var(--agent-bubble-background);
   margin-left: 0;
   text-align: left;
   padding-left: var(--padding-25);

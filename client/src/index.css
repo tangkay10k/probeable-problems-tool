@@ -129,6 +129,12 @@
   --circular-button-size: 3rem;
   --modal-max-width: 30rem;
   --icon-size: 1.1rem;
+
+  --agent-bubble-background: linear-gradient(
+    to right,
+    var(--accent-light),
+    var(--accent)
+  );
 }
 
 * {

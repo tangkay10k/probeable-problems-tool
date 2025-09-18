@@ -138,17 +138,20 @@ public class ProblemAttemptService {
   private ChatHistory initialiseClientPersona(Problem problem) throws IOException {
 
     var problemStatement = problem.getProblemStatement();
-    var modelAnswer = problem.getModelAnswer();
+    var functionSignature = problem.getFunctionSignature();
 
     String systemPrompt =
         ClientPrompts.getClientInitialisationPrompt(
-            problem.getProgramLanguage(), problemStatement, modelAnswer, problem.getConstraints());
+            problem.getProgramLanguage(),
+            problemStatement,
+            functionSignature,
+            problem.getConstraints());
 
     String newSessionId = UUID.randomUUID().toString();
     aiService.createNewChat(newSessionId, systemPrompt);
 
     return overwriteAssistantMessage(
-        newSessionId, getClientFirstMessage(problemStatement, modelAnswer));
+        newSessionId, getClientFirstMessage(problemStatement, functionSignature));
   }
 
   private void calculateFinalScore(ProblemAttempt attempt) {
