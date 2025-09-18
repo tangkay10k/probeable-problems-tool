@@ -259,10 +259,7 @@ export default function ChatApp() {
                   {message.pending ? (
                     <LoadingBubble />
                   ) : (
-                    <ChatBubble
-                      chatMessage={message}
-                      isClientFirstMsg={idx === 0}
-                    />
+                    <ChatBubble chatMessage={message} />
                   )}
                 </motion.div>
               );
