@@ -33,7 +33,7 @@ export const STAGE_ONE_NATURAL_LANGUAGE = {
 export const STAGE_ONE_CONCISE_FULL = {
   title: "Tasks",
   content:
-    "## Hello champ! \nI'm back from vacation now so I'm avaiable to answer your questions again 😎\n\nI want you to" +
+    "## Hello champ! \nI'm back from vacation now so I'm available to answer your questions again 😎\n\nI want you to" +
     " **//VAR_PROBLEM_STATEMENT**\n\n" +
     "You can also clarify the program's behaviour with different inputs using the **Run** tab.\n\n" +
     "Once you’re confident in the requirements, proceed to implement your solution.",
