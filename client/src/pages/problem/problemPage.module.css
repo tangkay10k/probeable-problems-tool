@@ -317,19 +317,26 @@
   text-align: left; /* keep text readable with a float */
 }
 
+.clientBack,
+.clientOracle,
 .clientPic,
 .cogsPic {
   float: right;
-  width: 15rem;
   height: auto;
   shape-margin: var(--padding-3);
   object-fit: cover;
-
-  margin: 0 -70px var(--padding-3) var(--padding-3);
 }
 
 .clientPic {
-  shape-outside: url("/client-full.png");
+  width: 7rem;
+}
+
+.clientBack {
+  width: 15rem;
+}
+
+.clientOracle {
+  width: 15rem;
 }
 
 .cogsPic {

@@ -18,6 +18,7 @@ import { Action, Component } from "@/constants/logConstants.js";
 import {
   ORACLE as ORACLE_VARIANT,
   FULL,
+  NATURAL_LANGUAGE,
 } from "@/constants/problem-constants.js";
 import { formatInstruction } from "@/utils/utils.js";
 import ReactMarkdown from "react-markdown";
@@ -29,6 +30,20 @@ export default function ProblemContent() {
   const [tutorialStep, setTutorialStep] = useState(1); // which stage tutorial to show
   const [showTutorial, setShowTutorial] = useState(true);
   const { problem } = useProblemAttemptContext();
+
+  const clientImage =
+    problem.problemVariant === ORACLE_VARIANT
+      ? "/client-oracle-only.png"
+      : problem.problemVariant === NATURAL_LANGUAGE
+        ? "/client-full.png"
+        : "/client-back.png";
+
+  const clientStyles =
+    problem.problemVariant === ORACLE_VARIANT
+      ? styles.clientOracle
+      : problem.problemVariant === NATURAL_LANGUAGE
+        ? styles.clientPic
+        : styles.clientBack;
 
   const stageOneInstruction =
     problem.problemVariant === FULL
@@ -90,9 +105,14 @@ export default function ProblemContent() {
       >
         <section>
           <img
-            src={tutorialStep === 1 ? "/client-full.png" : "/cogs-full.png"}
+            src={tutorialStep === 1 ? clientImage : "/cogs-full.png"}
             alt="Client"
-            className={`${tutorialStep === 1 ? styles.clientPic : styles.cogsPic}`}
+            className={`${tutorialStep === 1 ? clientStyles : styles.cogsPic}`}
+            style={
+              tutorialStep === 1
+                ? { shapeOutside: `url(${clientImage})` }
+                : undefined
+            }
           />
           <ReactMarkdown>
             {tutorialStep === 1
