@@ -327,6 +327,11 @@
   object-fit: cover;
 }
 
+.cogsPic {
+  width: 10rem;
+  margin-right: -2rem;
+}
+
 .clientPic {
   width: 7rem;
 }
