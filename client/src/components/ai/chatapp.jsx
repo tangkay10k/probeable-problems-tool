@@ -14,6 +14,8 @@ import Banner from "@/components/banner/banner.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
+import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 import { executeChatTestCaseSilently } from "@/routes/code-route.js";
 import TextArea from "@/components/inputs/text-area.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
@@ -308,7 +310,7 @@ function ChatBubble({ chatMessage }) {
         <div
           className={`${styles.chatMessage} ${isAssistant ? styles.assistant : styles.user}`}
         >
-          <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{msg}</ReactMarkdown>
+          <MarkdownMessage msg={msg} />
         </div>
         <p
           className={`${styles.chatTimestamp} ${isAssistant ? styles.clientTimeStamp : styles.userTimeStamp}`}
@@ -347,5 +349,13 @@ function LoadingBubble() {
         </p>
       </section>
     </div>
+  );
+}
+
+function MarkdownMessage({ msg }) {
+  return (
+    <ReactMarkdown rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}>
+      {msg}
+    </ReactMarkdown>
   );
 }

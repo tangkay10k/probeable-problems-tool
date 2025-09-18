@@ -1,22 +1,35 @@
 import { Highlight, themes } from "prism-react-renderer";
 import styles from "./codeBlockViewer.module.css";
 
-export default function CodeBlockViewer({ code, childComponents = null }) {
-  // NOTE: Library doesn't support c, so we hard code CPP for now.
+export default function CodeBlockViewer({
+  code,
+  childComponents = null,
+  customBackground = false,
+  language = "cpp",
+  theme = themes.vsDark,
+}) {
   return (
-    <Highlight code={code} language="cpp" theme={themes.vsDark}>
-      {({ style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={styles.block} style={{ ...style }}>
-          {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({ line })}>
-              {line.map((token, key) => (
-                <span key={key} {...getTokenProps({ token })} />
-              ))}
-            </div>
-          ))}
-          {childComponents ?? childComponents}
-        </pre>
-      )}
+    <Highlight code={code} language={language} theme={theme}>
+      {({ style, tokens, getLineProps, getTokenProps }) => {
+        const { background, backgroundColor, ...rest } = style;
+        const preStyle = customBackground ? rest : style;
+
+        return (
+          <pre
+            className={`${styles.block} ${customBackground ? styles.customBlock : ""}`}
+            style={preStyle}
+          >
+            {tokens.map((line, i) => (
+              <div key={i} {...getLineProps({ line })}>
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({ token })} />
+                ))}
+              </div>
+            ))}
+            {childComponents}
+          </pre>
+        );
+      }}
     </Highlight>
   );
 }
