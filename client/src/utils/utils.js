@@ -38,5 +38,7 @@ export function formatInstruction(instruction, replacements, opts = {}) {
     text = text.replace(pattern, replacement);
   }
 
+  text = text.replace(/\[example\]\s*/g, "");
+
   return text;
 }

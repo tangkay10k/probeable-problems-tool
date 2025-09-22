@@ -4,6 +4,7 @@ import {
   STAGE_ONE_FULL,
   STAGE_ONE_ORACLE,
   STAGE_ONE_NATURAL_LANGUAGE,
+  STAGE_ONE_EXAMPLE,
   CLIENT_HELP,
   ORACLE_HELP,
 } from "@/pages/problem/data/instructions.js";
@@ -24,6 +25,7 @@ import {
   NATURAL_LANGUAGE,
   ORACLE as ORACLE_VARIANT,
   FULL,
+  EXAMPLE,
 } from "@/constants/problem-constants.js";
 import { formatInstruction } from "@/utils/utils.js";
 import { useLogging } from "@/context/logging-context-provider.jsx";
@@ -34,15 +36,15 @@ export default function StageOne() {
   const { problem } = useProblemAttemptContext();
   const variant = problem?.problemVariant;
 
-  const showClient = variant === FULL || variant === NATURAL_LANGUAGE;
-  const showRun = variant === FULL || variant === ORACLE_VARIANT;
+  const showClient = variant === FULL || variant === NATURAL_LANGUAGE || variant === EXAMPLE;
+  const showRun = variant === FULL || variant === ORACLE_VARIANT || variant === EXAMPLE;
 
   const instruction =
     variant === FULL
       ? STAGE_ONE_FULL
       : variant === ORACLE_VARIANT
         ? STAGE_ONE_ORACLE
-        : STAGE_ONE_NATURAL_LANGUAGE;
+        : variant == EXAMPLE ? STAGE_ONE_EXAMPLE : STAGE_ONE_NATURAL_LANGUAGE;
 
   const TABS = useMemo(() => {
     const tabs = [
