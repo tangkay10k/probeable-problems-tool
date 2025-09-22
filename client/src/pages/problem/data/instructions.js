@@ -30,12 +30,30 @@ export const STAGE_ONE_NATURAL_LANGUAGE = {
     "\n\nOnce you are certain about how the function should behave, click **I’m ready to code!**\n",
 };
 
+export const STAGE_ONE_EXAMPLE = {
+  title: "Example (not marked)",
+  content:
+    "Welcome! This is just an example and will not be marked.\n\n" +
+    "For this example, you have access to both the **Client** and the **Run** tab. \n\n" +
+    "You can clarify what the program should do by asking the client questions, or by testing it with various inputs using the **Run** tab.\n\n" +
+    "Once you are confident that you understand what the client wants, click **I'm ready to code!**",
+};
+
 export const STAGE_ONE_CONCISE_FULL = {
   title: "Tasks",
   content:
     "## Hello champ! \nI'm back from vacation now so I'm available to answer your questions again 😎\n\nI want you to" +
     " **//VAR_PROBLEM_STATEMENT**\n\n" +
     "You can also clarify the program's behaviour with different inputs using the **Run** tab.\n\n" +
+    "Once you’re confident in the requirements, proceed to implement your solution.",
+};
+
+export const STAGE_ONE_CONCISE_EXAMPLE = {
+  title: "Tasks",
+  content:
+    "## Welcome! 👋\nThis is your first task and is an example of what you should expect for following tasks.\n\n" +
+    "**Note:** This is an example scenario and is **not marked**. It also allows access to both the **Client** and the **Run** tab.\n\n" +
+    "I want you to **//VAR_PROBLEM_STATEMENT**\n\n" +
     "Once you’re confident in the requirements, proceed to implement your solution.",
 };
 
