@@ -18,6 +18,8 @@ public class ClientPrompts {
   private static final String CLIENT_FIRST_MESSSAGE = "client-convo-start.txt";
   private static final String CODE_GENERATION_PROMPT_FILE = "code-generation-prompt.txt";
 
+  private static final String EXAMPLE_QUESTION_IDENTIFIER = "[Example] ";
+
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,
       String problemStatement,
@@ -112,9 +114,11 @@ public class ClientPrompts {
   public static String getClientFirstMessage(String problemStatement, String functionSignature)
       throws IOException {
     String baseMessage = readFileFromResources(PROMPT_RESOURCE_DIR + CLIENT_FIRST_MESSSAGE);
+    String problemStatementCleaned =
+        problemStatement.replace(EXAMPLE_QUESTION_IDENTIFIER, "").toLowerCase();
 
     return baseMessage
-        .replace("//VAR_PROBLEM_STATEMENT", problemStatement.toLowerCase())
+        .replace("//VAR_PROBLEM_STATEMENT", problemStatementCleaned)
         .replace("//VAR_FUNCTION_SIGNATURE", functionSignature);
   }
 }
