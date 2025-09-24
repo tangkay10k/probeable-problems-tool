@@ -16,9 +16,9 @@ export const STAGE_ONE_ORACLE = {
     "They have asked you to:\n\n" +
     "**//VAR_PROBLEM_STATEMENT**\n" +
     "\n" +
-    "Before writing any code, please clarify what the function should do by checking it with various inputs. \n\nYou" +
+    "Before writing any code, please clarify what the program should do by checking it with various inputs. \n\nYou" +
     " can modify the inputs as many times as you like, and then click **Run** to observe the desired outputs. \n" +
-    "\n\nOnce you are certain about how the function should behave, click **I’m ready to code!**\n",
+    "\n\nOnce you are certain about how the program should behave, click **I’m ready to code!**\n",
 };
 
 export const STAGE_ONE_NATURAL_LANGUAGE = {
@@ -27,15 +27,16 @@ export const STAGE_ONE_NATURAL_LANGUAGE = {
     "You have been approached by a client who would like you to write a program for them, however, they have been a" +
     " little vague.\n\n" +
     "Before writing any code, please clarify with the client about what the program should do." +
-    "\n\nOnce you are certain about how the function should behave, click **I’m ready to code!**\n",
+    "\n\nOnce you are certain about how the program should behave, click **I’m ready to code!**\n",
 };
 
 export const STAGE_ONE_EXAMPLE = {
   title: "Example (not marked)",
   content:
-    "Welcome! This is just an example and will not be marked.\n\n" +
-    "For this example, you have access to both the **Client** and the **Run** tab. \n\n" +
-    "You can clarify what the program should do by asking the client questions, or by testing it with various inputs using the **Run** tab.\n\n" +
+    "Welcome! This is just an example question and will not be marked. Play around and understand how to use the" +
+    " application!\n\n" +
+    "You can clarify what the you need to do should do by asking the client questions, or by testing it with various" +
+    " inputs using the **Run** tab.\n\n" +
     "Once you are confident that you understand what the client wants, click **I'm ready to code!**",
 };
 
@@ -51,8 +52,8 @@ export const STAGE_ONE_CONCISE_FULL = {
 export const STAGE_ONE_CONCISE_EXAMPLE = {
   title: "Tasks",
   content:
-    "## Welcome! 👋\nThis is your first task and is an example of what you should expect for following tasks.\n\n" +
-    "**Note:** This is an example scenario and is **not marked**. It also allows access to both the **Client** and the **Run** tab.\n\n" +
+    "## Welcome! 👋\nThis is a tutorial question for you to familiarise yourself with the application.\n\n" +
+    "**This question is not marked**.\n\n" +
     "I want you to **//VAR_PROBLEM_STATEMENT**\n\n" +
     "Once you’re confident in the requirements, proceed to implement your solution.",
 };
@@ -62,10 +63,10 @@ export const STAGE_ONE_CONCISE_NATURAL_LANGUAGE = {
   content:
     "## Hello there! \nI want you to **//VAR_PROBLEM_STATEMENT**\n" +
     "\n" +
-    "Before writing any code, please clarify with me about what the function should do." +
+    "Before writing any code, please clarify with me about what the program should do." +
     " \n" +
     "\n" +
-    "Once you are certain about how the function should behave, click **I’m ready to code!**\n",
+    "Once you are certain about how the program should behave, click **I’m ready to code!**\n",
 };
 
 export const STAGE_ONE_CONCISE_ORACLE = {
@@ -101,7 +102,7 @@ export const CLIENT_HELP =
 
 export const ORACLE_HELP =
   "You can play around with the inputs and click the **Run** button to see the expected output of the" +
-  " function(s)!\n\nClicking **⟲** will reset inputs back to default values.";
+  " program!\n\nClicking **⟲** will reset inputs back to default values.";
 
 export const PENALTY_WARNING = {
   content:

@@ -19,6 +19,8 @@ export default function TopToolbar({
 }) {
   const { problemAttempt, problem } = useProblemAttemptContext();
   const numTestsTotal = problem?.testSuite?.length;
+  const showPenalties =
+    problemAttempt.failedAttempts !== 0 && problem.penaltiesEnabled;
 
   return (
     <div className={styles.toggleButtonContainer}>
@@ -33,7 +35,7 @@ export default function TopToolbar({
         {problemAttempt.testsPassed !== -1 && (
           <p>
             Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`} |{" "}
-            {problemAttempt.failedAttempts !== 0 && (
+            {showPenalties && (
               <>
                 Penalty:{" "}
                 <span className={styles.penalty}>

@@ -42,4 +42,6 @@ public class Problem {
 
   private ProblemVariant problemVariant =
       ProblemVariant.FULL; // Default to having both client and oracle.
+
+  private boolean penaltiesEnabled = false;
 }

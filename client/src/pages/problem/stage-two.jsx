@@ -32,7 +32,6 @@ export default function StageTwo() {
     problemAttempt,
     studentCodeSubmission,
     updateStudentCodeSubmission,
-    saveStudentAttempt,
     runTests,
     testResults,
     setResults,
@@ -135,7 +134,7 @@ export default function StageTwo() {
           onToggleTests={() => setShowTestSuite(true)}
           isLoading={isLoading}
           onReset={handleReset}
-          onRun={confirmRun}
+          onRun={problem.penaltiesEnabled ? confirmRun : handleExecution}
         />
 
         {showTestSuite ? (

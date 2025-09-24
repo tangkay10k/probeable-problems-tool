@@ -20,7 +20,7 @@ import {
   ORACLE as ORACLE_VARIANT,
   FULL,
   NATURAL_LANGUAGE,
-  EXAMPLE
+  EXAMPLE,
 } from "@/constants/problem-constants.js";
 import { formatInstruction } from "@/utils/utils.js";
 import ReactMarkdown from "react-markdown";
@@ -52,7 +52,9 @@ export default function ProblemContent() {
       ? STAGE_ONE_CONCISE_FULL
       : problem.problemVariant === ORACLE_VARIANT
         ? STAGE_ONE_CONCISE_ORACLE
-        : problem.problemVariant === EXAMPLE ? STAGE_ONE_CONCISE_EXAMPLE : STAGE_ONE_CONCISE_NATURAL_LANGUAGE;
+        : problem.problemVariant === EXAMPLE
+          ? STAGE_ONE_CONCISE_EXAMPLE
+          : STAGE_ONE_CONCISE_NATURAL_LANGUAGE;
 
   function handleStageChange() {
     if (stage === 1) {
@@ -119,8 +121,8 @@ export default function ProblemContent() {
           <ReactMarkdown>
             {tutorialStep === 1
               ? formatInstruction(stageOneInstruction, {
-                "//VAR_PROBLEM_STATEMENT": problem.problemStatement,
-              })
+                  "//VAR_PROBLEM_STATEMENT": problem.problemStatement,
+                })
               : STAGE_TWO_CONCISE.content}
           </ReactMarkdown>
         </section>
