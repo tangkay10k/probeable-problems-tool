@@ -94,7 +94,7 @@ public class ProblemAttemptService {
     var prevAttempt = findOrCreateNewProblemAttempt(curProblemAttempt);
     var problem = findProblemById(prevAttempt);
 
-    calculateFinalScore(curProblemAttempt);
+    calculateFinalScore(curProblemAttempt, problem);
     compareFinalScoreWithExistingAttempt(curProblemAttempt, prevAttempt);
     updateTestsPassedIfHigher(curProblemAttempt, prevAttempt);
     updateFailedAttemptsIfNotFullMarks(curProblemAttempt, prevAttempt, problem);
@@ -154,10 +154,15 @@ public class ProblemAttemptService {
         newSessionId, getClientFirstMessage(problemStatement, functionSignature));
   }
 
-  private void calculateFinalScore(ProblemAttempt attempt) {
+  private void calculateFinalScore(ProblemAttempt attempt, Problem problem) {
     double score = calculateCurrentScore(attempt);
-    double failures = attempt.getFailedAttempts();
-    double finalScore = Math.max(0, score - failures);
+    double finalScore = score;
+
+    if (problem.isPenaltiesEnabled()) {
+      double failures = attempt.getFailedAttempts();
+      finalScore = Math.max(0, score - failures);
+    }
+
     attempt.setFinalScore(finalScore);
   }
 
