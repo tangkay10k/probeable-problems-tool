@@ -24,8 +24,9 @@ export default function AboutPage() {
           <br />
           <p className={styles.aboutText}>
             By modelling the real world client elicitation stage of software
-            development through deliberate ambiguity, we aim provide CS1
-            students a sneak peek into what requirements elicitation looks like
+            development through deliberate ambiguity, we aim to provide students
+            with a sneak peek into what software requirements elicitation looks
+            like.
           </p>
           <br />
           <p>✨Built with React, Node.JS, Java Spring & MongoDB ✨</p>
