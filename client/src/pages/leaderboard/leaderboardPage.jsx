@@ -7,18 +7,22 @@ import { toast } from "react-toastify";
 import ShinyText from "@/components/text/shiny-text/shiny-text.jsx";
 import { ErrorBoundary } from "react-error-boundary";
 import Particles from "@/components/particles/particles.jsx";
+import { useUserProfile } from "@/context/user-context.jsx";
 
 export default function LeaderBoardPage() {
   const [isLoading, withLoading] = useWithLoading();
   const [rankings, setRankings] = useState([]);
+  const { profile } = useUserProfile();
 
   useEffect(() => {
+    if (!profile) return;
+
     withLoading(
-      () => getLeaderboard(),
+      () => getLeaderboard(profile.email),
       (ranking) => setRankings(ranking),
       () => toast.error("Failed to get leaderboard... 😅"),
     );
-  }, []);
+  }, [profile]);
 
   if (isLoading) {
     return (

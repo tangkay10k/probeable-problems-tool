@@ -70,6 +70,7 @@ export default function LeaderboardTable({ rows }) {
         ...r,
         rank: `${"#"} ${i + 1}`,
         score: r.points ?? 0,
+        email: r?.email || crypto.randomUUID(),
       })),
     [rows],
   );

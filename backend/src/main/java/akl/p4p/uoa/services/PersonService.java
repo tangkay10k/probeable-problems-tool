@@ -1,6 +1,10 @@
 package akl.p4p.uoa.services;
 
+import static akl.p4p.uoa.dtos.PersonDTO.convertPersonToDto;
+import static akl.p4p.uoa.dtos.PersonDTO.convertPersonToDtoForLeaderboard;
+
 import akl.p4p.uoa.data.Person;
+import akl.p4p.uoa.dtos.PersonDTO;
 import akl.p4p.uoa.models.person.Student;
 import akl.p4p.uoa.models.person.Teacher;
 import akl.p4p.uoa.repositories.StudentRepository;
@@ -9,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -91,7 +96,13 @@ public class PersonService {
     return updateUser(user);
   }
 
-  public List<Person> getStudentsOrderedByHighestPoints() {
-    return studentRepository.findAllByOrderByPointsDesc();
+  public List<PersonDTO> getStudentsOrderedByHighestPoints(String requesterEmail) {
+    return studentRepository.findAllByOrderByPointsDesc().stream()
+        .map(
+            student ->
+                student.getEmail().equals(requesterEmail)
+                    ? convertPersonToDto(student)
+                    : convertPersonToDtoForLeaderboard(student))
+        .collect(Collectors.toList());
   }
 }

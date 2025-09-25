@@ -3,6 +3,7 @@ package akl.p4p.uoa.controllers;
 import static akl.p4p.uoa.constants.AuthConstants.*;
 
 import akl.p4p.uoa.data.Person;
+import akl.p4p.uoa.dtos.PersonDTO;
 import akl.p4p.uoa.enums.Role;
 import akl.p4p.uoa.models.person.Student;
 import akl.p4p.uoa.models.person.Teacher;
@@ -78,8 +79,8 @@ public class PersonController {
 
   @GetMapping("/leaderboard")
   @PreAuthorize(IS_AUTHENTICATED)
-  public ResponseEntity<List<Person>> getLeaderboard() {
-    List<Person> leaderboard = personService.getStudentsOrderedByHighestPoints();
+  public ResponseEntity<List<PersonDTO>> getLeaderboard(@RequestParam String requesterEmail) {
+    List<PersonDTO> leaderboard = personService.getStudentsOrderedByHighestPoints(requesterEmail);
     return ResponseEntity.ok(leaderboard);
   }
 }
