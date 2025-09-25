@@ -9,6 +9,7 @@ export const Action = {
   BUILD: "BUILD",
   EXECUTE: "EXECUTE",
   CANCEL: "CANCEL",
+  PASTED: "PASTED"
 };
 
 export const Component = {

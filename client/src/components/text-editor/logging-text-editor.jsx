@@ -1,6 +1,5 @@
 import { forwardRef, useRef } from "react";
 import { useProblemAttemptContext } from "@/context/problem-attempt-context.js";
-import { logPastedContent } from "@/routes/log-route.js";
 import { TextEditor } from "@/components/text-editor/text-editor.jsx";
 import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
@@ -32,9 +31,11 @@ export const LoggingTextEditor = forwardRef(function LoggingTextEditor(
       const pastedText = model.getValueInRange(e.range);
       const fullText = editor.getValue();
       if (problemAttempt && pastedText) {
-        logPastedContent(problemAttempt.id, {
-          pastedContent: pastedText,
-          afterPastedContent: fullText,
+        addLog({
+          component: Component.CODE_EDITOR,
+          action: Action.PASTED,
+          input: pastedText,
+          output: fullText,
         });
       }
     });
