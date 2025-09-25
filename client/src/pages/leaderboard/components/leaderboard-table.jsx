@@ -164,6 +164,9 @@ export default function LeaderboardTable({ rows }) {
           initialState={{
             pagination: { paginationModel: { pageSize: 25, page: 0 } },
           }}
+          getRowClassName={(params) =>
+            params.id === profile?.email ? styles.meRow : ""
+          }
         />
       </div>
     </div>

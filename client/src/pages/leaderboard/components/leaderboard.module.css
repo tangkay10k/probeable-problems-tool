@@ -57,14 +57,27 @@
 }
 
 .dataGridContainer {
-  height: 25rem;
-
+  height: var(--leaderboard-height);
   width: 100%;
 }
 
 .denniesIcon {
   height: var(--font-size-12);
   width: auto;
+}
+
+.meRow :global(.MuiDataGrid-cell) {
+  background: var(--accent) !important;
+  font-weight: 600;
+}
+
+.meRow {
+  position: relative;
+}
+
+/* keep your hover color but don’t wash out the highlight */
+.meRow:hover :global(.MuiDataGrid-cell) {
+  background: rgba(255, 193, 7, 0.22);
 }
 
 /* === OVERRIDE MUI CSS === */
