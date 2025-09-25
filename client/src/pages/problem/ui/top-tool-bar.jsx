@@ -34,22 +34,25 @@ export default function TopToolbar({
       <section className={styles.topBarButtons}>
         {problemAttempt.testsPassed !== -1 && (
           <p>
-            Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`} |{" "}
+            Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`}
             {showPenalties && (
               <>
-                Penalty:{" "}
+                {" "}
+                | Failed Attempts:{" "}
                 <span className={styles.penalty}>
-                  -{problemAttempt.failedAttempts}{" "}
-                  {`${problemAttempt.failedAttempts > 1 ? "pts" : "pt"}`}
+                  {problemAttempt.failedAttempts}{" "}
+                  {/*{`${problemAttempt.failedAttempts > 1 ? "pts" : "pt"}`}*/}
                 </span>
                 {" | "}
+                Dennies Earned:{" "}
+                <span className={styles.finalScore}>
+                  {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(
+                    2,
+                  )}
+                </span>
+                {/*(High Score)*/}
               </>
             )}
-            Points:{" "}
-            <span className={styles.finalScore}>
-              {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(2)}
-            </span>{" "}
-            (High Score)
           </p>
         )}
         {problemAttempt.completed && (

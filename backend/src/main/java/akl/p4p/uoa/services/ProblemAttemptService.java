@@ -22,7 +22,7 @@ public class ProblemAttemptService {
   private static final double PENALTY_BASE = 1.0; // first failure costs 5
   private static final double PENALTY_INCREMENT =
       7.0; // each subsequent failure costs +7 more than the previous
-  private static final double PENALTY_CAP = 200.0;
+  private static final double PENALTY_CAP = 900.0;
   private static final double POINTS_SCALE = 1000.0;
   private final AIService aiService;
   private final ProblemRepository problemRepository;
