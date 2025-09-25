@@ -18,8 +18,7 @@ export default function AboutPage() {
           <br />
           <p className={styles.aboutText}>
             Probeable Problems was built to help students develop the essential
-            skill of client elicitation along with improving their critical
-            thinking.
+            skill of client elicitation while improving their critical thinking.
           </p>
           <br />
           <p className={styles.aboutText}>

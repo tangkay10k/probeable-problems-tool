@@ -83,4 +83,10 @@ public class PersonService {
         ? studentRepository.save((Student) user)
         : teacherRepository.save((Teacher) user);
   }
+
+  public Person updateNumberOfPointsAccrued(String userEmail, double points) {
+    var user = findPersonByEmail(userEmail);
+    user.setPoints(user.getPoints() + points);
+    return updateUser(user);
+  }
 }

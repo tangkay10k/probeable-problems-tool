@@ -7,8 +7,9 @@ import { FaCircleCheck as CompletedIcon } from "react-icons/fa6";
 import AnimatedList from "@/components/list/animated-list/animated-list.jsx";
 import { useUserProfile } from "@/context/user-context.jsx";
 import { LANGUAGE_DISPLAY_NAMES } from "@/components/text-editor/data/constants.js";
+import ButtonV2 from "@/components/button/buttonV2.jsx";
 
-export default function ProblemList() {
+export default function ProblemList({ onCoinClick = () => {} }) {
   const [_, withLoading] = useWithLoading();
   const [problems, setProblems] = useState([]);
   const navigate = useNavigate();
@@ -34,7 +35,13 @@ export default function ProblemList() {
 
   return (
     <div className={styles.problemListContainer}>
-      <h1>Problems</h1>
+      <section className={styles.heading}>
+        <h1>Problems</h1>
+        <button className={styles.pointsContainer} onClick={onCoinClick}>
+          <img src={"/coin.png"} alt={"Denny Coin"} />
+          {profile.points} Dennies
+        </button>
+      </section>
 
       <AnimatedList
         items={problems}
