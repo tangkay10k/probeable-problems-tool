@@ -46,7 +46,7 @@ export default function StageOne() {
       ? STAGE_ONE_FULL
       : variant === ORACLE_VARIANT
         ? STAGE_ONE_ORACLE
-        : variant == EXAMPLE
+        : variant === EXAMPLE
           ? STAGE_ONE_EXAMPLE
           : STAGE_ONE_NATURAL_LANGUAGE;
 

@@ -33,10 +33,11 @@ export const STAGE_ONE_NATURAL_LANGUAGE = {
 export const STAGE_ONE_EXAMPLE = {
   title: "Example (not marked)",
   content:
-    "Welcome! This is just an example question and will not be marked. Play around and understand how to use the" +
-    " application!\n\n" +
-    "You can clarify what the you need to do should do by asking the client questions, or by testing it with various" +
-    " inputs using the **Run** tab.\n\n" +
+    "This is a tutorial question for you to familiarise yourself with the application and is not" +
+    " marked." +
+    " \n\n" +
+    "Clarify what you need to do by asking the client questions, or by testing different" +
+    " inputs to the program using the **Run** tab.\n\n" +
     "Once you are confident that you understand what the client wants, click **I'm ready to code!**",
 };
 

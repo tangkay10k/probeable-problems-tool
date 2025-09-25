@@ -36,14 +36,16 @@ export default function ProblemContent() {
   const clientImage =
     problem.problemVariant === ORACLE_VARIANT
       ? "/client-oracle-only.png"
-      : problem.problemVariant === NATURAL_LANGUAGE
+      : problem.problemVariant === NATURAL_LANGUAGE ||
+          problem.problemVariant === EXAMPLE
         ? "/client-full.png"
         : "/client-back.png";
 
   const clientStyles =
     problem.problemVariant === ORACLE_VARIANT
       ? styles.clientOracle
-      : problem.problemVariant === NATURAL_LANGUAGE
+      : problem.problemVariant === NATURAL_LANGUAGE ||
+          problem.problemVariant === EXAMPLE
         ? styles.clientPic
         : styles.clientBack;
 
