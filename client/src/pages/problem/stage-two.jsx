@@ -160,10 +160,10 @@ export default function StageTwo() {
         className={styles.runConfirmationModal}
       >
         <p>
-          Each unsuccessful check will reduce the number of Dennies earned,
-          unless you receive a compilation error. <br />
+          Each unsuccessful submission will reduce the number of Dennies earned
+          for this problem, unless you receive a compilation error. <br />
           <br />
-          Current number of failed attempts is: [
+          Current number of failed submissions is: [
           <b
             className={`${problemAttempt.failedAttempts !== 0 ? styles.penalty : ""}`}
           >

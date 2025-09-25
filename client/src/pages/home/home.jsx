@@ -28,9 +28,14 @@ export default function Home() {
         setIsOpen={setShowModal}
         title="What are Dennies?"
       >
-        {" "}
-        Earn Dennies with every problem you solve. Students with the highest
-        number of Dennies get a high five from Paul 🖐 (and bragging rights 😎)
+        <div className={styles.coinModalContent}>
+          <section>
+            Earn Dennies with every problem you solve. Students with the highest
+            number of Dennies get a high five from Paul 🖐 (and bragging rights
+            😎)
+          </section>
+          <img className={styles.dennies} src={"/coin.png"} alt={"Dennies"} />
+        </div>
       </ModalV2>
 
       {isTeacher && (
