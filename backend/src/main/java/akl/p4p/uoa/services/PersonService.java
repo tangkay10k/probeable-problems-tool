@@ -6,6 +6,7 @@ import akl.p4p.uoa.models.person.Teacher;
 import akl.p4p.uoa.repositories.StudentRepository;
 import akl.p4p.uoa.repositories.TeacherRepository;
 import java.util.HashSet;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -88,5 +89,9 @@ public class PersonService {
     var user = findPersonByEmail(userEmail);
     user.setPoints(user.getPoints() + points);
     return updateUser(user);
+  }
+
+  public List<Person> getStudentsOrderedByHighestPoints() {
+    return studentRepository.findAllByOrderByPointsDesc();
   }
 }

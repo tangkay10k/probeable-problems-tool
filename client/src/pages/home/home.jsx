@@ -32,7 +32,10 @@ export default function Home() {
           <section>
             Earn Dennies with every problem you solve. Students with the highest
             number of Dennies get a high five from Paul 🖐 (and bragging rights
-            😎)
+            😎). <br />
+            <br />
+            Check out the leaderboard to see how you stack up against your
+            peers!
           </section>
           <img className={styles.dennies} src={"/coin.png"} alt={"Dennies"} />
         </div>

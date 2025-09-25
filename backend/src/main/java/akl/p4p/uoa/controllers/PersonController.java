@@ -9,6 +9,7 @@ import akl.p4p.uoa.models.person.Teacher;
 import akl.p4p.uoa.services.AuthTokenService;
 import akl.p4p.uoa.services.JwtService;
 import akl.p4p.uoa.services.PersonService;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,5 +74,12 @@ public class PersonController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<Person> logUserInSilently(@RequestParam String userEmail) {
     return ResponseEntity.ok(personService.findPersonByEmail(userEmail));
+  }
+
+  @GetMapping("/leaderboard")
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<List<Person>> getLeaderboard() {
+    List<Person> leaderboard = personService.getStudentsOrderedByHighestPoints();
+    return ResponseEntity.ok(leaderboard);
   }
 }

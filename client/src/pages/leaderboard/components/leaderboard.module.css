@@ -1,0 +1,162 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--padding-1);
+  width: 100%;
+}
+
+.searchbar {
+  display: flex;
+  align-self: end;
+
+  gap: var(--padding-1);
+
+  width: 30%;
+
+  max-height: var(--circular-button-size);
+}
+
+.searchInput {
+  flex: 10;
+  background-color: var(--editor-colour);
+
+  border: 0.1rem solid var(--white-hover);
+  border-radius: var(--border-radius-1);
+
+  padding: var(--padding-025) var(--padding-1);
+
+  color: var(--white-hover);
+}
+
+.searchInput:focus {
+  outline: none;
+  border: 0.1rem solid var(--white-hover);
+}
+
+.searchInput,
+.jumpToMeBtn {
+  font-size: var(--font-size-08);
+  font-family: Poppins, sans-serif;
+}
+
+.jumpToMeBtn {
+  flex: 3;
+
+  border-radius: var(--border-radius-1);
+  border: 0.01rem solid var(--accent-light);
+
+  background-color: var(--accent);
+  max-height: var(--circular-button-size);
+  min-width: max-content;
+
+  font-size: var(--font-size-08);
+  font-family: Poppins, sans-serif;
+}
+
+.dataGridContainer {
+  height: 25rem;
+
+  width: 100%;
+}
+
+.denniesIcon {
+  height: var(--font-size-12);
+  width: auto;
+}
+
+/* === OVERRIDE MUI CSS === */
+.dataGridContainer :global(.MuiDataGrid-columnHeaders),
+.dataGridContainer :global(.MuiDataGrid-columnHeadersInner),
+.dataGridContainer :global(.MuiDataGrid-columnHeader),
+.dataGridContainer :global(.MuiDataGrid-columnHeaderTitleContainer) {
+  background-color: var(--dark-3-grey) !important;
+}
+
+.dataGridContainer :global(.MuiDataGrid-root) {
+  border-radius: var(--border-radius-1);
+  border: 0.15rem solid var(--white-hover);
+  background: var(--editor-colour) !important;
+
+  font-family: Poppins, sans-serif;
+}
+
+.dataGridContainer :global(.MuiDataGrid-columnHeaders) {
+  background: transparent !important;
+  font-weight: 1000;
+  font-size: var(--font-size-1);
+  color: var(--white);
+}
+
+.dataGridContainer :global(.MuiDataGrid-row:hover) {
+  background: var(--toggle-hover-editor-light) !important;
+}
+
+.dataGridContainer :global(.MuiDataGrid-cell) {
+  display: flex;
+  font-size: var(--font-size-08) !important;
+  align-items: center;
+  justify-items: center;
+  color: var(--white-hover);
+
+  background-color: var(--toggle-hover-editor);
+}
+
+.dataGridContainer :global(.MuiDataGrid-cell:focus-within),
+.dataGridContainer :global(.MuiDataGrid-columnHeader:focus-within) {
+  outline: none;
+}
+
+.dataGridContainer :global(.MuiDataGrid-columnSeparator) {
+  color: var(--accent) !important;
+}
+
+/* Kill focus outlines + shadows on cells and headers */
+.dataGridContainer :global(.MuiDataGrid-cell:focus),
+.dataGridContainer :global(.MuiDataGrid-cell:focus-within),
+.dataGridContainer :global(.MuiDataGrid-cell:focus-visible),
+.dataGridContainer :global(.MuiDataGrid-columnHeader:focus),
+.dataGridContainer :global(.MuiDataGrid-columnHeader:focus-within),
+.dataGridContainer :global(.MuiDataGrid-columnHeader:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Footer container */
+.dataGridContainer :global(.MuiDataGrid-footerContainer) {
+  color: var(--white); /* fallback text color */
+}
+
+/* “Rows per page:” label + “1–2 of 2” text */
+.dataGridContainer :global(.MuiTablePagination-selectLabel),
+.dataGridContainer :global(.MuiTablePagination-displayedRows) {
+  color: var(--white) !important;
+}
+
+/* The select + its arrow + pagination buttons */
+.dataGridContainer :global(.MuiTablePagination-root .MuiSelect-select),
+.dataGridContainer :global(.MuiTablePagination-root .MuiSvgIcon-root),
+.dataGridContainer :global(.MuiTablePagination-actions .MuiIconButton-root) {
+  color: var(--accent-light) !important;
+}
+
+/* Optional: the select’s outline/border for dark themes */
+.dataGridContainer
+  :global(.MuiTablePagination-root .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--white-hover) !important;
+}
+
+.dataGridContainer
+  :global(
+    .MuiTablePagination-root
+      .MuiOutlinedInput-root.Mui-focused
+      .MuiOutlinedInput-notchedOutline
+  ) {
+  border-color: var(--accent) !important;
+}
+
+.dataGridContainer :global(.MuiDataGrid-root *)::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
