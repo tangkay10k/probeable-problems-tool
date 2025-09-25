@@ -117,7 +117,7 @@ function toSpans(parts, showInvis) {
 
 function makeDiff(a, b, level) {
   if (level === "line") return JsDiff.diffLines(a, b);
-  if (level === "word") return JsDiff.diffWords(a, b);
+  if (level === "word") return JsDiff.diffWordsWithSpace(a, b);
   return JsDiff.diffChars(a, b); // default char-level
 }
 
