@@ -19,7 +19,7 @@
 }
 
 .searchInput {
-  width: 60%;
+  width: 30%;
   height: var(--editor-buttons-height);
   background-color: var(--editor-colour);
 
@@ -50,7 +50,7 @@
 
   background-color: var(--accent);
   max-height: var(--circular-button-size);
-  min-width: max-content;
+  max-width: max-content;
 
   font-size: var(--font-size-08);
   font-family: Poppins, sans-serif;
@@ -161,4 +161,22 @@
   width: 0 !important;
   height: 0 !important;
   display: none !important;
+}
+
+.centerHeader {
+  position: relative !important;
+}
+
+.centerHeader :global(.MuiDataGrid-columnHeaderTitleContainer) {
+  justify-content: center;
+  padding-right: 28px; /* room for sort icon */
+}
+
+.centerHeader :global(.MuiDataGrid-iconButtonContainer),
+.centerHeader :global(.MuiDataGrid-sortIcon) {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-light);
 }

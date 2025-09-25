@@ -1,6 +1,5 @@
 import styles from "./leaderboard.module.css";
 import LeaderboardTable from "@/pages/leaderboard/components/leaderboard-table.jsx";
-import { useUserProfile } from "@/context/user-context.jsx";
 import useWithLoading from "@/hooks/useWithLoading.js";
 import { getLeaderboard } from "@/routes/person-route.js";
 import { useEffect, useState } from "react";
@@ -10,7 +9,6 @@ import { ErrorBoundary } from "react-error-boundary";
 import Particles from "@/components/particles/particles.jsx";
 
 export default function LeaderBoardPage() {
-  const { profile } = useUserProfile();
   const [isLoading, withLoading] = useWithLoading();
   const [rankings, setRankings] = useState([]);
 
@@ -34,7 +32,7 @@ export default function LeaderBoardPage() {
     <div className={styles.leaderboardPageContainer}>
       <div className={styles.leaderboardTableContainer}>
         <ShinyText text={"See how you rank!"} className={styles.heading} />
-        <LeaderboardTable meId={profile.email} rows={rankings} />
+        <LeaderboardTable rows={rankings} />
       </div>
       <div className={styles.background}>
         <ErrorBoundary fallbackRender={() => null}>
