@@ -2,16 +2,20 @@ import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Input from "@/components/inputs/text-input.jsx";
-import ButtonV2 from "@/components/button/buttonV2.jsx";
 import styles from "./leaderboard.module.css";
 
 export default function LeaderboardTable({ rows, meEmail }) {
   const apiRef = useGridApiRef();
   const [query, setQuery] = useState("");
+
+  // control pagination so we can set page precisely
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 25,
+    page: 0,
+  });
 
   const rowsWithRank = useMemo(
     () =>
@@ -23,24 +27,17 @@ export default function LeaderboardTable({ rows, meEmail }) {
     [rows],
   );
 
-  useEffect(() => {
-    const idx = rowsWithRank.findIndex((r) => r.email === meEmail);
-    if (idx >= 0 && apiRef.current) {
-      apiRef.current.scrollToIndexes({ rowIndex: idx, colIndex: 0 });
-      apiRef.current.setRowSelectionModel([meEmail]);
-    }
-  }, [rowsWithRank, meEmail]);
-
   const columns = [
     {
       field: "rank",
       headerName: "Rank",
-      width: 120,
-      headerAlign: "left",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
       renderHeader: () => (
         <Stack direction="row" alignItems="center" gap={0.75}>
           <EmojiEventsIcon fontSize="small" color={"warning"} />
-          <span className={styles.headerLabel}>Rank</span>
+          <span>Rank</span>
         </Stack>
       ),
     },
@@ -52,7 +49,7 @@ export default function LeaderboardTable({ rows, meEmail }) {
       renderHeader: () => (
         <Stack direction="row" alignItems="center" gap={0.75}>
           <PersonOutlineIcon fontSize="small" color={"success"} />
-          <span className={styles.headerLabel}>Name</span>
+          <span>Name</span>
         </Stack>
       ),
       renderCell: (params) => (
@@ -67,30 +64,20 @@ export default function LeaderboardTable({ rows, meEmail }) {
       ),
     },
     {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      headerAlign: "left",
-      renderHeader: () => (
-        <Stack direction="row" alignItems="center" gap={0.75}>
-          <AlternateEmailIcon fontSize="small" color={"info"} />
-          <span className={styles.headerLabel}>Email</span>
-        </Stack>
-      ),
-    },
-    {
       field: "score",
       headerName: "Dennies",
-      width: 150,
-      headerAlign: "left",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
       renderHeader: () => (
         <Stack direction="row" alignItems="center" gap={0.75}>
           <img src="/coin.png" alt="Dennies" className={styles.denniesIcon} />
-          <span className={styles.headerLabel}>Dennies</span>
+          <span>Dennies</span>
         </Stack>
       ),
     },
   ];
+
   return (
     <div className={styles.tableContainer}>
       <section className={styles.searchbar}>
@@ -106,18 +93,6 @@ export default function LeaderboardTable({ rows, meEmail }) {
             );
           }}
         />
-        <ButtonV2
-          className={styles.jumpToMeBtn}
-          onClick={() => {
-            const idx = rowsWithRank.findIndex((r) => r.email === meEmail);
-            if (idx >= 0 && apiRef.current) {
-              apiRef.current.scrollToIndexes({ rowIndex: idx, colIndex: 0 });
-              apiRef.current.setRowSelectionModel([meEmail]);
-            }
-          }}
-        >
-          Jump to me
-        </ButtonV2>
       </section>
 
       <div className={styles.dataGridContainer}>
@@ -131,6 +106,8 @@ export default function LeaderboardTable({ rows, meEmail }) {
           disableRowSelectionOnClick
           disableColumnSelector
           onRowSelectionModelChange={() => {}}
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
           initialState={{
             pagination: { paginationModel: { pageSize: 25, page: 0 } },
           }}
