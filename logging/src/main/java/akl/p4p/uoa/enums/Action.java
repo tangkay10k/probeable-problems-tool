@@ -11,5 +11,6 @@ public enum Action {
     SUBMIT,
     BUILD,
     CHECK,
-    CANCEL
+    CANCEL,
+    PASTED
 }
