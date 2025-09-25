@@ -50,17 +50,27 @@
   color: var(--grey);
 }
 
+.leaderBoardBtn,
 .infoBtn,
 .homeBtn {
   font-size: var(--font-size-11);
 
   height: var(--nav-image-height);
   width: var(--nav-image-height);
+  color: var(--white);
+}
+
+.leaderBoardBtn {
+  background-color: var(--accent-less-dark);
+}
+
+.leaderBoardBtn:hover {
+  background-color: var(--accent-light);
+  color: var(--accent-less-dark);
 }
 
 .infoBtn {
   background-color: var(--accent-light);
-  color: var(--white);
 }
 
 .infoBtn:hover {
@@ -74,7 +84,7 @@
 }
 
 .homeBtn:hover {
-  background-color: var(--accent-light);
+  background-color: var(--accent-less-dark);
   color: var(--accent);
 }
 
