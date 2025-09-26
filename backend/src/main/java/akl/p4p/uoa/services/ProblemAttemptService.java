@@ -1,5 +1,6 @@
 package akl.p4p.uoa.services;
 
+import static akl.p4p.uoa.enums.ProblemVariant.EXAMPLE;
 import static akl.p4p.uoa.llm.LLMResponseSchemas.*;
 import static akl.p4p.uoa.llm.prompts.ClientPrompts.getClientFirstMessage;
 
@@ -19,14 +20,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProblemAttemptService {
+  private static final double PENALTY_BASE = 5.0; // first failure costs 5
+  private static final double PENALTY_INCREMENT =
+      7.0; // each subsequent failure costs +7 more than the previous
+  private static final double PENALTY_CAP = 900.0;
+  private static final double POINTS_SCALE = 1000.0;
   private final AIService aiService;
-
   private final ProblemRepository problemRepository;
-
   private final ProblemAttemptRepository problemAttemptRepository;
-
   private final ChatHistoryRepository chatHistoryRepository;
-
   private final PersonService personService;
 
   ProblemAttemptService(
@@ -94,16 +96,20 @@ public class ProblemAttemptService {
     var prevAttempt = findOrCreateNewProblemAttempt(curProblemAttempt);
     var problem = findProblemById(prevAttempt);
 
-    calculateFinalScore(curProblemAttempt, problem);
+    double finalScore = calculateFinalScore(curProblemAttempt, problem);
     compareFinalScoreWithExistingAttempt(curProblemAttempt, prevAttempt);
     updateTestsPassedIfHigher(curProblemAttempt, prevAttempt);
     updateFailedAttemptsIfNotFullMarks(curProblemAttempt, prevAttempt, problem);
-    updateProblemsCompleted(curProblemAttempt, problem);
+    updateProblemsCompleted(curProblemAttempt, problem, finalScore);
     avoidOverwritingExistingData(curProblemAttempt, prevAttempt);
 
     if (isFullMarks(prevAttempt, problem)) {
       alwaysTakeFullMarkSubmissionAttributes(curProblemAttempt, prevAttempt);
     }
+
+    // Recalculate if anything changed that affects scoring:
+    finalScore = calculateFinalScore(curProblemAttempt, problem);
+    compareFinalScoreWithExistingAttempt(curProblemAttempt, prevAttempt);
 
     return problemAttemptRepository.save(curProblemAttempt);
   }
@@ -154,16 +160,25 @@ public class ProblemAttemptService {
         newSessionId, getClientFirstMessage(problemStatement, functionSignature));
   }
 
-  private void calculateFinalScore(ProblemAttempt attempt, Problem problem) {
-    double score = calculateCurrentScore(attempt);
+  private double calculateFinalScore(ProblemAttempt attempt, Problem problem) {
+    double score = calculateCurrentScore(attempt); // 0..POINTS_SCALE
     double finalScore = score;
 
     if (problem.isPenaltiesEnabled()) {
-      double failures = attempt.getFailedAttempts();
-      finalScore = Math.max(0, score - failures);
+      int failures = Math.max(0, attempt.getFailedAttempts());
+
+      // Arithmetic series: n/2 * (2a + (n-1)d)
+      double progressivePenalty =
+          failures * 0.5 * (2 * PENALTY_BASE + (failures - 1) * PENALTY_INCREMENT);
+
+      // Cap in absolute points (NOT scaled by POINTS_SCALE)
+      double totalPenalty = Math.min(PENALTY_CAP, progressivePenalty);
+
+      finalScore = Math.max(0.0, score - totalPenalty);
     }
 
     attempt.setFinalScore(finalScore);
+    return finalScore;
   }
 
   private void markProblemAsCompleted(ProblemAttempt attempt) {
@@ -175,7 +190,7 @@ public class ProblemAttemptService {
     var problem = findProblemById(attempt);
     var numTests = problem.getTestSuite().size();
 
-    return ((double) numTestsPassed / numTests) * 100.0;
+    return ((double) numTestsPassed / numTests) * POINTS_SCALE;
   }
 
   private void compareFinalScoreWithExistingAttempt(
@@ -195,11 +210,16 @@ public class ProblemAttemptService {
         () -> new RuntimeException("Problem with id: " + attempt.getProblemId() + " not found."));
   }
 
-  private void updateProblemsCompleted(ProblemAttempt problemAttempt, Problem problem) {
+  private void updateProblemsCompleted(
+      ProblemAttempt problemAttempt, Problem problem, double finalScore) {
     if (hasPassedAllTests(problemAttempt, problem) && !problemAttempt.isCompleted()) {
       markProblemAsCompleted(problemAttempt);
       personService.updateProblemsCompleted(
           problemAttempt.getStudentEmail(), problemAttempt.getProblemId());
+
+      if (!problem.getProblemVariant().equals(EXAMPLE)) {
+        personService.updateNumberOfPointsAccrued(problemAttempt.getStudentEmail(), finalScore);
+      }
     }
   }
 

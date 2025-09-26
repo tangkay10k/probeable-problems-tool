@@ -8,7 +8,7 @@ import { getRandomSubheading } from "@/pages/home/home-utils.js";
 import CircularIconButton from "@/components/button/circular-button.jsx";
 import { MdOutlineCreate as CreateIcon } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import Survey from "@/components/survey/survey.jsx";
+import ModalV2 from "@/components/modal/non-logging-modal.jsx";
 
 const WELCOME_TEXT_DURATION = 2;
 
@@ -16,13 +16,30 @@ export default function Home() {
   const { profile } = useUserProfile();
   const navigate = useNavigate();
   const isTeacher = profile.role === "TEACHER";
-  // const [showSurvey, setShowSurvey] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className={styles.homePageContainer}>
       <WelcomeText />
-      <ProblemList />
-      {/*<Survey setShowSurvey={setShowSurvey} showSurvey={showSurvey} />*/}
+      <ProblemList onCoinClick={() => setShowModal(true)} />
+      <ModalV2
+        isOpen={showModal}
+        enableOutsideCancel={true}
+        setIsOpen={setShowModal}
+        title="What are Dennies?"
+      >
+        <div className={styles.coinModalContent}>
+          <section>
+            Earn Dennies with every problem you solve. Students with the highest
+            number of Dennies get a high five from Paul 🖐 (and bragging rights
+            😎). <br />
+            <br />
+            Check out the leaderboard to see how you stack up against your
+            peers!
+          </section>
+          <img className={styles.dennies} src={"/coin.png"} alt={"Dennies"} />
+        </div>
+      </ModalV2>
 
       {isTeacher && (
         <div className={styles.stickyButtonContainerLeft}>

@@ -18,6 +18,50 @@
   color: var(--white);
 }
 
+.heading {
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.pointsContainer {
+  position: relative;
+  z-index: var(--layer-2);
+
+  background-color: var(--toggle-hover-editor);
+  border: 0.01rem solid var(--hover-light-grey);
+
+  color: var(--white);
+
+  height: max-content;
+  padding: var(--padding-025) var(--padding-2);
+  border-radius: var(--border-radius-4);
+  width: auto;
+
+  font-size: var(--font-size-08);
+
+  display: flex;
+  align-items: center;
+  gap: var(--padding-025);
+
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.pointsContainer:hover {
+  background-color: var(--dark-3-grey);
+}
+
+.pointsContainer span {
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.pointsContainer img {
+  height: var(--font-size-08);
+}
+
 .table {
   list-style: none;
   margin: 0;

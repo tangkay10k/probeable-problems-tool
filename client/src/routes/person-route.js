@@ -41,3 +41,10 @@ export const getUserProfileSilently = async (userEmail) => {
   );
   return res.data;
 };
+
+export const getLeaderboard = async (requesterEmail) => {
+  const res = await axiosClient.get(
+    `/api/person/leaderboard?requesterEmail=${requesterEmail}`,
+  );
+  return res.data;
+};

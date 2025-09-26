@@ -3,12 +3,14 @@ package akl.p4p.uoa.controllers;
 import static akl.p4p.uoa.constants.AuthConstants.*;
 
 import akl.p4p.uoa.data.Person;
+import akl.p4p.uoa.dtos.PersonDTO;
 import akl.p4p.uoa.enums.Role;
 import akl.p4p.uoa.models.person.Student;
 import akl.p4p.uoa.models.person.Teacher;
 import akl.p4p.uoa.services.AuthTokenService;
 import akl.p4p.uoa.services.JwtService;
 import akl.p4p.uoa.services.PersonService;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,5 +75,12 @@ public class PersonController {
   @PreAuthorize(IS_AUTHENTICATED)
   public ResponseEntity<Person> logUserInSilently(@RequestParam String userEmail) {
     return ResponseEntity.ok(personService.findPersonByEmail(userEmail));
+  }
+
+  @GetMapping("/leaderboard")
+  @PreAuthorize(IS_AUTHENTICATED)
+  public ResponseEntity<List<PersonDTO>> getLeaderboard(@RequestParam String requesterEmail) {
+    List<PersonDTO> leaderboard = personService.getStudentsOrderedByHighestPoints(requesterEmail);
+    return ResponseEntity.ok(leaderboard);
   }
 }

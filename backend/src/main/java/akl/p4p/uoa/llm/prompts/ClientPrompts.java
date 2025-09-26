@@ -18,7 +18,7 @@ public class ClientPrompts {
   private static final String CLIENT_FIRST_MESSSAGE = "client-convo-start.txt";
   private static final String CODE_GENERATION_PROMPT_FILE = "code-generation-prompt.txt";
 
-  private static final String EXAMPLE_QUESTION_IDENTIFIER = "[Example] ";
+  private static final String EXAMPLE_QUESTION_IDENTIFIER = "[Tutorial] ";
 
   public static String getClientInitialisationPrompt(
       ProgramLanguage problemLanguage,

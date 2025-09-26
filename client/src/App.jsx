@@ -9,6 +9,7 @@ import Login from "@/pages/login/login.jsx";
 import PrivateRoutes from "@/components/router/private-route.jsx";
 import NotFound from "@/pages/not-found/not-found.jsx";
 import AboutPage from "@/pages/about/about.jsx";
+import LeaderBoardPage from "@/pages/leaderboard/leaderboardPage.jsx";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/problems" element={<Home />} />
           <Route path="/setup" element={<QuestionSetup />} />
           <Route path="/problem/:problemId" element={<ProblemPage />} />
+          <Route path="/leaderboard" element={<LeaderBoardPage />} />
         </Route>
       </Routes>
     </div>

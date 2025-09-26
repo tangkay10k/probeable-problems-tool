@@ -17,9 +17,8 @@ export default function AboutPage() {
           />
           <br />
           <p className={styles.aboutText}>
-            Probeable Problems was built to deliver AI resistant problems and to
-            help students develop their client elicitation and critical thinking
-            skills.
+            Probeable Problems was built to help students develop the essential
+            skill of client elicitation while improving their critical thinking.
           </p>
           <br />
           <p className={styles.aboutText}>

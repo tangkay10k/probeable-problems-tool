@@ -2,10 +2,8 @@ import { Children, useRef, useEffect } from "react";
 import styles from "./modal.module.css";
 import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 import ReactMarkdown from "react-markdown";
-import { useLogging } from "@/context/logging-context-provider.jsx";
-import { Action, Component } from "@/constants/logConstants.js";
 
-export default function Modal({
+export default function ModalV2({
   isOpen,
   setIsOpen,
   onClose,
@@ -15,17 +13,6 @@ export default function Modal({
   children,
 }) {
   const modalRef = useRef(null);
-  const { addLog } = useLogging();
-
-  useEffect(() => {
-    if (isOpen) {
-      addLog({
-        component: Component.MODAL,
-        action: Action.CLICKED,
-        name: `${title}`,
-      });
-    }
-  }, [isOpen, title]);
 
   if (enableOutsideCancel) {
     useOnClickOutside(modalRef, () => setIsOpen(false));

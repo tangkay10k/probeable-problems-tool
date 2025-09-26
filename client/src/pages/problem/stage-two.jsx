@@ -160,21 +160,20 @@ export default function StageTwo() {
         className={styles.runConfirmationModal}
       >
         <p>
-          Each unsuccessful run will incur a <b>1 point penalty</b> on your
-          final score for <b>this problem</b> unless you receive a compilation
-          error. <br />
+          Each unsuccessful submission will reduce the number of Dennies earned
+          for this problem, unless you receive a compilation error. <br />
           <br />
-          Your current penalty is: [
+          Current number of failed submissions is: [
           <b
             className={`${problemAttempt.failedAttempts !== 0 ? styles.penalty : ""}`}
           >
             {problemAttempt.failedAttempts}
           </b>
-          ] {`${problemAttempt.failedAttempts === 1 ? "point" : "points"}`}
+          ]
           <br />
-          <i className={styles.footnote}>Penalties are capped at 15 points.</i>
+          {/*<i className={styles.footnote}>Penalties are capped at 15 points.</i>*/}
         </p>
-        <b>Your highest score will be kept.</b>
+        <b>Your best attempt will be kept.</b>
         <section className={styles.modalBtns}>
           <ButtonV2 onClick={handleCancel}>Cancel</ButtonV2>
           <ButtonV2 onClick={handleExecution}>Check</ButtonV2>

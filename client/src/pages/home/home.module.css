@@ -73,3 +73,13 @@
 .stickyButtonContainer {
   right: 2rem;
 }
+
+.coinModalContent {
+  display: flex;
+  align-items: center;
+}
+
+.dennies {
+  height: 5rem;
+  width: auto;
+}

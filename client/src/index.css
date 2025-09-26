@@ -8,8 +8,11 @@
 
   /*===Global Variables===*/
   --accent: #6366f1;
+  --accent-less-dark: #7072e8;
   --accent-light: #818cf8;
   --accent-light-light: #9fa7fc;
+
+  --gold: #ffb700;
 
   --black: #000000;
   --light-grey: #e5e5e5;
@@ -118,6 +121,8 @@
 
   --stage-one-button-container-height: 3rem;
   --banner-height: 3rem;
+
+  --leaderboard-height: 25rem;
 
   --bottom-nav-buttons-height: 2.5rem;
   --slider-width: 8rem;

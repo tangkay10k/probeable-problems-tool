@@ -108,8 +108,30 @@
   align-items: center;
 }
 
+.testResults {
+  display: flex;
+  gap: 5px;
+}
+
+.testsPassed {
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
 .penalty {
+  font-weight: 600;
   color: var(--fail-red);
+}
+
+.coinsEarned {
+  display: flex;
+  align-items: center;
+  gap: var(--padding-025);
+}
+
+.coin {
+  height: var(--font-size-08);
+  width: auto;
 }
 
 .footnote {
@@ -117,7 +139,7 @@
 }
 
 .finalScore {
-  color: var(--accent-light);
+  color: var(--gold);
   font-weight: 600;
 }
 

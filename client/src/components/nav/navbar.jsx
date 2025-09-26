@@ -7,6 +7,7 @@ import {
   MdInfoOutline as InfoIcon,
   MdOutlineHome as HomeIcon,
 } from "react-icons/md";
+import { PiRankingBold as LeaderBoardIcon } from "react-icons/pi";
 import useOnClickOutside from "@/hooks/useOnClickOutside.js";
 
 export default function NavBar() {
@@ -32,6 +33,12 @@ export default function NavBar() {
             className={styles.homeBtn}
             onClick={() => navigate("/problems")}
             icon={<HomeIcon />}
+          />
+          <span>{`</>`}</span>
+          <CircularIconButton
+            className={styles.leaderBoardBtn}
+            onClick={() => navigate("/leaderboard")}
+            icon={<LeaderBoardIcon />}
           />
           <span>{`</>`}</span>
           <CircularIconButton

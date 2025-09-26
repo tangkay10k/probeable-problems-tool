@@ -19,4 +19,5 @@ public class Person {
   String userImage;
   Role role;
   Set<String> problemsCompleted;
+  double points = 0;
 }
