@@ -53,6 +53,11 @@
   background-color: var(--dark-3-grey);
 }
 
+.pointsContainer span {
+  font-weight: 600;
+  color: var(--gold);
+}
+
 .pointsContainer img {
   height: var(--font-size-08);
 }

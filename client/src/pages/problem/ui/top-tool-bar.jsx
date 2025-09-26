@@ -21,6 +21,7 @@ export default function TopToolbar({
   const numTestsTotal = problem?.testSuite?.length;
   const showPenalties =
     problemAttempt.failedAttempts !== 0 && problem.penaltiesEnabled;
+  const showCoins = problemAttempt.completed && problem.penaltiesEnabled;
 
   return (
     <div className={styles.toggleButtonContainer}>
@@ -33,24 +34,34 @@ export default function TopToolbar({
 
       <section className={styles.topBarButtons}>
         {problemAttempt.testsPassed !== -1 && (
-          <p>
-            Tests: {`${problemAttempt.testsPassed}/${numTestsTotal}`}
+          <p className={styles.testResults}>
+            Tests:{" "}
+            <span
+              className={styles.testsPassed}
+            >{`${problemAttempt.testsPassed}/${numTestsTotal}`}</span>
             {showPenalties && (
-              <>
-                {" "}
-                | Failed Attempts:{" "}
-                <span className={styles.penalty}>
-                  {problemAttempt.failedAttempts}{" "}
-                  {/*{`${problemAttempt.failedAttempts > 1 ? "pts" : "pt"}`}*/}
-                </span>
+              <span>
                 {" | "}
-                Dennies Earned:{" "}
-                <span className={styles.finalScore}>
-                  {(Math.round(problemAttempt.finalScore * 100) / 100).toFixed(
-                    2,
-                  )}
+                Failed Attempts:{" "}
+                <span className={styles.penalty}>
+                  {problemAttempt.failedAttempts}
                 </span>
-                {/*(High Score)*/}
+              </span>
+            )}
+            {showCoins && (
+              <>
+                <span className={styles.coinsEarned}>
+                  {" | "}
+                  <img
+                    src="/coin.png"
+                    alt="Dennies"
+                    className={styles.coin}
+                  />{" "}
+                  Earned:{" "}
+                  <span className={styles.finalScore}>
+                    {problemAttempt.finalScore}
+                  </span>
+                </span>
               </>
             )}
           </p>

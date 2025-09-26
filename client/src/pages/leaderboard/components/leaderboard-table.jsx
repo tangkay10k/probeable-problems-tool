@@ -64,16 +64,38 @@ export default function LeaderboardTable({ rows }) {
     }
   };
 
-  const rowsWithRank = useMemo(
-    () =>
-      rows.map((r, i) => ({
+  const rowsSorted = useMemo(() => {
+    // deterministic order: points desc, then name/email asc
+    return [...rows].sort((a, b) => {
+      const sa = a.points ?? 0;
+      const sb = b.points ?? 0;
+      if (sb !== sa) return sb - sa;
+      const na = (a.name ?? "").localeCompare(b.name ?? "");
+      if (na !== 0) return na;
+      return (a.email ?? "").localeCompare(b.email ?? "");
+    });
+  }, [rows]);
+
+  const rowsWithRank = useMemo(() => {
+    let lastScore = null;
+    let lastRank = 0;
+    let seen = 0;
+
+    return rowsSorted.map((r) => {
+      seen += 1;
+      const score = r.points ?? 0;
+      if (score !== lastScore) {
+        lastRank = seen;
+        lastScore = score;
+      }
+      return {
         ...r,
-        rank: `${"#"} ${i + 1}`,
-        score: r.points ?? 0,
+        rank: `# ${lastRank}`,
+        score,
         email: r?.email || crypto.randomUUID(),
-      })),
-    [rows],
-  );
+      };
+    });
+  }, [rowsSorted]);
 
   const columns = [
     {

@@ -39,7 +39,7 @@ export default function ProblemList({ onCoinClick = () => {} }) {
         <h1>Problems</h1>
         <button className={styles.pointsContainer} onClick={onCoinClick}>
           <img src={"/coin.png"} alt={"Denny Coin"} />
-          {profile.points} Dennies
+          <span>{profile.points}</span> Dennies
         </button>
       </section>
 

@@ -1,5 +1,6 @@
 package akl.p4p.uoa.services;
 
+import static akl.p4p.uoa.enums.ProblemVariant.EXAMPLE;
 import static akl.p4p.uoa.llm.LLMResponseSchemas.*;
 import static akl.p4p.uoa.llm.prompts.ClientPrompts.getClientFirstMessage;
 
@@ -212,7 +213,9 @@ public class ProblemAttemptService {
       personService.updateProblemsCompleted(
           problemAttempt.getStudentEmail(), problemAttempt.getProblemId());
 
-      personService.updateNumberOfPointsAccrued(problemAttempt.getStudentEmail(), finalScore);
+      if (!problem.getProblemVariant().equals(EXAMPLE)) {
+        personService.updateNumberOfPointsAccrued(problemAttempt.getStudentEmail(), finalScore);
+      }
     }
   }
 
