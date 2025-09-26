@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProblemAttemptService {
-  private static final double PENALTY_BASE = 1.0; // first failure costs 5
+  private static final double PENALTY_BASE = 5.0; // first failure costs 5
   private static final double PENALTY_INCREMENT =
       7.0; // each subsequent failure costs +7 more than the previous
   private static final double PENALTY_CAP = 900.0;
@@ -106,6 +106,10 @@ public class ProblemAttemptService {
     if (isFullMarks(prevAttempt, problem)) {
       alwaysTakeFullMarkSubmissionAttributes(curProblemAttempt, prevAttempt);
     }
+
+    // Recalculate if anything changed that affects scoring:
+    finalScore = calculateFinalScore(curProblemAttempt, problem);
+    compareFinalScoreWithExistingAttempt(curProblemAttempt, prevAttempt);
 
     return problemAttemptRepository.save(curProblemAttempt);
   }
