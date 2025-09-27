@@ -310,6 +310,10 @@ const ProblemAttemptProvider = ({ children }) => {
         const output = execution?.run?.output ?? "";
         const didCompile = execution?.compile?.code === 0;
 
+        const compileErrorMsg = didCompile
+          ? undefined
+          : (execution?.compile?.output ?? output);
+
         const lines = output.split(SPLIT_STRING);
         const totalTests = problem?.testSuite?.length ?? 0;
 
@@ -324,7 +328,7 @@ const ProblemAttemptProvider = ({ children }) => {
             : "[COMPILATION ERROR]";
           const pass = actual === expected;
           if (pass) passedCount += 1;
-          next.push({ actual, expected, pass });
+          next.push({ actual, expected, pass, compileError: compileErrorMsg });
           if (!pass) break;
         }
 
