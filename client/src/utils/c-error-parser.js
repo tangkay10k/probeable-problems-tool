@@ -47,7 +47,11 @@ export default function parseCError(err) {
   // line numbers may not match the user's code. Only include the error
   // message and the canonical filename.
   let summary = `error: ${msg.trim()} [${canonicalFile}]`;
-  // Extract snippet lines until another diagnostic appears
+  // Extract snippet lines until another diagnostic appears. We will
+  // include context lines from the compiler output to mimic LeetCode's
+  // formatting, but adjust pointer alignment by collapsing any spacing
+  // after the '|' to a single space. This ensures the caret '^~~~~' is
+  // aligned immediately after the pipe.
   const snippet = [];
   for (let i = errIndex + 1; i < lines.length; i++) {
     const l = lines[i];
@@ -56,8 +60,47 @@ export default function parseCError(err) {
     // ignore empty lines
     snippet.push(l);
   }
-  // Format snippet lines with indentation
-  const formattedSnippet = snippet.map((l) => "    " + l.trimEnd());
+  const formattedSnippet = [];
+  let pointerAdjustment = null;
+  snippet.forEach((rawLine) => {
+    // Trim trailing whitespace but keep leading whitespace
+    let line = rawLine.replace(/\s+$/, "");
+    // Check if this is a code line with a line number followed by a pipe
+    const codeMatch = line.match(/^(\s*)(\d+)(\s*)\|(\s*)(.*)$/);
+    if (codeMatch) {
+      const indentSpaces = codeMatch[1];
+      const digits = codeMatch[2];
+      const spacesAfterDigits = codeMatch[3];
+      const restOfCode = codeMatch[5];
+      // Determine how many characters we remove: length of digits plus any spaces
+      // after the digits. This adjustment will be applied to pointer lines.
+      pointerAdjustment = digits.length + spacesAfterDigits.length;
+      // Remove the line number and spaces, keep the indent and pipe
+      // We add exactly one space after the pipe to separate it from code
+      const newLine = indentSpaces + "| " + restOfCode;
+      formattedSnippet.push("    " + newLine);
+      return;
+    }
+    // If this is a pointer or suggestion line, adjust indent if we've removed
+    // characters from the code line above. Pointer lines start with whitespace,
+    // then a '|' character, followed by optional spaces and then the marker or suggestion.
+    const pointerMatch = line.match(/^(\s*)\|(\s*)(.*)$/);
+    if (pointerMatch && pointerAdjustment !== null) {
+      let indent = pointerMatch[1];
+      const rest = pointerMatch[3];
+      // Remove pointerAdjustment spaces from the indent to align the pipe under
+      // the code line's pipe, but do not reduce indent below zero.
+      const remove = Math.min(pointerAdjustment, indent.length);
+      indent = indent.substring(0, indent.length - remove);
+      // Collapse any spaces after the pipe to a single space so the caret or suggestion
+      // starts immediately after the pipe, as per user request.
+      const newLine = indent + "| " + rest;
+      formattedSnippet.push("    " + newLine);
+      return;
+    }
+    // For any other line (should be rare), just indent it
+    formattedSnippet.push("    " + line);
+  });
   const resultParts = [];
   if (header) resultParts.push(header);
   resultParts.push(summary);
