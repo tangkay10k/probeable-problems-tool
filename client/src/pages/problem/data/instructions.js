@@ -34,7 +34,7 @@ export const STAGE_ONE_EXAMPLE = {
   title: "Example (not marked)",
   content:
     "This is a tutorial question for you to familiarise yourself with the application and is not" +
-    " marked." +
+    " worth any Dennies." +
     " \n\n" +
     "Clarify what you need to do by asking the client questions, or by testing different" +
     " inputs to the program using the **Run** tab.\n\n" +
@@ -54,7 +54,7 @@ export const STAGE_ONE_CONCISE_EXAMPLE = {
   title: "Tasks",
   content:
     "## Welcome! 👋\nThis is a tutorial question for you to familiarise yourself with the application.\n\n" +
-    "**This question is not marked**.\n\n" +
+    "**This question does not earn any Dennies**.\n\n" +
     "I want you to **//VAR_PROBLEM_STATEMENT**\n\n" +
     "Once you’re confident in the requirements, proceed to implement your solution.",
 };

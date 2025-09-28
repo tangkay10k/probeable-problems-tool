@@ -35,7 +35,7 @@ export const logoutUser = async (token) => {
         headers: {
           [AUTH_HEADER_KEY]: `${BEARER_PREFIX}${token}`,
         },
-      }
+      },
     );
   } catch (err) {
     console.warn("Logout request failed, but continuing to remove token:", err);
