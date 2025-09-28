@@ -10,6 +10,7 @@ import { useLogging } from "@/context/logging-context-provider.jsx";
 import { Action, Component } from "@/constants/logConstants.js";
 import DiffView from "@/components/code/diff-view.jsx";
 import CodeBlockViewer from "@/components/code/code-block-viewer.jsx";
+import parseCError from "@/utils/c-error-parser.js";
 
 const normalize = (s) => (s ?? "").replace(/\r\n/g, "\n"); // avoid CRLF noise
 const deriveStatus = (result, expectedRaw) => {
@@ -113,17 +114,14 @@ export function NonEditableTestCase({ index, test, result }) {
   const isCompilationError = result?.actual === "[COMPILATION ERROR]";
 
   const preventToggleIfLocked = (e) => {
-    if (!hasRun || isCompilationError) {
+    if (!hasRun) {
       e.preventDefault();
       e.stopPropagation();
     }
   };
 
   const handleSummaryKeyDown = (e) => {
-    if (
-      (!hasRun || isCompilationError) &&
-      (e.key === " " || e.key === "Enter")
-    ) {
+    if (!hasRun && (e.key === " " || e.key === "Enter")) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -131,7 +129,7 @@ export function NonEditableTestCase({ index, test, result }) {
 
   const handleToggle = (e) => {
     // safety: if it somehow toggled, immediately close when locked
-    if (!hasRun || isCompilationError) {
+    if (!hasRun) {
       e.preventDefault();
       e.currentTarget.open = false;
       return;
@@ -156,12 +154,12 @@ export function NonEditableTestCase({ index, test, result }) {
     <details
       className={`${styles.testDetail} ${test.hidden ? styles.hidden : ""}`}
       onToggle={handleToggle}
-      aria-disabled={!hasRun || isCompilationError}
+      aria-disabled={!hasRun}
     >
       <summary
         onClick={preventToggleIfLocked}
         onKeyDown={handleSummaryKeyDown}
-        aria-disabled={!hasRun || isCompilationError}
+        aria-disabled={!hasRun}
         title={
           !hasRun
             ? "Run the test to view details"
@@ -181,7 +179,7 @@ export function NonEditableTestCase({ index, test, result }) {
         ) : (
           <>
             <section className={styles.locked}>
-              {(!hasRun || isCompilationError) && <LockedIcon />}
+              {!hasRun && <LockedIcon />}
               <h1>Test {index + 1}</h1>
             </section>
             <StatusPill status={status} />
@@ -189,17 +187,25 @@ export function NonEditableTestCase({ index, test, result }) {
         )}
       </summary>
 
-      {!test.hidden && !isCompilationError && (
+      {!test.hidden && (
         <div className={styles.detailContent}>
-          <CodeBlockViewer
-            code={test.code}
-            childComponents={
-              <DiffView
-                actual={result?.actual}
-                expected={test.expectedStdOut}
-              />
-            }
-          />
+          {!isCompilationError ? (
+            <CodeBlockViewer
+              code={test.code}
+              childComponents={
+                <DiffView
+                  actual={result?.actual}
+                  expected={test.expectedStdOut}
+                />
+              }
+            />
+          ) : (
+            <div className={styles.compileErrorBlock}>
+              <section className={styles.compileErrorHighlight}>
+                {parseCError(result?.compileError)}
+              </section>
+            </div>
+          )}
         </div>
       )}
     </details>

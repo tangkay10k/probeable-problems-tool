@@ -177,3 +177,19 @@
   align-items: center;
   gap: var(--padding-1);
 }
+
+.compileErrorBlock {
+  padding: var(--padding-1);
+}
+
+.compileErrorHighlight {
+  background-color: rgba(243, 87, 87, 0.1) !important;
+  color: var(--fail-red);
+
+  font-weight: 600;
+
+  border-radius: var(--border-radius-1);
+  padding: var(--padding-025) var(--padding-2);
+
+  white-space: pre-wrap;
+}
