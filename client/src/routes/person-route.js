@@ -2,6 +2,7 @@ import { AUTH_TOKEN_KEY } from "@/constants/authConstants.js";
 import axiosClient from "./utils/axiosClient.js";
 import { AUTH_HEADER_KEY } from "@/constants/authConstants.js";
 import { BEARER_PREFIX } from "@/constants/authConstants";
+import axios from "axios";
 
 export const loginUser = async (googleUser, role) => {
   localStorage.removeItem(AUTH_TOKEN_KEY);
@@ -25,9 +26,17 @@ export const loginUser = async (googleUser, role) => {
   return res.data;
 };
 
-export const logoutUser = async () => {
+export const logoutUser = async (token) => {
   try {
-    await axiosClient.post("/api/person/logout");
+    await axios.post(
+      "/api/person/logout",
+      {},
+      {
+        headers: {
+          [AUTH_HEADER_KEY]: `${BEARER_PREFIX}${token}`,
+        },
+      }
+    );
   } catch (err) {
     console.warn("Logout request failed, but continuing to remove token:", err);
   }

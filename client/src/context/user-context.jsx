@@ -3,11 +3,12 @@ import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { getGoogleUser } from "@/routes/google-route.js";
 
 import { loginUser } from "@/routes/person-route.js";
-import { USER_PROFILE_KEY } from "@/constants/personConstants.js";
+import { USER_PROFILE_KEY} from "@/constants/personConstants.js";
+import { AUTH_TOKEN_KEY } from "@/constants/authConstants";
 import { logoutUser } from "@/routes/person-route";
 import { useNavigate } from "react-router-dom";
 
-let staticLogOut = () => {};
+let staticLogOut = () => { };
 export const getStaticLogOut = () => staticLogOut;
 
 const UserContext = createContext();
@@ -71,7 +72,9 @@ export function UserProvider({ children }) {
     setProfile(null);
     setUser(null);
     setLoginRole(null);
-    logoutUser();
+
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
+    logoutUser(token);
     navigate("/");
   };
 
