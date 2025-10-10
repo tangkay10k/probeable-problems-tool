@@ -1,0 +1,11 @@
+Tally by score (X/5) from 2025_constraint_mismatch_summary.csv
+Total rows: 924
+
+   Score    Count   Percent
+----------------------------
+     0/5      138    14.94%
+     1/5      174    18.83%
+     2/5      250    27.06%
+     3/5      237    25.65%
+     4/5       96    10.39%
+     5/5       29     3.14%

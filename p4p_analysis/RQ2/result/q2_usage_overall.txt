@@ -1,0 +1,20 @@
+Chat vs Oracle — Robust, Per-User Analyses
+==========================================
+
+Users: 836
+Totals: chat=5766, oracle=4892, diff=874
+Per-user diff (chat - oracle): mean=1.045, median=2.000
+
+A) Direction-only test on differences (robust to spammers):
+  Non-ties: 743 (chat>506, oracle>237, ties=93)
+  Sign test (two-sided): p = 0 | chat-wins proportion = 0.681 (Wilson 95% CI: 0.647–0.714)
+  Wilcoxon signed-rank: z = -7.260, two-sided p = 3.88356e-13
+
+B) Per-user proportion p_i = chat/(chat+oracle):
+  Users with any messages: 764 | ties@0.5: 21 | non-ties: 743
+  Sign test vs 0.5 (two-sided): p = 0; P(p_i>0.5) = 0.681 (Wilson 95% CI: 0.647–0.714)
+  Wilcoxon on (p_i - 0.5): z = -11.816, two-sided p = 0
+
+Why not Welch’s t-test?
+  Welch compares independent groups’ means; here chat and oracle are paired within users.
+  The sign test and proportion-based tests are immune to single-user spam dominating results.

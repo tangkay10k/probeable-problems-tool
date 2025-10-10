@@ -1,0 +1,18 @@
+Pearson Correlation Summary
+===========================
+Sample size (n):        835
+X column:               classes_hit
+Y column:               failedAttempts
+
+Pearson r:              -0.1511
+95% CI for r:          [-0.2168, -0.0841]
+Two-sided p-value:      0.0000
+
+Simple Linear Regression (Y = intercept + slope * X)
+Intercept:              8.0897
+Slope:                  -0.6040   (SE = 0.1369)
+R-squared:              0.0228
+
+Notes:
+- p-value is computed via SciPy if available; otherwise it's reported as NaN.
+- Pearson assumes an approximately linear relationship and sensitivity to outliers.

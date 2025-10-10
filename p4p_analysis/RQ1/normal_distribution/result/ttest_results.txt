@@ -1,0 +1,19 @@
+Two-sample Welch t-test: mean score (2025 vs 2024)
+==================================================
+
+Descriptive statistics
+----------------------
+2024: n=965, mean=3.4642, sd=1.0175, min=1.0000, max=5.0000, skew=-1.3898, kurt_excess=1.0168
+2025: n=924, mean=2.0714, sd=1.3180, min=0.0000, max=5.0000, skew=0.0786, kurt_excess=-0.6968
+
+Welch t-test (two-sided, difference = mean_2025 - mean_2024)
+-------------------------------------------------------------
+t(1736) = -25.6320,  p = 0.000000
+Mean difference = -1.3928 ± 0.1065 (SE * 1.96)
+95% CI for difference: [-1.4994, -1.2862]
+Cohen's d = -1.1863,  Hedges' g = -1.1858
+
+Notes:
+- Welch's t-test used (unequal variances).
+- If SciPy is installed, p-value and CI use the t distribution; otherwise a normal approximation is used.
+- Skewness and kurtosis are reported using moment ratios (Fisher skew; excess kurtosis).
