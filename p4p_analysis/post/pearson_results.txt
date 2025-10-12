@@ -1,0 +1,18 @@
+Pearson Correlation Summary
+===========================
+Sample size (n):        876
+X column:               AmbiguitiesFound
+Y column:               failedAttempts
+
+Pearson r:              -0.0481
+95% CI for r:          [-0.1140, 0.0182]
+Two-sided p-value:      NaN (SciPy not installed)
+
+Simple Linear Regression (Y = intercept + slope * X)
+Intercept:              8.7372
+Slope:                  -0.2493   (SE = 0.1752)
+R-squared:              0.0023
+
+Notes:
+- p-value is computed via SciPy if available; otherwise it's reported as NaN.
+- Pearson assumes an approximately linear relationship and sensitivity to outliers.
