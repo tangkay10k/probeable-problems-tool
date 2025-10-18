@@ -1,0 +1,877 @@
+AmbiguitiesFound,failedAttempts,variantMismatchCounts,studentEmail
+1,11,{4: 3},awar905@aucklanduni.ac.nz
+4,5,"{4: 11, 1: 4, 2: 5, 3: 5}",zbra512@aucklanduni.ac.nz
+4,3,"{4: 13, 1: 5, 2: 5, 3: 7}",jesc967@aucklanduni.ac.nz
+4,8,"{1: 3, 2: 6, 3: 3, 4: 5}",cfon203@aucklanduni.ac.nz
+2,3,"{2: 3, 4: 5}",yany597@aucklanduni.ac.nz
+4,3,"{1: 2, 2: 5, 3: 3, 4: 5}",jyan192@aucklanduni.ac.nz
+4,6,"{3: 5, 2: 5, 1: 4, 4: 8}",mche977@aucklanduni.ac.nz
+4,10,"{1: 3, 2: 4, 3: 3, 4: 16}",xbri136@aucklanduni.ac.nz
+4,2,"{1: 7, 2: 10, 3: 9, 4: 11}",jdug282@aucklanduni.ac.nz
+4,9,"{4: 8, 1: 4, 2: 6, 3: 5}",isne544@aucklanduni.ac.nz
+4,13,"{4: 5, 1: 3, 2: 3, 3: 3}",atan680@aucklanduni.ac.nz
+4,16,"{4: 6, 1: 3, 2: 5, 3: 4}",nkau325@aucklanduni.ac.nz
+4,0,"{4: 14, 1: 7, 2: 10, 3: 7}",klum296@aucklanduni.ac.nz
+4,3,"{1: 15, 2: 18, 3: 19, 4: 18}",mmac960@aucklanduni.ac.nz
+4,4,"{2: 9, 4: 10, 1: 8, 3: 8}",sada583@aucklanduni.ac.nz
+4,4,"{1: 15, 2: 16, 3: 15, 4: 22}",wmao397@aucklanduni.ac.nz
+4,2,"{2: 20, 4: 21, 1: 10, 3: 11}",rdav396@aucklanduni.ac.nz
+4,9,"{1: 2, 2: 5, 3: 2, 4: 5}",vdha087@aucklanduni.ac.nz
+4,3,"{1: 1, 2: 2, 3: 2, 4: 2}",mcah771@aucklanduni.ac.nz
+4,5,"{1: 11, 2: 12, 3: 12, 4: 15}",sdaw190@aucklanduni.ac.nz
+0,0,{},kbel313@aucklanduni.ac.nz
+2,4,"{4: 3, 2: 2}",kwol099@aucklanduni.ac.nz
+4,4,"{4: 51, 2: 32, 3: 33, 1: 30}",jyba332@aucklanduni.ac.nz
+4,2,"{1: 5, 2: 6, 3: 8, 4: 15}",zwal627@aucklanduni.ac.nz
+4,7,"{1: 1, 2: 2, 3: 2, 4: 2}",mram433@aucklanduni.ac.nz
+4,6,"{1: 4, 2: 5, 3: 5, 4: 7}",dlow548@aucklanduni.ac.nz
+4,2,"{1: 5, 2: 6, 3: 6, 4: 8}",wjia802@aucklanduni.ac.nz
+2,7,"{2: 1, 4: 1}",jdon486@aucklanduni.ac.nz
+2,3,"{3: 1, 4: 3}",nger797@aucklanduni.ac.nz
+4,1,"{2: 11, 4: 12, 1: 7, 3: 8}",mcha989@aucklanduni.ac.nz
+4,16,"{4: 11, 3: 3, 1: 1, 2: 2}",lbar152@aucklanduni.ac.nz
+4,1,"{4: 12, 1: 7, 2: 9, 3: 8}",enic327@aucklanduni.ac.nz
+1,2,{4: 4},lmcd653@aucklanduni.ac.nz
+4,27,"{2: 2, 1: 1, 3: 1, 4: 2}",iwel988@aucklanduni.ac.nz
+4,2,"{1: 4, 2: 8, 3: 5, 4: 11}",tkea815@aucklanduni.ac.nz
+4,23,"{4: 10, 3: 3, 1: 2, 2: 3}",tfry801@aucklanduni.ac.nz
+4,0,"{4: 10, 1: 6, 2: 7, 3: 7}",jwar728@aucklanduni.ac.nz
+4,3,"{1: 2, 2: 3, 3: 2, 4: 4}",jkuw137@aucklanduni.ac.nz
+4,9,"{4: 6, 2: 4, 1: 2, 3: 2}",jwri113@aucklanduni.ac.nz
+4,2,"{1: 3, 2: 5, 3: 4, 4: 7}",dshe091@aucklanduni.ac.nz
+1,24,{4: 1},cwit596@aucklanduni.ac.nz
+1,6,{4: 2},sguy104@aucklanduni.ac.nz
+0,0,{},pden001@aucklanduni.ac.nz
+1,9,{4: 2},ther498@aucklanduni.ac.nz
+4,9,"{3: 14, 1: 9, 2: 15, 4: 16}",jpor935@aucklanduni.ac.nz
+1,7,{4: 1},asan263@aucklanduni.ac.nz
+4,16,"{1: 4, 2: 6, 3: 7, 4: 6}",fwu160@aucklanduni.ac.nz
+4,12,"{1: 2, 2: 3, 3: 2, 4: 6}",snag146@aucklanduni.ac.nz
+4,7,"{1: 8, 2: 9, 3: 9, 4: 13}",ych034@aucklanduni.ac.nz
+4,11,"{2: 3, 4: 9, 1: 2, 3: 2}",egri603@aucklanduni.ac.nz
+4,6,"{1: 6, 2: 8, 3: 8, 4: 9}",jpar517@aucklanduni.ac.nz
+4,4,"{4: 9, 1: 5, 2: 6, 3: 5}",jbuy862@aucklanduni.ac.nz
+4,2,"{1: 2, 2: 2, 3: 2, 4: 3}",cvau604@aucklanduni.ac.nz
+4,14,"{4: 3, 1: 1, 2: 1, 3: 1}",atho445@aucklanduni.ac.nz
+1,4,{4: 2},else018@aucklanduni.ac.nz
+4,4,"{4: 8, 1: 5, 2: 7, 3: 6}",ayan141@aucklanduni.ac.nz
+4,3,"{4: 11, 1: 7, 2: 8, 3: 9}",jcur568@aucklanduni.ac.nz
+4,1,"{3: 2, 1: 1, 2: 3, 4: 3}",hmaj740@aucklanduni.ac.nz
+4,9,"{1: 5, 2: 9, 3: 5, 4: 17}",skal519@aucklanduni.ac.nz
+4,26,"{1: 1, 2: 1, 3: 1, 4: 3}",mbab162@aucklanduni.ac.nz
+4,2,"{4: 7, 1: 5, 2: 6, 3: 5}",kraw751@aucklanduni.ac.nz
+4,4,"{1: 13, 2: 14, 3: 14, 4: 16}",ayan911@aucklanduni.ac.nz
+4,10,"{1: 2, 2: 3, 3: 2, 4: 7}",agou311@aucklanduni.ac.nz
+4,2,"{2: 10, 1: 6, 3: 7, 4: 12}",mleu347@aucklanduni.ac.nz
+4,11,"{3: 5, 2: 5, 1: 3, 4: 5}",tdav176@aucklanduni.ac.nz
+4,2,"{1: 17, 2: 21, 3: 19, 4: 28}",egen832@aucklanduni.ac.nz
+4,26,"{4: 4, 1: 2, 2: 2, 3: 2}",jboj929@aucklanduni.ac.nz
+4,21,"{1: 1, 2: 1, 3: 1, 4: 2}",nsha461@aucklanduni.ac.nz
+4,6,"{4: 5, 1: 2, 2: 5, 3: 4}",cchr618@aucklanduni.ac.nz
+3,2,"{4: 2, 3: 1, 2: 1}",crew352@aucklanduni.ac.nz
+4,11,"{1: 3, 2: 4, 3: 3, 4: 5}",lren453@aucklanduni.ac.nz
+4,7,"{1: 4, 2: 9, 3: 5, 4: 12}",zaam286@aucklanduni.ac.nz
+4,17,"{1: 4, 2: 5, 3: 4, 4: 7}",klam815@aucklanduni.ac.nz
+4,3,"{4: 10, 3: 5, 2: 5, 1: 4}",chud406@aucklanduni.ac.nz
+4,4,"{1: 12, 2: 13, 3: 14, 4: 14}",rmar207@aucklanduni.ac.nz
+1,11,{4: 1},rwas775@aucklanduni.ac.nz
+4,7,"{4: 10, 3: 5, 2: 3, 1: 2}",lbla535@aucklanduni.ac.nz
+4,13,"{1: 2, 2: 2, 3: 2, 4: 8}",ekim134@aucklanduni.ac.nz
+3,6,"{3: 1, 4: 2, 2: 2}",ptai726@aucklanduni.ac.nz
+4,5,"{4: 11, 2: 7, 1: 4, 3: 5}",jsti169@aucklanduni.ac.nz
+4,0,"{2: 10, 4: 17, 1: 8, 3: 9}",tcor383@aucklanduni.ac.nz
+4,0,"{1: 8, 2: 10, 3: 9, 4: 14}",ecam995@aucklanduni.ac.nz
+1,28,{4: 7},cche632@aucklanduni.ac.nz
+4,12,"{1: 9, 2: 10, 3: 9, 4: 11}",jglo854@aucklanduni.ac.nz
+4,20,"{4: 7, 1: 1, 2: 2, 3: 2}",jdao502@aucklanduni.ac.nz
+4,1,"{1: 10, 2: 13, 3: 10, 4: 12}",cmca132@aucklanduni.ac.nz
+2,13,"{2: 1, 4: 1}",swor614@aucklanduni.ac.nz
+4,6,"{3: 21, 2: 21, 1: 19, 4: 23}",azho307@aucklanduni.ac.nz
+4,5,"{2: 5, 1: 3, 3: 3, 4: 11}",krog485@aucklanduni.ac.nz
+1,14,{4: 6},sken953@aucklanduni.ac.nz
+1,5,{4: 1},bbas440@aucklanduni.ac.nz
+4,7,"{4: 15, 1: 9, 2: 10, 3: 9}",mmar715@aucklanduni.ac.nz
+4,41,"{2: 4, 1: 1, 3: 1, 4: 3}",rell437@aucklanduni.ac.nz
+4,17,"{4: 9, 1: 3, 2: 3, 3: 3}",rwu123@aucklanduni.ac.nz
+4,4,"{1: 7, 2: 11, 3: 9, 4: 12}",jhod289@aucklanduni.ac.nz
+4,3,"{1: 13, 2: 15, 3: 15, 4: 16}",athr718@aucklanduni.ac.nz
+4,9,"{1: 1, 2: 2, 3: 2, 4: 2}",mpus696@aucklanduni.ac.nz
+4,5,"{1: 1, 2: 2, 3: 2, 4: 2}",anar660@aucklanduni.ac.nz
+4,4,"{1: 10, 2: 11, 3: 15, 4: 12}",cfle831@aucklanduni.ac.nz
+0,0,{},bzha931@aucklanduni.ac.nz
+4,22,"{4: 6, 2: 3, 3: 3, 1: 2}",apsr695@aucklanduni.ac.nz
+4,7,"{1: 3, 2: 4, 3: 4, 4: 9}",rmad295@aucklanduni.ac.nz
+4,16,"{1: 1, 2: 1, 3: 1, 4: 12}",aaha248@aucklanduni.ac.nz
+2,11,"{2: 1, 4: 2}",ddes517@aucklanduni.ac.nz
+4,2,"{1: 7, 2: 10, 3: 8, 4: 11}",vliu535@aucklanduni.ac.nz
+4,6,"{4: 11, 1: 5, 2: 7, 3: 7}",zdix636@aucklanduni.ac.nz
+4,2,"{1: 1, 2: 2, 3: 1, 4: 3}",rtim382@aucklanduni.ac.nz
+4,8,"{3: 5, 4: 5, 2: 4, 1: 3}",stan779@aucklanduni.ac.nz
+2,24,"{4: 4, 2: 1}",lcla573@aucklanduni.ac.nz
+4,4,"{4: 28, 1: 20, 2: 21, 3: 22}",vli277@aucklanduni.ac.nz
+4,1,"{1: 2, 2: 3, 3: 4, 4: 4}",xjia213@aucklanduni.ac.nz
+4,9,"{1: 13, 2: 16, 3: 14, 4: 24}",ytha599@aucklanduni.ac.nz
+4,4,"{1: 1, 2: 2, 3: 1, 4: 2}",jthi652@aucklanduni.ac.nz
+4,12,"{4: 4, 2: 4, 1: 2, 3: 2}",dcul924@aucklanduni.ac.nz
+4,0,"{1: 9, 2: 13, 3: 10, 4: 14}",jrac073@aucklanduni.ac.nz
+4,8,"{1: 11, 2: 12, 3: 12, 4: 15}",rxu031@aucklanduni.ac.nz
+1,27,{4: 2},azho449@aucklanduni.ac.nz
+4,12,"{1: 8, 2: 9, 3: 9, 4: 9}",jhun750@aucklanduni.ac.nz
+4,1,"{4: 7, 1: 4, 2: 5, 3: 5}",myu272@aucklanduni.ac.nz
+4,29,"{4: 19, 1: 6, 2: 8, 3: 6}",dche168@aucklanduni.ac.nz
+4,1,"{3: 12, 1: 8, 2: 13, 4: 27}",szan655@aucklanduni.ac.nz
+4,13,"{1: 2, 2: 3, 3: 3, 4: 5}",itre760@aucklanduni.ac.nz
+1,13,{4: 2},aban768@aucklanduni.ac.nz
+1,22,{4: 6},ycha856@aucklanduni.ac.nz
+4,1,"{4: 7, 1: 2, 2: 3, 3: 3}",dran749@aucklanduni.ac.nz
+4,3,"{1: 4, 2: 5, 3: 5, 4: 7}",ttse310@aucklanduni.ac.nz
+4,18,"{2: 3, 1: 2, 3: 2, 4: 3}",skim898@aucklanduni.ac.nz
+0,15,{},ydon210@aucklanduni.ac.nz
+4,5,"{4: 4, 1: 2, 2: 2, 3: 2}",ecue296@aucklanduni.ac.nz
+4,2,"{1: 2, 2: 3, 3: 3, 4: 4}",xren449@aucklanduni.ac.nz
+4,5,"{2: 7, 1: 6, 3: 6, 4: 8}",vgro214@aucklanduni.ac.nz
+4,14,"{1: 1, 2: 2, 3: 1, 4: 3}",lgun491@aucklanduni.ac.nz
+4,6,"{1: 4, 2: 12, 3: 7, 4: 17}",csam183@aucklanduni.ac.nz
+4,8,"{1: 2, 2: 3, 3: 2, 4: 5}",rbil344@aucklanduni.ac.nz
+4,9,"{1: 2, 2: 3, 3: 2, 4: 6}",aly896@aucklanduni.ac.nz
+4,10,"{2: 9, 4: 16, 1: 8, 3: 8}",atha725@aucklanduni.ac.nz
+1,15,{4: 2},tcoo471@aucklanduni.ac.nz
+4,5,"{3: 6, 2: 6, 1: 5, 4: 10}",lxu820@aucklanduni.ac.nz
+1,14,{4: 1},tkel442@aucklanduni.ac.nz
+4,4,"{3: 5, 2: 6, 1: 4, 4: 8}",habb290@aucklanduni.ac.nz
+4,2,"{1: 6, 2: 8, 3: 6, 4: 10}",lgao119@aucklanduni.ac.nz
+4,3,"{4: 8, 3: 2, 2: 2, 1: 1}",jwit813@aucklanduni.ac.nz
+2,13,"{2: 4, 4: 5}",bkam314@aucklanduni.ac.nz
+4,6,"{1: 7, 2: 7, 3: 8, 4: 11}",rtur402@aucklanduni.ac.nz
+4,11,"{1: 3, 2: 5, 3: 6, 4: 7}",hyoo810@aucklanduni.ac.nz
+4,14,"{1: 1, 2: 2, 3: 2, 4: 4}",awar517@aucklanduni.ac.nz
+4,20,"{4: 23, 1: 8, 2: 9, 3: 8}",mcoo199@aucklanduni.ac.nz
+4,3,"{1: 14, 2: 16, 3: 14, 4: 20}",mche892@aucklanduni.ac.nz
+4,13,"{1: 3, 2: 3, 3: 3, 4: 8}",wli809@aucklanduni.ac.nz
+1,15,{4: 3},ewor053@aucklanduni.ac.nz
+4,9,"{4: 5, 1: 1, 2: 2, 3: 1}",cdoo074@aucklanduni.ac.nz
+4,15,"{1: 1, 2: 2, 3: 2, 4: 6}",jber551@aucklanduni.ac.nz
+4,12,"{4: 6, 1: 3, 2: 4, 3: 4}",acai638@aucklanduni.ac.nz
+4,21,"{1: 5, 2: 6, 3: 5, 4: 12}",rtur996@aucklanduni.ac.nz
+4,24,"{1: 3, 2: 4, 3: 3, 4: 4}",etur517@aucklanduni.ac.nz
+4,6,"{4: 9, 2: 2, 1: 1, 3: 1}",blau988@aucklanduni.ac.nz
+2,6,"{4: 3, 2: 5}",mpat265@aucklanduni.ac.nz
+4,20,"{1: 1, 2: 1, 3: 1, 4: 5}",sahs744@aucklanduni.ac.nz
+4,2,"{1: 3, 2: 3, 3: 3, 4: 4}",sral894@aucklanduni.ac.nz
+1,11,{4: 2},ipar285@aucklanduni.ac.nz
+4,5,"{4: 5, 3: 3, 1: 1, 2: 2}",lagl387@aucklanduni.ac.nz
+4,6,"{1: 1, 2: 4, 3: 1, 4: 12}",jlow252@aucklanduni.ac.nz
+4,15,"{1: 1, 2: 2, 3: 1, 4: 2}",jsin788@aucklanduni.ac.nz
+3,18,"{4: 4, 3: 1, 2: 1}",jdre842@aucklanduni.ac.nz
+4,14,"{4: 21, 1: 9, 2: 14, 3: 9}",ppat687@aucklanduni.ac.nz
+1,5,{4: 1},ypet355@aucklanduni.ac.nz
+4,4,"{2: 11, 4: 7, 1: 4, 3: 5}",jwu646@aucklanduni.ac.nz
+4,9,"{2: 5, 3: 3, 1: 2, 4: 3}",bjoh928@aucklanduni.ac.nz
+4,14,"{1: 2, 2: 2, 3: 2, 4: 4}",lfan238@aucklanduni.ac.nz
+4,5,"{2: 6, 1: 5, 3: 5, 4: 6}",mneg360@aucklanduni.ac.nz
+4,6,"{1: 2, 2: 4, 3: 4, 4: 4}",ilat533@aucklanduni.ac.nz
+4,30,"{1: 24, 2: 28, 3: 25, 4: 28}",fmil282@aucklanduni.ac.nz
+4,5,"{1: 1, 2: 1, 3: 1, 4: 2}",mmof568@aucklanduni.ac.nz
+4,13,"{1: 6, 2: 8, 3: 7, 4: 9}",bsha906@aucklanduni.ac.nz
+4,7,"{4: 6, 1: 4, 2: 5, 3: 4}",seng838@aucklanduni.ac.nz
+2,20,"{4: 2, 2: 3}",tpam210@aucklanduni.ac.nz
+4,6,"{1: 1, 2: 2, 3: 3, 4: 4}",knai824@aucklanduni.ac.nz
+4,3,"{2: 12, 1: 9, 3: 11, 4: 12}",rsim267@aucklanduni.ac.nz
+1,5,{4: 1},aana155@aucklanduni.ac.nz
+0,0,{},hton892@aucklanduni.ac.nz
+0,0,{},cyoo639@aucklanduni.ac.nz
+4,11,"{4: 17, 3: 10, 2: 10, 1: 9}",woco143@aucklanduni.ac.nz
+1,6,{4: 2},mhua811@aucklanduni.ac.nz
+4,2,"{1: 1, 2: 2, 3: 2, 4: 3}",rsin856@aucklanduni.ac.nz
+4,4,"{1: 8, 2: 8, 3: 8, 4: 15}",ngau444@aucklanduni.ac.nz
+2,6,"{2: 1, 4: 6}",gcar996@aucklanduni.ac.nz
+4,2,"{1: 2, 2: 3, 3: 5, 4: 6}",acho260@aucklanduni.ac.nz
+4,2,"{1: 7, 2: 13, 3: 8, 4: 10}",cxie722@aucklanduni.ac.nz
+4,4,"{1: 5, 2: 7, 3: 6, 4: 9}",mpen999@aucklanduni.ac.nz
+4,6,"{4: 7, 1: 3, 2: 4, 3: 3}",ndea812@aucklanduni.ac.nz
+4,32,"{3: 3, 1: 2, 2: 3, 4: 6}",abes709@aucklanduni.ac.nz
+4,3,"{2: 4, 1: 3, 3: 3, 4: 6}",aali483@aucklanduni.ac.nz
+4,8,"{1: 4, 2: 5, 3: 4, 4: 6}",cnga650@aucklanduni.ac.nz
+4,4,"{1: 7, 2: 10, 3: 8, 4: 12}",alao945@aucklanduni.ac.nz
+4,19,"{1: 3, 2: 5, 3: 3, 4: 5}",pleu281@aucklanduni.ac.nz
+4,13,"{4: 23, 2: 13, 1: 5, 3: 5}",nmoo207@aucklanduni.ac.nz
+4,2,"{4: 21, 2: 11, 1: 9, 3: 10}",szho054@aucklanduni.ac.nz
+4,2,"{1: 14, 2: 16, 3: 15, 4: 22}",tmo429@aucklanduni.ac.nz
+4,16,"{1: 3, 2: 3, 3: 3, 4: 5}",gche672@aucklanduni.ac.nz
+4,5,"{1: 8, 2: 10, 3: 8, 4: 12}",pkha652@aucklanduni.ac.nz
+1,10,{4: 2},ygro734@aucklanduni.ac.nz
+1,1,{4: 1},mwan622@aucklanduni.ac.nz
+1,11,{4: 1},tfer102@aucklanduni.ac.nz
+4,4,"{4: 14, 1: 6, 2: 8, 3: 7}",mgre716@aucklanduni.ac.nz
+2,3,"{2: 3, 4: 2}",hcas095@aucklanduni.ac.nz
+4,20,"{4: 5, 1: 1, 2: 1, 3: 1}",jbol619@aucklanduni.ac.nz
+4,3,"{4: 12, 1: 5, 2: 7, 3: 5}",dli332@aucklanduni.ac.nz
+4,11,"{1: 3, 2: 5, 3: 3, 4: 5}",jjak657@aucklanduni.ac.nz
+4,4,"{1: 7, 2: 8, 3: 8, 4: 9}",abri554@aucklanduni.ac.nz
+4,8,"{1: 4, 2: 6, 3: 6, 4: 13}",daun351@aucklanduni.ac.nz
+4,6,"{1: 8, 2: 14, 3: 10, 4: 17}",tle916@aucklanduni.ac.nz
+1,6,{4: 2},jjia401@aucklanduni.ac.nz
+4,11,"{1: 2, 2: 3, 3: 2, 4: 9}",ekin153@aucklanduni.ac.nz
+4,4,"{1: 7, 2: 10, 3: 8, 4: 13}",ntor387@aucklanduni.ac.nz
+4,0,"{3: 16, 1: 14, 2: 16, 4: 18}",rmen527@aucklanduni.ac.nz
+1,8,{4: 1},echu729@aucklanduni.ac.nz
+4,5,"{1: 1, 2: 3, 3: 2, 4: 2}",rzha613@aucklanduni.ac.nz
+4,7,"{1: 10, 2: 14, 3: 12, 4: 14}",kche399@aucklanduni.ac.nz
+4,6,"{1: 10, 2: 13, 3: 11, 4: 13}",tmcl763@aucklanduni.ac.nz
+4,8,"{1: 1, 2: 1, 3: 1, 4: 3}",jiln054@aucklanduni.ac.nz
+2,1,"{2: 1, 4: 1}",larr486@aucklanduni.ac.nz
+4,4,"{4: 9, 1: 4, 2: 7, 3: 5}",tbil195@aucklanduni.ac.nz
+3,9,"{3: 1, 2: 2, 4: 4}",tlin172@aucklanduni.ac.nz
+1,4,{4: 4},qmcd349@aucklanduni.ac.nz
+4,7,"{3: 4, 1: 3, 2: 3, 4: 4}",tave788@aucklanduni.ac.nz
+1,2,{4: 1},mlau358@aucklanduni.ac.nz
+1,17,{4: 4},aalu438@aucklanduni.ac.nz
+4,7,"{1: 17, 2: 20, 3: 21, 4: 20}",atil307@aucklanduni.ac.nz
+4,11,"{1: 5, 2: 5, 3: 5, 4: 9}",msie468@aucklanduni.ac.nz
+1,0,{4: 1},clee522@aucklanduni.ac.nz
+1,19,{4: 2},gbau806@aucklanduni.ac.nz
+4,4,"{1: 11, 2: 13, 3: 12, 4: 29}",bdul007@aucklanduni.ac.nz
+4,3,"{1: 7, 2: 9, 3: 8, 4: 10}",jsin234@aucklanduni.ac.nz
+4,1,"{1: 2, 2: 3, 3: 3, 4: 5}",mbut904@aucklanduni.ac.nz
+2,17,"{3: 1, 4: 4}",svin108@aucklanduni.ac.nz
+1,6,{4: 2},kvuo257@aucklanduni.ac.nz
+1,4,{4: 3},etan794@aucklanduni.ac.nz
+1,16,{4: 1},dpar329@aucklanduni.ac.nz
+4,7,"{2: 3, 4: 4, 3: 3, 1: 1}",clin221@aucklanduni.ac.nz
+1,54,{4: 1},rxu800@aucklanduni.ac.nz
+4,3,"{4: 10, 1: 6, 2: 8, 3: 8}",bewb044@aucklanduni.ac.nz
+4,8,"{1: 6, 2: 9, 3: 7, 4: 26}",fpar960@aucklanduni.ac.nz
+4,8,"{3: 7, 4: 8, 2: 6, 1: 5}",asma961@aucklanduni.ac.nz
+4,3,"{3: 2, 1: 1, 2: 2, 4: 8}",sluk291@aucklanduni.ac.nz
+2,8,"{2: 1, 4: 4}",hcro463@aucklanduni.ac.nz
+4,6,"{4: 9, 2: 6, 1: 3, 3: 4}",skan208@aucklanduni.ac.nz
+4,3,"{1: 5, 2: 9, 3: 7, 4: 15}",cfre594@aucklanduni.ac.nz
+4,8,"{3: 2, 1: 1, 2: 3, 4: 3}",ali284@aucklanduni.ac.nz
+4,15,"{1: 1, 2: 1, 3: 1, 4: 6}",rrao135@aucklanduni.ac.nz
+2,9,"{4: 2, 2: 1}",cmit523@aucklanduni.ac.nz
+4,15,"{2: 3, 4: 5, 3: 2, 1: 1}",cwoo287@aucklanduni.ac.nz
+4,5,"{1: 2, 2: 2, 3: 2, 4: 7}",vche883@aucklanduni.ac.nz
+4,8,"{1: 2, 2: 2, 3: 2, 4: 4}",vvol743@aucklanduni.ac.nz
+4,5,"{1: 21, 2: 24, 3: 22, 4: 35}",sfar924@aucklanduni.ac.nz
+4,18,"{3: 7, 2: 8, 4: 13, 1: 6}",apur921@aucklanduni.ac.nz
+1,12,{4: 1},aazi303@aucklanduni.ac.nz
+1,22,{4: 3},pman213@aucklanduni.ac.nz
+4,1,"{1: 3, 2: 5, 3: 4, 4: 7}",vfan209@aucklanduni.ac.nz
+1,63,{4: 1},vugn259@aucklanduni.ac.nz
+4,1,"{1: 4, 2: 5, 3: 5, 4: 7}",alon089@aucklanduni.ac.nz
+4,2,"{4: 13, 1: 4, 2: 6, 3: 5}",bdoo694@aucklanduni.ac.nz
+4,19,"{1: 2, 2: 3, 3: 3, 4: 12}",kbor445@aucklanduni.ac.nz
+4,12,"{1: 4, 2: 4, 3: 4, 4: 7}",yqin795@aucklanduni.ac.nz
+1,37,{4: 3},nass421@aucklanduni.ac.nz
+4,8,"{1: 1, 2: 2, 3: 1, 4: 2}",hnay935@aucklanduni.ac.nz
+1,21,{4: 1},ncox776@aucklanduni.ac.nz
+1,9,{4: 1},nalw627@aucklanduni.ac.nz
+2,18,"{2: 1, 4: 1}",ekap605@aucklanduni.ac.nz
+4,5,"{4: 10, 1: 5, 2: 7, 3: 7}",tkim967@aucklanduni.ac.nz
+1,13,{4: 2},hami721@aucklanduni.ac.nz
+4,6,"{4: 6, 1: 2, 2: 3, 3: 3}",zmo907@aucklanduni.ac.nz
+4,26,"{4: 5, 1: 3, 2: 3, 3: 3}",cray790@aucklanduni.ac.nz
+4,7,"{1: 3, 2: 5, 3: 3, 4: 7}",araz667@aucklanduni.ac.nz
+4,10,"{1: 2, 2: 4, 3: 3, 4: 4}",azha516@aucklanduni.ac.nz
+4,3,"{1: 6, 2: 7, 3: 7, 4: 7}",nkal750@aucklanduni.ac.nz
+4,6,"{4: 6, 3: 3, 2: 3, 1: 2}",hbla130@aucklanduni.ac.nz
+4,0,"{4: 20, 2: 17, 1: 10, 3: 10}",jran586@aucklanduni.ac.nz
+1,4,{4: 3},cxua468@aucklanduni.ac.nz
+1,14,{4: 2},kpar545@aucklanduni.ac.nz
+4,4,"{4: 13, 1: 7, 2: 7, 3: 7}",ktay429@aucklanduni.ac.nz
+1,5,{4: 1},greg008@aucklanduni.ac.nz
+4,4,"{1: 16, 2: 18, 3: 17, 4: 26}",kyua481@aucklanduni.ac.nz
+4,3,"{1: 16, 2: 17, 3: 17, 4: 22}",skim821@aucklanduni.ac.nz
+4,3,"{3: 2, 1: 1, 2: 2, 4: 5}",skal894@aucklanduni.ac.nz
+4,7,"{2: 2, 4: 6, 1: 1, 3: 1}",lwan978@aucklanduni.ac.nz
+4,7,"{1: 1, 2: 1, 3: 1, 4: 3}",rkmu156@aucklanduni.ac.nz
+4,5,"{1: 3, 2: 4, 3: 4, 4: 7}",mbed875@aucklanduni.ac.nz
+3,4,"{3: 1, 4: 3, 2: 1}",pman390@aucklanduni.ac.nz
+4,0,"{1: 6, 2: 10, 3: 8, 4: 11}",zhal252@aucklanduni.ac.nz
+1,6,{4: 1},tlea809@aucklanduni.ac.nz
+1,21,{4: 2},adhi248@aucklanduni.ac.nz
+4,8,"{3: 2, 2: 2, 4: 3, 1: 1}",hahm644@aucklanduni.ac.nz
+1,21,{4: 3},bcar121@aucklanduni.ac.nz
+2,8,"{2: 2, 4: 4}",sgre343@aucklanduni.ac.nz
+4,14,"{1: 3, 2: 4, 3: 3, 4: 9}",zzho353@aucklanduni.ac.nz
+4,5,"{1: 4, 2: 5, 3: 4, 4: 5}",cmai684@aucklanduni.ac.nz
+1,9,{4: 3},llag309@aucklanduni.ac.nz
+4,11,"{1: 5, 2: 7, 3: 6, 4: 6}",ldeh612@aucklanduni.ac.nz
+1,12,{4: 1},aahk619@aucklanduni.ac.nz
+4,9,"{1: 2, 2: 3, 3: 3, 4: 5}",amad870@aucklanduni.ac.nz
+2,3,"{4: 4, 2: 1}",zcol217@aucklanduni.ac.nz
+4,3,"{1: 1, 2: 3, 3: 1, 4: 4}",iwen760@aucklanduni.ac.nz
+4,8,"{1: 2, 2: 3, 3: 2, 4: 10}",avir732@aucklanduni.ac.nz
+4,8,"{4: 6, 3: 3, 1: 1, 2: 1}",byeo766@aucklanduni.ac.nz
+4,3,"{4: 10, 1: 4, 2: 5, 3: 7}",cyua182@aucklanduni.ac.nz
+3,13,"{4: 4, 3: 1, 2: 1}",menr467@aucklanduni.ac.nz
+4,4,"{4: 3, 1: 1, 2: 2, 3: 2}",jman647@aucklanduni.ac.nz
+3,3,"{3: 1, 4: 2, 2: 1}",jsha397@aucklanduni.ac.nz
+4,11,"{3: 3, 1: 2, 2: 3, 4: 4}",lher123@aucklanduni.ac.nz
+1,0,{4: 1},nluo415@aucklanduni.ac.nz
+4,7,"{3: 4, 1: 2, 2: 3, 4: 3}",hpri409@aucklanduni.ac.nz
+3,10,"{4: 3, 3: 1, 2: 1}",slal135@aucklanduni.ac.nz
+1,20,{4: 3},snut189@aucklanduni.ac.nz
+4,8,"{1: 5, 2: 8, 3: 8, 4: 11}",klia035@aucklanduni.ac.nz
+4,1,"{4: 19, 1: 11, 2: 13, 3: 12}",hshi786@aucklanduni.ac.nz
+1,5,{4: 1},clai423@aucklanduni.ac.nz
+4,8,"{1: 11, 2: 11, 3: 11, 4: 15}",tvu849@aucklanduni.ac.nz
+2,3,"{2: 1, 4: 1}",cpra253@aucklanduni.ac.nz
+4,18,"{1: 2, 2: 2, 3: 4, 4: 12}",uluk231@aucklanduni.ac.nz
+4,3,"{3: 3, 1: 2, 2: 3, 4: 6}",sbha897@aucklanduni.ac.nz
+4,3,"{4: 9, 2: 7, 1: 5, 3: 6}",nlai947@aucklanduni.ac.nz
+4,17,"{4: 9, 1: 4, 2: 4, 3: 4}",mjov953@aucklanduni.ac.nz
+4,10,"{4: 4, 1: 1, 2: 2, 3: 2}",yhan178@aucklanduni.ac.nz
+3,5,"{3: 2, 4: 3, 2: 1}",nnoo929@aucklanduni.ac.nz
+4,3,"{1: 3, 2: 4, 3: 4, 4: 12}",hbel169@aucklanduni.ac.nz
+4,13,"{1: 2, 2: 4, 3: 4, 4: 4}",dkoh956@aucklanduni.ac.nz
+4,6,"{4: 11, 2: 7, 1: 4, 3: 5}",tliu113@aucklanduni.ac.nz
+4,6,"{3: 5, 2: 5, 4: 7, 1: 4}",wwan768@aucklanduni.ac.nz
+0,15,{},sha525@aucklanduni.ac.nz
+4,0,"{1: 5, 2: 7, 3: 6, 4: 7}",cmar923@aucklanduni.ac.nz
+1,5,{4: 4},jna607@aucklanduni.ac.nz
+1,6,{4: 2},xche411@aucklanduni.ac.nz
+4,25,"{4: 15, 1: 8, 2: 9, 3: 8}",jhua337@aucklanduni.ac.nz
+4,7,"{1: 2, 2: 3, 3: 2, 4: 10}",tpha629@aucklanduni.ac.nz
+2,4,"{2: 1, 4: 1}",wxie538@aucklanduni.ac.nz
+4,1,"{4: 20, 1: 11, 2: 14, 3: 12}",jhut757@aucklanduni.ac.nz
+4,4,"{4: 10, 1: 6, 2: 8, 3: 7}",lphi241@aucklanduni.ac.nz
+4,18,"{1: 3, 2: 5, 3: 3, 4: 8}",hcro051@aucklanduni.ac.nz
+1,7,{4: 1},rvel610@aucklanduni.ac.nz
+4,8,"{1: 3, 2: 4, 3: 3, 4: 5}",tbla721@aucklanduni.ac.nz
+1,4,{4: 2},npat882@aucklanduni.ac.nz
+4,4,"{4: 9, 3: 2, 1: 1, 2: 2}",vana181@aucklanduni.ac.nz
+3,9,"{4: 4, 3: 1, 2: 1}",gpot596@aucklanduni.ac.nz
+4,4,"{1: 3, 2: 4, 3: 3, 4: 5}",rxie160@aucklanduni.ac.nz
+4,4,"{4: 33, 1: 19, 2: 22, 3: 22}",tbon810@aucklanduni.ac.nz
+4,10,"{1: 2, 2: 3, 3: 3, 4: 4}",mden116@aucklanduni.ac.nz
+4,4,"{1: 4, 2: 6, 3: 4, 4: 11}",tcro732@aucklanduni.ac.nz
+0,11,{},hbal601@aucklanduni.ac.nz
+4,7,"{1: 8, 2: 10, 3: 9, 4: 12}",aten048@aucklanduni.ac.nz
+4,9,"{3: 9, 4: 8, 1: 4, 2: 4}",rgun668@aucklanduni.ac.nz
+1,17,{4: 2},esko845@aucklanduni.ac.nz
+4,11,"{1: 4, 2: 7, 3: 6, 4: 6}",jsea067@aucklanduni.ac.nz
+1,22,{4: 1},mlu479@aucklanduni.ac.nz
+4,1,"{1: 4, 2: 4, 3: 5, 4: 6}",hwel532@aucklanduni.ac.nz
+4,8,"{4: 13, 2: 4, 1: 3, 3: 3}",ywu903@aucklanduni.ac.nz
+4,5,"{3: 3, 1: 2, 2: 2, 4: 6}",dhal350@aucklanduni.ac.nz
+1,7,{4: 3},lbre388@aucklanduni.ac.nz
+4,23,"{4: 21, 1: 13, 2: 15, 3: 19}",hle836@aucklanduni.ac.nz
+4,3,"{4: 9, 1: 5, 2: 7, 3: 6}",psun280@aucklanduni.ac.nz
+4,4,"{4: 28, 3: 5, 2: 5, 1: 4}",ssud141@aucklanduni.ac.nz
+4,8,"{4: 6, 1: 3, 2: 4, 3: 6}",ldob836@aucklanduni.ac.nz
+4,8,"{1: 6, 2: 8, 3: 8, 4: 11}",kmon578@aucklanduni.ac.nz
+4,5,"{1: 7, 2: 8, 3: 8, 4: 11}",azal983@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 2, 3: 2, 4: 3}",adan443@aucklanduni.ac.nz
+4,2,"{1: 4, 2: 8, 3: 6, 4: 7}",khun800@aucklanduni.ac.nz
+4,2,"{4: 17, 1: 11, 2: 13, 3: 11}",eand893@aucklanduni.ac.nz
+4,7,"{1: 3, 2: 3, 3: 3, 4: 8}",hsma980@aucklanduni.ac.nz
+3,6,"{2: 2, 3: 1, 4: 3}",dnie545@aucklanduni.ac.nz
+4,2,"{3: 6, 1: 4, 2: 5, 4: 9}",adso293@aucklanduni.ac.nz
+3,4,"{3: 1, 2: 1, 4: 1}",ddha953@aucklanduni.ac.nz
+4,21,"{4: 10, 2: 8, 1: 7, 3: 7}",mbar546@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 2, 3: 2, 4: 4}",jran124@aucklanduni.ac.nz
+4,3,"{1: 4, 2: 7, 3: 4, 4: 7}",yge796@aucklanduni.ac.nz
+2,15,"{4: 3, 2: 1}",ldod648@aucklanduni.ac.nz
+3,17,"{4: 5, 2: 5, 3: 1}",jdic690@aucklanduni.ac.nz
+4,3,"{1: 6, 2: 7, 3: 10, 4: 10}",pma695@aucklanduni.ac.nz
+4,5,"{1: 3, 2: 4, 3: 4, 4: 7}",bmoo808@aucklanduni.ac.nz
+4,2,"{4: 23, 2: 18, 1: 14, 3: 18}",jho402@aucklanduni.ac.nz
+4,4,"{4: 7, 1: 2, 2: 4, 3: 3}",rnei683@aucklanduni.ac.nz
+4,0,"{2: 6, 1: 4, 3: 5, 4: 8}",cwan200@aucklanduni.ac.nz
+4,3,"{4: 2, 1: 1, 2: 2, 3: 2}",jkan225@aucklanduni.ac.nz
+4,4,"{1: 8, 2: 9, 3: 9, 4: 9}",jhe548@aucklanduni.ac.nz
+4,21,"{1: 4, 2: 4, 3: 4, 4: 11}",sgir500@aucklanduni.ac.nz
+1,8,{4: 1},gxue367@aucklanduni.ac.nz
+4,3,"{1: 3, 2: 4, 3: 4, 4: 5}",obab109@aucklanduni.ac.nz
+4,9,"{2: 2, 4: 3, 1: 1, 3: 1}",hsma743@aucklanduni.ac.nz
+1,8,{4: 4},mzhu635@aucklanduni.ac.nz
+4,2,"{1: 3, 2: 4, 3: 3, 4: 5}",mram880@aucklanduni.ac.nz
+1,20,{4: 6},shir779@aucklanduni.ac.nz
+4,4,"{1: 5, 2: 6, 3: 6, 4: 11}",jvic958@aucklanduni.ac.nz
+4,10,"{1: 6, 2: 9, 3: 6, 4: 10}",amca607@aucklanduni.ac.nz
+4,12,"{4: 6, 2: 5, 1: 2, 3: 2}",jpen089@aucklanduni.ac.nz
+4,5,"{1: 8, 2: 11, 3: 10, 4: 21}",afel072@aucklanduni.ac.nz
+4,8,"{4: 11, 1: 3, 2: 5, 3: 4}",atag461@aucklanduni.ac.nz
+4,27,"{4: 12, 3: 8, 2: 8, 1: 7}",lcla596@aucklanduni.ac.nz
+4,5,"{1: 2, 2: 3, 3: 4, 4: 6}",zwan364@aucklanduni.ac.nz
+4,15,"{1: 2, 2: 3, 3: 2, 4: 6}",cpat704@aucklanduni.ac.nz
+4,3,"{1: 4, 2: 6, 3: 6, 4: 7}",hzhu217@aucklanduni.ac.nz
+4,4,"{3: 3, 1: 1, 2: 2, 4: 2}",mcar360@aucklanduni.ac.nz
+1,7,{4: 2},dpan484@aucklanduni.ac.nz
+4,32,"{1: 2, 2: 3, 3: 4, 4: 3}",ssen305@aucklanduni.ac.nz
+4,4,"{1: 4, 2: 6, 3: 5, 4: 8}",shua358@aucklanduni.ac.nz
+4,4,"{1: 10, 2: 12, 3: 11, 4: 20}",lcro875@aucklanduni.ac.nz
+1,23,{4: 2},ishi315@aucklanduni.ac.nz
+4,3,"{1: 1, 2: 2, 3: 2, 4: 2}",amuh045@aucklanduni.ac.nz
+4,6,"{1: 3, 2: 4, 3: 5, 4: 6}",arom411@aucklanduni.ac.nz
+4,4,"{1: 3, 2: 4, 3: 5, 4: 5}",mher227@aucklanduni.ac.nz
+1,8,{4: 1},dkim400@aucklanduni.ac.nz
+4,5,"{4: 16, 3: 3, 2: 4, 1: 2}",ehoy578@aucklanduni.ac.nz
+4,9,"{1: 4, 2: 4, 3: 4, 4: 6}",abol883@aucklanduni.ac.nz
+4,13,"{1: 6, 2: 6, 3: 6, 4: 13}",ntha818@aucklanduni.ac.nz
+4,3,"{2: 3, 1: 2, 3: 2, 4: 5}",twhe118@aucklanduni.ac.nz
+4,6,"{1: 2, 2: 3, 3: 3, 4: 5}",else021@aucklanduni.ac.nz
+4,3,"{4: 5, 3: 2, 1: 1, 2: 1}",ysin479@aucklanduni.ac.nz
+4,2,"{4: 6, 2: 5, 3: 3, 1: 2}",bsug616@aucklanduni.ac.nz
+4,1,"{1: 11, 2: 12, 3: 12, 4: 16}",sisn366@aucklanduni.ac.nz
+4,1,"{4: 15, 2: 9, 1: 7, 3: 8}",jehc801@aucklanduni.ac.nz
+4,20,"{2: 6, 4: 6, 1: 3, 3: 3}",skol827@aucklanduni.ac.nz
+4,18,"{2: 4, 1: 2, 3: 3, 4: 5}",yhua572@aucklanduni.ac.nz
+4,9,"{4: 7, 1: 1, 2: 1, 3: 1}",hdra376@aucklanduni.ac.nz
+4,9,"{4: 13, 1: 8, 2: 12, 3: 11}",mdar627@aucklanduni.ac.nz
+4,7,"{1: 5, 2: 7, 3: 7, 4: 9}",dshi749@aucklanduni.ac.nz
+4,10,"{1: 1, 2: 1, 3: 1, 4: 4}",ajai513@aucklanduni.ac.nz
+1,12,{4: 2},kahu423@aucklanduni.ac.nz
+4,6,"{1: 3, 2: 4, 3: 5, 4: 5}",rshe192@aucklanduni.ac.nz
+4,4,"{1: 4, 2: 6, 3: 7, 4: 11}",rpan763@aucklanduni.ac.nz
+4,31,"{1: 2, 2: 2, 3: 2, 4: 6}",mphi203@aucklanduni.ac.nz
+4,3,"{1: 4, 2: 6, 3: 6, 4: 6}",fott210@aucklanduni.ac.nz
+1,3,{4: 1},rter258@aucklanduni.ac.nz
+4,1,"{4: 8, 1: 4, 2: 4, 3: 4}",thu139@aucklanduni.ac.nz
+1,6,{4: 2},jilu579@aucklanduni.ac.nz
+4,22,"{1: 1, 2: 1, 3: 1, 4: 12}",jkmi551@aucklanduni.ac.nz
+4,17,"{3: 7, 2: 7, 4: 14, 1: 5}",rwat403@aucklanduni.ac.nz
+4,8,"{4: 3, 1: 1, 2: 1, 3: 1}",wsco929@aucklanduni.ac.nz
+4,5,"{3: 6, 1: 4, 2: 5, 4: 8}",nwad187@aucklanduni.ac.nz
+4,9,"{1: 6, 2: 7, 3: 6, 4: 7}",jilm052@aucklanduni.ac.nz
+4,5,"{1: 4, 2: 5, 3: 4, 4: 9}",dvel790@aucklanduni.ac.nz
+4,4,"{2: 2, 1: 1, 3: 1, 4: 6}",jsut296@aucklanduni.ac.nz
+1,8,{4: 1},mhoc680@aucklanduni.ac.nz
+0,0,{},cpan619@aucklanduni.ac.nz
+4,15,"{1: 8, 2: 11, 3: 9, 4: 17}",bpro741@aucklanduni.ac.nz
+1,8,{4: 1},dzho610@aucklanduni.ac.nz
+4,4,"{1: 5, 2: 6, 3: 8, 4: 9}",nbai785@aucklanduni.ac.nz
+1,3,{4: 6},dtiw818@aucklanduni.ac.nz
+4,7,"{4: 6, 1: 2, 2: 3, 3: 3}",lmih157@aucklanduni.ac.nz
+4,3,"{1: 3, 2: 4, 3: 7, 4: 6}",sala136@aucklanduni.ac.nz
+4,7,"{4: 7, 1: 4, 2: 7, 3: 7}",usim720@aucklanduni.ac.nz
+1,9,{4: 6},rhan275@aucklanduni.ac.nz
+4,10,"{2: 6, 1: 5, 3: 5, 4: 14}",sye634@aucklanduni.ac.nz
+4,5,"{2: 3, 3: 2, 1: 1, 4: 3}",edar751@aucklanduni.ac.nz
+4,2,"{1: 4, 2: 6, 3: 5, 4: 6}",sha221@aucklanduni.ac.nz
+2,16,"{2: 1, 4: 6}",usch143@aucklanduni.ac.nz
+4,13,"{2: 6, 4: 6, 1: 4, 3: 4}",jiln969@aucklanduni.ac.nz
+1,32,{4: 2},ali108@aucklanduni.ac.nz
+4,3,"{1: 8, 2: 9, 3: 9, 4: 10}",nmck799@aucklanduni.ac.nz
+0,6,{},xhua972@aucklanduni.ac.nz
+1,13,{4: 5},eejl976@aucklanduni.ac.nz
+4,15,"{1: 8, 2: 8, 3: 9, 4: 15}",rish906@aucklanduni.ac.nz
+4,4,"{1: 23, 2: 25, 3: 24, 4: 27}",mwon922@aucklanduni.ac.nz
+4,6,"{1: 10, 2: 11, 3: 10, 4: 12}",lgue557@aucklanduni.ac.nz
+4,0,"{1: 4, 2: 7, 3: 7, 4: 11}",khar445@aucklanduni.ac.nz
+0,11,{},jwna967@aucklanduni.ac.nz
+3,8,"{3: 1, 2: 1, 4: 2}",mkin710@aucklanduni.ac.nz
+4,1,"{1: 12, 2: 14, 3: 16, 4: 17}",clu820@aucklanduni.ac.nz
+4,9,"{1: 2, 2: 3, 3: 3, 4: 5}",skam368@aucklanduni.ac.nz
+4,8,"{3: 5, 1: 3, 2: 6, 4: 9}",yhan166@aucklanduni.ac.nz
+4,3,"{1: 15, 2: 25, 3: 17, 4: 23}",cfor208@aucklanduni.ac.nz
+4,3,"{1: 1, 2: 1, 3: 1, 4: 3}",zlin716@aucklanduni.ac.nz
+4,8,"{4: 10, 1: 3, 2: 4, 3: 4}",rfu298@aucklanduni.ac.nz
+4,12,"{3: 2, 1: 1, 2: 2, 4: 2}",nway392@aucklanduni.ac.nz
+4,7,"{3: 2, 1: 1, 2: 2, 4: 3}",jnic287@aucklanduni.ac.nz
+4,6,"{1: 1, 2: 1, 3: 1, 4: 6}",rhu119@aucklanduni.ac.nz
+4,7,"{1: 6, 2: 6, 3: 6, 4: 10}",jwid412@aucklanduni.ac.nz
+4,1,"{1: 4, 2: 4, 3: 4, 4: 8}",jpat662@aucklanduni.ac.nz
+1,9,{4: 1},nrai521@aucklanduni.ac.nz
+4,2,"{2: 9, 1: 4, 3: 5, 4: 7}",vwan723@aucklanduni.ac.nz
+4,8,"{1: 5, 2: 6, 3: 7, 4: 8}",aibr281@aucklanduni.ac.nz
+4,3,"{4: 34, 1: 24, 2: 27, 3: 25}",dloy864@aucklanduni.ac.nz
+1,5,{4: 4},gbae299@aucklanduni.ac.nz
+4,16,"{1: 28, 2: 31, 3: 29, 4: 36}",pvel854@aucklanduni.ac.nz
+4,13,"{1: 2, 2: 4, 3: 3, 4: 10}",rlin113@aucklanduni.ac.nz
+1,1,{4: 2},jehc833@aucklanduni.ac.nz
+3,2,"{3: 1, 4: 10, 2: 1}",dkwo677@aucklanduni.ac.nz
+4,11,"{4: 6, 3: 5, 2: 4, 1: 3}",lkun203@aucklanduni.ac.nz
+4,2,"{4: 4, 1: 1, 2: 2, 3: 2}",molp765@aucklanduni.ac.nz
+1,4,{4: 1},snai769@aucklanduni.ac.nz
+4,6,"{1: 3, 2: 5, 3: 4, 4: 7}",hsma728@aucklanduni.ac.nz
+4,0,"{4: 8, 1: 3, 2: 3, 3: 3}",jdru446@aucklanduni.ac.nz
+4,8,"{1: 2, 2: 2, 3: 2, 4: 6}",echo465@aucklanduni.ac.nz
+4,8,"{3: 4, 2: 4, 1: 3, 4: 10}",kpat790@aucklanduni.ac.nz
+4,5,"{1: 4, 2: 4, 3: 5, 4: 10}",ahac868@aucklanduni.ac.nz
+4,3,"{1: 2, 2: 5, 3: 3, 4: 5}",rpat933@aucklanduni.ac.nz
+4,3,"{4: 6, 2: 3, 1: 2, 3: 2}",tliu559@aucklanduni.ac.nz
+4,12,"{1: 1, 2: 2, 3: 2, 4: 2}",cugn714@aucklanduni.ac.nz
+2,3,"{4: 2, 2: 1}",augn694@aucklanduni.ac.nz
+4,4,"{1: 8, 2: 11, 3: 10, 4: 10}",omun687@aucklanduni.ac.nz
+4,0,"{1: 7, 2: 9, 3: 12, 4: 10}",jslo992@aucklanduni.ac.nz
+0,2,{},adav543@aucklanduni.ac.nz
+4,8,"{1: 3, 2: 3, 3: 3, 4: 8}",teva029@aucklanduni.ac.nz
+4,6,"{4: 18, 1: 8, 2: 12, 3: 9}",kcla741@aucklanduni.ac.nz
+4,3,"{1: 10, 2: 16, 3: 11, 4: 12}",adat168@aucklanduni.ac.nz
+3,4,"{3: 2, 2: 1, 4: 1}",sall486@aucklanduni.ac.nz
+4,1,"{1: 3, 2: 5, 3: 4, 4: 5}",xche243@aucklanduni.ac.nz
+4,4,"{1: 10, 2: 12, 3: 10, 4: 20}",htha707@aucklanduni.ac.nz
+1,11,{4: 2},sfra603@aucklanduni.ac.nz
+4,7,"{1: 2, 2: 3, 3: 3, 4: 4}",zxio320@aucklanduni.ac.nz
+1,21,{4: 1},pkov029@aucklanduni.ac.nz
+4,5,"{1: 3, 2: 4, 3: 4, 4: 5}",jgod939@aucklanduni.ac.nz
+4,17,"{1: 6, 2: 9, 3: 7, 4: 8}",rhan422@aucklanduni.ac.nz
+0,0,{},ygao281@aucklanduni.ac.nz
+4,3,"{1: 6, 2: 7, 3: 8, 4: 11}",ddai782@aucklanduni.ac.nz
+4,4,"{1: 5, 2: 9, 3: 6, 4: 10}",kmak659@aucklanduni.ac.nz
+4,7,"{3: 6, 2: 5, 1: 4, 4: 5}",smob156@aucklanduni.ac.nz
+4,18,"{3: 6, 4: 8, 2: 5, 1: 4}",rahm366@aucklanduni.ac.nz
+4,5,"{1: 6, 2: 7, 3: 7, 4: 9}",abab907@aucklanduni.ac.nz
+4,2,"{1: 1, 2: 2, 3: 2, 4: 2}",akew960@aucklanduni.ac.nz
+4,5,"{4: 10, 3: 4, 2: 5, 1: 3}",alob319@aucklanduni.ac.nz
+4,16,"{1: 1, 2: 1, 3: 1, 4: 4}",jhol335@aucklanduni.ac.nz
+1,4,{4: 1},fait530@aucklanduni.ac.nz
+4,1,"{2: 9, 4: 12, 1: 6, 3: 8}",rraw287@aucklanduni.ac.nz
+4,5,"{1: 1, 2: 4, 3: 2, 4: 12}",jrig474@aucklanduni.ac.nz
+1,14,{4: 1},bhay586@aucklanduni.ac.nz
+4,2,"{1: 17, 2: 23, 3: 18, 4: 27}",gnis570@aucklanduni.ac.nz
+3,9,"{2: 1, 3: 1, 4: 5}",rcho619@aucklanduni.ac.nz
+4,2,"{1: 24, 2: 25, 3: 25, 4: 37}",ptho411@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 3, 3: 4, 4: 3}",smad887@aucklanduni.ac.nz
+4,4,"{1: 1, 2: 1, 3: 1, 4: 6}",tcha526@aucklanduni.ac.nz
+4,3,"{1: 7, 2: 8, 3: 8, 4: 10}",nhil526@aucklanduni.ac.nz
+4,7,"{4: 4, 1: 1, 2: 1, 3: 1}",jpat292@aucklanduni.ac.nz
+4,3,"{4: 5, 1: 2, 2: 3, 3: 3}",dmer427@aucklanduni.ac.nz
+1,20,{4: 1},tgri654@aucklanduni.ac.nz
+4,3,"{4: 13, 1: 7, 2: 9, 3: 8}",awoo479@aucklanduni.ac.nz
+4,2,"{4: 7, 3: 3, 2: 4, 1: 1}",sfgg685@aucklanduni.ac.nz
+4,10,"{4: 9, 2: 7, 1: 5, 3: 6}",zsha758@aucklanduni.ac.nz
+4,6,"{4: 4, 3: 3, 2: 3, 1: 1}",agov450@aucklanduni.ac.nz
+1,13,{4: 4},aarm294@aucklanduni.ac.nz
+4,4,"{1: 5, 2: 7, 3: 8, 4: 12}",mrus793@aucklanduni.ac.nz
+4,13,"{4: 10, 1: 6, 2: 6, 3: 6}",zhua359@aucklanduni.ac.nz
+4,5,"{1: 5, 2: 6, 3: 7, 4: 7}",bliu793@aucklanduni.ac.nz
+4,20,"{3: 4, 2: 5, 1: 3, 4: 5}",vpat395@aucklanduni.ac.nz
+4,24,"{1: 5, 2: 5, 3: 5, 4: 8}",slai589@aucklanduni.ac.nz
+4,4,"{4: 16, 1: 4, 2: 6, 3: 5}",kkmu912@aucklanduni.ac.nz
+2,6,"{4: 9, 2: 1}",idso005@aucklanduni.ac.nz
+4,16,"{1: 14, 2: 14, 3: 14, 4: 16}",kloo416@aucklanduni.ac.nz
+4,1,"{1: 7, 2: 8, 3: 7, 4: 10}",hshe576@aucklanduni.ac.nz
+4,16,"{1: 2, 2: 3, 3: 2, 4: 3}",lhaw376@aucklanduni.ac.nz
+4,11,"{1: 2, 2: 3, 3: 3, 4: 6}",ewal457@aucklanduni.ac.nz
+1,7,{4: 1},wye186@aucklanduni.ac.nz
+4,6,"{1: 14, 2: 19, 3: 21, 4: 29}",dban105@aucklanduni.ac.nz
+1,2,{4: 2},xdua444@aucklanduni.ac.nz
+1,10,{4: 15},cmuc352@aucklanduni.ac.nz
+3,12,"{4: 3, 3: 1, 2: 1}",yany372@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 7, 3: 2, 4: 9}",zqui259@aucklanduni.ac.nz
+0,6,{},kxua569@aucklanduni.ac.nz
+3,20,"{3: 2, 4: 13, 2: 1}",bbin523@aucklanduni.ac.nz
+1,27,{4: 1},akri420@aucklanduni.ac.nz
+4,5,"{3: 17, 1: 16, 2: 17, 4: 23}",rnar889@aucklanduni.ac.nz
+1,5,{4: 1},bpar387@aucklanduni.ac.nz
+4,11,"{1: 1, 2: 1, 3: 1, 4: 3}",taye752@aucklanduni.ac.nz
+4,13,"{4: 4, 1: 1, 2: 1, 3: 1}",kabb614@aucklanduni.ac.nz
+4,8,"{4: 11, 3: 3, 2: 3, 1: 2}",iste202@aucklanduni.ac.nz
+0,1,{},zzou585@aucklanduni.ac.nz
+0,0,{},shea521@aucklanduni.ac.nz
+4,16,"{1: 4, 2: 6, 3: 5, 4: 11}",vher202@aucklanduni.ac.nz
+4,6,"{1: 8, 2: 14, 3: 9, 4: 22}",alin393@aucklanduni.ac.nz
+4,10,"{1: 4, 2: 5, 3: 5, 4: 9}",taus865@aucklanduni.ac.nz
+4,5,"{1: 1, 2: 1, 3: 1, 4: 4}",sdes604@aucklanduni.ac.nz
+4,15,"{4: 17, 2: 15, 1: 8, 3: 9}",mkan891@aucklanduni.ac.nz
+3,2,"{3: 1, 2: 1, 4: 1}",tzha094@aucklanduni.ac.nz
+2,8,"{4: 4, 2: 1}",blu190@aucklanduni.ac.nz
+4,3,"{4: 29, 2: 21, 1: 16, 3: 18}",draj401@aucklanduni.ac.nz
+4,4,"{4: 14, 2: 13, 1: 6, 3: 7}",epea690@aucklanduni.ac.nz
+2,2,"{2: 1, 4: 3}",amhk214@aucklanduni.ac.nz
+2,17,"{2: 1, 4: 4}",snai156@aucklanduni.ac.nz
+0,10,{},echa266@aucklanduni.ac.nz
+2,17,"{2: 1, 4: 5}",akri613@aucklanduni.ac.nz
+4,7,"{1: 3, 2: 4, 3: 4, 4: 7}",clau290@aucklanduni.ac.nz
+1,12,{4: 1},mabb476@aucklanduni.ac.nz
+4,7,"{1: 7, 2: 8, 3: 7, 4: 10}",spen645@aucklanduni.ac.nz
+4,15,"{3: 3, 4: 5, 1: 1, 2: 3}",emer481@aucklanduni.ac.nz
+4,12,"{1: 2, 2: 3, 3: 3, 4: 4}",hugn859@aucklanduni.ac.nz
+4,9,"{1: 4, 2: 5, 3: 4, 4: 5}",cche989@aucklanduni.ac.nz
+4,6,"{1: 25, 2: 29, 3: 29, 4: 35}",gper121@aucklanduni.ac.nz
+4,3,"{1: 4, 2: 5, 3: 4, 4: 7}",ajos490@aucklanduni.ac.nz
+1,3,{4: 2},czha215@aucklanduni.ac.nz
+1,3,{4: 1},spag888@aucklanduni.ac.nz
+4,13,"{1: 2, 2: 2, 3: 2, 4: 3}",amah823@aucklanduni.ac.nz
+1,17,{4: 1},ecai315@aucklanduni.ac.nz
+0,10,{},dugn950@aucklanduni.ac.nz
+4,2,"{1: 5, 2: 6, 3: 6, 4: 11}",jgao171@aucklanduni.ac.nz
+4,18,"{2: 2, 4: 9, 1: 1, 3: 1}",pdan179@aucklanduni.ac.nz
+2,12,"{2: 1, 4: 2}",jneu970@aucklanduni.ac.nz
+1,16,{4: 1},ytan585@aucklanduni.ac.nz
+4,3,"{1: 2, 2: 3, 3: 5, 4: 4}",yred456@aucklanduni.ac.nz
+0,0,{},nrah987@aucklanduni.ac.nz
+4,2,"{1: 4, 2: 4, 3: 5, 4: 7}",bkue125@aucklanduni.ac.nz
+4,18,"{2: 4, 4: 9, 1: 2, 3: 2}",yany895@aucklanduni.ac.nz
+1,6,{4: 2},aant275@aucklanduni.ac.nz
+4,9,"{3: 6, 4: 8, 2: 5, 1: 4}",ppat576@aucklanduni.ac.nz
+4,7,"{3: 3, 2: 3, 4: 3, 1: 1}",mlew486@aucklanduni.ac.nz
+0,14,{},xboy406@aucklanduni.ac.nz
+1,3,{4: 1},rcha399@aucklanduni.ac.nz
+4,4,"{1: 3, 2: 3, 3: 3, 4: 12}",ejoh110@aucklanduni.ac.nz
+4,10,"{2: 2, 1: 1, 3: 1, 4: 2}",neva160@aucklanduni.ac.nz
+4,33,"{1: 4, 2: 4, 3: 5, 4: 6}",cron790@aucklanduni.ac.nz
+0,0,{},cchi498@aucklanduni.ac.nz
+4,4,"{4: 14, 1: 9, 2: 10, 3: 10}",tton605@aucklanduni.ac.nz
+4,4,"{1: 12, 2: 13, 3: 12, 4: 16}",mfar660@aucklanduni.ac.nz
+1,2,{4: 1},thut488@aucklanduni.ac.nz
+1,0,{4: 1},byhz224@aucklanduni.ac.nz
+4,4,"{3: 16, 2: 15, 4: 19, 1: 13}",myan302@aucklanduni.ac.nz
+1,23,{4: 3},vmur168@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 3, 3: 3, 4: 3}",amaf031@aucklanduni.ac.nz
+4,3,"{4: 4, 1: 1, 2: 2, 3: 1}",sfor872@aucklanduni.ac.nz
+1,10,{4: 1},tpar149@aucklanduni.ac.nz
+0,0,{},fxu480@aucklanduni.ac.nz
+1,5,{4: 1},knis137@aucklanduni.ac.nz
+1,4,{4: 1},slor206@aucklanduni.ac.nz
+4,30,"{4: 9, 1: 3, 2: 3, 3: 3}",ekot447@aucklanduni.ac.nz
+4,4,"{4: 4, 1: 1, 2: 2, 3: 2}",epil033@aucklanduni.ac.nz
+1,7,{4: 1},dmal453@aucklanduni.ac.nz
+4,11,"{1: 3, 2: 3, 3: 3, 4: 10}",hyan580@aucklanduni.ac.nz
+2,3,"{3: 1, 4: 2}",lyau267@aucklanduni.ac.nz
+4,5,"{3: 10, 4: 10, 1: 6, 2: 7}",nvol723@aucklanduni.ac.nz
+1,2,{4: 2},dfan539@aucklanduni.ac.nz
+0,4,{},shoo135@aucklanduni.ac.nz
+4,9,"{4: 6, 2: 2, 1: 1, 3: 1}",thoy085@aucklanduni.ac.nz
+4,8,"{3: 6, 1: 2, 2: 3, 4: 4}",kzha053@aucklanduni.ac.nz
+2,10,"{4: 2, 2: 1}",hcam814@aucklanduni.ac.nz
+4,9,"{3: 5, 2: 5, 1: 4, 4: 11}",rfai994@aucklanduni.ac.nz
+4,4,"{1: 4, 2: 5, 3: 4, 4: 9}",ssun430@aucklanduni.ac.nz
+1,12,{4: 1},skim723@aucklanduni.ac.nz
+2,22,"{4: 4, 2: 1}",syam557@aucklanduni.ac.nz
+4,8,"{1: 4, 2: 5, 3: 5, 4: 7}",jrob445@aucklanduni.ac.nz
+4,4,"{4: 12, 1: 6, 2: 11, 3: 7}",mshv627@aucklanduni.ac.nz
+4,14,"{2: 5, 1: 4, 3: 4, 4: 6}",wsok607@aucklanduni.ac.nz
+4,3,"{1: 7, 2: 8, 3: 8, 4: 13}",sxia668@aucklanduni.ac.nz
+1,4,{4: 3},iaer299@aucklanduni.ac.nz
+0,0,{},jtho992@aucklanduni.ac.nz
+4,15,"{4: 22, 1: 8, 2: 13, 3: 8}",amur889@aucklanduni.ac.nz
+4,9,"{1: 4, 2: 5, 3: 5, 4: 5}",jkha394@aucklanduni.ac.nz
+1,14,{4: 1},ezak495@aucklanduni.ac.nz
+4,1,"{4: 4, 1: 2, 2: 3, 3: 2}",jwra235@aucklanduni.ac.nz
+1,21,{4: 4},nkha790@aucklanduni.ac.nz
+2,7,"{4: 2, 2: 1}",bzha590@aucklanduni.ac.nz
+4,2,"{1: 14, 2: 18, 3: 14, 4: 24}",kli977@aucklanduni.ac.nz
+0,1,{},rbai157@aucklanduni.ac.nz
+4,7,"{1: 1, 2: 1, 3: 1, 4: 3}",puda003@aucklanduni.ac.nz
+4,8,"{1: 9, 2: 13, 3: 10, 4: 15}",jng850@aucklanduni.ac.nz
+4,4,"{1: 5, 2: 7, 3: 6, 4: 7}",spea222@aucklanduni.ac.nz
+1,0,{4: 7},icar391@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 2, 3: 2, 4: 4}",xsun664@aucklanduni.ac.nz
+1,1,{4: 1},fmat314@aucklanduni.ac.nz
+0,0,{},acoo218@aucklanduni.ac.nz
+1,7,{4: 3},ho581@aucklanduni.ac.nz
+1,1,{4: 1},mpar591@aucklanduni.ac.nz
+0,8,{},zxu553@aucklanduni.ac.nz
+0,0,{},drai185@aucklanduni.ac.nz
+0,0,{},aale295@aucklanduni.ac.nz
+1,8,{4: 1},phol334@aucklanduni.ac.nz
+4,1,"{3: 3, 4: 3, 1: 1, 2: 2}",nwel338@aucklanduni.ac.nz
+4,1,"{1: 2, 2: 3, 3: 3, 4: 4}",bfer129@aucklanduni.ac.nz
+4,2,"{1: 1, 2: 2, 3: 2, 4: 2}",nfie397@aucklanduni.ac.nz
+4,5,"{4: 6, 1: 4, 2: 6, 3: 6}",tdic659@aucklanduni.ac.nz
+4,4,"{3: 2, 1: 1, 2: 2, 4: 2}",kzha078@aucklanduni.ac.nz
+0,0,{},otuk189@aucklanduni.ac.nz
+4,5,"{1: 5, 2: 10, 3: 6, 4: 15}",hsmi366@aucklanduni.ac.nz
+4,8,"{1: 3, 2: 3, 3: 3, 4: 5}",rfer860@aucklanduni.ac.nz
+4,4,"{1: 7, 2: 9, 3: 8, 4: 8}",hgan272@aucklanduni.ac.nz
+1,5,{4: 2},esmi255@aucklanduni.ac.nz
+4,2,"{1: 5, 2: 6, 3: 6, 4: 12}",ihem070@aucklanduni.ac.nz
+4,1,"{4: 15, 2: 10, 1: 5, 3: 6}",rsen113@aucklanduni.ac.nz
+4,2,"{1: 6, 2: 7, 3: 7, 4: 7}",mcle558@aucklanduni.ac.nz
+2,5,"{2: 1, 4: 2}",blin361@aucklanduni.ac.nz
+4,0,"{4: 4, 3: 3, 2: 3, 1: 2}",jnie221@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 2, 3: 2, 4: 3}",rcha653@aucklanduni.ac.nz
+2,3,"{2: 1, 4: 6}",hsmi828@aucklanduni.ac.nz
+4,22,"{3: 8, 1: 7, 2: 8, 4: 11}",rwil656@aucklanduni.ac.nz
+1,31,{4: 2},avun919@aucklanduni.ac.nz
+0,29,{},sgre398@aucklanduni.ac.nz
+4,3,"{4: 23, 3: 15, 1: 13, 2: 14}",btse296@aucklanduni.ac.nz
+4,2,"{4: 5, 1: 2, 2: 6, 3: 3}",zhe377@aucklanduni.ac.nz
+4,2,"{4: 5, 1: 2, 2: 4, 3: 2}",tdua875@aucklanduni.ac.nz
+0,0,{},rraw123@aucklanduni.ac.nz
+1,7,{4: 1},dhol412@aucklanduni.ac.nz
+4,3,"{3: 3, 1: 2, 2: 3, 4: 3}",mben371@aucklanduni.ac.nz
+1,4,{4: 3},mche349@aucklanduni.ac.nz
+1,3,{4: 1},zyan606@aucklanduni.ac.nz
+1,4,{4: 1},rfaw973@aucklanduni.ac.nz
+3,20,"{3: 2, 2: 3, 4: 3}",svup831@aucklanduni.ac.nz
+1,12,{4: 2},jilm575@aucklanduni.ac.nz
+4,5,"{1: 13, 2: 19, 3: 14, 4: 22}",dgon616@aucklanduni.ac.nz
+4,17,"{4: 10, 1: 5, 2: 8, 3: 6}",hsma611@aucklanduni.ac.nz
+4,8,"{1: 6, 2: 7, 3: 7, 4: 14}",vtop995@aucklanduni.ac.nz
+0,1,{},jbhi525@aucklanduni.ac.nz
+4,2,"{3: 8, 2: 8, 1: 7, 4: 10}",tsha374@aucklanduni.ac.nz
+4,4,"{1: 3, 2: 4, 3: 4, 4: 6}",mkni061@aucklanduni.ac.nz
+4,0,"{1: 6, 2: 8, 3: 7, 4: 10}",acha734@aucklanduni.ac.nz
+4,37,"{4: 11, 1: 3, 2: 7, 3: 3}",pkad432@aucklanduni.ac.nz
+4,10,"{1: 4, 2: 6, 3: 4, 4: 7}",ngar157@aucklanduni.ac.nz
+4,10,"{1: 5, 2: 6, 3: 6, 4: 7}",gcha520@aucklanduni.ac.nz
+1,10,{4: 4},jwoo191@aucklanduni.ac.nz
+0,21,{},ahad279@aucklanduni.ac.nz
+0,0,{},dton624@aucklanduni.ac.nz
+4,11,"{4: 5, 1: 2, 2: 3, 3: 2}",medw415@aucklanduni.ac.nz
+3,4,"{3: 1, 4: 5, 2: 1}",hben257@aucklanduni.ac.nz
+4,2,"{1: 6, 2: 9, 3: 8, 4: 11}",vfer543@aucklanduni.ac.nz
+4,9,"{1: 2, 2: 2, 3: 2, 4: 6}",yany841@aucklanduni.ac.nz
+1,13,{4: 1},jahf248@aucklanduni.ac.nz
+4,12,"{1: 3, 2: 3, 3: 3, 4: 5}",dhe230@aucklanduni.ac.nz
+4,6,"{1: 4, 2: 5, 3: 4, 4: 5}",ohay203@aucklanduni.ac.nz
+4,8,"{3: 6, 2: 6, 1: 5, 4: 8}",dyi201@aucklanduni.ac.nz
+4,5,"{1: 1, 2: 2, 3: 2, 4: 3}",allo595@aucklanduni.ac.nz
+4,5,"{4: 13, 1: 2, 2: 2, 3: 2}",fyan273@aucklanduni.ac.nz
+0,5,{},aqar733@aucklanduni.ac.nz
+4,2,"{3: 4, 2: 5, 1: 3, 4: 6}",pjug017@aucklanduni.ac.nz
+0,7,{},eris236@aucklanduni.ac.nz
+0,2,{},nisa838@aucklanduni.ac.nz
+4,4,"{1: 4, 2: 6, 3: 5, 4: 5}",hsun371@aucklanduni.ac.nz
+0,0,{},cpha468@aucklanduni.ac.nz
+4,0,"{4: 5, 2: 4, 1: 1, 3: 1}",oyua788@aucklanduni.ac.nz
+4,15,"{1: 3, 2: 3, 3: 3, 4: 5}",stig032@aucklanduni.ac.nz
+0,3,{},kwal945@aucklanduni.ac.nz
+4,5,"{3: 3, 4: 11, 2: 3, 1: 2}",lsom251@aucklanduni.ac.nz
+1,14,{4: 2},aahm430@aucklanduni.ac.nz
+1,4,{4: 2},xil070@aucklanduni.ac.nz
+4,5,"{1: 2, 2: 3, 3: 2, 4: 5}",jjon354@aucklanduni.ac.nz
+1,7,{4: 7},ppen741@aucklanduni.ac.nz
+4,21,"{1: 3, 2: 3, 3: 3, 4: 6}",sval325@aucklanduni.ac.nz
+4,2,"{1: 2, 2: 2, 3: 4, 4: 5}",ssun493@aucklanduni.ac.nz
+4,9,"{1: 1, 2: 2, 3: 1, 4: 1}",pwan945@aucklanduni.ac.nz
+4,5,"{1: 21, 2: 25, 3: 24, 4: 30}",asav942@aucklanduni.ac.nz
+4,3,"{1: 3, 2: 4, 3: 4, 4: 4}",mbar505@aucklanduni.ac.nz
+4,1,"{4: 6, 1: 3, 2: 5, 3: 5}",dlek283@aucklanduni.ac.nz
+1,9,{4: 1},lyif519@aucklanduni.ac.nz
+4,0,"{1: 19, 2: 22, 3: 21, 4: 28}",ctiw958@aucklanduni.ac.nz
+2,1,"{2: 2, 4: 5}",saha579@aucklanduni.ac.nz
+4,13,"{4: 10, 3: 4, 2: 4, 1: 3}",eejl092@aucklanduni.ac.nz
+2,3,"{3: 1, 4: 2}",mels780@aucklanduni.ac.nz
+4,4,"{3: 2, 4: 11, 1: 1, 2: 2}",amcc298@aucklanduni.ac.nz
+4,3,"{2: 6, 4: 19, 1: 5, 3: 5}",pcor773@aucklanduni.ac.nz
+4,8,"{1: 19, 2: 19, 3: 19, 4: 32}",erah698@aucklanduni.ac.nz
+4,5,"{1: 2, 2: 2, 3: 2, 4: 5}",hchh756@aucklanduni.ac.nz
+4,3,"{1: 4, 2: 5, 3: 4, 4: 9}",jwil755@aucklanduni.ac.nz
+4,17,"{1: 3, 2: 4, 3: 4, 4: 8}",rvaz511@aucklanduni.ac.nz
+0,0,{},uthe647@aucklanduni.ac.nz
+4,3,"{3: 2, 4: 6, 2: 2, 1: 1}",bwon194@aucklanduni.ac.nz
+4,5,"{4: 9, 2: 6, 1: 4, 3: 4}",lbre823@aucklanduni.ac.nz
+4,2,"{2: 5, 1: 2, 3: 3, 4: 5}",kpra383@aucklanduni.ac.nz
+4,7,"{1: 1, 2: 2, 3: 1, 4: 3}",fgon393@aucklanduni.ac.nz
+4,7,"{4: 3, 1: 1, 2: 1, 3: 1}",sisn500@aucklanduni.ac.nz
+4,10,"{1: 2, 2: 3, 3: 3, 4: 4}",jkmi041@aucklanduni.ac.nz
+2,11,"{3: 1, 4: 3}",clau501@aucklanduni.ac.nz
+4,10,"{1: 4, 2: 5, 3: 5, 4: 8}",thua292@aucklanduni.ac.nz
+4,3,"{1: 2, 2: 2, 3: 2, 4: 9}",atin602@aucklanduni.ac.nz
+4,11,"{1: 2, 2: 3, 3: 2, 4: 14}",jton184@aucklanduni.ac.nz
+1,2,{4: 2},jjun739@aucklanduni.ac.nz
+1,45,{4: 6},cyou632@aucklanduni.ac.nz
+4,18,"{1: 3, 2: 4, 3: 4, 4: 5}",asri784@aucklanduni.ac.nz
+1,7,{4: 4},jpat886@aucklanduni.ac.nz
+4,10,"{1: 2, 2: 2, 3: 2, 4: 5}",mten196@aucklanduni.ac.nz
+1,3,{4: 1},kpat722@aucklanduni.ac.nz
+4,2,"{1: 2, 2: 4, 3: 3, 4: 3}",klai354@aucklanduni.ac.nz
+4,2,"{1: 1, 2: 2, 3: 1, 4: 2}",mkey342@aucklanduni.ac.nz
+0,6,{},zlon260@aucklanduni.ac.nz
+1,21,{4: 2},ragn997@aucklanduni.ac.nz
+1,1,{4: 5},ggeo139@aucklanduni.ac.nz
+1,8,{4: 6},xwei555@aucklanduni.ac.nz
+3,8,"{3: 1, 4: 2, 2: 1}",wmar478@aucklanduni.ac.nz
+4,2,"{1: 7, 2: 9, 3: 7, 4: 13}",blau789@aucklanduni.ac.nz
+1,4,{4: 1},skur609@aucklanduni.ac.nz
+4,10,"{1: 6, 2: 7, 3: 9, 4: 9}",ktay882@aucklanduni.ac.nz
+4,8,"{1: 1, 2: 1, 3: 1, 4: 3}",dvai697@aucklanduni.ac.nz
+4,8,"{1: 3, 2: 4, 3: 4, 4: 4}",mly559@aucklanduni.ac.nz
+4,12,"{1: 1, 2: 2, 3: 2, 4: 2}",mdan280@aucklanduni.ac.nz
+1,9,{4: 5},jyou865@aucklanduni.ac.nz
+1,5,{4: 1},ivil609@aucklanduni.ac.nz
+2,1,"{2: 3, 4: 3}",qkon455@aucklanduni.ac.nz
+0,2,{},thu205@aucklanduni.ac.nz
+4,22,"{1: 3, 2: 4, 3: 4, 4: 7}",jtan670@aucklanduni.ac.nz
+1,1,{4: 1},yhua815@aucklanduni.ac.nz
+0,5,{},jd924@aucklanduni.ac.nz
+1,11,{4: 9},dbar243@aucklanduni.ac.nz
+1,11,{4: 7},jbur386@aucklanduni.ac.nz
+1,34,{4: 2},ewon278@aucklanduni.ac.nz
+4,5,"{1: 7, 2: 9, 3: 7, 4: 11}",jsaw879@aucklanduni.ac.nz
+1,7,{4: 2},istr528@aucklanduni.ac.nz
+4,4,"{4: 14, 3: 3, 2: 3, 1: 2}",toxl448@aucklanduni.ac.nz
+4,11,"{1: 1, 2: 2, 3: 3, 4: 4}",hpar616@aucklanduni.ac.nz
+4,4,"{1: 1, 2: 3, 3: 2, 4: 3}",apra346@aucklanduni.ac.nz
+2,25,"{2: 1, 4: 1}",bhip249@aucklanduni.ac.nz
+3,4,"{4: 2, 3: 1, 2: 1}",cbro543@aucklanduni.ac.nz
+3,9,"{3: 1, 4: 3, 2: 1}",mamb390@aucklanduni.ac.nz
+4,6,"{3: 9, 2: 8, 1: 7, 4: 11}",jcra962@aucklanduni.ac.nz
+4,8,"{1: 7, 2: 8, 3: 9, 4: 16}",mzva140@aucklanduni.ac.nz
+1,10,{4: 7},tlow243@aucklanduni.ac.nz
+1,1,{4: 1},jshe855@aucklanduni.ac.nz
+0,0,{},bdas439@aucklanduni.ac.nz
+4,1,"{3: 4, 1: 2, 2: 3, 4: 3}",rsha632@aucklanduni.ac.nz
+4,28,"{4: 6, 1: 3, 2: 3, 3: 3}",mbur545@aucklanduni.ac.nz
+4,4,"{1: 1, 2: 2, 3: 1, 4: 4}",jgaw405@aucklanduni.ac.nz
+1,6,{4: 2},dsit730@aucklanduni.ac.nz
+3,3,"{4: 3, 3: 1, 2: 1}",dtom783@aucklanduni.ac.nz
+1,4,{4: 1},wrow170@aucklanduni.ac.nz
+2,12,"{2: 1, 4: 1}",pnan389@aucklanduni.ac.nz
+4,14,"{4: 3, 1: 1, 2: 1, 3: 1}",ikok557@aucklanduni.ac.nz
+0,0,{},chan237@aucklanduni.ac.nz
+1,4,{4: 3},rtan712@aucklanduni.ac.nz
+4,2,"{3: 4, 1: 2, 2: 5, 4: 3}",eejl988@aucklanduni.ac.nz
+3,11,"{3: 1, 4: 4, 2: 1}",dtei679@aucklanduni.ac.nz
+4,3,"{1: 8, 2: 9, 3: 10, 4: 17}",kpan175@aucklanduni.ac.nz
+3,19,"{3: 1, 2: 1, 4: 1}",jwna367@aucklanduni.ac.nz
+4,20,"{3: 4, 1: 3, 2: 4, 4: 12}",csun186@aucklanduni.ac.nz
+1,31,{4: 8},jdoi108@aucklanduni.ac.nz
+4,6,"{4: 8, 1: 6, 2: 8, 3: 7}",hbai689@aucklanduni.ac.nz
+1,4,{4: 1},gmic429@aucklanduni.ac.nz
+4,19,"{4: 9, 1: 5, 2: 5, 3: 5}",svel826@aucklanduni.ac.nz
+2,11,"{2: 1, 4: 1}",dnai271@aucklanduni.ac.nz
+4,5,"{1: 8, 2: 12, 3: 12, 4: 18}",cye976@aucklanduni.ac.nz
+1,6,{4: 1},zqin223@aucklanduni.ac.nz
+4,5,"{1: 1, 2: 1, 3: 1, 4: 2}",cbra473@aucklanduni.ac.nz
+4,6,"{4: 8, 1: 4, 2: 5, 3: 4}",jyue069@aucklanduni.ac.nz
+4,16,"{1: 5, 2: 5, 3: 5, 4: 7}",ybai385@aucklanduni.ac.nz
+4,6,"{1: 5, 2: 6, 3: 5, 4: 6}",bbi061@aucklanduni.ac.nz
+1,4,{4: 1},jkau999@aucklanduni.ac.nz
+4,2,"{1: 3, 2: 5, 3: 3, 4: 7}",qwan947@aucklanduni.ac.nz
+4,41,"{4: 8, 2: 4, 1: 3, 3: 3}",lmat200@aucklanduni.ac.nz
+2,3,"{3: 1, 2: 1}",dvan993@aucklanduni.ac.nz
+4,2,"{4: 13, 1: 2, 2: 2, 3: 2}",eren753@aucklanduni.ac.nz
+4,12,"{1: 2, 2: 3, 3: 2, 4: 6}",dwoo237@aucklanduni.ac.nz
+4,8,"{1: 2, 2: 3, 3: 2, 4: 4}",fyan130@aucklanduni.ac.nz
+1,2,{4: 1},tsun400@aucklanduni.ac.nz
+0,0,{},wlin622@aucklanduni.ac.nz
+1,0,{4: 1},ehar775@aucklanduni.ac.nz
+4,6,"{4: 8, 1: 3, 2: 3, 3: 3}",rppo475@aucklanduni.ac.nz
+1,4,{4: 2},psha434@aucklanduni.ac.nz
+0,0,{},ltim334@aucklanduni.ac.nz
+4,1,"{1: 5, 2: 7, 3: 7, 4: 9}",eejl917@aucklanduni.ac.nz
+1,11,{4: 5},hcui810@aucklanduni.ac.nz
+4,4,"{1: 2, 2: 3, 3: 3, 4: 4}",ypea740@aucklanduni.ac.nz
+4,7,"{1: 1, 2: 2, 3: 1, 4: 4}",xzou606@aucklanduni.ac.nz
+4,12,"{3: 15, 1: 8, 2: 9, 4: 13}",gcul341@aucklanduni.ac.nz
+4,13,"{1: 1, 2: 3, 3: 1, 4: 6}",sbel729@aucklanduni.ac.nz
+1,7,{4: 2},clog105@aucklanduni.ac.nz
+4,1,"{2: 3, 4: 4, 1: 1, 3: 2}",hsma937@aucklanduni.ac.nz
+4,4,"{1: 3, 2: 4, 3: 3, 4: 10}",tche098@aucklanduni.ac.nz
+4,19,"{4: 5, 1: 1, 2: 2, 3: 2}",crey621@aucklanduni.ac.nz
+4,1,"{1: 12, 2: 13, 3: 14, 4: 17}",hfen279@aucklanduni.ac.nz
+4,4,"{1: 3, 2: 5, 3: 4, 4: 7}",fmea808@aucklanduni.ac.nz
+1,11,{4: 1},dsha295@aucklanduni.ac.nz
+1,2,{4: 2},lfab227@aucklanduni.ac.nz
+0,3,{},jest267@aucklanduni.ac.nz
+4,4,"{1: 7, 2: 10, 3: 8, 4: 10}",lcar693@aucklanduni.ac.nz
+0,5,{},hhua595@aucklanduni.ac.nz
+1,10,{4: 1},hhan935@aucklanduni.ac.nz
+4,5,"{4: 4, 3: 2, 2: 2, 1: 1}",ameh513@aucklanduni.ac.nz
+4,11,"{3: 5, 1: 1, 2: 3, 4: 7}",gkwa757@aucklanduni.ac.nz
+1,10,{4: 1},jpaz238@aucklanduni.ac.nz
+4,2,"{2: 7, 3: 6, 1: 5, 4: 8}",tsan224@aucklanduni.ac.nz
+3,5,"{4: 2, 3: 2, 2: 1}",mvas372@aucklanduni.ac.nz
+3,6,"{3: 1, 4: 3, 2: 1}",jfu816@aucklanduni.ac.nz
+4,1,"{1: 2, 2: 2, 3: 3, 4: 7}",eqia340@aucklanduni.ac.nz
+1,2,{4: 1},jilu183@aucklanduni.ac.nz
+3,5,"{3: 1, 2: 1, 4: 1}",jwag045@aucklanduni.ac.nz
+1,1,{4: 1},nniz862@aucklanduni.ac.nz
+0,0,{},lwon258@aucklanduni.ac.nz
+4,4,"{4: 10, 1: 5, 2: 5, 3: 5}",bspe051@aucklanduni.ac.nz
+4,1,"{1: 5, 2: 5, 3: 5, 4: 8}",qahm339@aucklanduni.ac.nz
+4,4,"{4: 24, 1: 12, 2: 18, 3: 13}",jcui378@aucklanduni.ac.nz
+1,12,{4: 7},clin816@aucklanduni.ac.nz
+0,0,{},eejl715@aucklanduni.ac.nz
+1,3,{4: 1},jjan092@aucklanduni.ac.nz
+1,0,{4: 1},tsmi171@aucklanduni.ac.nz
+1,5,{4: 1},mals166@aucklanduni.ac.nz
+4,5,"{1: 7, 2: 9, 3: 9, 4: 11}",fhu592@aucklanduni.ac.nz
+4,8,"{1: 4, 2: 4, 3: 5, 4: 15}",emin571@aucklanduni.ac.nz

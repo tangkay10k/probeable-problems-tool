@@ -13,8 +13,9 @@ Output:
 Behavior:
   - An equivalence class is "hit" if the corresponding cell under
     'oracleEquivalenceMap.*' for that user is non-empty.
-  - hit_ratio is like "5/8" for 5 hits out of 8 classes.
-  - hit_indices lists which class numbers were hit, e.g. "2,3,4,8".
+  - Skips oracleEquivalenceMap keys with numeric suffixes 1, 2, and 3.
+  - hit_ratio is like "5/8" for 5 hits out of 8 classes (after skipping).
+  - hit_indices lists which class numbers were hit, e.g. "4,8,9".
   - Flexible: if _id/failedAttempts are missing, blanks are written.
 
 Usage:
@@ -29,6 +30,7 @@ import sys
 from typing import List
 
 PREFIX = "oracleEquivalenceMap."
+EXCLUDE_SUFFIXES = {1, 2, 3}  # <<— skip these keys
 
 def main():
     ap = argparse.ArgumentParser()
@@ -53,15 +55,22 @@ def main():
     header: List[str] = rows[0]
     data_rows = rows[1:]
 
-    # Identify oracleEquivalenceMap.* columns and sort by numeric suffix if possible
+    # Identify oracleEquivalenceMap.* columns and sort by numeric suffix if possible.
+    # Exclude numeric suffixes in EXCLUDE_SUFFIXES.
     eq_indices = []
     for idx, col in enumerate(header):
         if col.startswith(PREFIX):
-            # Try to sort by the numeric suffix, fallback to lexicographic
             try:
-                suffix = int(col.split(".", 1)[1])
+                suffix_str = col.split(".", 1)[1]
+                suffix = int(suffix_str)
             except Exception:
+                # Non-numeric suffix goes to the end and is NOT excluded
                 suffix = float("inf")
+
+            # Skip if numeric and in the exclude set
+            if suffix != float("inf") and suffix in EXCLUDE_SUFFIXES:
+                continue
+
             eq_indices.append((idx, suffix, col))
 
     # Sort by numeric suffix (inf goes last)

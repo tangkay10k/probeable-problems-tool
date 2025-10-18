@@ -15,7 +15,7 @@ Built with Java Spring Boot, MongoDB, Node.js (React). Deployment using GCP.
 ### Natural Language interface
 <img width="1917" height="934" alt="image" src="https://github.com/user-attachments/assets/ee789251-455b-4958-aeb7-99204237bd29" />
 
-### Code Fragement interface
+### Code Fragment interface
 <img width="1917" height="958" alt="image" src="https://github.com/user-attachments/assets/286500c7-313f-4917-b767-974cda2b2606" />
 
 ### Solution Implementation interface
