@@ -1,0 +1,14 @@
+Probe Totals per ID: 2024 vs 2025 (Welch's t-test)
+===================================================
+
+Summary statistics
+2024: n=965, mean=16.997, median=14.000, sd=15.171, min=1, max=141, total=16402
+2025: n=923, mean=6.452, median=6.000, sd=4.490, min=0, max=35, total=5955
+
+Welch's t-test (unequal variances)
+Mean difference (2025 - 2024): -10.545
+SE: 0.510
+t = -20.677, df ≈ 1138.7, two-sided p ≈ 5.53135e-95
+
+Conclusion
+Significant difference (Welch p≈5.531e-95); 2025 mean is lower than 2024.
